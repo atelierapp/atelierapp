@@ -11,10 +11,11 @@ class UserSeeder extends Seeder {
      */
     public function run()
     {
-        factory(\App\Models\User::class)->create([
+        $user = factory(\App\Models\User::class)->create([
             'first_name' => 'Kenny',
             'last_name'  => 'Horna',
             'email'      => 'kenny@qbklabs.com',
+            'username'   => 'kenny',
             'password'   => 'Mis3cretP@ss',
         ]);
     }
