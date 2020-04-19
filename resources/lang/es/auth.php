@@ -13,11 +13,7 @@ return [
     |
     */
 
-    'failed'   => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'Las credenciales no coinciden con nuestros registros.',
+    'throttle' => 'Demasiados intentos de inicio de sesión. Por favor, inténtalo nuevamente dentro de :seconds segundos.',
 
-    'unregistered' => 'This account does not exist yet. Please, sign up to get access.',
-    'logout'       => [
-        'success' => 'You have successfully logout of the system.',
-    ],
 ];
