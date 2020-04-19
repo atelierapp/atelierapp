@@ -16,6 +16,7 @@
         "laravel/sanctum": "^2.1",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
+        "laravel/vapor-core": "^2.5",
         "spatie/enum": "^2.3",
         "spatie/laravel-permission": "^3.11"
     },
