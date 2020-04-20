@@ -15,7 +15,6 @@ $factory->define(User::class, function (Faker $faker) {
         'password'   => 'MiPassword@',
         'phone'      => $faker->numerify('9########'),
 //        'birthday'   => $faker->date(),
-        'avatar'     => $faker->imageUrl(),
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),
     ];

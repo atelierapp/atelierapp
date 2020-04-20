@@ -3,10 +3,16 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\MorphedByMany;
+use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\VaporImage;
 
 class User extends Resource {
 
@@ -27,6 +33,11 @@ class User extends Resource {
         return $this->model()->full_name;
     }
 
+    public function subtitle()
+    {
+        return "@{$this->username} | {$this->email}";
+    }
+
     /**
      * The columns that should be searched.
      *
@@ -45,22 +56,65 @@ class User extends Resource {
     public function fields(Request $request)
     {
         return [
+
             ID::make()->sortable(),
 
-            Text::make('first_name')
-                ->sortable()
+            VaporImage::make('avatar')
+                ->thumbnail(function () {
+                    return $this->avatar;
+                })
+                ->preview(function () {
+                    return $this->avatar;
+                })
+                ->nullable(),
+
+            Text::make('Name', 'full_name')
+                ->hideFromDetail()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+
+            Text::make('First Name')
+                ->hideFromIndex()
                 ->rules(['required', 'string', 'min:2', 'max:80']),
+
+            Text::make('Last Name')
+                ->hideFromIndex()
+                ->rules(['string', 'min:2', 'max:80']),
+
+            Text::make('Username')
+                ->sortable()
+                ->rules(['required', 'min:5'])
+                ->creationRules('unique:users,username')
+                ->updateRules('unique:users,username,{{resourceId}}'),
 
             Text::make('Email')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
+                ->rules('required', 'email', 'max:60')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
             Password::make('Password')
                 ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
+                ->creationRules(['required', 'numeric', 'min:6', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'])
+                ->updateRules(['nullable', 'numeric', 'min:6', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'])
+                ->nullable(),
+
+            Text::make('Phone')
+                ->rules(['string', 'numeric', 'min:7'])
+                ->hideFromIndex(),
+
+            Date::make('Birthday')
+                ->hideFromIndex()
+                ->nullable(),
+
+            Boolean::make('Is Active')
+                ->sortable()
+                ->rules('boolean')
+                ->default(true)
+                ->nullable(),
+
+            MorphToMany::make('roles'),
+
         ];
     }
 
