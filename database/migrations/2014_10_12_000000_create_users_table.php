@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration {
             $table->date('birthday')->nullable();
             $table->boolean('is_active')->default(1);
             $table->string('avatar')->nullable();
+            $table->string('remember_token')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

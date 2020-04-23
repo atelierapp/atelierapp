@@ -18,5 +18,7 @@ class UserSeeder extends Seeder {
             'username'   => 'kenny',
             'password'   => 'Mis3cretP@ss',
         ]);
+
+        $user->assignRole('admin');
     }
 }

@@ -13,10 +13,12 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
+        "laravel/nova": "*",
         "laravel/sanctum": "^2.1",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "laravel/vapor-core": "^2.5",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "spatie/enum": "^2.3",
         "spatie/laravel-permission": "^3.11"
     },
@@ -68,7 +70,14 @@
         "post-update-cmd": [
           "Illuminate\\Foundation\\ComposerScripts::postUpdate",
           "@php artisan ide-helper:generate",
-          "@php artisan ide-helper:meta"
+          "@php artisan ide-helper:meta",
+          "@php artisan nova:publish"
         ]
-    }
+    },
+    "repositories": [
+      {
+        "type": "path",
+        "url": "./nova"
+      }
+    ]
 }
