@@ -88,12 +88,14 @@ class User extends Authenticatable {
 
     public function getAvatarAttribute()
     {
+        if ( ! isset($this->attributes['avatar'])) {
+            return null;
+        }
+
         if (Str::startsWith($this->attributes['avatar'], 'http')) {
             return $this->attributes['avatar'];
         }
 
-        return $this->attributes['avatar']
-            ? Storage::disk('s3')->temporaryUrl($this->attributes['avatar'], now()->addMinutes(5))
-            : null;
+        return Storage::disk('s3')->temporaryUrl($this->attributes['avatar'], now()->addMinutes(5));
     }
 }
