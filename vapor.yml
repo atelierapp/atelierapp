@@ -12,6 +12,7 @@ environments:
             - 'php artisan migrate --force'
     staging:
         memory: 1024
+        storage: atelier-staging-bucket
         cli-memory: 512
         database: staging-database
         build:
