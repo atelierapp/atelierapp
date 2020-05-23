@@ -24,3 +24,5 @@ models.php
 .vapor/
 
 .env.staging
+/draft.yaml
+/.blueprint
