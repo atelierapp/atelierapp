@@ -21,6 +21,7 @@
         "laravel/vapor-core": "^2.5",
         "league/flysystem-aws-s3-v3": "^1.0",
         "spatie/enum": "^2.3",
+        "spatie/laravel-enum": "^1.6",
         "spatie/laravel-permission": "^3.11"
     },
     "require-dev": {
