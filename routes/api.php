@@ -23,3 +23,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/profile', 'ProfileController');
 
 });
+
+
+Route::apiResource('projects', 'ProjectController');
