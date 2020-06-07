@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
  * @method static firstByEmailOrUsername($username)
@@ -18,33 +18,19 @@ use Spatie\Permission\Traits\HasRoles;
  * @property integer id
  * @property string|null avatar
  */
-class User extends Authenticatable {
+class User extends Authenticatable
+{
 
-    use HasApiTokens, HasRoles, Notifiable;
+    use HasApiTokens, HasRolesAndAbilities, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'birthday'  => 'date',
+        'birthday' => 'date',
         'is_active' => 'boolean',
     ];
 
@@ -88,7 +74,7 @@ class User extends Authenticatable {
 
     public function getAvatarAttribute()
     {
-        if ( ! isset($this->attributes['avatar'])) {
+        if (! isset($this->attributes['avatar'])) {
             return null;
         }
 
@@ -96,6 +82,9 @@ class User extends Authenticatable {
             return $this->attributes['avatar'];
         }
 
-        return Storage::disk('s3')->temporaryUrl($this->attributes['avatar'], now()->addMinutes(5));
+        return Storage::disk('s3')->temporaryUrl(
+            $this->attributes['avatar'],
+            now()->addMinutes(5)
+        );
     }
 }

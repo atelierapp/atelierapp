@@ -19,6 +19,6 @@ class UserSeeder extends Seeder {
             'password'   => 'Mis3cretP@ss',
         ]);
 
-        $user->assignRole('admin');
+        Bouncer::assign('admin')->to($user);
     }
 }
