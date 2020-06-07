@@ -26,3 +26,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
 Route::apiResource('projects', 'ProjectController');
+
+Route::apiResource('categories', 'CategoryController');
+
+Route::apiResource('products', 'ProductController');
