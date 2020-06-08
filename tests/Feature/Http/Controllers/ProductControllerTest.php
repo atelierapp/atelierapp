@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Store;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -49,6 +50,7 @@ class ProductControllerTest extends TestCase
         $category = factory(Category::class)->create();
 
         $data = [
+            'store_id' => (factory(Store::class)->create())->id,
             'title' => $this->faker->sentence(4),
             'manufacturer_type' => 'store',
             'manufactured_at' => $this->faker->date('m/d/Y'),

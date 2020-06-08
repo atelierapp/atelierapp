@@ -12,6 +12,7 @@ class Product extends Model
     use SoftDeletes, HasEnums;
 
     protected $fillable = [
+        'store_id',
         'title',
         'manufacturer_type',
         'manufactured_at',
@@ -26,6 +27,7 @@ class Product extends Model
 
     protected $casts = [
         'id' => 'integer',
+        'store_id' => 'integer',
         'manufacturer_type' => 'integer',
         'category_id' => 'integer',
         'active' => 'boolean',
@@ -36,24 +38,33 @@ class Product extends Model
         'manufacturer_type' => ManufacturerTypeEnum::class,
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 
     public function media()
     {
-        return $this->hasOne(\App\Models\Media::class);
+        return $this->hasOne(Media::class);
     }
 
     public function tags()
     {
-        return $this->belongsToMany(\App\Models\Tag::class);
+        return $this->belongsToMany(Tag::class);
     }
 
     public function materials()
     {
-        return $this->belongsToMany(\App\Models\Material::class);
+        return $this->belongsToMany(Material::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(\App\Models\Category::class);
+        return $this->belongsTo(Category::class);
     }
 }

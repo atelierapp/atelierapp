@@ -16,6 +16,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'price' => $faker->randomNumber(),
         'quantity' => $faker->randomNumber(),
         'sku' => $faker->lexify('???????????'),
+        'store_id' => factory(\App\Models\Store::class),
         'active' => $faker->boolean,
         'properties' => [],
     ];

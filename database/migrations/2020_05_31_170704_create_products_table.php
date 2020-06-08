@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('store_id')->constrained()->cascadeOnDelete();
             $table->string('title', 100);
             $table->integer('manufacturer_type')->default(1);
             $table->date('manufactured_at')->nullable();

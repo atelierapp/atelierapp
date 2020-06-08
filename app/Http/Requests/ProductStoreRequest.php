@@ -26,6 +26,7 @@ class ProductStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'store_id' => ['required', 'exists:stores,id'],
             'title' => ['required', 'string', 'max:100'],
             'manufacturer_type' => ['required', new EnumRule(ManufacturerTypeEnum::class)],
             'manufactured_at' => ['required', 'date_format:m/d/Y'],
