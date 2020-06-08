@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,11 +21,16 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', 'AuthController@logout');
     Route::get('/profile', 'ProfileController');
 
+    /*
+    |----------------------------------------------------------------------
+    | Projects
+    |----------------------------------------------------------------------
+    */
+    Route::apiResource('projects', 'ProjectController');
 });
-
-
-Route::apiResource('projects', 'ProjectController');
 
 Route::apiResource('categories', 'CategoryController');
 
 Route::apiResource('products', 'ProductController');
+
+Route::apiResource('units', 'UnitController');

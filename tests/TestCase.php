@@ -17,6 +17,11 @@ abstract class TestCase extends BaseTestCase {
         return $this->createUser($data);
     }
 
+    public function createAuthenticatedAdmin($data = [])
+    {
+        return $this->createUser($data, 'admin');
+    }
+
     public function createUser($data = [], $role = null)
     {
         $this->registerRolesAndPermissions();

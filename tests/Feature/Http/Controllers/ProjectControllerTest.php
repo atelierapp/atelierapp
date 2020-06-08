@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Style;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -20,11 +21,15 @@ class ProjectControllerTest extends TestCase
      */
     public function index_behaves_as_expected()
     {
-        $projects = factory(Project::class, 3)->create();
+        $user = $this->createAuthenticatedUser();
+        factory(Project::class)->times(30)->create(['author_id' => $user->id]);
 
-        $response = $this->get(route('project.index'));
+        $response = $this->getJson(route('projects.index'));
+
+        $response
+            ->assertOk()
+            ->assertJsonCount(10, 'data');
     }
-
 
     /**
      * @test
@@ -43,17 +48,27 @@ class ProjectControllerTest extends TestCase
      */
     public function store_saves()
     {
-        $project = $this->faker->word;
+        $user = $this->createAuthenticatedUser();
 
-        $response = $this->post(route('project.store'), [
-            'project' => $project,
-        ]);
+        $data = [
+            'name' => $name = $this->faker->word,
+            'style_id' => factory(Style::class)->create()->id,
+            'author_id' => $user->id,
+        ];
+
+        $response = $this->postJson(route('projects.store'), $data);
 
         $projects = Project::query()
-            ->where('project', $project)
+            ->where('author_id', $user->id)
             ->get();
         $this->assertCount(1, $projects);
-        $project = $projects->first();
+
+        $response
+            ->assertCreated()
+            ->assertJsonFragment([
+                'name' => $name,
+                'published' => true,
+            ]);
     }
 
 
@@ -62,11 +77,15 @@ class ProjectControllerTest extends TestCase
      */
     public function show_behaves_as_expected()
     {
-        $project = factory(Project::class)->create();
+        $user = $this->createAuthenticatedUser();
+        $project = factory(Project::class)->create(['author_id' => $user->id]);
 
-        $response = $this->get(route('project.show', $project));
+        $response = $this->getJson(route('projects.show', $project));
+
+        $response
+            ->assertOk()
+            ->assertJsonFragment(['name' => $project->name]);
     }
-
 
     /**
      * @test
@@ -85,12 +104,16 @@ class ProjectControllerTest extends TestCase
      */
     public function update_behaves_as_expected()
     {
-        $project = factory(Project::class)->create();
-        $project = $this->faker->word;
+        $user = $this->createAuthenticatedUser();
+        $project = factory(Project::class)->create(['author_id' => $user->id]);
 
-        $response = $this->put(route('project.update', $project), [
-            'project' => $project,
-        ]);
+        $data = ['name' => $newName = $this->faker->word];
+
+        $response = $this->patchJson(route('projects.update', $project), $data);
+
+        $response
+            ->assertOk()
+            ->assertJsonFragment(['name' => $newName]);
     }
 
 
@@ -99,12 +122,12 @@ class ProjectControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with()
     {
-        $project = factory(Project::class)->create();
+        $user = $this->createAuthenticatedUser();
+        $project = factory(Project::class)->create(['author_id' => $user->id]);
 
-        $response = $this->delete(route('project.destroy', $project));
+        $response = $this->deleteJson(route('projects.destroy', $project));
 
         $response->assertOk();
-
-        $this->assertDeleted($project);
+        $this->assertSoftDeleted($project);
     }
 }

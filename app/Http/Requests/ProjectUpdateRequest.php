@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property Project|null project
+ */
 class ProjectUpdateRequest extends FormRequest
 {
     /**
@@ -13,7 +17,7 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('update', $this->project);
     }
 
     /**
@@ -24,12 +28,10 @@ class ProjectUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'style_id' => 'required|integer|exists:styles,id',
-            'author_id' => 'required|integer|exists:authors,id',
-            'forked_from' => 'required',
-            'published' => 'required',
-            'public' => 'required',
+            'name' => ['string', 'min:3'],
+            'style_id' => ['integer', 'exists:styles,id'],
+            'published' => 'boolean',
+            'public' => 'boolean',
         ];
     }
 }

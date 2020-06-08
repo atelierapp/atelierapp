@@ -17,10 +17,9 @@ class CategoryControllerTest extends TestCase
      */
     public function index_behaves_as_expected()
     {
-        $this->withoutExceptionHandling();
         factory(Category::class, 25)->create();
 
-        $response = $this->get(route('categories.index'));
+        $response = $this->getJson(route('categories.index'));
 
         $response->assertOk();
         $this->assertCount(10, $response->json()['data']);

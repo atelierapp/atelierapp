@@ -24,12 +24,11 @@ class ProjectStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'style_id' => 'required|integer|exists:styles,id',
-            'author_id' => 'required|integer|exists:authors,id',
-            'forked_from' => 'required',
-            'published' => 'required',
-            'public' => 'required',
+            'name' => ['required', 'string', 'min:3'],
+            'style_id' => ['required', 'integer', 'exists:styles,id'],
+            'forked_from' => ['integer', 'exists:projects,id'],
+            'published' => 'boolean',
+            'public' => 'boolean',
         ];
     }
 }

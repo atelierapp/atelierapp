@@ -9,11 +9,6 @@ class Project extends Model
 {
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'style_id',
@@ -23,11 +18,6 @@ class Project extends Model
         'public',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
         'style_id' => 'integer',
@@ -37,7 +27,11 @@ class Project extends Model
         'public' => 'boolean',
     ];
 
-
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
     public function rooms()
     {
         return $this->hasMany(\App\Models\Room::class);
@@ -56,5 +50,14 @@ class Project extends Model
     public function forkedFrom()
     {
         return $this->belongsTo(\App\Models\Project::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::created(function ($project) {
+            \Bouncer::allow(auth()->user())->toOwn($project);
+        });
     }
 }

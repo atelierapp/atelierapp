@@ -2,65 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectDeleteRequest;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\ProjectCollection;
 use App\Models\Project;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\ProjectCollection
-     */
     public function index(Request $request)
     {
-        $projects = Project::all();
+        $projects = \Auth::user()->projects()->paginate($request->get('paginate', 10));
 
         return new ProjectCollection($projects);
     }
 
-    /**
-     * @param \App\Http\Requests\ProjectStoreRequest $request
-     * @return \App\Http\Resources\Project
-     */
     public function store(ProjectStoreRequest $request)
     {
-        $project = Project::create($request->all());
+        $project = ($user = Auth::user())->projects()->create($request->validated());
 
-        return new ProjectResource($project);
+        return $this->response(new ProjectResource($project->fresh()), '', Response::HTTP_CREATED);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Project $project
-     * @return \App\Http\Resources\Project
-     */
-    public function show(Request $request, Project $project)
+    public function show(Project $project)
     {
         return new ProjectResource($project);
     }
 
-    /**
-     * @param \App\Http\Requests\ProjectUpdateRequest $request
-     * @param \App\Models\Project $project
-     * @return \App\Http\Resources\Project
-     */
     public function update(ProjectUpdateRequest $request, Project $project)
     {
-        $project->update([]);
+        $project->update($request->validated());
 
-        return new ProjectResource($project);
+        return new ProjectResource($project->fresh());
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Project $project
-     * @return \Illuminate\Http\Response
+     * @param ProjectDeleteRequest $request
+     * @param Project $project
+     * @return Response
+     * @throws Exception
      */
-    public function destroy(Request $request, Project $project)
+    public function destroy(ProjectDeleteRequest $request, Project $project)
     {
         $project->delete();
 
