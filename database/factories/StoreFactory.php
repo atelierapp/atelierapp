@@ -11,7 +11,7 @@ $factory->define(Store::class, function (Faker $faker) {
         'name' => $faker->name,
         'legal_name' => $faker->word,
         'legal_id' => $faker->lexify('?????????'),
-        'story' => $faker->sentence(10),
+        'story' => $faker->sentence(5),
         'logo' => $faker->url,
         'cover' => $faker->url,
         'team' => $faker->url,

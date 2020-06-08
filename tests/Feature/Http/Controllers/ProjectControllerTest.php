@@ -22,13 +22,14 @@ class ProjectControllerTest extends TestCase
     public function index_behaves_as_expected()
     {
         $user = $this->createAuthenticatedUser();
-        factory(Project::class)->times(30)->create(['author_id' => $user->id]);
+        factory(Project::class)->times(5)->create(['author_id' => $user->id]);
+        factory(Project::class)->times(9)->create();
 
         $response = $this->getJson(route('projects.index'));
 
         $response
             ->assertOk()
-            ->assertJsonCount(10, 'data');
+            ->assertJsonCount(5, 'data');
     }
 
     /**
@@ -117,6 +118,22 @@ class ProjectControllerTest extends TestCase
     }
 
 
+
+    /**
+     * @test
+     */
+    public function a_user_cannot_update_someone_else_projects()
+    {
+        $this->createAuthenticatedUser();
+        $project = factory(Project::class)->create();
+
+        $data = ['name' => $newName = $this->faker->word];
+
+        $response = $this->patchJson(route('projects.update', $project), $data);
+
+        $response->assertForbidden();
+    }
+
     /**
      * @test
      */
@@ -129,5 +146,18 @@ class ProjectControllerTest extends TestCase
 
         $response->assertOk();
         $this->assertSoftDeleted($project);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_cannot_delete_someone_else_projects()
+    {
+        $user = $this->createAuthenticatedUser();
+        $project = factory(Project::class)->create();
+
+        $response = $this->deleteJson(route('projects.destroy', $project));
+
+        $response->assertForbidden();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Ability;
+use App\Models\Project;
 use App\Models\Role;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -31,5 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
         Bouncer::useAbilityModel(Ability::class);
         Bouncer::useRoleModel(Role::class);
+
+        Bouncer::ownedVia(Project::class, 'author_id');
     }
 }

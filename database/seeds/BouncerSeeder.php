@@ -12,7 +12,6 @@ class BouncerSeeder extends Seeder
      */
     public function run()
     {
-        Bouncer::ownedVia(Project::class, 'author_id');
         Bouncer::allow('user')->toOwn(Project::class);
     }
 }

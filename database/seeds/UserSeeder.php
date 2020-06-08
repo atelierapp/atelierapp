@@ -20,5 +20,7 @@ class UserSeeder extends Seeder {
         ]);
 
         Bouncer::assign('admin')->to($user);
+
+        factory(\App\Models\User::class)->create(['email' => 'john@doe.com']);
     }
 }
