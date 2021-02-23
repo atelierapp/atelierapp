@@ -1,12 +1,21 @@
 {
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The Laravel Framework.",
+    "name": "atelierapp/backend",
+    "type": "Atelier home design",
+    "description": "Home design app.",
     "keywords": [
         "framework",
-        "laravel"
+        "laravel",
+        "atelier"
     ],
-    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kenny Horna",
+            "email": "kennyhorna@gmail.com",
+            "homepage": "https://kennyhorna.com",
+            "role": "Developer"
+        }
+    ],
+    "license": "UNLICENSED",
     "require": {
         "php": "^7.2.5",
         "fideloper/proxy": "^4.2",
@@ -19,6 +28,7 @@
         "laravel/telescope": "^3.2",
         "laravel/tinker": "^2.0",
         "laravel/vapor-core": "^2.5",
+        "laravel/vapor-ui": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "spatie/enum": "^2.3",
         "spatie/laravel-permission": "^3.11"
@@ -73,7 +83,8 @@
           "@php artisan ide-helper:generate",
           "@php artisan ide-helper:meta",
           "@php artisan nova:publish",
-          "@php artisan telescope:publish"
+          "@php artisan telescope:publish",
+          "@php artisan vapor-ui:publish --ansi"
         ]
     },
     "repositories": [
