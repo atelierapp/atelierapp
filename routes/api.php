@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,8 +30,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('projects', 'ProjectController');
 });
 
-Route::apiResource('categories', 'CategoryController');
+//Route::apiResource('categories', 'CategoryController');
+//
+//Route::apiResource('products', 'ProductController');
+//
+//Route::apiResource('units', 'UnitController');
 
-Route::apiResource('products', 'ProductController');
-
-Route::apiResource('units', 'UnitController');
+Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
