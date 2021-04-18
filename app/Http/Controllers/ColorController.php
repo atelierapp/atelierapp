@@ -6,7 +6,7 @@ use App\Models\Color;
 
 class ColorController extends Controller
 {
-    public function index()
+    public function index(): array
     {
         $colors = Color::all();
 
