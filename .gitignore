@@ -23,6 +23,7 @@ models.php
 
 .vapor/
 
-.env.staging
 /draft.yaml
 /.blueprint
+/.env.production
+/.env.staging
