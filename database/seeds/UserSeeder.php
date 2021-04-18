@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder {
@@ -11,7 +13,7 @@ class UserSeeder extends Seeder {
      */
     public function run()
     {
-        $user = factory(\App\Models\User::class)->create([
+        $user = factory(User::class)->create([
             'first_name' => 'Kenny',
             'last_name'  => 'Horna',
             'email'      => 'kenny@qbklabs.com',
@@ -19,8 +21,8 @@ class UserSeeder extends Seeder {
             'password'   => 'Mis3cretP@ss',
         ]);
 
-        Bouncer::assign('admin')->to($user);
+        Bouncer::assign(Role::ADMIN)->to($user);
 
-        factory(\App\Models\User::class)->create(['email' => 'john@doe.com']);
+        factory(User::class)->create(['email' => 'john@doe.com']);
     }
 }
