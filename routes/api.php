@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -8,9 +11,9 @@ use Illuminate\Support\Facades\Route;
 | Auth
 |--------------------------------------------------------------------------
 */
-Route::post('/login', 'AuthController@login');
-Route::post('/login-social', 'AuthController@socialLogin');
-Route::post('/sign-up', 'AuthController@signUp');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login-social', [AuthController::class, 'socialLogin']);
+Route::post('/sign-up', [AuthController::class, 'signUp']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
@@ -19,15 +22,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     | Account
     |----------------------------------------------------------------------
     */
-    Route::post('/logout', 'AuthController@logout');
-    Route::get('/profile', 'ProfileController');
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/profile', ProfileController::class);
 
     /*
     |----------------------------------------------------------------------
     | Projects
     |----------------------------------------------------------------------
     */
-    Route::apiResource('projects', 'ProjectController');
+    Route::apiResource('projects', ProjectController::class);
 });
 
 //Route::apiResource('categories', 'CategoryController');
