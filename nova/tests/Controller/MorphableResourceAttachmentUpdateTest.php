@@ -4,11 +4,11 @@ namespace Laravel\Nova\Tests\Controller;
 
 use Laravel\Nova\Tests\Fixtures\Post;
 use Laravel\Nova\Tests\Fixtures\Tag;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class MorphableResourceAttachmentUpdateTest extends IntegrationTest
+class MorphableResourceAttachmentUpdateTest extends IntegrationTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -90,5 +90,20 @@ class MorphableResourceAttachmentUpdateTest extends IntegrationTest
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['admin']);
+    }
+
+    public function test_pivot_data_failed_with_invalid_via_relationship()
+    {
+        $post = factory(Post::class)->create();
+        $tag = factory(Tag::class)->create();
+        $post->tags()->attach($tag);
+
+        $response = $this->withExceptionHandling()
+                        ->postJson('/nova-api/posts/'.$post->id.'/update-attached/tags/'.$tag->id, [
+                            'tags' => $tag->id,
+                            'viaRelationship' => 'delete',
+                        ]);
+
+        $response->assertStatus(404);
     }
 }

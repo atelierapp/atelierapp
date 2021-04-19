@@ -10,13 +10,14 @@ use Laravel\Nova\Contracts\RelatableField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Http\Requests\ResourceIndexRequest;
 use Laravel\Nova\Nova;
+use Laravel\Nova\Query\Builder;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Rules\Relatable;
 use Laravel\Nova\TrashedStatus;
 
 class MorphTo extends Field implements RelatableField
 {
-    use ResolvesReverseRelation, DeterminesIfCreateRelationCanBeShown;
+    use ResolvesReverseRelation, DeterminesIfCreateRelationCanBeShown, Searchable;
 
     /**
      * The field's component.
@@ -75,11 +76,11 @@ class MorphTo extends Field implements RelatableField
     public $display;
 
     /**
-     * Indicates if this relationship is searchable.
+     * Indicates if the related resource can be viewed.
      *
      * @var bool
      */
-    public $searchable = false;
+    public $viewable = true;
 
     /**
      * The attribute that is the inverse of this relationship.
@@ -94,6 +95,13 @@ class MorphTo extends Field implements RelatableField
      * @var bool
      */
     public $displaysWithTrashed = true;
+
+    /**
+     * The default related class value for the field.
+     *
+     * @var Closure|string
+     */
+    public $defaultResourceCallable;
 
     /**
      * Create a new field.
@@ -172,9 +180,27 @@ class MorphTo extends Field implements RelatableField
         }
 
         if ($value) {
-            $this->value = $this->formatDisplayValue(
-                $value, Nova::resourceForModel($value)
-            );
+            if (! is_string($this->resourceClass)) {
+                $this->morphToType = $value->getMorphClass();
+                $this->value = (string) $value->getKey();
+
+                if ($this->value != $value->getKey()) {
+                    $this->morphToId = (string) $this->morphToId;
+                }
+
+                $this->viewable = false;
+            } else {
+                $resource = new $this->resourceClass($value);
+
+                $this->morphToId = optional(ID::forResource($resource))->value ?? $this->morphToId;
+
+                $this->value = $this->formatDisplayValue(
+                    $value, Nova::resourceForModel($value)
+                );
+
+                $this->viewable = $this->viewable
+                    && $resource->authorizedToView(request());
+            }
         }
     }
 
@@ -247,7 +273,7 @@ class MorphTo extends Field implements RelatableField
         if ($relatedResource = Nova::resourceForKey($request->{$this->attribute.'_type'})) {
             return new Relatable($request, $this->buildMorphableQuery(
                 $request, $relatedResource, $request->{$this->attribute.'_trashed'} === 'true'
-            ));
+            )->toBase());
         }
     }
 
@@ -301,15 +327,17 @@ class MorphTo extends Field implements RelatableField
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  string  $relatedResource
      * @param  bool  $withTrashed
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Laravel\Nova\Query\Builder
      */
     public function buildMorphableQuery(NovaRequest $request, $relatedResource, $withTrashed = false)
     {
         $model = $relatedResource::newModel();
 
-        $query = $request->first === 'true'
-                        ? $model->newQueryWithoutScopes()->whereKey($request->current)
-                        : $relatedResource::buildIndexQuery(
+        $query = new Builder($relatedResource);
+
+        $request->first === 'true'
+                        ? $query->whereKey($model->newQueryWithoutScopes(), $request->current)
+                        : $query->search(
                                 $request, $model->newQuery(), $request->search,
                                 [], [], TrashedStatus::fromBoolean($withTrashed)
                           );
@@ -317,7 +345,7 @@ class MorphTo extends Field implements RelatableField
         return $query->tap(function ($query) use ($request, $relatedResource, $model) {
             forward_static_call(
                 $this->morphableQueryCallable($request, $relatedResource, $model),
-                $request, $query
+                $request, $query, $this
             );
         });
     }
@@ -364,7 +392,8 @@ class MorphTo extends Field implements RelatableField
         return array_filter([
             'avatar' => $resource->resolveAvatarUrl($request),
             'display' => $this->formatDisplayValue($resource, $relatedResource),
-            'value' => $resource->getKey(),
+            'subtitle' => $resource->subtitle(),
+            'value' => optional(ID::forResource($resource))->value ?? $resource->getKey(),
         ]);
     }
 
@@ -385,7 +414,7 @@ class MorphTo extends Field implements RelatableField
             return call_user_func($display, $resource);
         }
 
-        return $resource->title();
+        return (string) $resource->title();
     }
 
     /**
@@ -458,14 +487,14 @@ class MorphTo extends Field implements RelatableField
     }
 
     /**
-     * Specify if the relationship should be searchable.
+     * Specify if the related resource can be viewed.
      *
      * @param  bool  $value
      * @return $this
      */
-    public function searchable($value = true)
+    public function viewable($value = true)
     {
-        $this->searchable = $value;
+        $this->viewable = $value;
 
         return $this;
     }
@@ -496,6 +525,40 @@ class MorphTo extends Field implements RelatableField
     }
 
     /**
+     * Set the default relation resource class to be selected.
+     *
+     * @param \Closure|string $resourceClass
+     * @return $this
+     */
+    public function defaultResource($resourceClass)
+    {
+        $this->defaultResourceCallable = $resourceClass;
+
+        return $this;
+    }
+
+    /**
+     * Resolve the default resource class for the field.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return string|void
+     */
+    protected function resolveDefaultResource(NovaRequest $request)
+    {
+        if ($request->isCreateOrAttachRequest() || $request->isResourceIndexRequest() || $request->isActionRequest()) {
+            if (is_null($this->value) && $this->defaultResourceCallable instanceof Closure) {
+                $class = call_user_func($this->defaultResourceCallable, $request);
+            } else {
+                $class = $this->defaultResourceCallable;
+            }
+
+            if (class_exists($class)) {
+                return $class::uriKey();
+            }
+        }
+    }
+
+    /**
      * Prepare the field for JSON serialization.
      *
      * @return array
@@ -504,17 +567,23 @@ class MorphTo extends Field implements RelatableField
     {
         $resourceClass = $this->resourceClass;
 
-        return array_merge([
-            'morphToId' => $this->morphToId,
-            'morphToRelationship' => $this->morphToRelationship,
-            'morphToType' => $this->morphToType,
-            'morphToTypes' => $this->morphToTypes,
-            'resourceLabel' => $resourceClass ? $resourceClass::singularLabel() : null,
-            'resourceName' => $this->resourceName,
-            'reverse' => $this->isReverseRelation(app(NovaRequest::class)),
-            'searchable' => $this->searchable,
-            'showCreateRelationButton' => $this->createRelationShouldBeShown(app(NovaRequest::class)),
-            'displaysWithTrashed' => $this->displaysWithTrashed,
-        ], parent::jsonSerialize());
+        return with(app(NovaRequest::class), function ($request) use ($resourceClass) {
+            return array_merge([
+                'debounce' => $this->debounce,
+                'morphToId' => $this->morphToId,
+                'morphToRelationship' => $this->morphToRelationship,
+                'morphToType' => $this->morphToType,
+                'morphToTypes' => $this->morphToTypes,
+                'resourceLabel' => $resourceClass ? $resourceClass::singularLabel() : null,
+                'resourceName' => $this->resourceName,
+                'reverse' => $this->isReverseRelation($request),
+                'searchable' => $this->searchable,
+                'withSubtitles' => $this->withSubtitles,
+                'showCreateRelationButton' => $this->createRelationShouldBeShown($request),
+                'displaysWithTrashed' => $this->displaysWithTrashed,
+                'viewable' => $this->viewable,
+                'defaultResource' => $this->resolveDefaultResource($request),
+            ], parent::jsonSerialize());
+        });
     }
 }

@@ -5,15 +5,10 @@ namespace Laravel\Nova\Tests\Controller;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tests\Fixtures\User;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class AuthenticationTest extends IntegrationTest
+class AuthenticationTest extends IntegrationTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function test_access_is_denied_when_unauthenticated()
     {
         $response = $this->withExceptionHandling()
@@ -27,13 +22,14 @@ class AuthenticationTest extends IntegrationTest
         $response->assertStatus(401);
     }
 
-    // public function test_can_display_login_screen()
-    // {
-    //     $response = $this->withExceptionHandling()
-    //                     ->get('/nova/login');
+    public function test_can_display_login_screen()
+    {
+        $response = $this->withoutMix()
+                        ->withExceptionHandling()
+                        ->get('/nova/login');
 
-    //     $response->assertStatus(200);
-    // }
+        $response->assertStatus(200);
+    }
 
     public function test_can_authenticate_users()
     {
@@ -55,13 +51,14 @@ class AuthenticationTest extends IntegrationTest
         $this->assertEquals('http://localhost/nova', $response->headers->get('Location'));
     }
 
-    // public function test_can_display_password_reset_link_request_screen()
-    // {
-    //     $response = $this->withExceptionHandling()
-    //                     ->get('/nova/password/reset');
+    public function test_can_display_password_reset_link_request_screen()
+    {
+        $response = $this->withoutMix()
+                        ->withExceptionHandling()
+                        ->get('/nova/password/reset');
 
-    //     $response->assertStatus(200);
-    // }
+        $response->assertStatus(200);
+    }
 
     // public function test_can_request_password_reset_link_and_reset_password_using_token()
     // {

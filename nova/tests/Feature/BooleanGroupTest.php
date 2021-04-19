@@ -2,10 +2,11 @@
 
 namespace Laravel\Nova\Tests\Feature;
 
+use Illuminate\Testing\Assert;
 use Laravel\Nova\Fields\BooleanGroup;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class BooleanGroupTest extends IntegrationTest
+class BooleanGroupTest extends IntegrationTestCase
 {
     public function test_by_default_the_field_is_displayed_with_the_name_as_the_label()
     {
@@ -68,8 +69,8 @@ class BooleanGroupTest extends IntegrationTest
             'delete',
         ])->hideTrueValues();
 
-        $this->assertContains([
-            'hideTrueValue' => true,
+        Assert::assertArraySubset([
+            'hideTrueValues' => true,
         ], $field->jsonSerialize());
     }
 
@@ -80,7 +81,9 @@ class BooleanGroupTest extends IntegrationTest
             'delete',
         ])->hideFalseValues();
 
-        $this->assertContains([
+        $this->assertTrue($field->jsonSerialize()['hideFalseValues']);
+
+        Assert::assertArraySubset([
             'hideFalseValues' => true,
         ], $field->jsonSerialize());
     }
@@ -92,8 +95,8 @@ class BooleanGroupTest extends IntegrationTest
             'delete' => 'Delete',
         ])->noValueText('Custom No Data');
 
-        $this->assertContains([
-            'emptyText' => 'Custom No Data',
+        Assert::assertArraySubset([
+            'noValueText' => 'Custom No Data',
         ], $field->jsonSerialize());
     }
 }

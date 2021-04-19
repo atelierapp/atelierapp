@@ -4,15 +4,16 @@ namespace Laravel\Nova\Tests\Controller;
 
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Tests\Fixtures\Comment;
 use Laravel\Nova\Tests\Fixtures\Post;
 use Laravel\Nova\Tests\Fixtures\Role;
 use Laravel\Nova\Tests\Fixtures\User;
 use Laravel\Nova\Tests\Fixtures\UserPolicy;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class FieldControllerTest extends IntegrationTest
+class FieldControllerTest extends IntegrationTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -121,8 +122,14 @@ class FieldControllerTest extends IntegrationTest
 
     public function test_can_return_creation_pivot_fields()
     {
+        $queryString = http_build_query([
+            'editing' => true,
+            'editMode' => 'attach',
+            'viaRelationship' => 'roles',
+        ]);
+
         $response = $this->withExceptionHandling()
-                        ->get('/nova-api/users/creation-pivot-fields/roles');
+                        ->get('/nova-api/users/6/creation-pivot-fields/roles?'.$queryString);
 
         $fields = collect($response->original);
 
@@ -133,8 +140,14 @@ class FieldControllerTest extends IntegrationTest
 
     public function test_can_return_creation_pivot_fields_with_parent_belongs_to()
     {
+        $queryString = http_build_query([
+            'editing' => true,
+            'editMode' => 'attach',
+            'viaRelationship' => 'users',
+        ]);
+
         $response = $this->withoutExceptionHandling()
-            ->get('/nova-api/roles/creation-pivot-fields/users?editing=true&editMode=attach');
+            ->get('/nova-api/roles/5/creation-pivot-fields/users?'.$queryString);
 
         $fields = collect($response->original);
 
@@ -149,13 +162,18 @@ class FieldControllerTest extends IntegrationTest
         $role = factory(Role::class)->create();
         $user->roles()->attach($role);
 
-        $response = $this->withExceptionHandling()
-                        ->get('/nova-api/users/'.$user->id.'/update-pivot-fields/roles/'.$role->id.'?viaRelationship=roles');
+        $queryString = http_build_query([
+            'editing' => true,
+            'editMode' => 'update-attached',
+            'viaRelationship' => 'roles',
+        ]);
 
-        $fields = collect($response->original);
+        $response = $this->withExceptionHandling()
+                        ->get('/nova-api/users/'.$user->id.'/update-pivot-fields/roles/'.$role->id.'?'.$queryString);
 
         $response->assertStatus(200);
-        $this->assertCount(1, $fields->where('attribute', 'pivot-update'));
+        $this->assertEquals(1, $response->original['title']);
+        $this->assertCount(1, collect($response->original['fields'])->where('attribute', 'pivot-update'));
     }
 
     public function test_can_return_viewable_property_authorized()
@@ -197,7 +215,7 @@ class FieldControllerTest extends IntegrationTest
         $this->assertFalse($fields->firstWhere('attribute', 'user')['viewable']);
     }
 
-    public function test_can_return_viewable_property_hidden()
+    public function test_belongs_to_field_can_return_viewable_property_hidden()
     {
         $user = factory(User::class)->create();
         $post = factory(Post::class)->create(['user_id' => $user->id]);
@@ -214,5 +232,23 @@ class FieldControllerTest extends IntegrationTest
         unset($_SERVER['nova.user.viewable-field']);
 
         $this->assertFalse($fields->firstWhere('attribute', 'user')['viewable']);
+    }
+
+    public function test_morph_to_field_can_return_viewable_property_hidden()
+    {
+        $parentComment = factory(Comment::class)->create();
+        $comment = factory(Comment::class)->create(['commentable_id' => $parentComment->id]);
+
+        $_SERVER['nova.comment.viewable-field'] = false;
+
+        $response = $this->withoutExceptionHandling()
+            ->get("/nova-api/comments/{$comment->commentable_id}")
+            ->assertOk();
+
+        $fields = collect(json_decode(json_encode($response->original['resource']['fields']), true));
+
+        unset($_SERVER['nova.comment.viewable-field']);
+
+        $this->assertFalse($fields->firstWhere('attribute', 'commentable')['viewable']);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionEvent;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Tests\Fixtures\Comment;
 use Laravel\Nova\Tests\Fixtures\DestructiveAction;
@@ -24,6 +25,7 @@ use Laravel\Nova\Tests\Fixtures\QueuedResourceAction;
 use Laravel\Nova\Tests\Fixtures\QueuedUpdateStatusAction;
 use Laravel\Nova\Tests\Fixtures\RedirectAction;
 use Laravel\Nova\Tests\Fixtures\RequiredFieldAction;
+use Laravel\Nova\Tests\Fixtures\StandaloneAction;
 use Laravel\Nova\Tests\Fixtures\UnauthorizedAction;
 use Laravel\Nova\Tests\Fixtures\UnrunnableAction;
 use Laravel\Nova\Tests\Fixtures\UnrunnableDestructiveAction;
@@ -31,11 +33,11 @@ use Laravel\Nova\Tests\Fixtures\UpdateStatusAction;
 use Laravel\Nova\Tests\Fixtures\User;
 use Laravel\Nova\Tests\Fixtures\UserPolicy;
 use Laravel\Nova\Tests\Fixtures\UserResource;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class ActionControllerTest extends IntegrationTest
+class ActionControllerTest extends IntegrationTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -44,12 +46,15 @@ class ActionControllerTest extends IntegrationTest
         Action::$chunkCount = 200;
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         unset($_SERVER['queuedAction.applied']);
         unset($_SERVER['queuedAction.appliedFields']);
         unset($_SERVER['queuedResourceAction.applied']);
         unset($_SERVER['queuedResourceAction.appliedFields']);
+
+        DB::disableQueryLog();
+        DB::flushQueryLog();
 
         parent::tearDown();
     }
@@ -59,8 +64,90 @@ class ActionControllerTest extends IntegrationTest
         $response = $this->withExceptionHandling()
                         ->get('/nova-api/users/actions');
 
+        $actions = $response->original['actions']->filter(function ($action) {
+            return $action instanceof Action;
+        })->mapWithKeys(function ($action) {
+            return [get_class($action) => $action];
+        });
+
+        $response->assertStatus(200);
+        $this->assertCount(17, $actions);
+        $this->assertSame([
+            'Laravel\Nova\Tests\Fixtures\OpensInNewTabAction',
+            'Laravel\Nova\Tests\Fixtures\RedirectAction',
+            'Laravel\Nova\Tests\Fixtures\DestructiveAction',
+            'Laravel\Nova\Tests\Fixtures\EmptyAction',
+            'Laravel\Nova\Tests\Fixtures\ExceptionAction',
+            'Laravel\Nova\Tests\Fixtures\FailingAction',
+            'Laravel\Nova\Tests\Fixtures\NoopAction',
+            'Laravel\Nova\Tests\Fixtures\StandaloneAction',
+            'Laravel\Nova\Tests\Fixtures\QueuedAction',
+            'Laravel\Nova\Tests\Fixtures\QueuedResourceAction',
+            'Laravel\Nova\Tests\Fixtures\QueuedUpdateStatusAction',
+            'Laravel\Nova\Tests\Fixtures\RequiredFieldAction',
+            'Laravel\Nova\Tests\Fixtures\UnrunnableAction',
+            'Laravel\Nova\Tests\Fixtures\UnrunnableDestructiveAction',
+            'Laravel\Nova\Tests\Fixtures\UpdateStatusAction',
+            'Laravel\Nova\Tests\Fixtures\NoopActionWithoutActionable',
+            'Laravel\Nova\Tests\Fixtures\HandleResultAction',
+        ], $actions->keys()->all());
+    }
+
+    public function test_can_retrieve_actions_for_a_resource_for_index()
+    {
+        $response = $this->withExceptionHandling()
+                        ->get('/nova-api/users/actions?'.http_build_query([
+                            'display' => 'index',
+                        ]));
+
+        $actions = $response->original['actions']->filter(function ($action) {
+            return $action instanceof Action;
+        })->mapWithKeys(function ($action) {
+            return [get_class($action) => $action];
+        });
+
+        $response->assertStatus(200);
+        $this->assertCount(15, $actions);
+        $this->assertTrue($actions->has('Laravel\Nova\Tests\Fixtures\OpensInNewTabAction'));
+        $this->assertFalse($actions->has('Laravel\Nova\Tests\Fixtures\EmptyAction'));
+        $this->assertFalse($actions->has('Laravel\Nova\Tests\Fixtures\NoopAction'));
+    }
+
+    public function test_can_retrieve_actions_for_a_resource_for_detail()
+    {
+        $response = $this->withExceptionHandling()
+                        ->get('/nova-api/users/actions?'.http_build_query([
+                            'display' => 'detail',
+                        ]));
+
+        $actions = $response->original['actions']->filter(function ($action) {
+            return $action instanceof Action;
+        })->mapWithKeys(function ($action) {
+            return [get_class($action) => $action];
+        });
+
+        $response->assertStatus(200);
+        $this->assertCount(16, $actions);
+        $this->assertTrue($actions->has('Laravel\Nova\Tests\Fixtures\OpensInNewTabAction'));
+        $this->assertTrue($actions->has('Laravel\Nova\Tests\Fixtures\EmptyAction'));
+        $this->assertFalse($actions->has('Laravel\Nova\Tests\Fixtures\NoopAction'));
+    }
+
+    public function test_can_retrieve_actions_for_a_resource_with_field()
+    {
+        $response = $this->withExceptionHandling()
+                        ->get('/nova-api/comments/actions');
+
         $response->assertStatus(200);
         $this->assertInstanceOf(Action::class, $response->original['actions'][0]);
+
+        $noopAction = $response->original['actions'][0]->jsonSerialize();
+
+        $this->assertInstanceOf(Text::class, $noopAction['fields'][0]);
+
+        $textField = $noopAction['fields'][0]->jsonSerialize();
+
+        $this->assertSame(['Hello', 'World'], $textField['suggestions']);
     }
 
     public function test_actions_can_be_applied()
@@ -88,6 +175,22 @@ class ActionControllerTest extends IntegrationTest
         $this->assertEquals('Noop Action', $actionEvent->name);
         $this->assertEquals(['test' => 'Taylor Otwell'], unserialize($actionEvent->fields));
         $this->assertEquals('finished', $actionEvent->status);
+    }
+
+    public function test_standalone_actions_can_be_applied()
+    {
+        $response = $this->withoutExceptionHandling()
+                        ->post('/nova-api/users/action?action='.(new StandaloneAction)->uriKey(), [
+                            'resources' => '',
+                            'name' => 'Taylor Otwell',
+                            'email' => 'taylor@laravel.com',
+                        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertEquals(['message' => 'Hello World'], $response->original);
+        $this->assertEquals('Taylor Otwell', StandaloneAction::$appliedFields[0]->name);
+        $this->assertEquals('taylor@laravel.com', StandaloneAction::$appliedFields[0]->email);
     }
 
     public function test_actions_support_redirects()
@@ -126,7 +229,10 @@ class ActionControllerTest extends IntegrationTest
                             'callback' => '',
                         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'test' => 'The Test field is required.',
+            ]);
     }
 
     public function test_action_cant_be_applied_if_not_authorized_to_update_resource()
@@ -688,5 +794,50 @@ class ActionControllerTest extends IntegrationTest
 
         $response->assertStatus(200);
         $this->assertEquals(['message' => 'Processed 201 records'], $response->original);
+    }
+
+    public function test_actions_use_proper_sql_on_matching_resources()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+
+        DB::enableQueryLog();
+        DB::flushQueryLog();
+
+        $response = $this->withExceptionHandling()
+                        ->post('/nova-api/users/action?action='.(new NoopAction)->uriKey(), [
+                            'resources' => implode(',', [$user->id, $user2->id]),
+                            'test' => 'Taylor Otwell',
+                            'callback' => '',
+                        ]);
+
+        $queryLog = DB::getQueryLog()[0];
+
+        $this->assertSame(
+            'select * from "users" where "users"."id" in (?, ?) order by "users"."id" desc',
+            $queryLog['query']
+        );
+    }
+
+    public function test_actions_use_proper_sql_on_matching_all_resources()
+    {
+        $user = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+
+        DB::enableQueryLog();
+
+        $response = $this->withExceptionHandling()
+                        ->post('/nova-api/users/action?action='.(new NoopAction)->uriKey(), [
+                            'resources' => 'all',
+                            'test' => 'Taylor Otwell',
+                            'callback' => '',
+                        ]);
+
+        $queryLog = DB::getQueryLog()[0];
+
+        $this->assertSame(
+            'select * from "users" where "users"."deleted_at" is null order by "users"."id" desc',
+            $queryLog['query']
+        );
     }
 }

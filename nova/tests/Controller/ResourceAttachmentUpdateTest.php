@@ -9,11 +9,11 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\Tests\Fixtures\Role;
 use Laravel\Nova\Tests\Fixtures\RoleAssignment;
 use Laravel\Nova\Tests\Fixtures\User;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class ResourceAttachmentUpdateTest extends IntegrationTest
+class ResourceAttachmentUpdateTest extends IntegrationTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -324,6 +324,26 @@ class ResourceAttachmentUpdateTest extends IntegrationTest
             ]);
 
         $response->assertOk();
+
+        unset($_SERVER['nova.useRolesCustomAttribute']);
+    }
+
+    public function test_cannot_update_attach_resource_with_invalid_via_relationship()
+    {
+        $_SERVER['nova.useRolesCustomAttribute'] = true;
+
+        $user = factory(User::class)->create();
+        $role = factory(Role::class)->create();
+        $user->roles()->attach($role);
+
+        $response = $this->withExceptionHandling()
+            ->postJson('/nova-api/users/'.$user->id.'/update-attached/roles/'.$role->id, [
+                'roles' => $role->id,
+                'admin' => 'Y',
+                'viaRelationship' => 'delete',
+            ]);
+
+        $response->assertStatus(404);
 
         unset($_SERVER['nova.useRolesCustomAttribute']);
     }

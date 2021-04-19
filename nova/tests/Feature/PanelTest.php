@@ -4,15 +4,10 @@ namespace Laravel\Nova\Tests\Feature;
 
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class PanelTest extends IntegrationTest
+class PanelTest extends IntegrationTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function test_panels_can_have_custom_help_text()
     {
         $panel = Panel::make('Personal Information', [
@@ -22,5 +17,16 @@ class PanelTest extends IntegrationTest
         $this->assertSubset([
             'helpText' => 'Custom help text.',
         ], $panel->jsonSerialize());
+    }
+
+    public function test_panels_are_macroable()
+    {
+        Panel::macro('wew', function () {
+            return 'wew';
+        });
+
+        $panel = Panel::make('Details', [])->wew();
+
+        $this->assertEquals('wew', $panel);
     }
 }

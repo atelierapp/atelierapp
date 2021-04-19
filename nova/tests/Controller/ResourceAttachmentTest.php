@@ -9,11 +9,11 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\Tests\Fixtures\Role;
 use Laravel\Nova\Tests\Fixtures\User;
 use Laravel\Nova\Tests\Fixtures\UserPolicy;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class ResourceAttachmentTest extends IntegrationTest
+class ResourceAttachmentTest extends IntegrationTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -318,5 +318,22 @@ class ResourceAttachmentTest extends IntegrationTest
                 'admin' => 'Y',
             ], $actionEvent->changes);
         });
+    }
+
+    public function test_cannot_attach_resource_with_invalid_via_relationship()
+    {
+        $this->setupActionEventsOnSeparateConnection();
+
+        $user = factory(User::class)->create();
+        $role = factory(Role::class)->create();
+
+        $response = $this->withExceptionHandling()
+            ->postJson('/nova-api/users/'.$user->id.'/attach/roles', [
+                'roles' => $role->id,
+                'admin' => 'Y',
+                'viaRelationship' => 'delete',
+            ]);
+
+        $response->assertStatus(404);
     }
 }

@@ -4,9 +4,10 @@ namespace Laravel\Nova\Tests\Feature;
 
 use DateTimeZone;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Tests\IntegrationTest;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Tests\IntegrationTestCase;
 
-class SelectTest extends IntegrationTest
+class SelectTest extends IntegrationTestCase
 {
     public function test_select_fields_resolve_the_correct_values()
     {
@@ -22,6 +23,15 @@ class SelectTest extends IntegrationTest
 
         $field->resolveForDisplay((object) ['size' => 'L'], 'size');
         $this->assertEquals('L', $field->value);
+    }
+
+    public function test_passing_callable_function_name_as_default_doesnt_crash()
+    {
+        $this
+            ->withoutExceptionHandling()
+            ->authenticate()
+            ->getJson('/nova-api/callable-defaults/creation-fields?editing=true&editMode=create')
+            ->assertOk();
     }
 
     public function test_select_fields_can_display_options_using_labels()
@@ -160,6 +170,92 @@ class SelectTest extends IntegrationTest
                     'label' => 'S',
                     'value' => 1,
                 ],
+            ],
+        ], $field->jsonSerialize());
+    }
+
+    public function test_select_field_is_not_searchable_by_default()
+    {
+        $field = Select::make('Sizes')->options(collect(['L', 'S']));
+
+        $this->assertFalse($field->searchable);
+        $this->assertSubset([
+            'searchable' => false,
+        ], $field->jsonSerialize());
+    }
+
+    public function test_select_field_can_be_searchable()
+    {
+        $field = Select::make('Sizes')->searchable()->options(collect(['L', 'S']));
+
+        $this->assertTrue(is_bool($field->searchable));
+        $this->assertSubset([
+            'searchable' => true,
+        ], $field->jsonSerialize());
+    }
+
+    public function test_select_field_can_not_be_searchable_by_passing_false()
+    {
+        $field = Select::make('Sizes')->searchable(false)->options(collect(['L', 'S']));
+
+        $this->assertTrue(is_bool($field->searchable));
+        $this->assertSubset([
+            'searchable' => false,
+        ], $field->jsonSerialize());
+    }
+
+    public function test_select_field_can_be_searchable_using_callback()
+    {
+        $field = Select::make('Sizes')->searchable(function () {
+            return true;
+        })->options(collect(['L', 'S']));
+
+        $this->assertTrue(is_callable($field->searchable));
+        $this->assertSubset([
+            'searchable' => true,
+        ], $field->jsonSerialize());
+    }
+
+    public function test_select_field_can_be_searchable_using_callback_using_request()
+    {
+        $this->instance(NovaRequest::class, NovaRequest::create('/', 'GET', [
+            'allowSearching' => true,
+        ]));
+
+        $field = Select::make('Sizes')->searchable(function ($request) {
+            return $request->allowSearching;
+        })->options(collect(['L', 'S']));
+
+        $this->assertTrue(is_callable($field->searchable));
+        $this->assertSubset([
+            'searchable' => true,
+        ], $field->jsonSerialize());
+    }
+
+    public function test_if_field_is_searchable_and_plain_options_set_they_are_not_flattened()
+    {
+        $field = Select::make('Size')->searchable()->options([
+            'L' => 'Large',
+            'S' => 'Small',
+        ]);
+
+        $this->assertSubset([
+            'options' => [
+                ['label' => 'Large', 'value' => 'L'],
+                ['label' => 'Small', 'value' => 'S'],
+            ],
+        ], $field->jsonSerialize());
+    }
+
+    public function test_if_field_is_searchable_group_options_are_flattened_and_group_labels_are_appended_to_the_options()
+    {
+        $field = Select::make('Size')->searchable()->options([
+            'MS' => ['label' => 'Small', 'group' => 'Men Sizes'],
+        ]);
+
+        $this->assertSubset([
+            'options' => [
+                ['label' => 'Men Sizes - Small', 'value' => 'MS'],
             ],
         ], $field->jsonSerialize());
     }

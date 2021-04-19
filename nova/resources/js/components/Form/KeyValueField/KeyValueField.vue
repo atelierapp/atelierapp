@@ -1,7 +1,15 @@
 <template>
-  <default-field :field="field" :errors="errors" :full-width-content="true">
+  <default-field
+    :field="field"
+    :errors="errors"
+    :full-width-content="true"
+    :show-help-text="showHelpText"
+  >
     <template slot="field">
-      <KeyValueTable>
+      <KeyValueTable
+        :edit-mode="!field.readonly"
+        :can-delete-row="field.canDeleteRow"
+      >
         <KeyValueHeader
           :key-label="field.keyLabel"
           :value-label="field.valueLabel"
@@ -16,13 +24,19 @@
             :key="item.id"
             :ref="item.id"
             :read-only="field.readonly"
+            :read-only-keys="field.readonlyKeys"
+            :can-delete-row="field.canDeleteRow"
           />
         </div>
       </KeyValueTable>
 
-      <div class="mr-11" v-if="!field.readonly">
+      <div
+        class="mr-11"
+        v-if="!field.readonly && !field.readonlyKeys && field.canAddRow"
+      >
         <button
           @click="addRowAndSelect"
+          :dusk="`${field.attribute}-add-key-value`"
           type="button"
           class="btn btn-link dim cursor-pointer rounded-lg mx-auto text-primary mt-3 px-3 rounded-b-lg flex items-center"
         >
@@ -70,7 +84,7 @@ export default {
   mounted() {
     this.theData = _.map(this.value || {}, (value, key) => ({
       id: guid(),
-      key,
+      key: `${key}`,
       value,
     }))
 
