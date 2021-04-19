@@ -1,16 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Project;
+use Bouncer;
 use Illuminate\Database\Seeder;
 
 class BouncerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         Bouncer::allow('user')->toOwn(Project::class);
     }
