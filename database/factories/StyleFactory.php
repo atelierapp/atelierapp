@@ -2,15 +2,28 @@
 
 namespace Database\Factories;
 
-/** @var Factory $factory */
-
 use App\Models\Style;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Style::class, function (Faker $faker) {
-    return [
-        'code' => $faker->numerify('ST####'),
-        'name' => \Illuminate\Support\Str::ucfirst($faker->word),
-    ];
-});
+class StyleFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Style::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'code' => $this->faker->numerify('ST####'),
+            'name' => \Illuminate\Support\Str::ucfirst($this->faker->word),
+        ];
+    }
+}

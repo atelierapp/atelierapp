@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
@@ -13,7 +14,7 @@ class ProjectSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Project::class)->create(['author_id' => 2]);
-        factory(\App\Models\Project::class)->create();
+        Project::factory()->create(['author_id' => 2]);
+        Project::factory()->create();
     }
 }

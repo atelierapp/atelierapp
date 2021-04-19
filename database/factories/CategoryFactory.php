@@ -2,17 +2,30 @@
 
 namespace Database\Factories;
 
-/** @var Factory $factory */
-
 use App\Models\Category;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Category::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'image' => $faker->url,
-        'parent_id' => null,
-        'active' => $faker->boolean,
-    ];
-});
+class CategoryFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Category::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'image' => $this->faker->url,
+            'parent_id' => null,
+            'active' => $this->faker->boolean,
+        ];
+    }
+}

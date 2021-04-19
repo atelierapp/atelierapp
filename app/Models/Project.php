@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\ProjectFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $fillable = [
         'name',
@@ -26,6 +28,11 @@ class Project extends Model
         'published' => 'boolean',
         'public' => 'boolean',
     ];
+
+    public static function newFactory()
+    {
+        return ProjectFactory::new();
+    }
 
     /*
     |--------------------------------------------------------------------------

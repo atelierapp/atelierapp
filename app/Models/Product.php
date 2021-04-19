@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Enums\ManufacturerTypeEnum;
+use Database\Factories\ProductFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Enum\Laravel\HasEnums;
 
 class Product extends Model
 {
-    use SoftDeletes, HasEnums;
+    use SoftDeletes, HasEnums, HasFactory;
 
     protected $fillable = [
         'store_id',
@@ -37,6 +39,11 @@ class Product extends Model
     protected $enums = [
         'manufacturer_type' => ManufacturerTypeEnum::class,
     ];
+
+    public static function newFactory()
+    {
+        return ProductFactory::new();
+    }
 
     /*
     |--------------------------------------------------------------------------

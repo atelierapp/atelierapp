@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -13,18 +14,15 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        $categories = [
+        $categories = collect([
             ['name' => 'Desks'],
             ['name' => 'Sofas'],
             ['name' => 'Furniture'],
             ['name' => 'Frames'],
-        ];
+        ]);
 
-        foreach ($categories as $category) {
-            $category = \App\Models\Category::firstOrCreate($category);
-            $category->products()->saveMany(
-                factory(\App\Models\Product::class, rand(5, 20))->make()
-            );
-        }
+        $categories->each(function ($category) {
+            Category::factory()->times(rand(5, 20))->create(['name' => $category['name']]);
+        });
     }
 }

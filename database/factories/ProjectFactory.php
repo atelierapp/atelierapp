@@ -2,18 +2,33 @@
 
 namespace Database\Factories;
 
-/** @var Factory $factory */
-
 use App\Models\Project;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use App\Models\Style;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Project::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'style_id' => factory(\App\Models\Style::class),
-        'author_id' => factory(\App\Models\User::class),
-        'published' => $faker->boolean,
-        'public' => $faker->boolean,
-    ];
-});
+class ProjectFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Project::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'style_id' => Style::factory()->create()->id,
+            'author_id' => User::factory()->create()->id,
+            'published' => $this->faker->boolean,
+            'public' => $this->faker->boolean,
+        ];
+    }
+}

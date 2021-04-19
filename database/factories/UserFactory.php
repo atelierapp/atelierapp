@@ -2,30 +2,44 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use App\Models\USer;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Bouncer;
 
-/** @var Factory $factory */
-$factory->define(User::class, function (Faker $faker) {
-    return [
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->unique()->safeEmail,
-        'username' => $faker->unique()->userName,
-        'password' => 'MiPassword@',
-        'phone' => $faker->numerify('9########'),
-//        'birthday'   => $faker->date(),
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now(),
-    ];
-});
+class UserFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = USer::class;
 
-$factory->afterCreating(User::class, function (User $user, $faker) {
-    Bouncer::assign('user')->to($user);
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail,
+            'username' => $this->faker->unique()->userName,
+            'password' => 'MiPassword@',
+            'phone' => $this->faker->numerify('9########'),
+            // 'birthday' => $this->faker->date(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ];
+    }
 
-$factory->afterCreatingState(User::class, 'admin', function (User $user, $faker) {
-    Bouncer::assign('admin')->to($user);
-});
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            Bouncer::assign('user')->to($user);
+        });
+    }
+}

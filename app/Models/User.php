@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +23,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
 class User extends Authenticatable
 {
 
-    use HasApiTokens, HasRolesAndAbilities, Notifiable;
+    use HasApiTokens, HasRolesAndAbilities, Notifiable, HasFactory;
 
     protected $guarded = [];
 
@@ -33,6 +35,11 @@ class User extends Authenticatable
         'birthday' => 'date',
         'is_active' => 'boolean',
     ];
+
+    public static function newFactory()
+    {
+        return UserFactory::new();
+    }
 
     /*
     |--------------------------------------------------------------------------

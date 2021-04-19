@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
-use Bouncer;
 use Illuminate\Database\Seeder;
+use Bouncer;
 
 class BouncerSeeder extends Seeder
 {

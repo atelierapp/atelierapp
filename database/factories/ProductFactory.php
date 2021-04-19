@@ -2,24 +2,39 @@
 
 namespace Database\Factories;
 
-/** @var Factory $factory */
-
+use App\Models\Category;
 use App\Models\Product;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use App\Models\Store;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Product::class, function (Faker $faker) {
-    return [
-        'title' => $faker->sentence(4),
-        'manufacturer_type' => 'store',
-        'manufactured_at' => $faker->date(),
-        'description' => $faker->text,
-        'category_id' => factory(\App\Models\Category::class),
-        'price' => $faker->randomNumber(),
-        'quantity' => $faker->randomNumber(),
-        'sku' => $faker->lexify('???????????'),
-        'store_id' => factory(\App\Models\Store::class),
-        'active' => $faker->boolean,
-        'properties' => [],
-    ];
-});
+class ProductFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Product::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->sentence(4),
+            'manufacturer_type' => 'store',
+            'manufactured_at' => $this->faker->date(),
+            'description' => $this->faker->text,
+            'category_id' => Category::factory()->create()->id,
+            'price' => $this->faker->randomNumber(),
+            'quantity' => $this->faker->randomNumber(),
+            'sku' => $this->faker->lexify('???????????'),
+            'store_id' => Store::factory()->create()->id,
+            'active' => $this->faker->boolean,
+            'properties' => [],
+        ];
+    }
+}

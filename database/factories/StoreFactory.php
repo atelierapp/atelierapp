@@ -2,21 +2,34 @@
 
 namespace Database\Factories;
 
-/** @var Factory $factory */
-
 use App\Models\Store;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Store::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'legal_name' => $faker->word,
-        'legal_id' => $faker->lexify('?????????'),
-        'story' => $faker->sentence(5),
-        'logo' => $faker->url,
-        'cover' => $faker->url,
-        'team' => $faker->url,
-        'active' => true,
-    ];
-});
+class StoreFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Store::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'legal_name' => $this->faker->word,
+            'legal_id' => $this->faker->lexify('?????????'),
+            'story' => $this->faker->sentence(5),
+            'logo' => $this->faker->url,
+            'cover' => $this->faker->url,
+            'team' => $this->faker->url,
+            'active' => true,
+        ];
+    }
+}

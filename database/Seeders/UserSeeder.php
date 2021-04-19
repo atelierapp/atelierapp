@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\User;
-use Bouncer;
 use Illuminate\Database\Seeder;
+use Bouncer;
 
 class UserSeeder extends Seeder {
 
@@ -16,16 +16,15 @@ class UserSeeder extends Seeder {
      */
     public function run()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'first_name' => 'Kenny',
             'last_name'  => 'Horna',
             'email'      => 'kenny@qbklabs.com',
             'username'   => 'kenny',
             'password'   => 'Mis3cretP@ss',
         ]);
-
         Bouncer::assign(Role::ADMIN)->to($user);
 
-        factory(User::class)->create(['email' => 'john@doe.com']);
+        User::factory()->create(['email' => 'john@doe.com']);
     }
 }
