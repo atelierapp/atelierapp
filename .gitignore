@@ -27,3 +27,4 @@ models.php
 /.blueprint
 /.env.production
 /.env.staging
+/.DS_Store
