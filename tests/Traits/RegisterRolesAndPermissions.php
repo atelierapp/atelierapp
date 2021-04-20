@@ -6,8 +6,8 @@ namespace Tests\Traits;
 
 use App\Models\Role;
 use Bouncer;
-use BouncerSeeder;
-use DatabaseSeeder;
+use Database\Seeders\BouncerSeeder;
+use Database\Seeders\DatabaseSeeder;
 
 trait RegisterRolesAndPermissions
 {
