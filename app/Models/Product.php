@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ManufacturerTypeEnum;
+use Carbon\Carbon;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -73,5 +74,10 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function setManufacturedAtAttribute($value)
+    {
+        $this->attributes['manufactured_at'] = Carbon::parse($value);
     }
 }

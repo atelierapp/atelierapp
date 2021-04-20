@@ -5,7 +5,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Store;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
@@ -15,14 +15,15 @@ use Tests\TestCase;
  */
 class ProductControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use WithFaker;
 
     /**
      * @test
      */
     public function index_behaves_as_expected()
     {
-        factory(Product::class)->times(50)->create();
+        Product::factory()->times(50)->create();
 
         $response = $this->get(route('products.index'));
 
@@ -47,15 +48,13 @@ class ProductControllerTest extends TestCase
      */
     public function store_saves()
     {
-        $category = factory(Category::class)->create();
-
         $data = [
-            'store_id' => (factory(Store::class)->create())->id,
+            'store_id' => Store::factory()->create()->id,
             'title' => $this->faker->sentence(4),
             'manufacturer_type' => 'store',
             'manufactured_at' => $this->faker->date('m/d/Y'),
             'description' => $this->faker->text,
-            'category_id' => $category->id,
+            'category_id' => Category::factory()->create()->id,
             'price' => $this->faker->randomNumber(),
             'quantity' => $this->faker->randomNumber(),
             'sku' => $this->faker->lexify('???????????'),
@@ -70,6 +69,11 @@ class ProductControllerTest extends TestCase
         $response->assertCreated();
         $products = Product::all();
         $this->assertCount(1, $products);
+        $this->assertDatabaseHas('products', [
+            'manufactured_at' => Carbon::parse($data['manufactured_at']),
+            'title' => $data['title'],
+            'sku' => $data['sku'],
+        ]);
     }
 
     /**
@@ -77,7 +81,7 @@ class ProductControllerTest extends TestCase
      */
     public function show_behaves_as_expected()
     {
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
 
         $response = $this->getJson(route('products.show', $product));
 
@@ -102,7 +106,7 @@ class ProductControllerTest extends TestCase
      */
     public function update_behaves_as_expected()
     {
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
         $newTitle = $this->faker->word;
 
         $response = $this->putJson(route('products.update', $product), [
@@ -119,7 +123,7 @@ class ProductControllerTest extends TestCase
     public function destroy_deletes_and_responds_with()
     {
         $this->withoutExceptionHandling();
-        $product = factory(Product::class)->create();
+        $product = Product::factory()->create();
 
         $response = $this->deleteJson(route('products.destroy', $product));
 

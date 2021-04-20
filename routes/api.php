@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
@@ -35,8 +36,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 Route::apiResource('categories', CategoryController::class);
-//
-//Route::apiResource('products', 'ProductController');
+
+Route::apiResource('products', ProductController::class);
 //
 //Route::apiResource('units', 'UnitController');
 
