@@ -26,6 +26,6 @@ abstract class TestCase extends BaseTestCase {
     {
         $this->registerRolesAndPermissions();
 
-        return Sanctum::actingAs($user = factory(User::class)->create($data));
+        return Sanctum::actingAs(User::factory()->create($data));
     }
 }
