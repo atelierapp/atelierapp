@@ -25,10 +25,22 @@ class User extends Authenticatable
 
     use HasApiTokens, HasRolesAndAbilities, Notifiable, HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'username',
+        'password',
+        'phone',
+        'birthday',
+        'is_active',
+        'avatar',
+        'remember_token',
+    ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     protected $casts = [
@@ -86,7 +98,7 @@ class User extends Authenticatable
 
     public function getAvatarAttribute()
     {
-        if (! isset($this->attributes['avatar'])) {
+        if (!isset($this->attributes['avatar'])) {
             return null;
         }
 
