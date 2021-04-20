@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Database\Seeders\ColorSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
@@ -12,14 +12,15 @@ use Tests\TestCase;
  */
 class ColorControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use WithFaker;
 
     /**
      * @test
      */
     public function it_can_list_colors()
     {
-        $this->seed(\ColorSeeder::class);
+        $this->seed(ColorSeeder::class);
         $response = $this->getJson(route('colors.index'));
         $response
             ->assertOk()
