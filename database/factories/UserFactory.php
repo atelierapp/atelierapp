@@ -23,7 +23,7 @@ class UserFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'first_name' => $this->faker->firstName,
@@ -38,14 +38,14 @@ class UserFactory extends Factory
         ];
     }
 
-    public function withAdminRole()
+    public function withAdminRole(): UserFactory
     {
         return $this->afterCreating(function (User $user) {
             Bouncer::assign(Role::ADMIN)->to($user);
         });
     }
 
-    public function withUserRole()
+    public function withUserRole(): UserFactory
     {
         return $this->afterCreating(function (User $user) {
             Bouncer::assign(Role::USER)->to($user);

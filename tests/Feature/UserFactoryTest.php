@@ -1,9 +1,9 @@
 <?php
 
+namespace Tests\Feature;
 
 use App\Models\Role;
 use App\Models\User;
-use Database\Factories\UserFactory;
 use Database\Seeders\RoleSeeder;
 use Tests\TestCase;
 
@@ -29,6 +29,7 @@ class UserFactoryTest extends TestCase
             'entity_type' => User::class
         ]);
     }
+
     /** @test */
     public function create_a_system_user_with_admin_role()
     {

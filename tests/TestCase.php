@@ -22,13 +22,14 @@ abstract class TestCase extends BaseTestCase
 
     public function createAuthenticatedAdmin($data = [])
     {
-        return $this->createUser($data, 'admin');
+        return $this->createUser($data, true);
     }
 
-    public function createUser($data = [], $role = null)
+    public function createUser($data = [], $isAdmin = false)
     {
         $this->registerRolesAndPermissions();
+        $userFactory = $isAdmin ? User::factory()->withAdminRole() : User::factory();
 
-        return Sanctum::actingAs(User::factory()->create($data));
+        return Sanctum::actingAs($userFactory->create($data));
     }
 }
