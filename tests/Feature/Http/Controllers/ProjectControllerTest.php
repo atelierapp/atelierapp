@@ -22,8 +22,8 @@ class ProjectControllerTest extends TestCase
     public function index_behaves_as_expected()
     {
         $user = $this->createAuthenticatedUser();
-        factory(Project::class)->times(5)->create(['author_id' => $user->id]);
-        factory(Project::class)->times(9)->create();
+        Project::factory()->times(5)->create(['author_id' => $user->id]);
+        Project::factory()->times(9)->create();
 
         $response = $this->getJson(route('projects.index'));
 
@@ -53,7 +53,7 @@ class ProjectControllerTest extends TestCase
 
         $data = [
             'name' => $name = $this->faker->word,
-            'style_id' => factory(Style::class)->create()->id,
+            'style_id' => Style::factory()->create()->id,
             'author_id' => $user->id,
         ];
 
@@ -79,7 +79,7 @@ class ProjectControllerTest extends TestCase
     public function show_behaves_as_expected()
     {
         $user = $this->createAuthenticatedUser();
-        $project = factory(Project::class)->create(['author_id' => $user->id]);
+        $project = Project::factory()->create(['author_id' => $user->id]);
 
         $response = $this->getJson(route('projects.show', $project));
 
@@ -106,7 +106,7 @@ class ProjectControllerTest extends TestCase
     public function update_behaves_as_expected()
     {
         $user = $this->createAuthenticatedUser();
-        $project = factory(Project::class)->create(['author_id' => $user->id]);
+        $project = Project::factory()->create(['author_id' => $user->id]);
 
         $data = ['name' => $newName = $this->faker->word];
 
@@ -117,17 +117,15 @@ class ProjectControllerTest extends TestCase
             ->assertJsonFragment(['name' => $newName]);
     }
 
-
-
     /**
      * @test
      */
     public function a_user_cannot_update_someone_else_projects()
     {
         $this->createAuthenticatedUser();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
-        $data = ['name' => $newName = $this->faker->word];
+        $data = ['name' => $this->faker->word];
 
         $response = $this->patchJson(route('projects.update', $project), $data);
 
@@ -140,7 +138,7 @@ class ProjectControllerTest extends TestCase
     public function destroy_deletes_and_responds_with()
     {
         $user = $this->createAuthenticatedUser();
-        $project = factory(Project::class)->create(['author_id' => $user->id]);
+        $project = Project::factory()->create(['author_id' => $user->id]);
 
         $response = $this->deleteJson(route('projects.destroy', $project));
 
@@ -154,7 +152,7 @@ class ProjectControllerTest extends TestCase
     public function a_user_cannot_delete_someone_else_projects()
     {
         $user = $this->createAuthenticatedUser();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $response = $this->deleteJson(route('projects.destroy', $project));
 
