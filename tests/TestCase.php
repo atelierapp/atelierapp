@@ -8,9 +8,12 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Sanctum\Sanctum;
 use Tests\Traits\RegisterRolesAndPermissions;
 
-abstract class TestCase extends BaseTestCase {
+abstract class TestCase extends BaseTestCase
+{
 
-    use CreatesApplication, RefreshDatabase, RegisterRolesAndPermissions;
+    use CreatesApplication;
+    use RefreshDatabase;
+    use RegisterRolesAndPermissions;
 
     public function createAuthenticatedUser($data = [])
     {
