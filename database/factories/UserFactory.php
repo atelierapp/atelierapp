@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Role;
 use App\Models\User;
+use Bouncer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
-use Bouncer;
 
 class UserFactory extends Factory
 {
@@ -38,17 +37,16 @@ class UserFactory extends Factory
         ];
     }
 
-    public function withAdminRole(): UserFactory
+    public function withRoles($roles): UserFactory
     {
-        return $this->afterCreating(function (User $user) {
-            Bouncer::assign(Role::ADMIN)->to($user);
-        });
-    }
+        if (empty($roles)) {
+            return $this;
+        }
 
-    public function withUserRole(): UserFactory
-    {
-        return $this->afterCreating(function (User $user) {
-            Bouncer::assign(Role::USER)->to($user);
-        });
+        return $this->afterCreating(
+            function (User $user) use ($roles) {
+                Bouncer::assign($roles)->to($user);
+            }
+        );
     }
 }

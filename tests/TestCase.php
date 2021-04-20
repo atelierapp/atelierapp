@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -17,19 +18,18 @@ abstract class TestCase extends BaseTestCase
 
     public function createAuthenticatedUser($data = [])
     {
-        return $this->createUser($data);
+        return $this->createUser($data, [Role::USER]);
     }
 
     public function createAuthenticatedAdmin($data = [])
     {
-        return $this->createUser($data, true);
+        return $this->createUser($data, [Role::ADMIN]);
     }
 
-    public function createUser($data = [], $isAdmin = false)
+    public function createUser($data = [], array $role = [])
     {
         $this->registerRolesAndPermissions();
-        $userFactory = $isAdmin ? User::factory()->withAdminRole() : User::factory();
 
-        return Sanctum::actingAs($userFactory->create($data));
+        return Sanctum::actingAs(User::factory()->withRoles($role)->create($data));
     }
 }
