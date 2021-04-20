@@ -3,21 +3,21 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use WithFaker;
 
     /**
      * @test
      */
     public function index_behaves_as_expected()
     {
-        factory(Category::class, 25)->create();
+        Category::factory()->times(24)->create();
 
         $response = $this->getJson(route('categories.index'));
 
@@ -65,7 +65,7 @@ class CategoryControllerTest extends TestCase
      */
     public function show_behaves_as_expected()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         $response = $this->get(route('categories.show', ['category' => $category->id]));
 
@@ -90,7 +90,7 @@ class CategoryControllerTest extends TestCase
      */
     public function update_behaves_as_expected()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $newName = $this->faker->word;
 
         $response = $this->put(route('categories.update', [
@@ -109,7 +109,7 @@ class CategoryControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with()
     {
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         $response = $this->delete(route('categories.destroy', $category));
 
