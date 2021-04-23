@@ -13,17 +13,21 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('style_id');
-            $table->unsignedBigInteger('author_id');
-            $table->unsignedBigInteger('forked_from')->nullable();
+            $table->foreignId('style_id')->constrained();
+            $table->foreignId('author_id')->constrained('users');
+            $table->foreignId('forked_from')->nullable()->constrained('projects');
             $table->boolean('published')->default(true);
             $table->boolean('public')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

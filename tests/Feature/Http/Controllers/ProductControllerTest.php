@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Category;
+use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
-use App\Models\Store;
-use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
@@ -16,25 +15,27 @@ use Tests\TestCase;
 class ProductControllerTest extends TestCase
 {
     use AdditionalAssertions;
+    use RefreshDatabase;
     use WithFaker;
 
     /**
      * @test
      */
-    public function index_behaves_as_expected()
+    public function index_behaves_as_expected(): void
     {
-        Product::factory()->times(50)->create();
+        Product::factory()->count(3)->create();
 
-        $response = $this->get(route('products.index'));
+        $response = $this->get(route('product.index'));
 
         $response->assertOk();
-        $response->assertJsonCount(10, 'data');
+        $response->assertJsonStructure([]);
     }
+
 
     /**
      * @test
      */
-    public function store_uses_form_request_validation()
+    public function store_uses_form_request_validation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\ProductController::class,
@@ -46,53 +47,62 @@ class ProductControllerTest extends TestCase
     /**
      * @test
      */
-    public function store_saves()
+    public function store_saves(): void
     {
         $data = [
-            'store_id' => Store::factory()->create()->id,
-            'title' => $this->faker->sentence(4),
-            'manufacturer_type' => 'store',
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date('m/d/Y'),
-            'description' => $this->faker->text,
-            'category_id' => Category::factory()->create()->id,
-            'price' => $this->faker->randomNumber(),
-            'quantity' => $this->faker->randomNumber(),
-            'sku' => $this->faker->lexify('???????????'),
-            'active' => $this->faker->boolean,
-            'properties' => [
-                'some' => 'value',
-            ],
-        ];;
+            'description' => $this->faker->paragraph(),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'sku' => $this->faker->word,
+            'active' => true,
+            'properties' => ['demo' => $this->faker->word],
+        ];
 
-        $response = $this->postJson(route('products.store'), $data);
+        $response = $this->postJson(route('product.store'), $data);
 
         $response->assertCreated();
-        $products = Product::all();
-        $this->assertCount(1, $products);
-        $this->assertDatabaseHas('products', [
-            'manufactured_at' => Carbon::parse($data['manufactured_at']),
-            'title' => $data['title'],
-            'sku' => $data['sku'],
-        ]);
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'quantity',
+                    'sku',
+                    'active',
+                    'properties',
+                ],
+            ]
+        );
+
+        $this->assertDatabaseHas('products', collect($data)->except(['properties', 'manufactured_at'])->toArray());
     }
+
 
     /**
      * @test
      */
-    public function show_behaves_as_expected()
+    public function show_behaves_as_expected(): void
     {
         $product = Product::factory()->create();
 
-        $response = $this->getJson(route('products.show', $product));
+        $response = $this->get(route('product.show', $product));
 
         $response->assertOk();
-        $response->assertJsonFragment(['title' => $product->title]);
+        $response->assertJsonStructure([]);
     }
+
 
     /**
      * @test
      */
-    public function update_uses_form_request_validation()
+    public function update_uses_form_request_validation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\ProductController::class,
@@ -104,30 +114,56 @@ class ProductControllerTest extends TestCase
     /**
      * @test
      */
-    public function update_behaves_as_expected()
+    public function update_behaves_as_expected(): void
     {
         $product = Product::factory()->create();
-        $newTitle = $this->faker->word;
+        $data = [
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufactured_at' => $this->faker->date('m/d/Y'),
+            'description' => $this->faker->paragraph(),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'sku' => $this->faker->word,
+            'active' => true,
+            'properties' => ['demo' => $this->faker->word],
+        ];
 
-        $response = $this->putJson(route('products.update', $product), [
-            'title' => $newTitle,
-        ]);
+        $response = $this->putJson(route('product.update', $product), $data);
 
         $response->assertOk();
-        $response->assertJsonFragment(['title' => $newTitle]);
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'quantity',
+                    'sku',
+                    'active',
+                    'properties',
+                ],
+            ]
+        );
+
+        $this->assertDatabaseHas('products', collect($data)->except(['properties', 'manufactured_at'])->toArray());
     }
+
 
     /**
      * @test
      */
-    public function destroy_deletes_and_responds_with()
+    public function destroy_deletes_and_responds_with(): void
     {
-        $this->withoutExceptionHandling();
         $product = Product::factory()->create();
 
-        $response = $this->deleteJson(route('products.destroy', $product));
+        $response = $this->delete(route('product.destroy', $product));
 
-        $response->assertOk();
+        $response->assertNoContent();
+
         $this->assertSoftDeleted($product);
     }
 }

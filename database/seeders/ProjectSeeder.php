@@ -8,13 +8,12 @@ use Illuminate\Database\Seeder;
 class ProjectSeeder extends Seeder
 {
     /**
-     * Run the database Seeders.
+     * Run the database seeds.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Project::factory()->create(['author_id' => 2]);
-        Project::factory()->create();
+        Project::factory()->count(5)->create();
     }
 }

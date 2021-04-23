@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
+use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
-use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
@@ -21,20 +20,18 @@ class ProductFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(4),
-            'manufacturer_type' => 'store',
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date(),
             'description' => $this->faker->text,
-            'category_id' => Category::factory()->create()->id,
-            'price' => $this->faker->randomNumber(),
-            'quantity' => $this->faker->randomNumber(),
-            'sku' => $this->faker->lexify('???????????'),
-            'store_id' => Store::factory()->create()->id,
+            'price' => $this->faker->numberBetween(0, 90000) / 100,
+            'quantity' => $this->faker->numberBetween(0, 100),
+            'sku' => $this->faker->isbn10,
             'active' => $this->faker->boolean,
-            'properties' => [],
+            'properties' => '{}',
         ];
     }
 }

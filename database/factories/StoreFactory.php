@@ -19,17 +19,17 @@ class StoreFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,
-            'legal_name' => $this->faker->word,
-            'legal_id' => $this->faker->lexify('?????????'),
-            'story' => $this->faker->sentence(5),
-            'logo' => $this->faker->url,
-            'cover' => $this->faker->url,
-            'team' => $this->faker->url,
-            'active' => true,
+            'legal_name' => $this->faker->regexify('[A-Za-z0-9]{80}'),
+            'legal_id' => $this->faker->regexify('[A-Za-z0-9]{20}'),
+            'story' => $this->faker->city,
+            'logo' => $this->faker->imageUrl(250, 250),
+            'cover' => $this->faker->word,
+            'team' => $this->faker->word,
+            'active' => $this->faker->boolean,
         ];
     }
 }

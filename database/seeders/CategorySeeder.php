@@ -8,21 +8,12 @@ use Illuminate\Database\Seeder;
 class CategorySeeder extends Seeder
 {
     /**
-     * Run the database Seeders.
+     * Run the database seeds.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $categories = collect([
-            ['name' => 'Desks'],
-            ['name' => 'Sofas'],
-            ['name' => 'Furniture'],
-            ['name' => 'Frames'],
-        ]);
-
-        $categories->each(function ($category) {
-            Category::factory()->times(rand(5, 20))->create(['name' => $category['name']]);
-        });
+        Category::factory()->count(5)->create();
     }
 }

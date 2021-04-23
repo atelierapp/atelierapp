@@ -21,12 +21,13 @@ class ProjectFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,
-            'style_id' => Style::factory()->create()->id,
-            'author_id' => User::factory()->create()->id,
+            'style_id' => Style::factory(),
+            'author_id' => User::factory(),
+            'forked_from' => $this->faker->randomElement([null, Project::factory()]),
             'published' => $this->faker->boolean,
             'public' => $this->faker->boolean,
         ];

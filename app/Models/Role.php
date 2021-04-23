@@ -6,7 +6,7 @@ use Silber\Bouncer\Database\Role as RoleModel;
 
 class Role extends RoleModel
 {
-    const USER = 'user';
-    const ADMIN = 'admin';
-    const SELLER = 'seller';
+    public const USER = 'user';
+    public const ADMIN = 'admin';
+    public const SELLER = 'seller';
 }

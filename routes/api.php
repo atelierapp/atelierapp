@@ -3,9 +3,15 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\UnitSystemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | Auth
 |--------------------------------------------------------------------------
 */
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-social', [AuthController::class, 'socialLogin']);
 Route::post('/sign-up', [AuthController::class, 'signUp']);
 
@@ -35,10 +41,24 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('projects', ProjectController::class);
 });
 
-Route::apiResource('categories', CategoryController::class);
-
-Route::apiResource('products', ProductController::class);
-//
-//Route::apiResource('units', 'UnitController');
-
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
+
+Route::apiResource('categories', CategoryController::class)->names('category');
+
+Route::apiResource('products', ProductController::class)->names('product');
+
+Route::apiResource('materials', MaterialController::class)->names('material');
+
+Route::apiResource('tags', TagController::class)->names('tag');
+
+Route::apiResource('unit', UnitController::class)->names('unit');
+
+Route::apiResource('unit-system', UnitSystemController::class)->names('unit-system');
+
+Route::apiResource('store', 'StoreController');
+
+Route::apiResource('media-type', 'MediaTypeController');
+
+Route::apiResource('media', MediaController::class);
+
+Route::apiResource('rooms', RoomController::class)->names('room');

@@ -53,7 +53,7 @@ return [
     | map to the dynamic properties used by Laravel Models.
     |
     */
-    'generate_phpdocs' => false,
+    'generate_phpdocs' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     | together to add structure and integrity to your database.
     |
     */
-    'use_constraints' => false,
+    'use_constraints' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -82,6 +82,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Method Return Type Declarations
+    |--------------------------------------------------------------------------
+    |
+    | Enable or disable method return typehinting for blueprint generated
+    | methods. Enabling this will enforce code strictness which increases
+    | readability of code and will lower maintenance cost. This will only
+    | Work for projects running PHP v7.0 or higher.
+    |
+    */
+    'use_return_types' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Use Guarded
     |--------------------------------------------------------------------------
     |
@@ -94,4 +107,18 @@ return [
     */
 
     'use_guarded' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Generate FQCN Routes
+    |--------------------------------------------------------------------------
+    |
+    | By default, Blueprint follows the Laravel convention of the controller
+    | namespace matches the namespace set within the RouteServiceProvider.
+    | However, you may configure Blueprint to generate routes using a
+    | "tuple syntax" in cases where you may not use this property
+    | or wish to improve static analysis.
+    |
+    */
+    'generate_fqcn_route' => true,
 ];

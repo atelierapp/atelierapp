@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -29,42 +30,28 @@ class Project extends Model
         'public' => 'boolean',
     ];
 
-    public static function newFactory()
+    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
     {
         return ProjectFactory::new();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-    public function rooms()
+    public function rooms(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Room::class);
+        return $this->hasMany(Room::class);
     }
 
-    public function style()
+    public function style(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Style::class);
+        return $this->belongsTo(Style::class);
     }
 
-    public function author()
+    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function forkedFrom()
+    public function forkedFrom(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Project::class);
+        return $this->belongsTo(Project::class);
     }
-
-//    public static function boot()
-//    {
-//        parent::boot();
-//
-//        self::created(function ($project) {
-//            \Bouncer::allow(auth()->user())->toOwn($project);
-//        });
-//    }
 }

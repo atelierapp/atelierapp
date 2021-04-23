@@ -22,8 +22,10 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  */
 class User extends Authenticatable
 {
-
-    use HasApiTokens, HasRolesAndAbilities, Notifiable, HasFactory;
+    use HasApiTokens;
+    use HasFactory;
+    use HasRolesAndAbilities;
+    use Notifiable;
 
     protected $fillable = [
         'first_name',
@@ -86,12 +88,12 @@ class User extends Authenticatable
     | Accessors & Mutators
     |--------------------------------------------------------------------------
     */
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function getFullNameAttribute()
+    public function getFullNameAttribute(): string
     {
         return "$this->first_name $this->last_name";
     }

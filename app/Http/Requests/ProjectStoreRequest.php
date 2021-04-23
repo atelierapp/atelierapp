@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectStoreRequest extends FormRequest
@@ -26,6 +27,7 @@ class ProjectStoreRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3'],
             'style_id' => ['required', 'integer', 'exists:styles,id'],
+            'author_id' => ['required', 'exists:' . User::class . ',id'],
             'forked_from' => ['integer', 'exists:projects,id'],
             'published' => 'boolean',
             'public' => 'boolean',

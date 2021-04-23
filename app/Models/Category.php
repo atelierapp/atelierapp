@@ -20,26 +20,28 @@ class Category extends Model
     ];
 
     protected $casts = [
+        'id' => 'integer',
+        'parent_id' => 'integer',
         'active' => 'boolean',
     ];
 
-    public static function newFactory()
+    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
     {
         return CategoryFactory::new();
     }
 
-    public function products()
+    public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Product::class);
+        return $this->hasMany(Product::class);
     }
 
-    public function categories()
+    public function categories(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\Category::class);
+        return $this->hasMany(Category::class);
     }
 
-    public function parent()
+    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Category::class);
+        return $this->belongsTo(Category::class);
     }
 }

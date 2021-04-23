@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Style;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class StyleFactory extends Factory
 {
@@ -19,11 +20,11 @@ class StyleFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'code' => $this->faker->numerify('ST####'),
-            'name' => \Illuminate\Support\Str::ucfirst($this->faker->word),
+            'name' => Str::ucfirst($this->faker->word),
         ];
     }
 }

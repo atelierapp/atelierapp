@@ -19,12 +19,12 @@ class CategoryFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name,
-            'image' => $this->faker->url,
-            'parent_id' => null,
+            'image' => $this->faker->word,
+            'parent_id' => $this->faker->randomElement([null, Category::factory()]),
             'active' => $this->faker->boolean,
         ];
     }

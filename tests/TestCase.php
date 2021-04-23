@@ -11,7 +11,6 @@ use Tests\Traits\RegisterRolesAndPermissions;
 
 abstract class TestCase extends BaseTestCase
 {
-
     use CreatesApplication;
     use RefreshDatabase;
     use RegisterRolesAndPermissions;

@@ -12,7 +12,7 @@ class Style extends Model
 
     protected $guarded = [];
 
-    public static function newFactory()
+    public static function newFactory(): StyleFactory
     {
         return StyleFactory::new();
     }

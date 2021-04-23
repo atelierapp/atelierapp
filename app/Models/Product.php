@@ -8,14 +8,13 @@ use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Enum\Laravel\HasEnums;
 
 class Product extends Model
 {
-    use SoftDeletes, HasEnums, HasFactory;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
-        'store_id',
         'title',
         'manufacturer_type',
         'manufactured_at',
@@ -30,8 +29,7 @@ class Product extends Model
 
     protected $casts = [
         'id' => 'integer',
-        'store_id' => 'integer',
-        'manufacturer_type' => 'integer',
+        'manufactured_at' => 'date',
         'category_id' => 'integer',
         'active' => 'boolean',
         'properties' => 'array',
@@ -41,43 +39,38 @@ class Product extends Model
         'manufacturer_type' => ManufacturerTypeEnum::class,
     ];
 
-    public static function newFactory()
+    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
     {
         return ProductFactory::new();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-    public function store()
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsToMany(Category::class);
     }
 
-    public function media()
-    {
-        return $this->hasOne(Media::class);
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
-
-    public function materials()
+    public function materials(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Material::class);
     }
 
-    public function category()
+    public function media(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(Media::class);
+    }
+
+    public function medias(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Media::class);
+    }
+
+    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
     public function setManufacturedAtAttribute($value)
     {
-        $this->attributes['manufactured_at'] = Carbon::parse($value);
+        $this->attributes['manufactured_at'] = Carbon::parse($value)->format('Y-m-d');
     }
 }
