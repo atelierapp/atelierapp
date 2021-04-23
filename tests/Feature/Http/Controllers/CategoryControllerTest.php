@@ -6,7 +6,6 @@ use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -50,25 +49,18 @@ class CategoryControllerTest extends TestCase
      */
     public function store_saves(): void
     {
-        $name = $this->faker->name;
-        $image = $this->faker->image();
-        $active = $this->faker->boolean;
+         $data = [
+            'name' => $this->faker->name,
+            'image' => UploadedFile::fake()->image('category.jpg'),
+            'active' => $this->faker->boolean,
+        ];
 
-        $response = $this->postJson(route('category.store'), [
-            'name' => $name,
-            'image' => $image,
-            'active' => $active,
-        ]);
-
-        $categories = Category::query()
-            ->where('name', $name)
-            ->where('image', $image)
-            ->where('active', $active)
-            ->get();
-        $this->assertCount(1, $categories);
+        $response = $this->postJson(route('category.store'), $data);
 
         $response->assertCreated();
         $response->assertJsonStructure([]);
+
+        $this->assertDatabaseHas('categories', collect($data)->except(['image'])->toArray());
     }
 
 
@@ -79,7 +71,7 @@ class CategoryControllerTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $response = $this->get(route('category.show', $category));
+        $response = $this->getJson(route('category.show', $category));
 
         $response->assertOk();
         $response->assertJsonStructure([]);
@@ -103,27 +95,21 @@ class CategoryControllerTest extends TestCase
      */
     public function update_behaves_as_expected(): void
     {
-        Storage::fake('images');
-
         $category = Category::factory()->create();
-        $name = $this->faker->name;
-        $image = UploadedFile::fake()->image('avatar.jpg');
-        $active = $this->faker->boolean;
+        $data = [
+            'name' => $this->faker->name,
+            'image' => UploadedFile::fake()->image('category.jpg'),
+            'active' => $this->faker->boolean,
+        ];
 
-        $response = $this->putJson(route('category.update', $category), [
-            'name' => $name,
-            'image' => $image,
-            'active' => $active,
-        ]);
+        $response = $this->putJson(route('category.update', $category), $data);
 
-        $category->refresh();
-        dd(__METHOD__, __LINE__, $response->json());
         $response->assertOk();
         $response->assertJsonStructure([]);
 
-        $this->assertEquals($name, $category->name);
-        $this->assertEquals($image, $category->image);
-        $this->assertEquals($active, $category->active);
+        $params = collect($data)->except(['image'])->toArray();
+        $params['id'] = $category->id;
+        $this->assertDatabaseHas('categories', $params);
     }
 
 

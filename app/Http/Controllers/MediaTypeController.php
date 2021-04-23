@@ -11,56 +11,34 @@ use Illuminate\Http\Request;
 
 class MediaTypeController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\MediaTypeCollection
-     */
-    public function index(Request $request)
+
+    public function index(Request $request): MediaTypeCollection
     {
         $mediaTypes = MediaType::all();
 
         return new MediaTypeCollection($mediaTypes);
     }
 
-    /**
-     * @param \App\Http\Requests\MediaTypeStoreRequest $request
-     * @return \App\Http\Resources\MediaTypeResource
-     */
-    public function store(MediaTypeStoreRequest $request)
+    public function store(MediaTypeStoreRequest $request): MediaTypeResource
     {
         $mediaType = MediaType::create($request->validated());
 
         return new MediaTypeResource($mediaType);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\MediaType $mediaType
-     * @return \App\Http\Resources\MediaTypeResource
-     */
-    public function show(Request $request, MediaType $mediaType)
+    public function show(Request $request, MediaType $mediaType): MediaTypeResource
     {
         return new MediaTypeResource($mediaType);
     }
 
-    /**
-     * @param \App\Http\Requests\MediaTypeUpdateRequest $request
-     * @param \App\Models\MediaType $mediaType
-     * @return \App\Http\Resources\MediaTypeResource
-     */
-    public function update(MediaTypeUpdateRequest $request, MediaType $mediaType)
+    public function update(MediaTypeUpdateRequest $request, MediaType $mediaType): MediaTypeResource
     {
         $mediaType->update($request->validated());
 
         return new MediaTypeResource($mediaType);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\MediaType $mediaType
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, MediaType $mediaType)
+    public function destroy(Request $request, MediaType $mediaType): \Illuminate\Http\Response
     {
         $mediaType->delete();
 

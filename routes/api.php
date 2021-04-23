@@ -5,9 +5,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\MediaTypeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\TagController;
@@ -55,10 +57,10 @@ Route::apiResource('unit', UnitController::class)->names('unit');
 
 Route::apiResource('unit-system', UnitSystemController::class)->names('unit-system');
 
-Route::apiResource('store', 'StoreController');
+Route::apiResource('stores', StoreController::class)->names('store');
 
-Route::apiResource('media-type', 'MediaTypeController');
+Route::apiResource('media-types', MediaTypeController::class)->names('media-type');
 
-Route::apiResource('media', MediaController::class);
+Route::apiResource('media', MediaController::class)->names('media')->parameters(['media' => 'media']);
 
 Route::apiResource('rooms', RoomController::class)->names('room');

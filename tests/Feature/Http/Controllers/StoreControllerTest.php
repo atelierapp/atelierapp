@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\20;
 use App\Models\Store;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,14 +13,16 @@ use Tests\TestCase;
  */
 class StoreControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
 
     /**
      * @test
      */
     public function index_behaves_as_expected(): void
     {
-        $stores = Store::factory()->count(3)->create();
+        Store::factory()->count(3)->create();
 
         $response = $this->get(route('store.index'));
 
@@ -49,7 +50,7 @@ class StoreControllerTest extends TestCase
     {
         $name = $this->faker->name;
         $legal_name = $this->faker->word;
-        $legal = 20::factory()->create();
+        $legal = $this->faker->word;
         $story = $this->faker->word;
         $logo = $this->faker->word;
         $active = $this->faker->boolean;
@@ -57,7 +58,7 @@ class StoreControllerTest extends TestCase
         $response = $this->post(route('store.store'), [
             'name' => $name,
             'legal_name' => $legal_name,
-            'legal_id' => $legal->id,
+            'legal_id' => $legal,
             'story' => $story,
             'logo' => $logo,
             'active' => $active,
@@ -66,13 +67,12 @@ class StoreControllerTest extends TestCase
         $stores = Store::query()
             ->where('name', $name)
             ->where('legal_name', $legal_name)
-            ->where('legal_id', $legal->id)
+            ->where('legal_id', $legal)
             ->where('story', $story)
             ->where('logo', $logo)
             ->where('active', $active)
             ->get();
         $this->assertCount(1, $stores);
-        $store = $stores->first();
 
         $response->assertCreated();
         $response->assertJsonStructure([]);
@@ -113,7 +113,7 @@ class StoreControllerTest extends TestCase
         $store = Store::factory()->create();
         $name = $this->faker->name;
         $legal_name = $this->faker->word;
-        $legal = 20::factory()->create();
+        $legal = $this->faker->word;
         $story = $this->faker->word;
         $logo = $this->faker->word;
         $active = $this->faker->boolean;
@@ -121,7 +121,7 @@ class StoreControllerTest extends TestCase
         $response = $this->put(route('store.update', $store), [
             'name' => $name,
             'legal_name' => $legal_name,
-            'legal_id' => $legal->id,
+            'legal_id' => $legal,
             'story' => $story,
             'logo' => $logo,
             'active' => $active,
@@ -134,7 +134,7 @@ class StoreControllerTest extends TestCase
 
         $this->assertEquals($name, $store->name);
         $this->assertEquals($legal_name, $store->legal_name);
-        $this->assertEquals($legal->id, $store->legal_id);
+        $this->assertEquals($legal, $store->legal_id);
         $this->assertEquals($story, $store->story);
         $this->assertEquals($logo, $store->logo);
         $this->assertEquals($active, $store->active);

@@ -29,8 +29,8 @@ class StoreStoreRequest extends FormRequest
             'legal_id' => ['required', 'string', 'max:20'],
             'story' => ['required', 'string', 'max:120'],
             'logo' => ['required', 'string'],
-            'cover' => ['string'],
-            'team' => ['string'],
+            'cover' => ['nullable', 'string'],
+            'team' => ['nullable', 'string'],
             'active' => ['required'],
         ];
     }

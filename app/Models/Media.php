@@ -20,7 +20,7 @@ class Media extends Model
     protected $casts = [
         'id' => 'integer',
         'type_id' => 'integer',
-        'properties' => 'array',
+        'properties' => 'json',
         'main' => 'boolean',
     ];
 

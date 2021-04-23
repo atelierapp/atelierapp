@@ -10,9 +10,11 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 
-    protected function response($data, $message = null, $statusCode = Response::HTTP_OK)
+    protected function response($data, $message = null, $statusCode = Response::HTTP_OK): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'message' => $message ?? __('response.success.ok'),

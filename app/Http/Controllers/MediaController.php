@@ -4,65 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MediaStoreRequest;
 use App\Http\Requests\MediaUpdateRequest;
+use App\Http\Resources\MediaResource;
 use App\Http\Resources\MediumCollection;
-use App\Http\Resources\MediumResource;
 use App\Models\Media;
-use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\MediumCollection
-     */
-    public function index(Request $request)
+
+    public function index(): MediumCollection
     {
-        $media = Medium::all();
+        $media = Media::all();
 
         return new MediumCollection($media);
     }
 
-    /**
-     * @param \App\Http\Requests\MediaStoreRequest $request
-     * @return \App\Http\Resources\MediumResource
-     */
-    public function store(MediaStoreRequest $request)
+    public function store(MediaStoreRequest $request): MediaResource
     {
-        $medium = Medium::create($request->validated());
+        $medium = Media::create($request->validated());
 
-        return new MediumResource($medium);
+        return new MediaResource($medium);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Media $medium
-     * @return \App\Http\Resources\MediumResource
-     */
-    public function show(Request $request, Medium $medium)
+    public function show(Media $media): MediaResource
     {
-        return new MediumResource($medium);
+        return new MediaResource($media);
     }
 
-    /**
-     * @param \App\Http\Requests\MediaUpdateRequest $request
-     * @param \App\Models\Media $medium
-     * @return \App\Http\Resources\MediumResource
-     */
-    public function update(MediaUpdateRequest $request, Medium $medium)
+    public function update(MediaUpdateRequest $request, Media $media): MediaResource
     {
-        $medium->update($request->validated());
+        $media->update($request->validated());
 
-        return new MediumResource($medium);
+        return new MediaResource($media);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Media $medium
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Medium $medium)
+    public function destroy(Media $media): \Illuminate\Http\Response
     {
-        $medium->delete();
+        $media->delete();
 
         return response()->noContent();
     }

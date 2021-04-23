@@ -25,7 +25,6 @@ class ProjectControllerTest extends TestCase
     {
         $user = $this->createAuthenticatedUser();
         Project::factory()->times(5)->create(['author_id' => $user->id]);
-        Project::factory()->times(9)->create();
 
         $response = $this->getJson(route('projects.index'));
 

@@ -8,59 +8,50 @@ use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Storage;
 
 class CategoryController extends Controller
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\CategoryCollection
-     */
-    public function index(Request $request)
+
+    public function index(Request $request): CategoryCollection
     {
         $categories = Category::all();
 
         return new CategoryCollection($categories);
     }
 
-    /**
-     * @param \App\Http\Requests\CategoryStoreRequest $request
-     * @return \App\Http\Resources\CategoryResource
-     */
-    public function store(CategoryStoreRequest $request)
+    public function store(CategoryStoreRequest $request): CategoryResource
     {
-        $category = Category::create($request->validated());
+        $params = $this->processRequest($request);
+        $category = Category::create($params);
 
         return new CategoryResource($category);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Category $category
-     * @return \App\Http\Resources\CategoryResource
-     */
-    public function show(Request $request, Category $category)
+    public function show(Request $request, Category $category): CategoryResource
     {
         return new CategoryResource($category);
     }
 
-    /**
-     * @param \App\Http\Requests\CategoryUpdateRequest $request
-     * @param \App\Models\Category $category
-     * @return \App\Http\Resources\CategoryResource
-     */
-    public function update(CategoryUpdateRequest $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category): CategoryResource
     {
-        $category->update($request->validated());
+        $params = $this->processRequest($request);
+        Storage::delete($category->image);
+        $category->update($params);
 
         return new CategoryResource($category);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Category $category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Category $category)
+    private function processRequest($request): array
+    {
+        $path = $request->file('image')->store('categories');
+        $params = collect($request->validated())->except('image')->toArray();
+        $params['image'] = $path;
+
+        return $params;
+    }
+
+    public function destroy(Request $request, Category $category): \Illuminate\Http\Response
     {
         $category->delete();
 

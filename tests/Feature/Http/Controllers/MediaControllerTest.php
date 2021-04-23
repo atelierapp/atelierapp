@@ -25,12 +25,11 @@ class MediaControllerTest extends TestCase
     {
         Media::factory()->count(3)->create();
 
-        $response = $this->get(route('medium.index'));
+        $response = $this->getJson(route('media.index'));
 
         $response->assertOk();
         $response->assertJsonStructure([]);
     }
-
 
     /**
      * @test
@@ -49,26 +48,18 @@ class MediaControllerTest extends TestCase
      */
     public function store_saves(): void
     {
-        $type = MediaType::factory()->create();
-        $url = $this->faker->url;
-        $main = $this->faker->boolean;
+        $data = [
+            'type_id' => MediaType::factory()->create()->id,
+            'url' => $this->faker->url,
+            'main' => $this->faker->boolean,
+        ];
 
-        $response = $this->post(route('medium.store'), [
-            'type_id' => $type->id,
-            'url' => $url,
-            'main' => $main,
-        ]);
-
-        $media = Medium::query()
-            ->where('type_id', $type->id)
-            ->where('url', $url)
-            ->where('main', $main)
-            ->get();
-        $this->assertCount(1, $media);
-        $medium = $media->first();
+        $response = $this->postJson(route('media.store'), $data);
 
         $response->assertCreated();
         $response->assertJsonStructure([]);
+
+        $this->assertDatabaseHas('media', $data);
     }
 
 
@@ -77,9 +68,9 @@ class MediaControllerTest extends TestCase
      */
     public function show_behaves_as_expected(): void
     {
-        $medium = Media::factory()->create();
+        $media = Media::factory()->create();
 
-        $response = $this->get(route('medium.show', $medium));
+        $response = $this->get(route('media.show', $media));
 
         $response->assertOk();
         $response->assertJsonStructure([]);
@@ -103,25 +94,19 @@ class MediaControllerTest extends TestCase
      */
     public function update_behaves_as_expected(): void
     {
-        $medium = Media::factory()->create();
-        $type = MediaType::factory()->create();
-        $url = $this->faker->url;
-        $main = $this->faker->boolean;
+        $media = Media::factory()->create();
 
-        $response = $this->put(route('medium.update', $medium), [
-            'type_id' => $type->id,
-            'url' => $url,
-            'main' => $main,
-        ]);
+        $data = [
+            'type_id' => MediaType::factory()->create()->id,
+            'url' => $this->faker->url,
+            'main' => $this->faker->boolean,
+        ];
 
-        $medium->refresh();
-
+        $response = $this->put(route('media.update', $media), $data);
         $response->assertOk();
         $response->assertJsonStructure([]);
 
-        $this->assertEquals($type->id, $medium->type_id);
-        $this->assertEquals($url, $medium->url);
-        $this->assertEquals($main, $medium->main);
+        $this->assertDatabaseHas('media', array_merge(['id' => $media->id], $data));
     }
 
 
@@ -130,13 +115,12 @@ class MediaControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with(): void
     {
-        $medium = Media::factory()->create();
-        $medium = Medium::factory()->create();
+        $media = Media::factory()->create();
 
-        $response = $this->delete(route('medium.destroy', $medium));
+        $response = $this->delete(route('media.destroy', $media));
 
         $response->assertNoContent();
 
-        $this->assertDeleted($medium);
+        $this->assertDeleted($media);
     }
 }
