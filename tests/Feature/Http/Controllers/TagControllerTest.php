@@ -9,6 +9,7 @@ use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 /**
+ * @title Tags
  * @see \App\Http\Controllers\TagController
  */
 class TagControllerTest extends TestCase
@@ -19,6 +20,7 @@ class TagControllerTest extends TestCase
 
     /**
      * @test
+     * List tags
      */
     public function index_behaves_as_expected(): void
     {
@@ -28,6 +30,8 @@ class TagControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([]);
+
+        $this->markTestIncomplete('The list should be paginated.');
     }
 
 
@@ -45,6 +49,7 @@ class TagControllerTest extends TestCase
 
     /**
      * @test
+     * Create tag
      */
     public function store_saves(): void
     {
@@ -70,6 +75,7 @@ class TagControllerTest extends TestCase
 
     /**
      * @test
+     * Show tag
      */
     public function show_behaves_as_expected(): void
     {
@@ -96,6 +102,7 @@ class TagControllerTest extends TestCase
 
     /**
      * @test
+     * Update tag
      */
     public function update_behaves_as_expected(): void
     {
@@ -120,6 +127,7 @@ class TagControllerTest extends TestCase
 
     /**
      * @test
+     * Delete tag
      */
     public function destroy_deletes_and_responds_with(): void
     {

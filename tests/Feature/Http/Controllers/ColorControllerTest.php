@@ -8,6 +8,7 @@ use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 /**
+ * @title Colors
  * @see \App\Http\Controllers\ProjectController
  */
 class ColorControllerTest extends TestCase
@@ -17,6 +18,7 @@ class ColorControllerTest extends TestCase
 
     /**
      * @test
+     * @title List colors
      */
     public function it_can_list_colors()
     {
@@ -30,5 +32,7 @@ class ColorControllerTest extends TestCase
                     'items',
                 ],
             ]);
+
+        $this->markTestIncomplete('It should paginate the list.');
     }
 }

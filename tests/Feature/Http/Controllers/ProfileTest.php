@@ -1,15 +1,19 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Http\Controllers;
 
 use Tests\TestCase;
 
+/**
+ * @title Profile
+ * @package Tests\Feature\Http\Controllers
+ */
 class ProfileTest extends TestCase
 {
 
     /**
      * @test
-     * Test for: a user can access his/her info.
+     * @title A user can access his/her info.
      */
     public function a_user_can_access_his_her_info()
     {
@@ -23,7 +27,7 @@ class ProfileTest extends TestCase
 
     /**
      * @test
-     * Test for: a guest cannot access his/her profile info.
+     * @title A guest can't access a profile info.
      */
     public function a_guest_cannot_access_his_her_profile_info()
     {

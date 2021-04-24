@@ -10,6 +10,7 @@ use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 /**
+ * @title Categories
  * @see \App\Http\Controllers\CategoryController
  */
 class CategoryControllerTest extends TestCase
@@ -20,6 +21,7 @@ class CategoryControllerTest extends TestCase
 
     /**
      * @test
+     * @title List categories
      */
     public function index_behaves_as_expected(): void
     {
@@ -46,6 +48,7 @@ class CategoryControllerTest extends TestCase
 
     /**
      * @test
+     * @title Create category
      */
     public function store_saves(): void
     {
@@ -66,6 +69,7 @@ class CategoryControllerTest extends TestCase
 
     /**
      * @test
+     * @title Show category
      */
     public function show_behaves_as_expected(): void
     {
@@ -92,6 +96,7 @@ class CategoryControllerTest extends TestCase
 
     /**
      * @test
+     * @title Update category
      */
     public function update_behaves_as_expected(): void
     {
@@ -115,6 +120,7 @@ class CategoryControllerTest extends TestCase
 
     /**
      * @test
+     * @title Delete category
      */
     public function destroy_deletes_and_responds_with(): void
     {

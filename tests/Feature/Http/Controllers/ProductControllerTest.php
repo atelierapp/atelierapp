@@ -10,6 +10,7 @@ use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 /**
+ * @title Products
  * @see \App\Http\Controllers\ProductController
  */
 class ProductControllerTest extends TestCase
@@ -20,6 +21,7 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
+     * @title List products
      */
     public function index_behaves_as_expected(): void
     {
@@ -29,8 +31,18 @@ class ProductControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([]);
+
+        $this->markTestIncomplete('The list should be paginated.');
     }
 
+    /**
+     * @test
+     * @title List products with filters
+     */
+    public function index_accepts_filters()
+    {
+        $this->markTestIncomplete('The list should be able to accept filters.');
+    }
 
     /**
      * @test
@@ -46,6 +58,7 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
+     * @title Create product
      */
     public function store_saves(): void
     {
@@ -87,6 +100,7 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
+     * @title Show product
      */
     public function show_behaves_as_expected(): void
     {
@@ -113,6 +127,7 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
+     * @title Update product
      */
     public function update_behaves_as_expected(): void
     {
@@ -155,6 +170,7 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
+     * @title Delete product
      */
     public function destroy_deletes_and_responds_with(): void
     {

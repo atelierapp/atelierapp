@@ -10,7 +10,7 @@ return [
     // from your views. For all valid sections check
     // the constants in \Styde\Enlighten\Section.
     'hide' => [
-        // 'queries',
+        'queries',
         // 'html',
         // 'blade',
         // 'route_parameters',
@@ -34,7 +34,11 @@ return [
         // Add regular expressions to skip certain test classes and test methods.
         // i.e. Tests\Unit\* will ignore all the tests in the Tests\Unit\ suite,
         // validates_* will ignore all the tests that start with "validates_".
-        'ignore' => [],
+        'ignore' => [
+            'Tests\Unit\*',
+            'store_uses_form_request_validation',
+            'update_uses_form_request_validation',
+        ],
     ],
 
     // Use the arrays below to hide or obfuscate parameters
@@ -72,7 +76,7 @@ return [
     ],
 
     // Configure a default view for the panel. Options: features, modules and endpoints.
-    'area_view' => 'features',
+    'area_view' => 'endpoints',
 
     // Customise the name and view template of each area that will be shown in the panel.
     // By default, each area slug will represent a "test suite" in the tests directory.
@@ -100,13 +104,44 @@ return [
     // and patterns to match the test classes and/or routes.
     'modules' => [
         [
-            'name' => 'Users',
-            'classes' => ['*User*'],
-            'routes' => ['users/*'],
+            'name' => 'Authentication',
+            'classes' => ['*Login*', '*SignUp*', '*Profile*'],
+            'routes' => ['login/*', 'register', 'profile'],
         ],
         [
-            'name' => 'Other Modules',
-            'classes' => ['*'],
+            'name' => 'Categories',
+            'classes' => ['*Category*'],
+            'routes' => ['categories/*'],
+        ],
+        [
+            'name' => 'Colors',
+            'classes' => ['*Color*'],
+            'routes' => ['colors/*'],
+        ],
+        [
+            'name' => 'Products',
+            'classes' => ['*Product*'],
+            'routes' => ['*products*'],
+        ],
+        [
+            'name' => 'Projects',
+            'classes' => ['*Project*'],
+            'routes' => ['projects/*'],
+        ],
+        [
+            'name' => 'Stores',
+            'classes' => ['*Store*'],
+            'routes' => ['*stores*'],
+        ],
+        [
+            'name' => 'Tags',
+            'classes' => ['*Tag*'],
+            'routes' => ['*tags*'],
+        ],
+        [
+            'name' => 'Unit Systems',
+            'classes' => ['*UnitSystem*'],
+            'routes' => ['*unit-systems*'],
         ],
     ]
 ];

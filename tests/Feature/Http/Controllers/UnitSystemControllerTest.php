@@ -9,6 +9,7 @@ use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 /**
+ * @title Unit Systems
  * @see \App\Http\Controllers\UnitSystemController
  */
 class UnitSystemControllerTest extends TestCase
@@ -19,6 +20,7 @@ class UnitSystemControllerTest extends TestCase
 
     /**
      * @test
+     * @title List unit systems
      */
     public function index_behaves_as_expected(): void
     {
@@ -45,6 +47,7 @@ class UnitSystemControllerTest extends TestCase
 
     /**
      * @test
+     * @title Create unit system
      */
     public function store_saves(): void
     {
@@ -73,6 +76,7 @@ class UnitSystemControllerTest extends TestCase
 
     /**
      * @test
+     * @title Show unit system
      */
     public function show_behaves_as_expected(): void
     {
@@ -99,6 +103,7 @@ class UnitSystemControllerTest extends TestCase
 
     /**
      * @test
+     * @title Update unit system
      */
     public function update_behaves_as_expected(): void
     {
@@ -120,6 +125,7 @@ class UnitSystemControllerTest extends TestCase
 
     /**
      * @test
+     * @title Delete unit system
      */
     public function destroy_deletes_and_responds_with(): void
     {

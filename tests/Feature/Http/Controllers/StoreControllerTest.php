@@ -9,6 +9,7 @@ use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 /**
+ * @title Stores
  * @see \App\Http\Controllers\StoreController
  */
 class StoreControllerTest extends TestCase
@@ -19,6 +20,7 @@ class StoreControllerTest extends TestCase
 
     /**
      * @test
+     * @title List stores
      */
     public function index_behaves_as_expected(): void
     {
@@ -28,8 +30,18 @@ class StoreControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([]);
+
+        $this->markTestIncomplete('The list should be paginated.');
     }
 
+    /**
+     * @test
+     * @title List stores with filters
+     */
+    public function index_accepts_filters()
+    {
+        $this->markTestIncomplete('The list should be able to accept filters.');
+    }
 
     /**
      * @test
@@ -45,6 +57,7 @@ class StoreControllerTest extends TestCase
 
     /**
      * @test
+     * Create store
      */
     public function store_saves(): void
     {
@@ -81,6 +94,7 @@ class StoreControllerTest extends TestCase
 
     /**
      * @test
+     * Show store
      */
     public function show_behaves_as_expected(): void
     {
@@ -107,6 +121,7 @@ class StoreControllerTest extends TestCase
 
     /**
      * @test
+     * Update store
      */
     public function update_behaves_as_expected(): void
     {
@@ -143,6 +158,7 @@ class StoreControllerTest extends TestCase
 
     /**
      * @test
+     * Delete store
      */
     public function destroy_deletes_and_responds_with(): void
     {
