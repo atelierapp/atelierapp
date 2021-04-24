@@ -2,16 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class ProfileTest extends TestCase {
+class ProfileTest extends TestCase
+{
 
     /**
-    * @test
-    * Test for: a user can access his/her info.
-    */
+     * @test
+     * Test for: a user can access his/her info.
+     */
     public function a_user_can_access_his_her_info()
     {
         // Given an authenticated user
@@ -23,9 +22,9 @@ class ProfileTest extends TestCase {
     }
 
     /**
-    * @test
-    * Test for: a guest cannot access his/her profile info.
-    */
+     * @test
+     * Test for: a guest cannot access his/her profile info.
+     */
     public function a_guest_cannot_access_his_her_profile_info()
     {
         // Given an unauthorized call

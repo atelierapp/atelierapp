@@ -48,20 +48,26 @@ class UnitSystemControllerTest extends TestCase
      */
     public function store_saves(): void
     {
-        $name = $this->faker->name;
+        $name = $this->faker->text(15);
 
-        $response = $this->postJson(route('unit-system.store'), [
-            'name' => $name,
-        ]);
-
-        $unitSystems = UnitSystem::query()
-            ->where('name', $name)
-            ->get();
-        $this->assertCount(1, $unitSystems);
-        $unitSystem = $unitSystems->first();
+        $response = $this->postJson(
+            route('unit-system.store'),
+            [
+                'name' => $name,
+            ]
+        );
 
         $response->assertCreated();
         $response->assertJsonStructure([]);
+
+        $this
+            ->assertDatabaseCount('unit_systems', 1)
+            ->assertDatabaseHas(
+                'unit_systems',
+                [
+                    'name' => $name,
+                ]
+            );
     }
 
 
@@ -97,7 +103,7 @@ class UnitSystemControllerTest extends TestCase
     public function update_behaves_as_expected(): void
     {
         $unitSystem = UnitSystem::factory()->create();
-        $name = $this->faker->name;
+        $name = $this->faker->text(15);
 
         $response = $this->put(route('unit-system.update', $unitSystem), [
             'name' => $name,

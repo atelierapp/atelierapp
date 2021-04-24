@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Style;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\JsonResponse;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -24,15 +25,15 @@ class ProjectControllerTest extends TestCase
     public function index_behaves_as_expected()
     {
         $user = $this->createAuthenticatedUser();
-        Project::factory()->times(5)->create(['author_id' => $user->id]);
+        Project::factory()->times(5)->create(['author_id' => $user->id, 'forked_from' => null]);
 
         $response = $this->getJson(route('projects.index'));
 
         $response
             ->assertOk()
             ->assertJsonCount(5, 'data');
+        $this->assertDatabaseCount('projects', 5);
     }
-
 
     /**
      * @test
@@ -54,7 +55,7 @@ class ProjectControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
 
         $data = [
-            'name' => $name = $this->faker->word,
+            'name' => $name = $this->faker->name,
             'style_id' => Style::factory()->create()->id,
             'author_id' => $user->id,
         ];
@@ -73,7 +74,6 @@ class ProjectControllerTest extends TestCase
         $this->assertDatabaseHas('projects', $data);
     }
 
-
     /**
      * @test
      */
@@ -88,7 +88,6 @@ class ProjectControllerTest extends TestCase
             ->assertOk()
             ->assertJsonFragment(['name' => $project->name]);
     }
-
 
     /**
      * @test
@@ -153,12 +152,12 @@ class ProjectControllerTest extends TestCase
      */
     public function a_user_cannot_delete_someone_else_projects()
     {
-        $this->markTestSkipped('Validar proceso de rechazo');
         $this->createAuthenticatedUser();
-        $project = Project::factory()->create()->delete();
+        $project = Project::factory()->create();
+        $project->delete();
 
         $response = $this->deleteJson(route('projects.destroy', $project));
 
-        $response->assertForbidden();
+        $response->assertStatus(JsonResponse::HTTP_NOT_FOUND);
     }
 }

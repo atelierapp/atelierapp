@@ -7,12 +7,11 @@ use App\Http\Requests\MediaTypeUpdateRequest;
 use App\Http\Resources\MediaTypeCollection;
 use App\Http\Resources\MediaTypeResource;
 use App\Models\MediaType;
-use Illuminate\Http\Request;
 
 class MediaTypeController extends Controller
 {
 
-    public function index(Request $request): MediaTypeCollection
+    public function index(): MediaTypeCollection
     {
         $mediaTypes = MediaType::all();
 
@@ -26,7 +25,7 @@ class MediaTypeController extends Controller
         return new MediaTypeResource($mediaType);
     }
 
-    public function show(Request $request, MediaType $mediaType): MediaTypeResource
+    public function show(MediaType $mediaType): MediaTypeResource
     {
         return new MediaTypeResource($mediaType);
     }
@@ -38,7 +37,7 @@ class MediaTypeController extends Controller
         return new MediaTypeResource($mediaType);
     }
 
-    public function destroy(Request $request, MediaType $mediaType): \Illuminate\Http\Response
+    public function destroy(MediaType $mediaType): \Illuminate\Http\Response
     {
         $mediaType->delete();
 

@@ -48,7 +48,7 @@ class MaterialControllerTest extends TestCase
      */
     public function store_saves(): void
     {
-        $name = $this->faker->name;
+        $name = $this->faker->text(20);
         $active = $this->faker->boolean;
 
         $response = $this->post(
@@ -59,16 +59,10 @@ class MaterialControllerTest extends TestCase
             ]
         );
 
-        $materials = Material::query()
-            ->where('name', $name)
-            ->where('active', $active)
-            ->get();
-
-        $this->assertCount(1, $materials);
-        $material = $materials->first();
-
         $response->assertCreated();
         $response->assertJsonStructure([]);
+
+        $this->assertDatabaseCount('materials', 1);
     }
 
     /**
@@ -103,10 +97,10 @@ class MaterialControllerTest extends TestCase
     public function update_behaves_as_expected(): void
     {
         $material = Material::factory()->create();
-        $name = $this->faker->name;
+        $name = $this->faker->text(20);
         $active = $this->faker->boolean;
 
-        $response = $this->put(
+        $response = $this->putJson(
             route('material.update', $material),
             [
                 'name' => $name,

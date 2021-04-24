@@ -49,7 +49,7 @@ class UnitControllerTest extends TestCase
      */
     public function store_saves(): void
     {
-        $name = $this->faker->name;
+        $name = $this->faker->text(20);
         $class = $this->faker->word;
         $factor = $this->faker->randomFloat(2, 10, 20);
         $unit_system = UnitSystem::factory()->create();
@@ -108,7 +108,7 @@ class UnitControllerTest extends TestCase
     {
         $unit = Unit::factory()->create();
         $data = [
-            'name' => $this->faker->name,
+            'name' => $this->faker->text(20),
             'class' => $this->faker->word,
             'factor' => $this->faker->randomFloat(2, 10, 20),
             'unit_system_id' => UnitSystem::factory()->create()->id,

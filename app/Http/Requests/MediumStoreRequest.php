@@ -6,22 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class MediumStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'type_id' => ['required', 'integer', 'exists:MediaTypes,id'],
@@ -29,5 +15,10 @@ class MediumStoreRequest extends FormRequest
             'properties' => ['json'],
             'main' => ['required'],
         ];
+    }
+
+    public function authorize(): bool
+    {
+        return true;
     }
 }

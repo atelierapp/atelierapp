@@ -6,22 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['string', 'max:30'],
@@ -29,5 +15,10 @@ class CategoryUpdateRequest extends FormRequest
             'parent_id' => ['integer', 'exists:categories,id'],
             'active' => 'boolean',
         ];
+    }
+
+    public function authorize(): bool
+    {
+        return true;
     }
 }

@@ -39,7 +39,7 @@ class Product extends Model
         'manufacturer_type' => ManufacturerTypeEnum::class,
     ];
 
-    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
+    public static function newFactory(): ProductFactory
     {
         return ProductFactory::new();
     }

@@ -6,22 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RoomStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['string', 'max:50'],
@@ -31,4 +17,10 @@ class RoomStoreRequest extends FormRequest
             'framing' => ['required', 'array'],
         ];
     }
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
 }

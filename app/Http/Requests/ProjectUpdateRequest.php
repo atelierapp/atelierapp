@@ -11,22 +11,8 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class ProjectUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return Bouncer::can('update', $this->project);
-    }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['string', 'min:3'],
@@ -35,4 +21,10 @@ class ProjectUpdateRequest extends FormRequest
             'public' => 'boolean',
         ];
     }
+
+    public function authorize(): bool
+    {
+        return Bouncer::can('update', $this->project);
+    }
+
 }

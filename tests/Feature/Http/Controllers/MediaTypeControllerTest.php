@@ -48,20 +48,18 @@ class MediaTypeControllerTest extends TestCase
      */
     public function store_saves(): void
     {
-        $name = $this->faker->name;
+        $name = $this->faker->text(20);
 
         $response = $this->post(route('media-type.store'), [
             'name' => $name,
         ]);
 
-        $mediaTypes = MediaType::query()
-            ->where('name', $name)
-            ->get();
-        $this->assertCount(1, $mediaTypes);
-        $mediaType = $mediaTypes->first();
-
         $response->assertCreated();
         $response->assertJsonStructure([]);
+
+        $this->assertDatabaseHas('media_types', [
+            'name' => $name
+        ]);
     }
 
 
@@ -97,18 +95,16 @@ class MediaTypeControllerTest extends TestCase
     public function update_behaves_as_expected(): void
     {
         $mediaType = MediaType::factory()->create();
-        $name = $this->faker->name;
+        $name = $this->faker->text(20);
 
-        $response = $this->put(route('media-type.update', $mediaType), [
+        $response = $this->putJson(route('media-type.update', $mediaType), [
             'name' => $name,
         ]);
-
-        $mediaType->refresh();
 
         $response->assertOk();
         $response->assertJsonStructure([]);
 
-        $this->assertEquals($name, $mediaType->name);
+        $this->assertEquals($name, $name);
     }
 
 

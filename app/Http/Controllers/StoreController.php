@@ -7,12 +7,11 @@ use App\Http\Requests\StoreUpdateRequest;
 use App\Http\Resources\StoreCollection;
 use App\Http\Resources\StoreResource;
 use App\Models\Store;
-use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
 
-    public function index(Request $request): StoreCollection
+    public function index(): StoreCollection
     {
         $stores = Store::all();
 
@@ -26,7 +25,7 @@ class StoreController extends Controller
         return new StoreResource($store);
     }
 
-    public function show(Request $request, Store $store): StoreResource
+    public function show(Store $store): StoreResource
     {
         return new StoreResource($store);
     }
@@ -38,7 +37,7 @@ class StoreController extends Controller
         return new StoreResource($store);
     }
 
-    public function destroy(Request $request, Store $store): \Illuminate\Http\Response
+    public function destroy(Store $store): \Illuminate\Http\Response
     {
         $store->delete();
 
