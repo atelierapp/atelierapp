@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d55e54a3d1b9733ac7d6c7fe6de5ce7",
+    "content-hash": "49e3d753f5915735d3903fef4285ea9b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -9519,6 +9519,78 @@
             "time": "2020-07-07T18:42:57+00:00"
         },
         {
+            "name": "styde/enlighten",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StydeNet/enlighten.git",
+                "reference": "c1bcfac8a7ce746857fdc32531882c445047814f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StydeNet/enlighten/zipball/c1bcfac8a7ce746857fdc32531882c445047814f",
+                "reference": "c1bcfac8a7ce746857fdc32531882c445047814f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.2",
+                "laravel/framework": "^7.28|^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Styde\\Enlighten\\Providers\\EnlightenServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Styde\\Enlighten\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Duilio Palacios",
+                    "email": "duilio@styde.net"
+                },
+                {
+                    "name": "Jeffer Ochoa",
+                    "email": "jeffer.8a@gmail.com"
+                }
+            ],
+            "description": "Enlighten your APIs with auto-generated documentation",
+            "support": {
+                "issues": "https://github.com/StydeNet/enlighten/issues",
+                "source": "https://github.com/StydeNet/enlighten/tree/0.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sileence",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/duiliopalacios",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-04-07T12:18:10+00:00"
+        },
+        {
             "name": "symfony/filesystem",
             "version": "v5.2.6",
             "source": {
@@ -9680,5 +9752,6 @@
     "platform": {
         "php": "^7.4|^8.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
