@@ -2,6 +2,6 @@
 
 return [
 
-    'active_drivers' => env('SOCIAL_DRIVERS', 'facebook'),
+    'active_drivers' => env('SOCIAL_DRIVERS', 'facebook,apple'),
 
 ];

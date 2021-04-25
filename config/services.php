@@ -34,11 +34,8 @@ return [
         'fields' => env('FACEBOOK_SOCIAL_FIELDS'),
     ],
 
-    'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' =>  env('APP_URL') . env('GOOGLE_CLIENT_REDIRECT_URL'),
-        'scopes' => env('GOOGLE_CLIENT_SCOPES'),
-    ],
-
+    'apple' => [
+        'client_id' => env('APPLE_CLIENT_ID'),
+        'client_secret' => env('APPLE_CLIENT_SECRET'),
+    ]
 ];
