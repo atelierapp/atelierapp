@@ -41,6 +41,7 @@
         "jasonmccreary/laravel-test-assertions": "^1.0",
         "laravel-shift/blueprint": "^1.12",
         "mockery/mockery": "^1.3.1",
+        "naoray/blueprint-nova-addon": "^1.5",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.0",
         "styde/enlighten": "^0.7.1"
