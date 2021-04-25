@@ -13,12 +13,6 @@ use Laravel\Nova\Fields\VaporImage;
 
 class User extends Resource
 {
-
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
     public static $model = \App\Models\User::class;
 
     /**
@@ -36,11 +30,6 @@ class User extends Resource
         return "@{$this->username} | {$this->email}";
     }
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
     public static $search = [
         'id', 'first_name', 'last_name', 'email', 'username',
     ];
@@ -51,10 +40,9 @@ class User extends Resource
      * @param Request $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
-
             ID::make()->sortable(),
 
             VaporImage::make('avatar')
@@ -112,7 +100,6 @@ class User extends Resource
                 ->nullable(),
 
             MorphToMany::make('roles'),
-
         ];
     }
 }
