@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -21,8 +22,10 @@ class CreateMediaTable extends Migration
             $table->morphs('mediable');
             $table->boolean('featured');
             $table->string('url');
+            $table->string('orientation')->nullable();
             $table->json('properties')->nullable();
             $table->boolean('main')->default(false);
+            $table->json('extra')->nullable();
             $table->timestamps();
         });
 

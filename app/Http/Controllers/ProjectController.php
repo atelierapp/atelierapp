@@ -15,7 +15,7 @@ class ProjectController extends Controller
 
     public function index(): ProjectCollection
     {
-        $projects = Project::all();
+        $projects = Project::paginate();
 
         return new ProjectCollection($projects);
     }

@@ -17,13 +17,16 @@ class Media extends Model
         'main',
         'mediable_id',
         'mediable_type',
+        'extra',
+        'orientation',
     ];
 
     protected $casts = [
         'id' => 'integer',
         'type_id' => 'integer',
-        'properties' => 'json',
         'main' => 'boolean',
+        'properties' => 'json',
+        'extra' => 'json',
     ];
 
     public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory

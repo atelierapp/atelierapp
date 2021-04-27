@@ -31,12 +31,29 @@ class ProjectControllerTest extends TestCase
 
         $response = $this->getJson(route('projects.index'));
 
-        $response
-            ->assertOk()
-            ->assertJsonCount(5, 'data');
+        $response->assertOk();
+        $response->assertJsonCount(5, 'data');
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    0 => [
+                        'id',
+                        'name',
+                        'style_id',
+                        'author_id',
+                        'forked_from',
+                        'published',
+                        'public'
+                    ]
+                ],
+                'meta' => [
+                    'links',
+                    'current_page',
+                    'from'
+                ]
+            ]
+        );
         $this->assertDatabaseCount('projects', 5);
-
-        $this->markTestIncomplete('The list should be paginated.');
     }
 
     /**

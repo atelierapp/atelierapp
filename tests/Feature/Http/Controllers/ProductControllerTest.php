@@ -6,6 +6,7 @@ use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -30,9 +31,21 @@ class ProductControllerTest extends TestCase
         $response = $this->get(route('product.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
-
-        $this->markTestIncomplete('The list should be paginated.');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufactured_at',
+                    'description',
+                    'price'
+                ]
+            ],
+            'meta' => [
+                'links',
+            ]
+        ]);
     }
 
     /**
@@ -156,6 +169,64 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
+     * @title Create product
+     */
+    public function store_a_product_with_media(): void
+    {
+        $this->markTestSkipped('Implementar prueba con s3');
+        $data = [
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufactured_at' => $this->faker->date('m/d/Y'),
+            'description' => $this->faker->paragraph(),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'sku' => $this->faker->word,
+            'active' => true,
+            'properties' => ['demo' => $this->faker->word],
+            'attach' => [
+                ['file' => UploadedFile::fake()->image('attachmedia1.jpg')],
+                ['file' => UploadedFile::fake()->image('attachmedia2.jpg')],
+            ],
+        ];
+
+        $response = $this->postJson(route('product.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'quantity',
+                    'sku',
+                    'active',
+                    'properties',
+                    'tags' => [
+                        0 => [
+                            'id',
+                            'name',
+                            'active',
+                        ]
+                    ]
+                ],
+            ]
+        );
+//        $this->assertDatabaseHas('tags', [
+//            'taggable_type' => Product::class,
+//            'name' => $tag
+//        ]);
+
+//        $data = collect($data)->except(['properties', 'manufactured_at', 'attach'])->toArray();
+//        $this->assertDatabaseHas('products', $data);
+    }
+
+    /**
+     * @test
      * @title Show product
      */
     public function show_behaves_as_expected(): void
@@ -167,7 +238,6 @@ class ProductControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure([]);
     }
-
 
     /**
      * @test
@@ -222,7 +292,6 @@ class ProductControllerTest extends TestCase
 
         $this->assertDatabaseHas('products', collect($data)->except(['properties', 'manufactured_at'])->toArray());
     }
-
 
     /**
      * @test

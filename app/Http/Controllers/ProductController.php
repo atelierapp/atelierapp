@@ -6,15 +6,17 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
+use App\Models\Media;
 use App\Models\Product;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
 
     public function index(): ProductCollection
     {
-        $products = Product::all();
+        $products = Product::paginate();
 
         return new ProductCollection($products);
     }
@@ -26,6 +28,15 @@ class ProductController extends Controller
         if (!empty($request->get('tags'))) {
             foreach ($request->tags as $tag) {
                 $product->tags()->save(New Tag(['name' => $tag['name']]));
+            }
+        }
+
+        if ($request->has('attach')) {
+            foreach ($request->file('attach') as $attach) {
+                $path = Storage::disk('s3')->put('media', $attach['file']);
+                $product->medias()->save(
+                    new Media(['url' => $path])
+                );
             }
         }
 

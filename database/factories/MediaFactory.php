@@ -36,6 +36,8 @@ class MediaFactory extends Factory
             'url' => $this->faker->url,
             'properties' => '{}',
             'main' => $this->faker->boolean,
+            'orientation' => $this->faker->word,
+            'extra' => '{}',
         ];
     }
 }
