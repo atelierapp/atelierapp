@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             'sku' => $this->sku,
             'active' => $this->active,
             'properties' => $this->properties,
+            'tags' => TagResource::collection($this->tags)
         ];
     }
 }

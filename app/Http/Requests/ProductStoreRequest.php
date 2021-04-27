@@ -20,6 +20,7 @@ class ProductStoreRequest extends FormRequest
             'sku' => ['required', 'string', 'unique:products,sku'],
             'active' => ['boolean'],
             'properties' => ['required', 'array'],
+            'tags.*.name' => ['string']
         ];
     }
 

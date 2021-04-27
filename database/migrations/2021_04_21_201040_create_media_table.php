@@ -18,6 +18,8 @@ class CreateMediaTable extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->id();
             $table->foreignId('type_id')->constrained('media_types');
+            $table->morphs('mediable');
+            $table->boolean('featured');
             $table->string('url');
             $table->json('properties')->nullable();
             $table->boolean('main')->default(false);

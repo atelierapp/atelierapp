@@ -18,13 +18,6 @@ class MediaController extends Controller
         return new MediumCollection($media);
     }
 
-    public function store(MediaStoreRequest $request): MediaResource
-    {
-        $medium = Media::create($request->validated());
-
-        return new MediaResource($medium);
-    }
-
     public function show(Media $media): MediaResource
     {
         return new MediaResource($media);

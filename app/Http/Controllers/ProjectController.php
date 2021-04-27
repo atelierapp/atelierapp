@@ -7,6 +7,8 @@ use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectCollection;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use App\Models\Tag;
+use Illuminate\Database\Eloquent\Model;
 
 class ProjectController extends Controller
 {
@@ -21,6 +23,12 @@ class ProjectController extends Controller
     public function store(ProjectStoreRequest $request): ProjectResource
     {
         $project = Project::create($request->validated());
+
+        if (!empty($request->get('tags'))) {
+            foreach ($request->tags as $tag) {
+                $project->tags()->save(New Tag(['name' => $tag['name']]));
+            }
+        }
 
         return new ProjectResource($project);
     }

@@ -14,6 +14,6 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::factory()->count(5)->create();
+        Product::factory()->hasMedias(rand(1, 2))->count(5)->create();
     }
 }

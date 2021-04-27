@@ -15,6 +15,8 @@ class Media extends Model
         'url',
         'properties',
         'main',
+        'mediable_id',
+        'mediable_type',
     ];
 
     protected $casts = [
@@ -29,9 +31,9 @@ class Media extends Model
         return MediaFactory::new();
     }
 
-    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function mediable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->morphTo();
     }
 
     public function type(): \Illuminate\Database\Eloquent\Relations\BelongsTo

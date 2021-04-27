@@ -19,6 +19,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->string('name', 30);
             $table->boolean('active')->default(true);
+            $table->morphs('taggable');
             $table->softDeletes();
             $table->timestamps();
         });

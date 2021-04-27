@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
+use App\Models\Project;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,9 +23,13 @@ class TagFactory extends Factory
      */
     public function definition(): array
     {
+        $model = $this->faker->randomElement([Product::class, Project::class]);
+
         return [
             'name' => $this->faker->name,
             'active' => $this->faker->boolean,
+            'taggable_type' => $model,
+            'taggable_id' => $model::factory(),
         ];
     }
 }

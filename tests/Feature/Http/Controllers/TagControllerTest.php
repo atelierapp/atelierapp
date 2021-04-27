@@ -24,14 +24,37 @@ class TagControllerTest extends TestCase
      */
     public function index_behaves_as_expected(): void
     {
-        $tags = Tag::factory()->count(3)->create();
+        Tag::factory()->count(3)->create();
 
         $response = $this->get(route('tag.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
-
-        $this->markTestIncomplete('The list should be paginated.');
+        $response->assertJsonStructure(
+            [
+                'data',
+                'meta' => [
+                    'current_page',
+                    'from',
+                    'last_page',
+                    'links',
+                    'path',
+                    'per_page',
+                    'to',
+                    'total'
+                ]
+            ]
+        );
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    0 => [
+                        'id',
+                        'name',
+                        'active'
+                    ]
+                ]
+            ]
+        );
     }
 
 
@@ -46,32 +69,6 @@ class TagControllerTest extends TestCase
             \App\Http\Requests\TagStoreRequest::class
         );
     }
-
-    /**
-     * @test
-     * Create tag
-     */
-    public function store_saves(): void
-    {
-        $name = $this->faker->name;
-        $active = $this->faker->boolean;
-
-        $response = $this->post(route('tag.store'), [
-            'name' => $name,
-            'active' => $active,
-        ]);
-
-        $tags = Tag::query()
-            ->where('name', $name)
-            ->where('active', $active)
-            ->get();
-        $this->assertCount(1, $tags);
-        $tag = $tags->first();
-
-        $response->assertCreated();
-        $response->assertJsonStructure([]);
-    }
-
 
     /**
      * @test
@@ -110,10 +107,13 @@ class TagControllerTest extends TestCase
         $name = $this->faker->name;
         $active = $this->faker->boolean;
 
-        $response = $this->put(route('tag.update', $tag), [
-            'name' => $name,
-            'active' => $active,
-        ]);
+        $response = $this->put(
+            route('tag.update', $tag),
+            [
+                'name' => $name,
+                'active' => $active,
+            ]
+        );
 
         $tag->refresh();
 

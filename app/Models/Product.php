@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\ManufacturerTypeEnum;
+use App\Trais\Models\HasMediasRelation;
+use App\Trais\Models\HasTagsRelation;
 use Carbon\Carbon;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +15,8 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasMediasRelation;
+    use HasTagsRelation;
 
     protected $fillable = [
         'title',
@@ -54,19 +58,9 @@ class Product extends Model
         return $this->belongsToMany(Material::class);
     }
 
-    public function media(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function tags(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return $this->hasOne(Media::class);
-    }
-
-    public function medias(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Media::class);
-    }
-
-    public function tags(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class);
+        return $this->morphMany(Tag::class, 'taggable');
     }
 
     public function setManufacturedAtAttribute($value)

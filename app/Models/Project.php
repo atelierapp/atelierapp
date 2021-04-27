@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Trais\Models\HasMediasRelation;
+use App\Trais\Models\HasTagsRelation;
 use Database\Factories\ProjectFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +16,8 @@ class Project extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasMediasRelation;
+    use HasTagsRelation;
 
     protected $fillable = [
         'name',
@@ -57,4 +61,5 @@ class Project extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
 }

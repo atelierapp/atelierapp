@@ -97,6 +97,62 @@ class ProductControllerTest extends TestCase
         $this->assertDatabaseHas('products', collect($data)->except(['properties', 'manufactured_at'])->toArray());
     }
 
+    /**
+     * @test
+     * @title Create product
+     */
+    public function store_a_product_with_tags(): void
+    {
+        $data = [
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufactured_at' => $this->faker->date('m/d/Y'),
+            'description' => $this->faker->paragraph(),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'sku' => $this->faker->word,
+            'active' => true,
+            'properties' => ['demo' => $this->faker->word],
+            'tags' => [
+                ['name' => $tag = $this->faker->text(30)],
+                ['name' => $this->faker->text(30)],
+            ]
+        ];
+
+        $response = $this->postJson(route('product.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'quantity',
+                    'sku',
+                    'active',
+                    'properties',
+                    'tags' => [
+                        0 => [
+                            'id',
+                            'name',
+                            'active',
+                        ]
+                     ]
+                ],
+            ]
+        );
+        $this->assertDatabaseHas('tags', [
+            'taggable_type' => Product::class,
+            'name' => $tag
+        ]);
+
+        $data = collect($data)->except(['properties', 'manufactured_at', 'tags'])->toArray();
+        $this->assertDatabaseHas('products', $data);
+    }
 
     /**
      * @test

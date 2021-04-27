@@ -34,38 +34,6 @@ class MediaControllerTest extends TestCase
     /**
      * @test
      */
-    public function store_uses_form_request_validation(): void
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\MediaController::class,
-            'store',
-            \App\Http\Requests\MediaStoreRequest::class
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function store_saves(): void
-    {
-        $data = [
-            'type_id' => MediaType::factory()->create()->id,
-            'url' => $this->faker->url,
-            'main' => $this->faker->boolean,
-        ];
-
-        $response = $this->postJson(route('media.store'), $data);
-
-        $response->assertCreated();
-        $response->assertJsonStructure([]);
-
-        $this->assertDatabaseHas('media', $data);
-    }
-
-
-    /**
-     * @test
-     */
     public function show_behaves_as_expected(): void
     {
         $media = Media::factory()->create();
@@ -75,7 +43,6 @@ class MediaControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure([]);
     }
-
 
     /**
      * @test
@@ -108,7 +75,6 @@ class MediaControllerTest extends TestCase
 
         $this->assertDatabaseHas('media', array_merge(['id' => $media->id], $data));
     }
-
 
     /**
      * @test

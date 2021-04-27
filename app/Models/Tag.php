@@ -14,6 +14,8 @@ class Tag extends Model
     protected $fillable = [
         'name',
         'active',
+        'taggable_type',
+        'taggable_id',
     ];
 
     protected $casts = [
@@ -21,13 +23,9 @@ class Tag extends Model
         'active' => 'boolean',
     ];
 
-    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function taggable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
-        return $this->belongsToMany(Product::class);
+        return $this->morphTo();
     }
 
-    public function projects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Project::class);
-    }
 }

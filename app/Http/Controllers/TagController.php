@@ -13,7 +13,7 @@ class TagController extends Controller
 
     public function index(): TagCollection
     {
-        $tags = Tag::all();
+        $tags = Tag::paginate();
 
         return new TagCollection($tags);
     }
