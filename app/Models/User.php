@@ -51,11 +51,6 @@ class User extends Authenticatable
         'is_active' => 'boolean',
     ];
 
-    public static function newFactory(): UserFactory
-    {
-        return UserFactory::new();
-    }
-
     /*
     |--------------------------------------------------------------------------
     | Relationships

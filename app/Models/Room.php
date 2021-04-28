@@ -26,11 +26,6 @@ class Room extends Model
         'framing' => 'json',
     ];
 
-    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
-    {
-        return RoomFactory::new();
-    }
-
     public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Product::class);

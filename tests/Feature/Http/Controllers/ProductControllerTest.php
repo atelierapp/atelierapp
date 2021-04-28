@@ -4,6 +4,9 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
+use App\Models\Style;
+use App\Models\Tag;
+use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -85,6 +88,7 @@ class ProductControllerTest extends TestCase
             'sku' => $this->faker->word,
             'active' => true,
             'properties' => ['demo' => $this->faker->word],
+            'style_id' => Style::factory()->create()->id
         ];
 
         $response = $this->postJson(route('product.store'), $data);
@@ -116,6 +120,8 @@ class ProductControllerTest extends TestCase
      */
     public function store_a_product_with_tags(): void
     {
+        $style = Style::factory()->create();
+        $tag = Tag::factory()->create();
         $data = [
             'title' => $this->faker->name,
             'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
@@ -125,9 +131,10 @@ class ProductControllerTest extends TestCase
             'quantity' => $this->faker->numberBetween(1, 10),
             'sku' => $this->faker->word,
             'active' => true,
+            'style_id' => $style->id,
             'properties' => ['demo' => $this->faker->word],
             'tags' => [
-                ['name' => $tag = $this->faker->text(30)],
+                ['name' => $tag->name],
                 ['name' => $this->faker->text(30)],
             ]
         ];
@@ -158,10 +165,13 @@ class ProductControllerTest extends TestCase
                 ],
             ]
         );
-        $this->assertDatabaseHas('tags', [
-            'taggable_type' => Product::class,
-            'name' => $tag
-        ]);
+        $this->assertDatabaseHas(
+            'taggables',
+            [
+                'taggable_type' => Product::class,
+                'tag_id' => $tag->id
+            ]
+        );
 
         $data = collect($data)->except(['properties', 'manufactured_at', 'tags'])->toArray();
         $this->assertDatabaseHas('products', $data);

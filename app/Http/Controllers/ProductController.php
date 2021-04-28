@@ -27,9 +27,13 @@ class ProductController extends Controller
         $product = Product::create($request->validated());
 
         if (!empty($request->get('tags'))) {
+            $tags = [];
             foreach ($request->tags as $tag) {
-                $product->tags()->save(New Tag(['name' => $tag['name']]));
+                $tags[] = Tag::query()->firstOrNew([
+                    'name' => $tag['name']
+                ]);
             }
+            $product->tags()->saveMany($tags);
         }
 
         if ($request->has('attach')) {

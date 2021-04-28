@@ -23,11 +23,6 @@ class Material extends Model
         'active' => 'boolean',
     ];
 
-    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
-    {
-        return MaterialFactory::new();
-    }
-
     public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Product::class);

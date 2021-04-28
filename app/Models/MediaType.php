@@ -21,9 +21,4 @@ class MediaType extends Model
         'id' => 'integer',
     ];
 
-    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
-    {
-        return MediaTypeFactory::new();
-    }
-
 }

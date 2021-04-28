@@ -25,9 +25,13 @@ class ProjectController extends Controller
         $project = Project::create($request->validated());
 
         if (!empty($request->get('tags'))) {
+            $tags = [];
             foreach ($request->tags as $tag) {
-                $project->tags()->save(New Tag(['name' => $tag['name']]));
+                $tags[] = Tag::query()->firstOrNew([
+                    'name' => $tag['name']
+                ]);
             }
+            $project->tags()->saveMany($tags);
         }
 
         return new ProjectResource($project);

@@ -37,11 +37,6 @@ class Project extends Model
         'public' => 'boolean',
     ];
 
-    public static function newFactory(): Factory
-    {
-        return ProjectFactory::new();
-    }
-
     public function rooms(): HasMany
     {
         return $this->hasMany(Room::class);

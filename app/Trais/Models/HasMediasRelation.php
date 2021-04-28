@@ -12,7 +12,8 @@ trait HasMediasRelation
     public function featured_media(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediable')
-            ->where('featured', '=', true);
+            ->where('featured', '=', true)
+            ->withDefault();
     }
 
     public function medias(): MorphMany

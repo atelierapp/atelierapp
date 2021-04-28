@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Style;
+use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
@@ -113,13 +114,13 @@ class ProjectControllerTest extends TestCase
     public function store_a_project_with_tags(): void
     {
         $user = $this->createAuthenticatedUser();
-
+        $tag = Tag::factory()->create();
         $data = [
             'name' => $name = $this->faker->name,
             'style_id' => Style::factory()->create()->id,
             'author_id' => $user->id,
             'tags' => [
-                ['name' => $tag = $this->faker->text(30)],
+                ['name' => $tag->name],
                 ['name' => $this->faker->text(30)],
             ]
         ];
@@ -127,18 +128,17 @@ class ProjectControllerTest extends TestCase
         $response = $this->postJson(route('projects.store'), $data);
 
         $response->assertCreated();
-        $response
-            ->assertCreated()
-            ->assertJsonFragment(
-                [
-                    'name' => $name,
-                    'author_id' => $user->id,
-                ]
-            );
-        $this->assertDatabaseHas('tags', [
-            'taggable_type' => Project::class,
-            'name' => $tag
+        $response->assertJsonFragment([
+            'name' => $name,
+            'author_id' => $user->id,
         ]);
+        $this->assertDatabaseHas(
+            'taggables',
+            [
+                'taggable_type' => Project::class,
+                'tag_id' => $tag->id
+            ]
+        );
 
         $data = collect($data)->except(['tags'])->toArray();
         $this->assertDatabaseHas('projects', $data);

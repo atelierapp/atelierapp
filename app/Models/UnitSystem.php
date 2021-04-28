@@ -22,11 +22,6 @@ class UnitSystem extends Model
         'id' => 'integer',
     ];
 
-    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
-    {
-        return UnitSystemFactory::new();
-    }
-
     public function units(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Unit::class);

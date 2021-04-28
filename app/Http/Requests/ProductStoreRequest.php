@@ -19,6 +19,7 @@ class ProductStoreRequest extends FormRequest
             'quantity' => ['required', 'integer'],
             'sku' => ['required', 'string', 'unique:products,sku'],
             'active' => ['boolean'],
+            'style_id' => ['required', 'exists:styles,id'],
             'properties' => ['required', 'array'],
             'tags.*.name' => ['nullable', 'string'],
             'attach.*.file' => ['nullable', 'file']

@@ -16,7 +16,7 @@ class Media extends Model
         'type_id',
         'url',
         'properties',
-        'main',
+        'featured',
         'mediable_id',
         'mediable_type',
         'extra',

@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Database\Factories\TagFactory;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
+
     use HasFactory;
     use SoftDeletes;
 
@@ -25,14 +24,14 @@ class Tag extends Model
         'active' => 'boolean',
     ];
 
-    public static function newFactory(): Factory
+    public function products(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
-        return TagFactory::new();
+        return $this->morphedByMany(Product::class, 'taggable');
     }
 
-    public function taggable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    public function projects(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
-        return $this->morphTo();
+        return $this->morphedByMany(Project::class, 'taggable');
     }
 
 }

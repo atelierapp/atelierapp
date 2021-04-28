@@ -2,16 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Product;
-use App\Models\Project;
-use App\Models\Tag;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Media;
 use App\Models\MediaType;
+use App\Models\Product;
+use App\Models\Project;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MediaFactory extends Factory
 {
+
     /**
      * The name of the factory's corresponding model.
      *

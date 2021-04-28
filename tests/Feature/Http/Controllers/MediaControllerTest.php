@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Media;
 use App\Models\MediaType;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -62,11 +63,10 @@ class MediaControllerTest extends TestCase
     public function update_behaves_as_expected(): void
     {
         $media = Media::factory()->create();
-
         $data = [
             'type_id' => MediaType::factory()->create()->id,
             'url' => $this->faker->url,
-            'main' => $this->faker->boolean,
+            'featured' => $this->faker->boolean,
         ];
 
         $response = $this->put(route('media.update', $media), $data);

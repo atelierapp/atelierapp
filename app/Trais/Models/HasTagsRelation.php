@@ -7,9 +7,9 @@ use App\Models\Tag;
 trait HasTagsRelation
 {
 
-    public function tags(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function tags(): \Illuminate\Database\Eloquent\Relations\morphToMany
     {
-        return $this->morphMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
 }

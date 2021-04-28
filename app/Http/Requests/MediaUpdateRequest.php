@@ -14,7 +14,7 @@ class MediaUpdateRequest extends FormRequest
             'type_id' => ['required', 'exists:' . MediaType::class . ',id'],
             'url' => ['url'],
             'properties' => ['array'],
-            'main' => ['boolean'],
+            'featured' => ['boolean'],
         ];
     }
 

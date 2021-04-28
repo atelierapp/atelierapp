@@ -9,14 +9,16 @@ use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
      * @return void
+     * @throws \Exception
      */
     public function run(): void
     {
-//        Product::factory()->hasMedias(rand(1, 2))->count(5)->create();
+        // Product::factory()->hasMedias(rand(1, 2))->hasTags(2)->count(5)->create();
 
         // Creating products
         Product::create([
@@ -393,4 +395,5 @@ class ProductSeeder extends Seeder
             $category->products()->attach($ids);
         });
     }
+
 }
