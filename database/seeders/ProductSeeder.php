@@ -368,7 +368,7 @@ class ProductSeeder extends Seeder
                 $product->medias()->create([
                     'url' => Str::of($product->sku)
                         ->prepend('https://atelier-staging-bucket.s3.amazonaws.com/products/')
-                        ->append($suffix),
+                        ->append("$suffix.png"),
                     'featured' => $view === 'front',
                     'orientation' => $view,
                     'type_id' => 1,

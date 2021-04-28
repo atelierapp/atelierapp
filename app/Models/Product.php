@@ -46,7 +46,7 @@ class Product extends Model
         'extra' => 'array',
     ];
 
-    protected array $enums = [
+    protected $enums = [
         'manufacturer_type' => ManufacturerTypeEnum::class,
     ];
 
