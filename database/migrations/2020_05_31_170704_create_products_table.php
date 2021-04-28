@@ -21,8 +21,9 @@ class CreateProductsTable extends Migration
             $table->string('title', 100);
             $table->enum('manufacturer_type', array_keys(ManufacturerTypeEnum::MAP_VALUE));
             $table->date('manufactured_at')->nullable();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->integer('price');
+            $table->foreignId('style_id')->constrained();
             $table->integer('quantity')->nullable();
             $table->string('sku')->unique();
             $table->boolean('active')->default(true);

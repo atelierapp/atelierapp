@@ -14,6 +14,37 @@ class StyleSeeder extends Seeder
      */
     public function run(): void
     {
-        Style::factory()->count(5)->create();
+        Style::create([
+            'name' => $name = 'Mediterranean',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
+        Style::create([
+            'name' => $name = 'Rustic',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
+        Style::create([
+            'name' => $name = 'Glam',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
+        Style::create([
+            'name' => $name = 'Mid Century Modern ',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
+        Style::create([
+            'name' => $name = 'Contemporary',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
+        Style::create([
+            'name' => $name = 'Shabby Chic',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
+        Style::create([
+            'name' => $name = 'Eclectic',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
+        Style::create([
+            'name' => $name = 'Traditional',
+            'code' => \Str::of($name)->lower()->kebab(),
+        ]);
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
@@ -25,22 +27,17 @@ class Category extends Model
         'active' => 'boolean',
     ];
 
-    public static function newFactory(): \Illuminate\Database\Eloquent\Factories\Factory
+    public function products(): BelongsToMany
     {
-        return CategoryFactory::new();
+        return $this->belongsToMany(Product::class);
     }
 
-    public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Product::class);
-    }
-
-    public function categories(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
     }
 
-    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }

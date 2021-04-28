@@ -5,20 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductCollection;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Product as ProductResource;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Tag;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
 
-    public function index(): ProductCollection
+    public function index(): AnonymousResourceCollection
     {
         $products = Product::paginate();
 
-        return new ProductCollection($products);
+        return ProductResource::collection($products);
     }
 
     public function store(ProductStoreRequest $request): ProductResource
@@ -45,6 +46,8 @@ class ProductController extends Controller
 
     public function show(Product $product): ProductResource
     {
+        $product->load('categories', 'style', 'materials');
+
         return new ProductResource($product);
     }
 

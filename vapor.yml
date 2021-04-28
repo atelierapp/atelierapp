@@ -17,7 +17,7 @@ environments:
         database: staging-database
         domain: staging.atelierapp.com
         build:
-            - 'composer install --classmap-authoritative'
+            - 'composer install --no-dev --classmap-authoritative'
             - 'php artisan event:cache'
             - 'npm install && npm run dev && rm -rf node_modules'
         deploy:

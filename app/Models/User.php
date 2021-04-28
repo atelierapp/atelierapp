@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @method static firstByEmailOrUsername($username)
  * @property string first_name
  * @property string|null last_name
- * @property integer id
+ * @property int id
  * @property string|null avatar
  */
 class User extends Authenticatable
@@ -50,7 +51,7 @@ class User extends Authenticatable
         'is_active' => 'boolean',
     ];
 
-    public static function newFactory()
+    public static function newFactory(): UserFactory
     {
         return UserFactory::new();
     }
@@ -60,7 +61,7 @@ class User extends Authenticatable
     | Relationships
     |--------------------------------------------------------------------------
     */
-    public function socialAccounts()
+    public function socialAccounts(): HasMany
     {
         return $this->hasMany(SocialAccount::class);
     }
@@ -98,7 +99,7 @@ class User extends Authenticatable
         return "$this->first_name $this->last_name";
     }
 
-    public function getAvatarAttribute()
+    public function getAvatarAttribute(): ?string
     {
         if (!isset($this->attributes['avatar'])) {
             return null;
@@ -110,7 +111,7 @@ class User extends Authenticatable
 
         return Storage::disk('s3')->temporaryUrl(
             $this->attributes['avatar'],
-            now()->addMinutes(5)
+            now()->addMinutes(30)
         );
     }
 }

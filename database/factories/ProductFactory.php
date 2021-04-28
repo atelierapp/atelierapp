@@ -27,11 +27,12 @@ class ProductFactory extends Factory
             'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date(),
             'description' => $this->faker->text,
-            'price' => $this->faker->numberBetween(0, 90000) / 100,
+            'style_id' => 1,
+            'price' => $this->faker->numberBetween(0, 90000),
             'quantity' => $this->faker->numberBetween(0, 100),
             'sku' => $this->faker->isbn10,
             'active' => $this->faker->boolean,
-            'properties' => '{}',
+            'properties' => null,
         ];
     }
 }
