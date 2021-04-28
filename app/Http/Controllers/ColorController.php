@@ -8,7 +8,7 @@ class ColorController extends Controller
 {
     public function index(): array
     {
-        $colors = Color::all();
+        $colors = Color::paginate();
 
         return [
             [

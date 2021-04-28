@@ -23,16 +23,41 @@ class ColorControllerTest extends TestCase
     public function it_can_list_colors()
     {
         $this->seed(ColorSeeder::class);
+
         $response = $this->getJson(route('colors.index'));
+
         $response
             ->assertOk()
-            ->assertJsonStructure([
+            ->assertJsonStructure(
                 [
-                    'brand',
-                    'items',
-                ],
-            ]);
-
-        $this->markTestIncomplete('It should paginate the list.');
+                    [
+                        'brand',
+                        'items' => [
+                            'data' => [
+                                0 => [
+                                    'id',
+                                    'name',
+                                    'hex',
+                                    'url',
+                                    'active',
+                                    'created_at',
+                                    'updated_at'
+                                ],
+                            ],
+                            'current_page',
+                            'first_page_url',
+                            'from',
+                            'last_page',
+                            'last_page_url',
+                            'next_page_url',
+                            'path',
+                            'per_page',
+                            'prev_page_url',
+                            'to',
+                            'total',
+                        ],
+                    ],
+                ]
+            );
     }
 }
