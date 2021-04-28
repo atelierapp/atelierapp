@@ -34,10 +34,8 @@ class MediaFactory extends Factory
             'mediable_id' => $model::factory(),
             'featured' => $this->faker->boolean(40),
             'url' => $this->faker->url,
-            'properties' => '{}',
-            'main' => $this->faker->boolean,
             'orientation' => $this->faker->word,
-            'extra' => '{}',
+            'extra' => null,
         ];
     }
 }

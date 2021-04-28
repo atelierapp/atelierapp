@@ -20,12 +20,16 @@ class Product extends JsonResource
             'manufacturer_type' => $this->manufacturer_type,
             'manufactured_at' => $this->manufactured_at,
             'description' => $this->description,
-            'category_id' => $this->category_id,
-            'price' => $this->price,
+            'price' => number_format($this->price / 100, 2),
             'quantity' => $this->quantity,
             'sku' => $this->sku,
             'active' => $this->active,
             'properties' => $this->properties,
+            'featured_media' => $this->featured_media->url,
+            'medias' => MediaResource::collection($this->medias),
+            'tags' => TagResource::collection($this->tags),
+            'style' => optional($this->style)->name,
+            'categories' => Category::collection($this->categories),
         ];
     }
 }

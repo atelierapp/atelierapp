@@ -22,12 +22,12 @@ class StoreFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
-            'legal_name' => $this->faker->regexify('[A-Za-z0-9]{80}'),
+            'name' => $this->faker->company,
+            'legal_name' => sprintf("%s %s", $this->faker->company, $this->faker->companySuffix),
             'legal_id' => $this->faker->regexify('[A-Za-z0-9]{20}'),
-            'story' => $this->faker->city,
+            'story' => $this->faker->text('120'),
             'logo' => $this->faker->imageUrl(250, 250),
-            'cover' => $this->faker->word,
+            'cover' => $this->faker->imageUrl(250, 250),
             'team' => $this->faker->word,
             'active' => $this->faker->boolean,
         ];

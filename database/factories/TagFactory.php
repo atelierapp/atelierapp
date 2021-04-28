@@ -26,7 +26,7 @@ class TagFactory extends Factory
         $model = $this->faker->randomElement([Product::class, Project::class]);
 
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->word,
             'active' => $this->faker->boolean,
             'taggable_type' => $model,
             'taggable_id' => $model::factory(),

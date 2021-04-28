@@ -5,6 +5,8 @@ namespace App\Models;
 use Database\Factories\StyleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Nova\Fields\BelongsToMany;
 
 class Style extends Model
 {
@@ -12,8 +14,8 @@ class Style extends Model
 
     protected $guarded = [];
 
-    public static function newFactory(): StyleFactory
+    public function products(): HasMany
     {
-        return StyleFactory::new();
+        return $this->hasMany(Product::class);
     }
 }
