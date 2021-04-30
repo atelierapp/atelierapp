@@ -36,4 +36,17 @@ class Store extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function scopeSearch($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+
+        return $query
+            ->where('name', 'like', "%{$value}%")
+            ->orWhere('legal_name', 'like', "%{$value}%")
+            ->orWhere('team', 'like', "%{$value}%");
+    }
+
 }

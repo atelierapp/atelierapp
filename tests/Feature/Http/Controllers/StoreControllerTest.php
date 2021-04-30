@@ -18,29 +18,92 @@ class StoreControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'name',
+            'legal_name',
+            'legal_id',
+            'story',
+            'logo',
+            'cover',
+            'team',
+            'active',
+        ];
+    }
+
     /**
      * @test
      * @title List stores
      */
-    public function index_behaves_as_expected(): void
+    public function index_behaves_as_expected_and_paginated(): void
     {
         Store::factory()->count(3)->create();
 
-        $response = $this->get(route('store.index'));
+        $response = $this->getJson(route('store.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
-
-        $this->markTestIncomplete('The list should be paginated.');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+        $response->assertJsonCount(3, 'data');
     }
 
     /**
      * @test
      * @title List stores with filters
      */
-    public function index_accepts_filters()
+    public function index_accepts_filters_and_response_return_paginated()
     {
-        $this->markTestIncomplete('The list should be able to accept filters.');
+        Store::factory()->count(3)->create();
+        Store::factory()->create(['name' => 'testabc']);
+        $params = [
+            'search' => 'testabc'
+        ];
+
+        $response = $this->getJson(route('store.index', $params));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+        $response->assertJsonCount(1, 'data');
     }
 
     /**
@@ -88,7 +151,9 @@ class StoreControllerTest extends TestCase
         $this->assertCount(1, $stores);
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -100,10 +165,12 @@ class StoreControllerTest extends TestCase
     {
         $store = Store::factory()->create();
 
-        $response = $this->get(route('store.show', $store));
+        $response = $this->getJson(route('store.show', $store));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -145,7 +212,9 @@ class StoreControllerTest extends TestCase
         $store->refresh();
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $this->assertEquals($name, $store->name);
         $this->assertEquals($legal_name, $store->legal_name);
