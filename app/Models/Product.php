@@ -78,4 +78,18 @@ class Product extends Model
     {
         return json_decode($properties, true);
     }
+
+    public function scopeSearch($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+
+        return $query
+            ->where('title', 'like', "%{$value}%")
+            ->orWhereHas('style', function ($q) use ($value) {
+                $q->where('name', 'like', "%{$value}%");
+            });
+    }
+
 }

@@ -6,7 +6,6 @@ use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
 use App\Models\Style;
 use App\Models\Tag;
-use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -29,26 +28,50 @@ class ProductControllerTest extends TestCase
      */
     public function index_behaves_as_expected(): void
     {
-        Product::factory()->count(3)->create();
+        $params = [
+            'search' => 'test-product'
+        ];
+        Product::factory()->count(4)->create();
+        Product::factory()->create(['title' => $params['search']]);
 
-        $response = $this->get(route('product.index'));
+        $response = $this->get(route('product.index', $params));
 
         $response->assertOk();
+        $response->assertJsonCount(1, 'data');
         $response->assertJsonStructure([
             'data' => [
                 0 => [
-                    'id',
                     'title',
+                    'manufacturer_type_code',
                     'manufacturer_type',
                     'manufactured_at',
                     'description',
-                    'price'
+                    'price',
+                    'style_id',
+                    'style',
+                    'quantity',
+                    'sku',
+                    'active',
                 ]
             ],
             'meta' => [
+                'current_page',
+                'from',
+                'last_page',
                 'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
             ]
         ]);
+        $this->assertDatabaseCount('products', 5);
     }
 
     /**
@@ -57,7 +80,46 @@ class ProductControllerTest extends TestCase
      */
     public function index_accepts_filters()
     {
-        $this->markTestIncomplete('The list should be able to accept filters.');
+        Product::factory()->times(5)->hasTags(2)->hasCategories(2)->hasMedias(2)->create();
+
+        $response = $this->get(route('product.index'));
+
+        $response->assertOk();
+        $response->assertJsonCount(5, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'title',
+                    'manufacturer_type_code',
+                    'manufacturer_type',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'style_id',
+                    'style',
+                    'quantity',
+                    'sku',
+                    'active',
+                ]
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+        $this->assertDatabaseCount('products', 5);
     }
 
     /**
@@ -103,6 +165,8 @@ class ProductControllerTest extends TestCase
                     'manufactured_at',
                     'description',
                     'price',
+                    'style_id',
+                    'style',
                     'quantity',
                     'sku',
                     'active',
@@ -110,8 +174,10 @@ class ProductControllerTest extends TestCase
                 ],
             ]
         );
-
-        $this->assertDatabaseHas('products', collect($data)->except(['properties', 'manufactured_at'])->toArray());
+        $this->assertDatabaseHas(
+            'products',
+            collect($data)->except(['properties', 'manufactured_at'])->toArray()
+        );
     }
 
     /**
@@ -120,8 +186,8 @@ class ProductControllerTest extends TestCase
      */
     public function store_a_product_with_tags(): void
     {
-        $style = Style::factory()->create();
         $tag = Tag::factory()->create();
+        $tag2 = Tag::factory()->create();
         $data = [
             'title' => $this->faker->name,
             'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
@@ -131,11 +197,11 @@ class ProductControllerTest extends TestCase
             'quantity' => $this->faker->numberBetween(1, 10),
             'sku' => $this->faker->word,
             'active' => true,
-            'style_id' => $style->id,
+            'style_id' => Style::factory()->create()->id,
             'properties' => ['demo' => $this->faker->word],
             'tags' => [
                 ['name' => $tag->name],
-                ['name' => $this->faker->text(30)],
+                ['name' => $tag2->name],
             ]
         ];
 
@@ -147,10 +213,13 @@ class ProductControllerTest extends TestCase
                 'data' => [
                     'id',
                     'title',
+                    'manufacturer_type_code',
                     'manufacturer_type',
                     'manufactured_at',
                     'description',
                     'price',
+                    'style_id',
+                    'style',
                     'quantity',
                     'sku',
                     'active',
@@ -170,6 +239,13 @@ class ProductControllerTest extends TestCase
             [
                 'taggable_type' => Product::class,
                 'tag_id' => $tag->id
+            ]
+        );
+        $this->assertDatabaseHas(
+            'taggables',
+            [
+                'taggable_type' => Product::class,
+                'tag_id' => $tag2->id
             ]
         );
 
@@ -241,12 +317,51 @@ class ProductControllerTest extends TestCase
      */
     public function show_behaves_as_expected(): void
     {
-        $product = Product::factory()->create();
+        $product = Product::factory()->hasTags(2)->hasCategories(2)->hasMedias(2)->create();
 
         $response = $this->get(route('product.show', $product));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'title',
+                'manufacturer_type_code',
+                'manufacturer_type',
+                'manufactured_at',
+                'description',
+                'price',
+                'style_id',
+                'style',
+                'quantity',
+                'sku',
+                'active',
+                'properties',
+                'medias' => [
+                    '*' => [
+                        'id',
+                        'type_id',
+                        'url',
+                    ]
+                ],
+                'tags' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'active',
+                    ]
+                ],
+                'categories' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'image',
+                        'parent_id',
+                        'active',
+                    ]
+                ],
+            ]
+        ]);
     }
 
     /**
@@ -288,10 +403,13 @@ class ProductControllerTest extends TestCase
                 'data' => [
                     'id',
                     'title',
+                    'manufacturer_type_code',
                     'manufacturer_type',
                     'manufactured_at',
                     'description',
                     'price',
+                    'style_id',
+                    'style',
                     'quantity',
                     'sku',
                     'active',
@@ -317,4 +435,5 @@ class ProductControllerTest extends TestCase
 
         $this->assertSoftDeleted($product);
     }
+
 }

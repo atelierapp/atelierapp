@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductCollection;
-use App\Http\Resources\Product as ProductResource;
+use App\Http\Resources\ProductDetailResource;
+use App\Http\Resources\ProductIndexResource;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Tag;
@@ -17,12 +18,12 @@ class ProductController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $products = Product::paginate();
+        $products = Product::with('style')->search(request('search'))->paginate();
 
-        return ProductResource::collection($products);
+        return ProductIndexResource::collection($products);
     }
 
-    public function store(ProductStoreRequest $request): ProductResource
+    public function store(ProductStoreRequest $request): ProductDetailResource
     {
         $product = Product::create($request->validated());
 
@@ -45,21 +46,23 @@ class ProductController extends Controller
             }
         }
 
-        return new ProductResource($product);
+        $product->load('style', 'tags', 'medias');
+
+        return ProductDetailResource::make($product);
     }
 
-    public function show(Product $product): ProductResource
+    public function show(Product $product): ProductDetailResource
     {
         $product->load('categories', 'style', 'materials');
 
-        return new ProductResource($product);
+        return ProductDetailResource::make($product);
     }
 
-    public function update(ProductUpdateRequest $request, Product $product): ProductResource
+    public function update(ProductUpdateRequest $request, Product $product): ProductDetailResource
     {
         $product->update($request->validated());
 
-        return new ProductResource($product);
+        return ProductDetailResource::make($product);
     }
 
     public function destroy(Product $product): \Illuminate\Http\Response

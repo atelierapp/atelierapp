@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TagStoreRequest;
 use App\Http\Requests\TagUpdateRequest;
 use App\Http\Resources\TagCollection;
-use App\Http\Resources\TagResource;
+use App\Http\Resources\TagIndexResource;
 use App\Models\Tag;
 
 class TagController extends Controller
@@ -18,23 +18,23 @@ class TagController extends Controller
         return new TagCollection($tags);
     }
 
-    public function store(TagStoreRequest $request): TagResource
+    public function store(TagStoreRequest $request): TagIndexResource
     {
         $tag = Tag::create($request->validated());
 
-        return new TagResource($tag);
+        return new TagIndexResource($tag);
     }
 
-    public function show(Tag $tag): TagResource
+    public function show(Tag $tag): TagIndexResource
     {
-        return new TagResource($tag);
+        return new TagIndexResource($tag);
     }
 
-    public function update(TagUpdateRequest $request, Tag $tag): TagResource
+    public function update(TagUpdateRequest $request, Tag $tag): TagIndexResource
     {
         $tag->update($request->validated());
 
-        return new TagResource($tag);
+        return new TagIndexResource($tag);
     }
 
     public function destroy(Tag $tag): \Illuminate\Http\Response
