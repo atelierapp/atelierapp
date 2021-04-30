@@ -27,7 +27,7 @@ class ProjectFactory extends Factory
             'name' => $this->faker->name,
             'style_id' => Style::factory(),
             'author_id' => User::factory(),
-            'forked_from' => $this->faker->randomElement([null, Project::factory()]),
+            'forked_from_id' => $this->faker->randomElement([null, Project::factory()]),
             'published' => $this->faker->boolean,
             'public' => $this->faker->boolean,
         ];

@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->hasMany(SocialAccount::class);
     }
 
-    public function projects()
+    public function projects(): HasMany
     {
         return $this->hasMany(Project::class, 'author_id');
     }

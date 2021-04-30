@@ -20,7 +20,7 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->foreignId('style_id')->constrained();
             $table->foreignId('author_id')->constrained('users');
-            $table->foreignId('forked_from')->nullable()->constrained('projects');
+            $table->foreignId('forked_from_id')->nullable()->constrained('projects');
             $table->boolean('published')->default(true);
             $table->boolean('public')->default(true);
             $table->softDeletes();

@@ -14,7 +14,7 @@ class ProjectForkRequest extends FormRequest
         return [
             'name' => ['nullable', 'string', 'min:3'],
             'style_id' => ['nullable', 'integer', 'exists:' . Style::class . ',id'],
-            'forked_from' => ['nullable', 'integer', 'exists:' . Project::class . ',id'],
+            'forked_from_id' => ['nullable', 'integer', 'exists:' . Project::class . ',id'],
         ];
     }
 

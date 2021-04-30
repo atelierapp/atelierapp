@@ -17,8 +17,8 @@ class ProjectUpdateRequest extends FormRequest
         return [
             'name' => ['string', 'min:3'],
             'style_id' => ['integer', 'exists:styles,id'],
-            'published' => 'boolean',
-            'public' => 'boolean',
+            'published' => ['boolean'],
+            'public' => ['boolean'],
         ];
     }
 

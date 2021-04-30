@@ -4,27 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
-use App\Http\Resources\ProjectCollection;
-use App\Http\Resources\ProjectResource;
+use App\Http\Resources\ProjectDetailResource;
+use App\Http\Resources\ProjectIndexResource;
 use App\Models\Project;
 use App\Models\Tag;
-use Illuminate\Database\Eloquent\Model;
 
 class ProjectController extends Controller
 {
 
-    public function index(): ProjectCollection
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        $projects = Project::paginate();
+        $projects = Project::with('style', 'author')->search(request('search'))->paginate();
 
-        return new ProjectCollection($projects);
+        return ProjectIndexResource::collection($projects);
     }
 
-    public function store(ProjectStoreRequest $request): ProjectResource
+    public function store(ProjectStoreRequest $request): ProjectDetailResource
     {
         $project = Project::create($request->validated());
 
-        if (!empty($request->get('tags'))) {
+        if (! empty($request->get('tags'))) {
             $tags = [];
             foreach ($request->tags as $tag) {
                 $tags[] = Tag::query()->firstOrNew([
@@ -34,19 +33,21 @@ class ProjectController extends Controller
             $project->tags()->saveMany($tags);
         }
 
-        return new ProjectResource($project);
+        $project->loadMissing('style', 'author', 'forkedFrom');
+
+        return ProjectDetailResource::make($project);
     }
 
-    public function show(Project $project): ProjectResource
+    public function show(Project $project): ProjectDetailResource
     {
-        return new ProjectResource($project);
+        return ProjectDetailResource::make($project);
     }
 
-    public function update(ProjectUpdateRequest $request, Project $project): ProjectResource
+    public function update(ProjectUpdateRequest $request, Project $project): ProjectDetailResource
     {
         $project->update($request->validated());
 
-        return new ProjectResource($project);
+        return ProjectDetailResource::make($project);
     }
 
     public function destroy(Project $project): \Illuminate\Http\JsonResponse
@@ -55,4 +56,5 @@ class ProjectController extends Controller
 
         return response()->json([], 200);
     }
+
 }

@@ -28,7 +28,7 @@ class ProjectControllerTest extends TestCase
     public function index_behaves_as_expected()
     {
         $user = $this->createAuthenticatedUser();
-        Project::factory()->times(5)->create(['author_id' => $user->id, 'forked_from' => null]);
+        Project::factory()->times(5)->create(['author_id' => $user->id, 'forked_from_id' => null]);
 
         $response = $this->getJson(route('projects.index'));
 
@@ -40,17 +40,27 @@ class ProjectControllerTest extends TestCase
                     0 => [
                         'id',
                         'name',
-                        'style_id',
-                        'author_id',
-                        'forked_from',
+                        'style',
+                        'author',
                         'published',
-                        'public'
+                        'public',
                     ]
                 ],
                 'meta' => [
-                    'links',
                     'current_page',
-                    'from'
+                    'from',
+                    'last_page',
+                    'links',
+                    'path',
+                    'per_page',
+                    'to',
+                    'total',
+                ],
+                'links' => [
+                    'first',
+                    'last',
+                    'prev',
+                    'next'
                 ]
             ]
         );
@@ -63,7 +73,48 @@ class ProjectControllerTest extends TestCase
      */
     public function index_accepts_filters()
     {
-        $this->markTestIncomplete('The list should be able to accept filters.');
+        $user = $this->createAuthenticatedUser();
+        $params = [
+            'search' => 'test-project'
+        ];
+        Project::factory()->times(5)->create(['author_id' => $user->id, 'forked_from_id' => null]);
+        Project::factory()->create(['name' => $params['search'], 'forked_from_id' => null]);
+
+        $response = $this->getJson(route('projects.index', $params));
+
+        $response->assertOk();
+        $response->assertJsonCount(1, 'data');
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    0 => [
+                        'id',
+                        'name',
+                        'style',
+                        'author',
+                        'published',
+                        'public',
+                    ]
+                ],
+                'meta' => [
+                    'current_page',
+                    'from',
+                    'last_page',
+                    'links',
+                    'path',
+                    'per_page',
+                    'to',
+                    'total',
+                ],
+                'links' => [
+                    'first',
+                    'last',
+                    'prev',
+                    'next'
+                ]
+            ]
+        );
+        $this->assertDatabaseCount('projects', 6);
     }
 
     /**
@@ -83,7 +134,7 @@ class ProjectControllerTest extends TestCase
      * @test
      * @title Create project
      */
-    public function store_saves()
+    public function store_saves_without_fork()
     {
         $user = $this->createAuthenticatedUser();
 
@@ -97,10 +148,25 @@ class ProjectControllerTest extends TestCase
 
         $response
             ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'style_id',
+                    'style',
+                    'author_id',
+                    'author',
+                    'published',
+                    'public',
+                    'created_at',
+                    'updated_at'
+                ]
+            ])
             ->assertJsonFragment(
                 [
                     'name' => $name,
                     'author_id' => $user->id,
+                    'author' => $user->full_name,
                 ]
             );
 
@@ -157,6 +223,20 @@ class ProjectControllerTest extends TestCase
 
         $response
             ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'style_id',
+                    'style',
+                    'author_id',
+                    'author',
+                    'published',
+                    'public',
+                    'created_at',
+                    'updated_at'
+                ]
+            ])
             ->assertJsonFragment(['name' => $project->name]);
     }
 
@@ -181,13 +261,27 @@ class ProjectControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
         $project = Project::factory()->create(['author_id' => $user->id]);
 
-        $data = ['name' => $newName = $this->faker->word];
+        $data = ['name' =>$this->faker->firstName];
 
         $response = $this->patchJson(route('projects.update', $project), $data);
-
+        
         $response
             ->assertOk()
-            ->assertJsonFragment(['name' => $newName]);
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'style_id',
+                    'style',
+                    'author_id',
+                    'author',
+                    'published',
+                    'public',
+                    'created_at',
+                    'updated_at'
+                ]
+            ])
+            ->assertJsonFragment(['name' => $data['name']]);
     }
 
     /**
@@ -235,91 +329,6 @@ class ProjectControllerTest extends TestCase
         $response = $this->deleteJson(route('projects.destroy', $project));
 
         $response->assertStatus(JsonResponse::HTTP_NOT_FOUND);
-    }
-
-    /**
-     * @test
-     * @title A user can fork someone else project
-     * @description A user can fork someone else's project to edit it in their own way.
-     */
-    public function a_user_can_fork_someone_else_project_that_is_public_and_published_without_params(): void
-    {
-        $user = $this->createAuthenticatedUser();
-        $project = Project::factory()->hasTags(rand(1, 3))->create(
-            [
-                'published' => true,
-                'public' => true
-            ]
-        );
-
-        $response = $this->postJson(route('projects.fork', $project->id));
-
-        $response->assertCreated();
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    'id',
-                    'name',
-                    'style_id',
-                    'author_id',
-                    'forked_from',
-                    'published',
-                    'public',
-                ]
-            ]
-        );
-        $this->assertDatabaseHas('projects', [
-            'name' => $project->name. ' (forked)',
-            'style_id' => $project->style_id,
-            'author_id' => $user->id,
-            'forked_from' => $project->id,
-            'published' => false,
-            'public' => false
-        ]);
-    }
-
-    /**
-     * @test
-     * @title A user can fork someone else project
-     * @description A user can fork someone else's project to edit it in their own way.
-     */
-    public function a_user_can_fork_someone_else_project_that_is_public_and_published_with_name_param(): void
-    {
-        $user = $this->createAuthenticatedUser();
-        $project = Project::factory()->hasTags(rand(1, 3))->create(
-            [
-                'published' => true,
-                'public' => true
-            ]
-        );
-        $data = [
-            'name' => $this->faker()->name
-        ];
-
-        $response = $this->postJson(route('projects.fork', $project->id), $data);
-
-        $response->assertCreated();
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    'id',
-                    'name',
-                    'style_id',
-                    'author_id',
-                    'forked_from',
-                    'published',
-                    'public',
-                ]
-            ]
-        );
-        $this->assertDatabaseHas('projects', [
-            'name' => $data['name'],
-            'style_id' => $project->style_id,
-            'author_id' => $user->id,
-            'forked_from' => $project->id,
-            'published' => false,
-            'public' => false
-        ]);
     }
 
 }

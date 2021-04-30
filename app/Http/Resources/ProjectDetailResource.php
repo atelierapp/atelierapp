@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectResource extends JsonResource
+class ProjectDetailResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -18,10 +19,15 @@ class ProjectResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'style_id' => $this->style_id,
+            'style' => $this->style->name,
             'author_id' => $this->author_id,
-            'forked_from' => $this->forked_from,
-            'published' => $this->published,
-            'public' => $this->public,
+            'author' => $this->author->full_name,
+            'published' => (boolean) $this->published,
+            'public' => (boolean) $this->public,
+            'created_at' => $this->created_at->toDatetimeString(),
+            'updated_at' => $this->updated_at->toDatetimeString(),
+            'forkedFrom' => self::make($this->whenLoaded('forkedFrom'))
         ];
     }
+
 }

@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Trais\Models\HasMediasRelation;
 use App\Trais\Models\HasTagsRelation;
-use Database\Factories\ProjectFactory;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
+
     use HasFactory;
     use SoftDeletes;
     use HasMediasRelation;
@@ -23,7 +22,7 @@ class Project extends Model
         'name',
         'style_id',
         'author_id',
-        'forked_from',
+        'forked_from_id',
         'published',
         'public',
     ];
@@ -54,7 +53,24 @@ class Project extends Model
 
     public function forkedFrom(): BelongsTo
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'forked_from_id');
+    }
+
+    public function scopeSearch($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+
+        return $query
+            ->where('name', 'like', "%{$value}%")
+            ->orWhereHas('style', function ($q) use ($value) {
+                $q->where('name', 'like', "%{$value}%");
+            })
+            ->orWhereHas('author', function ($q) use ($value) {
+                $q->where('first_name', 'like', "%{$value}%")
+                    ->orWhere('last_name', 'like', "%{$value}%");
+            });
     }
 
 }
