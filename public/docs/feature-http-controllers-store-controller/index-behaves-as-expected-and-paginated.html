@@ -298,8 +298,8 @@
                             </a>
         </li>
             <li>
-            <a href="/docs/feature-http-controllers-unit-system-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
-                Unit Systems
+            <a href="/docs/feature-http-controllers-store-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
+                Stores
                             </a>
         </li>
     </ul>
@@ -308,7 +308,7 @@
             <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
             <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </span>
-            Delete unit system
+            List stores
                     </div></h3>
                     </div>
                     <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
@@ -325,10 +325,10 @@
         
         <div class="w-full h-full">
                                                  <div x-cloak x-show="active === 'requests' " class="h-full">
-                         <div x-data="{active: 'response_2150'}" class="flex flex-col h-full">
+                         <div x-data="{active: 'response_2131'}" class="flex flex-col h-full">
         
         <div class="w-full h-full">
-                                                 <div x-cloak x-show="active === 'response_2150' " class="h-full">
+                                                 <div x-cloak x-show="active === 'response_2131' " class="h-full">
                          <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                         <div>
                             <div class="bg-gray-800 rounded-md overflow-hidden">
@@ -341,37 +341,21 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Method: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > DELETE</td>
+                > GET</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Route: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/unit-system/{unit_system}</td>
+                > api/stores</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Example: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/unit-system/1</td>
+                > api/stores</td>
             </tr>
             </table>
 </div>
 
-            <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
-    <thead>
-        <tr class="bg-gray-500">
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Parámetro de ruta</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Patrón</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Requerimiento</th>
-        </tr>
-    </thead>
-    <tbody>
-                    <tr class="break-all">
-                <td class="py-2 px-4 font-thin text-gray-200">unit_system</td>
-                <td class="py-2 px-4 font-thin text-teal-300">*</td>
-                <td class="py-2 px-4 font-thin text-teal-300">Required</td>
-            </tr>
-            </tbody>
-</table>
     
     
             <div>
@@ -392,7 +376,7 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</td>
+                > application/json</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept-language: </td>
@@ -405,9 +389,14 @@
                 > ISO-8859-1,utf-8;q=0.7,*;q=0.7</td>
             </tr>
                     <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-length: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > 2</td>
+            </tr>
+                    <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > application/x-www-form-urlencoded</td>
+                > application/json</td>
             </tr>
             </table>
 </div>
@@ -419,8 +408,8 @@
         <h3 class="text-base text-gray-300">Respuesta</h3>
     </span>
     <div class="p-4 space-x-4">
-        <span class="p-1 bg-default-200 text-default-700">204</span>
-        <span class="text-gray-100">NO RESPONSE</span>
+        <span class="p-1 bg-success-200 text-success-700">200</span>
+        <span class="text-gray-100">JSON</span>
     </div>
 
             <div>
@@ -436,7 +425,12 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">date: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > Fri, 30 Apr 2021 05:00:56 GMT</td>
+                > Fri, 30 Apr 2021 05:00:53 GMT</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > application/json</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">x-ratelimit-limit: </td>
@@ -456,7 +450,76 @@
                                                     </div>
                         <div class="h-full relative">
                                                             <div class="h-full">
-    </div>
+            <div >
+    <pre style="margin:0;"
+         class="h-full w-full bg-gray-300 rounded-lg overflow-hidden"
+    ><code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;name&quot;: &quot;Pagac Inc&quot;,
+            &quot;legal_name&quot;: &quot;Parisian-Klein Group&quot;,
+            &quot;legal_id&quot;: &quot;ZeoIUdGzPsy7MUip5F7J&quot;,
+            &quot;story&quot;: &quot;Quam enim dolor vero est rerum. Adipisci dolor eius temporibus sed sunt sunt. Ut aut id voluptate hic.&quot;,
+            &quot;logo&quot;: &quot;https:\/\/lorempixel.com\/250\/250\/?93302&quot;,
+            &quot;cover&quot;: &quot;https:\/\/lorempixel.com\/250\/250\/?37060&quot;,
+            &quot;team&quot;: &quot;itaque&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;name&quot;: &quot;Oberbrunner, Deckow and Batz&quot;,
+            &quot;legal_name&quot;: &quot;Strosin Inc Group&quot;,
+            &quot;legal_id&quot;: &quot;fIBt48gSrn02dazBgs86&quot;,
+            &quot;story&quot;: &quot;Eius et similique ducimus quaerat sit soluta. Exercitationem iste ipsa repellat ut repudiandae. Qui soluta est quae.&quot;,
+            &quot;logo&quot;: &quot;https:\/\/lorempixel.com\/250\/250\/?17316&quot;,
+            &quot;cover&quot;: &quot;https:\/\/lorempixel.com\/250\/250\/?35928&quot;,
+            &quot;team&quot;: &quot;ea&quot;,
+            &quot;active&quot;: false
+        },
+        {
+            &quot;name&quot;: &quot;Mraz-Collins&quot;,
+            &quot;legal_name&quot;: &quot;Torp Inc and Sons&quot;,
+            &quot;legal_id&quot;: &quot;8WgY8mjgylQDn03JwlXn&quot;,
+            &quot;story&quot;: &quot;Vel accusamus ut rerum exercitationem nihil ut. Sed suscipit voluptas eligendi voluptates possimus ex harum.&quot;,
+            &quot;logo&quot;: &quot;https:\/\/lorempixel.com\/250\/250\/?15812&quot;,
+            &quot;cover&quot;: &quot;https:\/\/lorempixel.com\/250\/250\/?49389&quot;,
+            &quot;team&quot;: &quot;at&quot;,
+            &quot;active&quot;: true
+        }
+    ],
+    &quot;links&quot;: {
+        &quot;first&quot;: &quot;http:\/\/atelierapp.test\/api\/stores?page=1&quot;,
+        &quot;last&quot;: &quot;http:\/\/atelierapp.test\/api\/stores?page=1&quot;,
+        &quot;prev&quot;: null,
+        &quot;next&quot;: null
+    },
+    &quot;meta&quot;: {
+        &quot;current_page&quot;: 1,
+        &quot;from&quot;: 1,
+        &quot;last_page&quot;: 1,
+        &quot;links&quot;: [
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;&amp;laquo; Previo&quot;,
+                &quot;active&quot;: false
+            },
+            {
+                &quot;url&quot;: &quot;http:\/\/atelierapp.test\/api\/stores?page=1&quot;,
+                &quot;label&quot;: &quot;1&quot;,
+                &quot;active&quot;: true
+            },
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;Siguiente &amp;raquo;&quot;,
+                &quot;active&quot;: false
+            }
+        ],
+        &quot;path&quot;: &quot;http:\/\/atelierapp.test\/api\/stores&quot;,
+        &quot;per_page&quot;: 15,
+        &quot;to&quot;: 3,
+        &quot;total&quot;: 3
+    }
+}</code></pre>
+</div>    </div>
                                                     </div>
                     </div>
                      </div>

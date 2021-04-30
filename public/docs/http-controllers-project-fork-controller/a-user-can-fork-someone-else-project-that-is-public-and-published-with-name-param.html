@@ -292,14 +292,14 @@
                 <div class="max-w-7xl mx-auto px-4">
                     <ul class="flex space-x-2 mt-4">
             <li>
-            <a href="/docs/areas/feature.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
-                Feature
+            <a href="/docs/areas/controllers.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
+                Controllers
                                 <svg class="w-4 h-4 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
         </li>
             <li>
-            <a href="/docs/feature-http-controllers-unit-system-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
-                Unit Systems
+            <a href="/docs/http-controllers-project-fork-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
+                Project Fork Controller
                             </a>
         </li>
     </ul>
@@ -308,10 +308,13 @@
             <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
             <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </span>
-            Delete unit system
+            A user can fork someone else project
                     </div></h3>
                     </div>
-                    <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
+                    <p class="text-gray-100 mb-4 bg-gray-800 p-4 rounded-md">A user can fork someone else&#039;s project to edit it in their own way</p>
+    
+    
+    <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
                     <div class="flex space-x-4 mb-4 bg-gray-800">
                                                         <button
                             x-on:click="active='requests'"
@@ -325,10 +328,10 @@
         
         <div class="w-full h-full">
                                                  <div x-cloak x-show="active === 'requests' " class="h-full">
-                         <div x-data="{active: 'response_2150'}" class="flex flex-col h-full">
+                         <div x-data="{active: 'response_2125'}" class="flex flex-col h-full">
         
         <div class="w-full h-full">
-                                                 <div x-cloak x-show="active === 'response_2150' " class="h-full">
+                                                 <div x-cloak x-show="active === 'response_2125' " class="h-full">
                          <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                         <div>
                             <div class="bg-gray-800 rounded-md overflow-hidden">
@@ -341,17 +344,17 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Method: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > DELETE</td>
+                > POST</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Route: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/unit-system/{unit_system}</td>
+                > api/projects/{project}/fork</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Example: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/unit-system/1</td>
+                > api/projects/1/fork</td>
             </tr>
             </table>
 </div>
@@ -366,13 +369,29 @@
     </thead>
     <tbody>
                     <tr class="break-all">
-                <td class="py-2 px-4 font-thin text-gray-200">unit_system</td>
+                <td class="py-2 px-4 font-thin text-gray-200">project</td>
                 <td class="py-2 px-4 font-thin text-teal-300">*</td>
                 <td class="py-2 px-4 font-thin text-teal-300">Required</td>
             </tr>
             </tbody>
 </table>
     
+            <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
+    <thead>
+        <tr class="bg-gray-500">
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Entrada</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">name</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            Mr. Ramiro Berge I
+                                    </td>
+            </tr>
+            </tbody>
+</table>
     
             <div>
             <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
@@ -392,7 +411,7 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</td>
+                > application/json</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept-language: </td>
@@ -405,9 +424,14 @@
                 > ISO-8859-1,utf-8;q=0.7,*;q=0.7</td>
             </tr>
                     <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-length: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > 29</td>
+            </tr>
+                    <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > application/x-www-form-urlencoded</td>
+                > application/json</td>
             </tr>
             </table>
 </div>
@@ -419,8 +443,8 @@
         <h3 class="text-base text-gray-300">Respuesta</h3>
     </span>
     <div class="p-4 space-x-4">
-        <span class="p-1 bg-default-200 text-default-700">204</span>
-        <span class="text-gray-100">NO RESPONSE</span>
+        <span class="p-1 bg-default-200 text-default-700">201</span>
+        <span class="text-gray-100">JSON</span>
     </div>
 
             <div>
@@ -436,7 +460,12 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">date: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > Fri, 30 Apr 2021 05:00:56 GMT</td>
+                > Fri, 30 Apr 2021 05:00:52 GMT</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > application/json</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">x-ratelimit-limit: </td>
@@ -456,7 +485,36 @@
                                                     </div>
                         <div class="h-full relative">
                                                             <div class="h-full">
-    </div>
+            <div >
+    <pre style="margin:0;"
+         class="h-full w-full bg-gray-300 rounded-lg overflow-hidden"
+    ><code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 2,
+        &quot;name&quot;: &quot;Mr. Ramiro Berge I&quot;,
+        &quot;style_id&quot;: 1,
+        &quot;style&quot;: &quot;Sunt&quot;,
+        &quot;author_id&quot;: 1,
+        &quot;author&quot;: &quot;Kendra Sawayn&quot;,
+        &quot;published&quot;: false,
+        &quot;public&quot;: false,
+        &quot;created_at&quot;: &quot;2021-04-30 00:00:52&quot;,
+        &quot;updated_at&quot;: &quot;2021-04-30 00:00:52&quot;,
+        &quot;forkedFrom&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Aliza Sauer I&quot;,
+            &quot;style_id&quot;: 1,
+            &quot;style&quot;: &quot;Sunt&quot;,
+            &quot;author_id&quot;: 2,
+            &quot;author&quot;: &quot;Leonardo Olson&quot;,
+            &quot;published&quot;: true,
+            &quot;public&quot;: true,
+            &quot;created_at&quot;: &quot;2021-04-30 00:00:51&quot;,
+            &quot;updated_at&quot;: &quot;2021-04-30 00:00:51&quot;
+        }
+    }
+}</code></pre>
+</div>    </div>
                                                     </div>
                     </div>
                      </div>

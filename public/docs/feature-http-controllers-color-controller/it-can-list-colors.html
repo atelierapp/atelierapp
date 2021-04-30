@@ -50,7 +50,25 @@
                 <div class="mt-5 flex-1 h-0 overflow-y-auto">
                     <nav class="px-2 space-y-1">
                         
-                                                    <a href="/docs/areas/feature.html" class=" group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                                    <a href="/docs/areas/controllers.html" class=" group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                                Controllers
+                            </a>
+                                                            <div class="flex flex-col space-y-2" x-data="{open: false}">
+                                    <button
+                                        x-on:click="open = !open"
+                                        type="button" name="toggle panel"
+                                            class="group flex w-full text-left items-center px-2 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                        Projects
+                                    </button>
+                                    <div class="w-full" x-cloak x-show="open">
+                                                                                    <a href="/docs/http-controllers-project-fork-controller.html"
+                                               class="group flex items-center px-4 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                                Project Fork Controller
+                                            </a>
+                                                                            </div>
+                                </div>
+                                                                                <a href="/docs/areas/feature.html" class=" group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
                                 <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
                                 Features
                             </a>
@@ -221,7 +239,7 @@
                 <span class="rounded-full text-teal-100 bg-teal-500 p-1  hidden md:flex">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </span>
-                                                            <div run="{&quot;id&quot;:6,&quot;branch&quot;:&quot;develop&quot;,&quot;head&quot;:&quot;ec803e8&quot;,&quot;modified&quot;:&quot;1&quot;,&quot;created_at&quot;:&quot;2021-04-25T22:56:59.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T22:56:59.000000Z&quot;,&quot;groups&quot;:[{&quot;id&quot;:519,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\CategoryControllerTest&quot;,&quot;title&quot;:&quot;Categories&quot;,&quot;slug&quot;:&quot;feature-http-controllers-category-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:22.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:22.000000Z&quot;},{&quot;id&quot;:520,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ColorControllerTest&quot;,&quot;title&quot;:&quot;Colors&quot;,&quot;slug&quot;:&quot;feature-http-controllers-color-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:22.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:22.000000Z&quot;},{&quot;id&quot;:521,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\LoginTest&quot;,&quot;title&quot;:&quot;Login&quot;,&quot;slug&quot;:&quot;feature-http-controllers-login&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:23.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:23.000000Z&quot;},{&quot;id&quot;:522,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\MaterialControllerTest&quot;,&quot;title&quot;:&quot;Material Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-material-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:23.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:23.000000Z&quot;},{&quot;id&quot;:523,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\MediaControllerTest&quot;,&quot;title&quot;:&quot;Media Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-media-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:24.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:24.000000Z&quot;},{&quot;id&quot;:524,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\MediaTypeControllerTest&quot;,&quot;title&quot;:&quot;Media Type Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-media-type-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:24.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:24.000000Z&quot;},{&quot;id&quot;:525,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ProductControllerTest&quot;,&quot;title&quot;:&quot;Products&quot;,&quot;slug&quot;:&quot;feature-http-controllers-product-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:25.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:25.000000Z&quot;},{&quot;id&quot;:526,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ProfileTest&quot;,&quot;title&quot;:&quot;Profile&quot;,&quot;slug&quot;:&quot;feature-http-controllers-profile&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:25.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:25.000000Z&quot;},{&quot;id&quot;:527,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ProjectControllerTest&quot;,&quot;title&quot;:&quot;Projects&quot;,&quot;slug&quot;:&quot;feature-http-controllers-project-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:26.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:26.000000Z&quot;},{&quot;id&quot;:528,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\RoomControllerTest&quot;,&quot;title&quot;:&quot;Room Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-room-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:27.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:27.000000Z&quot;},{&quot;id&quot;:529,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\SignUpTest&quot;,&quot;title&quot;:&quot;Registration&quot;,&quot;slug&quot;:&quot;feature-http-controllers-sign-up&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:27.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:27.000000Z&quot;},{&quot;id&quot;:530,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\StoreControllerTest&quot;,&quot;title&quot;:&quot;Stores&quot;,&quot;slug&quot;:&quot;feature-http-controllers-store-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:27.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:27.000000Z&quot;},{&quot;id&quot;:531,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\TagControllerTest&quot;,&quot;title&quot;:&quot;Tags&quot;,&quot;slug&quot;:&quot;feature-http-controllers-tag-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:28.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:28.000000Z&quot;},{&quot;id&quot;:532,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\UnitControllerTest&quot;,&quot;title&quot;:&quot;Unit Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-unit-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:28.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:28.000000Z&quot;},{&quot;id&quot;:533,&quot;run_id&quot;:&quot;6&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\UnitSystemControllerTest&quot;,&quot;title&quot;:&quot;Unit Systems&quot;,&quot;slug&quot;:&quot;feature-http-controllers-unit-system-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-25T23:00:29.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-25T23:00:29.000000Z&quot;}]}" class="hidden md:flex relative flex-1"
+                                                            <div run="{&quot;id&quot;:7,&quot;branch&quot;:&quot;develop&quot;,&quot;head&quot;:&quot;f44e6b4&quot;,&quot;modified&quot;:&quot;0&quot;,&quot;created_at&quot;:&quot;2021-04-30T05:00:21.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:21.000000Z&quot;,&quot;groups&quot;:[{&quot;id&quot;:543,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Http\\Controllers\\ProjectForkControllerTest&quot;,&quot;title&quot;:&quot;Project Fork Controller&quot;,&quot;slug&quot;:&quot;http-controllers-project-fork-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;controllers&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:51.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:51.000000Z&quot;},{&quot;id&quot;:534,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\CategoryControllerTest&quot;,&quot;title&quot;:&quot;Categories&quot;,&quot;slug&quot;:&quot;feature-http-controllers-category-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:46.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:46.000000Z&quot;},{&quot;id&quot;:535,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ColorControllerTest&quot;,&quot;title&quot;:&quot;Colors&quot;,&quot;slug&quot;:&quot;feature-http-controllers-color-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:46.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:46.000000Z&quot;},{&quot;id&quot;:536,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\LoginTest&quot;,&quot;title&quot;:&quot;Login&quot;,&quot;slug&quot;:&quot;feature-http-controllers-login&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:47.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:47.000000Z&quot;},{&quot;id&quot;:537,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\MaterialControllerTest&quot;,&quot;title&quot;:&quot;Material Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-material-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:47.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:47.000000Z&quot;},{&quot;id&quot;:538,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\MediaControllerTest&quot;,&quot;title&quot;:&quot;Media Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-media-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:48.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:48.000000Z&quot;},{&quot;id&quot;:539,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\MediaTypeControllerTest&quot;,&quot;title&quot;:&quot;Media Type Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-media-type-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:48.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:48.000000Z&quot;},{&quot;id&quot;:540,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ProductControllerTest&quot;,&quot;title&quot;:&quot;Products&quot;,&quot;slug&quot;:&quot;feature-http-controllers-product-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:49.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:49.000000Z&quot;},{&quot;id&quot;:541,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ProfileTest&quot;,&quot;title&quot;:&quot;Profile&quot;,&quot;slug&quot;:&quot;feature-http-controllers-profile&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:50.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:50.000000Z&quot;},{&quot;id&quot;:542,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\ProjectControllerTest&quot;,&quot;title&quot;:&quot;Projects&quot;,&quot;slug&quot;:&quot;feature-http-controllers-project-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:50.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:50.000000Z&quot;},{&quot;id&quot;:544,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\RoomControllerTest&quot;,&quot;title&quot;:&quot;Room Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-room-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:52.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:52.000000Z&quot;},{&quot;id&quot;:545,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\SignUpTest&quot;,&quot;title&quot;:&quot;Registration&quot;,&quot;slug&quot;:&quot;feature-http-controllers-sign-up&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:53.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:53.000000Z&quot;},{&quot;id&quot;:546,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\StoreControllerTest&quot;,&quot;title&quot;:&quot;Stores&quot;,&quot;slug&quot;:&quot;feature-http-controllers-store-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:53.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:53.000000Z&quot;},{&quot;id&quot;:547,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\TagControllerTest&quot;,&quot;title&quot;:&quot;Tags&quot;,&quot;slug&quot;:&quot;feature-http-controllers-tag-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:54.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:54.000000Z&quot;},{&quot;id&quot;:548,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\UnitControllerTest&quot;,&quot;title&quot;:&quot;Unit Controller&quot;,&quot;slug&quot;:&quot;feature-http-controllers-unit-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:55.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:55.000000Z&quot;},{&quot;id&quot;:549,&quot;run_id&quot;:&quot;7&quot;,&quot;class_name&quot;:&quot;Tests\\Feature\\Http\\Controllers\\UnitSystemControllerTest&quot;,&quot;title&quot;:&quot;Unit Systems&quot;,&quot;slug&quot;:&quot;feature-http-controllers-unit-system-controller&quot;,&quot;description&quot;:null,&quot;area&quot;:&quot;feature&quot;,&quot;order_num&quot;:9999,&quot;created_at&quot;:&quot;2021-04-30T05:00:55.000000Z&quot;,&quot;updated_at&quot;:&quot;2021-04-30T05:00:55.000000Z&quot;}]}" class="hidden md:flex relative flex-1"
      x-data='{
          open: true,
          results: [],
@@ -258,8 +276,7 @@
                                                     <div class="ml-4 flex items-center md:ml-6">
                                             <div class="text-gray-200 font-light px-4 flex justify-center">
                             <strong>develop</strong>
-                                                            <span class="text-red-500 text-lg px-2">*</span>
-                                                        ec803e8
+                                                        f44e6b4
                         </div>
                                         <a href="https://github.com/StydeNet/enlighten"
                        class="text-gray-100 hover:text-gray-500 focus:outline-none" aria-label="Notifications">
@@ -288,8 +305,8 @@
     </ul>
                      <div class="flex items-center justify-center space-x-4">
                         <h3 class="text-gray-100 text-xl mt-6 mb-4 pb-4 w-full border-b border-gray-700"><div class="flex">
-            <span class="text-warning-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
+            <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </span>
             List colors
                     </div></h3>
@@ -308,10 +325,10 @@
         
         <div class="w-full h-full">
                                                  <div x-cloak x-show="active === 'requests' " class="h-full">
-                         <div x-data="{active: 'response_2024'}" class="flex flex-col h-full">
+                         <div x-data="{active: 'response_2088'}" class="flex flex-col h-full">
         
         <div class="w-full h-full">
-                                                 <div x-cloak x-show="active === 'response_2024' " class="h-full">
+                                                 <div x-cloak x-show="active === 'response_2088' " class="h-full">
                          <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                         <div>
                             <div class="bg-gray-800 rounded-md overflow-hidden">
@@ -408,7 +425,7 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">date: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > Sun, 25 Apr 2021 23:00:23 GMT</td>
+                > Fri, 30 Apr 2021 05:00:47 GMT</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
@@ -439,512 +456,188 @@
     ><code class="language-json">[
     {
         &quot;brand&quot;: &quot;CLARE&quot;,
-        &quot;items&quot;: [
-            {
-                &quot;id&quot;: 1,
-                &quot;name&quot;: &quot;Fresh Kicks&quot;,
-                &quot;hex&quot;: &quot;#F9F9F9&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Ffresh%2Dkicks&amp;afftrack=Atelier%2DClare%2DFreshKicks&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 2,
-                &quot;name&quot;: &quot;Snow Day&quot;,
-                &quot;hex&quot;: &quot;#F7F8F9&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fsnow%2Dday&amp;afftrack=Atelier%2DClare%2DSnowDay&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 3,
-                &quot;name&quot;: &quot;Whipped&quot;,
-                &quot;hex&quot;: &quot;#F8F7F3&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fwhipped&amp;afftrack=Atelier%2DClare%2DWhipped&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 4,
-                &quot;name&quot;: &quot;Timeless&quot;,
-                &quot;hex&quot;: &quot;#F6F3EZ&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Ftimeless&amp;afftrack=Atelier%2DClare%2DTimeless&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 5,
-                &quot;name&quot;: &quot;On Point&quot;,
-                &quot;hex&quot;: &quot;#E6E3DC&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fon%2Dpoint&amp;afftrack=Atelier%2DClare%2DOnPoint&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 6,
-                &quot;name&quot;: &quot;Classic&quot;,
-                &quot;hex&quot;: &quot;#E7E8E3&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fclassic&amp;afftrack=Atelier%2DClare%2DClassic&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 7,
-                &quot;name&quot;: &quot;Beigeing&quot;,
-                &quot;hex&quot;: &quot;#D2CBC3&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fbeigeing&amp;afftrack=Atelier%2DClare%2DBeigeing&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 8,
-                &quot;name&quot;: &quot;Turbinado&quot;,
-                &quot;hex&quot;: &quot;#D8C8B1&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fturbinado&amp;afftrack=Atelier%2DClare%2DTurbinado&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 9,
-                &quot;name&quot;: &quot;No Filter&quot;,
-                &quot;hex&quot;: &quot;#DEDBCA&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fno%2Dfilter&amp;afftrack=Atelier%2DClare%2DNoFilter&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 10,
-                &quot;name&quot;: &quot;Neutral Territory&quot;,
-                &quot;hex&quot;: &quot;#E3D4C1&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fneutral%2Dterritory&amp;afftrack=Atelier%2DClare%2DNeutralTerritory&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 11,
-                &quot;name&quot;: &quot;Windy City&quot;,
-                &quot;hex&quot;: &quot;#C1BEB7&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fwindy%2Dcity&amp;afftrack=Atelier%2DClare%2DWindyCity&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 12,
-                &quot;name&quot;: &quot;Flatiron&quot;,
-                &quot;hex&quot;: &quot;#D2CABD&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fflatiron&amp;afftrack=Atelier%2DClare%2DFlatiron&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 13,
-                &quot;name&quot;: &quot;Penthouse&quot;,
-                &quot;hex&quot;: &quot;#E4E5E0&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fpenthouse&amp;afftrack=Atelier%2DClare%2DPenthouse&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 14,
-                &quot;name&quot;: &quot;Greige&quot;,
-                &quot;hex&quot;: &quot;#B4B0A5&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fgreige&amp;afftrack=Atelier%2DClare%2DGreige&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 15,
-                &quot;name&quot;: &quot;Shade&quot;,
-                &quot;hex&quot;: &quot;#898883&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fshade&amp;afftrack=Atelier%2DClare%2DShade&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 16,
-                &quot;name&quot;: &quot;Seize the Gray&quot;,
-                &quot;hex&quot;: &quot;#CFD0CB&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fseize%2Dthe%2Dgray&amp;afftrack=Atelier%2DClare%2DSeizeTheGray&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 17,
-                &quot;name&quot;: &quot;Chill&quot;,
-                &quot;hex&quot;: &quot;#D7D9D6&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fchill&amp;afftrack=Atelier%2DClare%2DChill&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 18,
-                &quot;name&quot;: &quot;Grayish&quot;,
-                &quot;hex&quot;: &quot;#BEC9C3&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fgrayish&amp;afftrack=Atelier%2DClare%2DGrayish&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 19,
-                &quot;name&quot;: &quot;Motor City&quot;,
-                &quot;hex&quot;: &quot;#B7BCB8&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fmotor%2Dcity&amp;afftrack=Atelier%2DClare%2DMotorCity&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 20,
-                &quot;name&quot;: &quot;Set in Stone&quot;,
-                &quot;hex&quot;: &quot;#92999F&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fset%2Din%2Dstone&amp;afftrack=Atelier%2DClare%2DSetInStone&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 21,
-                &quot;name&quot;: &quot;Irony&quot;,
-                &quot;hex&quot;: &quot;#666E71&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Firony&amp;afftrack=Atelier%2DClare%2DIrony&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 22,
-                &quot;name&quot;: &quot;Lemonade&quot;,
-                &quot;hex&quot;: &quot;#F0D296&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Flemonade&amp;afftrack=Atelier%2DClare%2DLemonade&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 23,
-                &quot;name&quot;: &quot;Golden Hour&quot;,
-                &quot;hex&quot;: &quot;#F7C86E&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fgolden%2Dhour&amp;afftrack=Atelier%2DClare%2DGoldenHour&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 24,
-                &quot;name&quot;: &quot;Two Scoops&quot;,
-                &quot;hex&quot;: &quot;#B6C7B7&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Ftwo%2Dscoops&amp;afftrack=Atelier%2DClare%2DTwoScoops&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 25,
-                &quot;name&quot;: &quot;Headspace&quot;,
-                &quot;hex&quot;: &quot;#D3DFDB&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fheadspace&amp;afftrack=Atelier%2DClare%2DHeadspace&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 26,
-                &quot;name&quot;: &quot;Views&quot;,
-                &quot;hex&quot;: &quot;#A7C0BA&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fviews&amp;afftrack=Atelier%2DClare%2DViews&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 27,
-                &quot;name&quot;: &quot;Money Moves&quot;,
-                &quot;hex&quot;: &quot;#ABB39C&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fmoney%2Dmoves&amp;afftrack=Atelier%2DClare%2DMoneyMoves&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 28,
-                &quot;name&quot;: &quot;Dirty Martini&quot;,
-                &quot;hex&quot;: &quot;#C2CBBA&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fdirty%2Dmartini&amp;afftrack=Atelier%2DClare%2DDirtyMartini&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 29,
-                &quot;name&quot;: &quot;Avocado Toast&quot;,
-                &quot;hex&quot;: &quot;#95AB84&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Favocado%2Dtoast&amp;afftrack=Atelier%2DClare%2DAvocadoToast&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 30,
-                &quot;name&quot;: &quot;Vacay&quot;,
-                &quot;hex&quot;: &quot;#71A29F&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fvacay&amp;afftrack=Atelier%2DClare%2DVacay&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 31,
-                &quot;name&quot;: &quot;Current Mood&quot;,
-                &quot;hex&quot;: &quot;#4A5B53&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fcurrent%2Dmood&amp;afftrack=Atelier%2DClare%2DCurrentMood&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 32,
-                &quot;name&quot;: &quot;Make Waves&quot;,
-                &quot;hex&quot;: &quot;#8BA69D&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fmake%2Dwaves&amp;afftrack=Atelier%2DClare%2DMakeWaves&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 33,
-                &quot;name&quot;: &quot;Sublime&quot;,
-                &quot;hex&quot;: &quot;#00566D&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fsublime&amp;afftrack=Atelier%2DClare%2DSublime&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 34,
-                &quot;name&quot;: &quot;Matcha Latte&quot;,
-                &quot;hex&quot;: &quot;#7FAD86&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fmatcha%2Dlatte&amp;afftrack=Atelier%2DClare%2DMatchaLatte&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 35,
-                &quot;name&quot;: &quot;Nairobi Blue&quot;,
-                &quot;hex&quot;: &quot;#BDD9DC&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fnairobi%2Dblue&amp;afftrack=Atelier%2DClare%2DNairobiBlue&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 36,
-                &quot;name&quot;: &quot;Frozen&quot;,
-                &quot;hex&quot;: &quot;#D6E5EA&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Ffrozen&amp;afftrack=Atelier%2DClare%2DFrozen&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 37,
-                &quot;name&quot;: &quot;Summer Friday&quot;,
-                &quot;hex&quot;: &quot;#9EBABE&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fsummer%2Dfriday&amp;afftrack=Atelier%2DClare%2DSummerFriday&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 38,
-                &quot;name&quot;: &quot;Good Jeans&quot;,
-                &quot;hex&quot;: &quot;#879EA6&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fgood%2Djeans&amp;afftrack=Atelier%2DClare%2DGoodJeans&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 39,
-                &quot;name&quot;: &quot;Blue Ivy&quot;,
-                &quot;hex&quot;: &quot;#5B8A9C&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fblue%2Divy&amp;afftrack=Atelier%2DClare%2DBlueIvy&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 40,
-                &quot;name&quot;: &quot;Hyperlink&quot;,
-                &quot;hex&quot;: &quot;#1A517A&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fhyperlink&amp;afftrack=Atelier%2DClare%2DHyperlink&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 41,
-                &quot;name&quot;: &quot;Deep Dive&quot;,
-                &quot;hex&quot;: &quot;#2F5560&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fdeep%2Ddive&amp;afftrack=Atelier%2DClare%2DDeepDive&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:22.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 42,
-                &quot;name&quot;: &quot;Goodnight Moon&quot;,
-                &quot;hex&quot;: &quot;#27313D&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fgoodnight%2Dmoon&amp;afftrack=Atelier%2DClare%2DGoodnightMoon&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 43,
-                &quot;name&quot;: &quot;Wink&quot;,
-                &quot;hex&quot;: &quot;#C2C5CA&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fwink&amp;afftrack=Atelier%2DClare%2DWink&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 44,
-                &quot;name&quot;: &quot;Cosmic Vibes&quot;,
-                &quot;hex&quot;: &quot;#838695&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fcosmic%2Dvibes&amp;afftrack=Atelier%2DClare%2DCosmicVibes&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 45,
-                &quot;name&quot;: &quot;Prince&quot;,
-                &quot;hex&quot;: &quot;#5B4E5F&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fprince&amp;afftrack=Atelier%2DClare%2DPrince&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 46,
-                &quot;name&quot;: &quot;Wing It&quot;,
-                &quot;hex&quot;: &quot;#F8EBE2&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fwing%2Dit&amp;afftrack=Atelier%2DClare%2DWingIt&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 47,
-                &quot;name&quot;: &quot;Baby Soft&quot;,
-                &quot;hex&quot;: &quot;#ECD9D3&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fbaby%2Dsoft&amp;afftrack=Atelier%2DClare%2DBabySoft&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 48,
-                &quot;name&quot;: &quot;Pop&quot;,
-                &quot;hex&quot;: &quot;#FFCDB4&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fpop&amp;afftrack=Atelier%2DClare%2Dpop&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 49,
-                &quot;name&quot;: &quot;Rosé Season&quot;,
-                &quot;hex&quot;: &quot;#FFB5AA&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Frose%2Dseason&amp;afftrack=Atelier%2DClare%2DRoseSeason&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 50,
-                &quot;name&quot;: &quot;Pink Sky&quot;,
-                &quot;hex&quot;: &quot;#CE7F78&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fpink%2Dsky&amp;afftrack=Atelier%2DClare%2DPinkSky&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 51,
-                &quot;name&quot;: &quot;Big Apple&quot;,
-                &quot;hex&quot;: &quot;#812F99&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fbig%2Dapple&amp;afftrack=Atelier%2DClare%2DBigApple&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 52,
-                &quot;name&quot;: &quot;Sriracha&quot;,
-                &quot;hex&quot;: &quot;#BC4C41&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fsriracha&amp;afftrack=Atelier%2DClare%2DSriracha&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 53,
-                &quot;name&quot;: &quot;Coffee Date&quot;,
-                &quot;hex&quot;: &quot;#4D3D34&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fcoffee%2Ddate&amp;afftrack=Atelier%2DClare%2DCoffeeDate&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 54,
-                &quot;name&quot;: &quot;Dirty Chai&quot;,
-                &quot;hex&quot;: &quot;#867A6E&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fdirty%2Dchai&amp;afftrack=Atelier%2DClare%2DDirtyChai&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 55,
-                &quot;name&quot;: &quot;Blackest&quot;,
-                &quot;hex&quot;: &quot;#1E1E1E&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fblackest&amp;afftrack=Atelier%2DClare%2DBlackest&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            },
-            {
-                &quot;id&quot;: 56,
-                &quot;name&quot;: &quot;Blackish&quot;,
-                &quot;hex&quot;: &quot;#2B2A28&quot;,
-                &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fblackish&amp;afftrack=Atelier%2DClare%2DBlackish&quot;,
-                &quot;active&quot;: &quot;1&quot;,
-                &quot;created_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2021-04-25T23:00:23.000000Z&quot;
-            }
-        ]
+        &quot;items&quot;: {
+            &quot;current_page&quot;: 1,
+            &quot;data&quot;: [
+                {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Fresh Kicks&quot;,
+                    &quot;hex&quot;: &quot;#F9F9F9&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Ffresh%2Dkicks&amp;afftrack=Atelier%2DClare%2DFreshKicks&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 2,
+                    &quot;name&quot;: &quot;Snow Day&quot;,
+                    &quot;hex&quot;: &quot;#F7F8F9&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fsnow%2Dday&amp;afftrack=Atelier%2DClare%2DSnowDay&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Whipped&quot;,
+                    &quot;hex&quot;: &quot;#F8F7F3&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fwhipped&amp;afftrack=Atelier%2DClare%2DWhipped&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 4,
+                    &quot;name&quot;: &quot;Timeless&quot;,
+                    &quot;hex&quot;: &quot;#F6F3EZ&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Ftimeless&amp;afftrack=Atelier%2DClare%2DTimeless&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 5,
+                    &quot;name&quot;: &quot;On Point&quot;,
+                    &quot;hex&quot;: &quot;#E6E3DC&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fon%2Dpoint&amp;afftrack=Atelier%2DClare%2DOnPoint&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 6,
+                    &quot;name&quot;: &quot;Classic&quot;,
+                    &quot;hex&quot;: &quot;#E7E8E3&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fclassic&amp;afftrack=Atelier%2DClare%2DClassic&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 7,
+                    &quot;name&quot;: &quot;Beigeing&quot;,
+                    &quot;hex&quot;: &quot;#D2CBC3&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fbeigeing&amp;afftrack=Atelier%2DClare%2DBeigeing&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 8,
+                    &quot;name&quot;: &quot;Turbinado&quot;,
+                    &quot;hex&quot;: &quot;#D8C8B1&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fturbinado&amp;afftrack=Atelier%2DClare%2DTurbinado&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 9,
+                    &quot;name&quot;: &quot;No Filter&quot;,
+                    &quot;hex&quot;: &quot;#DEDBCA&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fno%2Dfilter&amp;afftrack=Atelier%2DClare%2DNoFilter&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 10,
+                    &quot;name&quot;: &quot;Neutral Territory&quot;,
+                    &quot;hex&quot;: &quot;#E3D4C1&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fneutral%2Dterritory&amp;afftrack=Atelier%2DClare%2DNeutralTerritory&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 11,
+                    &quot;name&quot;: &quot;Windy City&quot;,
+                    &quot;hex&quot;: &quot;#C1BEB7&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fwindy%2Dcity&amp;afftrack=Atelier%2DClare%2DWindyCity&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 12,
+                    &quot;name&quot;: &quot;Flatiron&quot;,
+                    &quot;hex&quot;: &quot;#D2CABD&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fflatiron&amp;afftrack=Atelier%2DClare%2DFlatiron&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 13,
+                    &quot;name&quot;: &quot;Penthouse&quot;,
+                    &quot;hex&quot;: &quot;#E4E5E0&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fpenthouse&amp;afftrack=Atelier%2DClare%2DPenthouse&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 14,
+                    &quot;name&quot;: &quot;Greige&quot;,
+                    &quot;hex&quot;: &quot;#B4B0A5&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fgreige&amp;afftrack=Atelier%2DClare%2DGreige&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                },
+                {
+                    &quot;id&quot;: 15,
+                    &quot;name&quot;: &quot;Shade&quot;,
+                    &quot;hex&quot;: &quot;#898883&quot;,
+                    &quot;url&quot;: &quot;https:\/\/shareasale.com\/r.cfm?b=1201463&amp;u=2039654&amp;m=80720&amp;urllink=www%2Eclare%2Ecom%2Fpaint%2Fwall%2Fshade&amp;afftrack=Atelier%2DClare%2DShade&quot;,
+                    &quot;active&quot;: &quot;1&quot;,
+                    &quot;created_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2021-04-30T05:00:46.000000Z&quot;
+                }
+            ],
+            &quot;first_page_url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=1&quot;,
+            &quot;from&quot;: 1,
+            &quot;last_page&quot;: 4,
+            &quot;last_page_url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=4&quot;,
+            &quot;links&quot;: [
+                {
+                    &quot;url&quot;: null,
+                    &quot;label&quot;: &quot;&amp;laquo; Previo&quot;,
+                    &quot;active&quot;: false
+                },
+                {
+                    &quot;url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=1&quot;,
+                    &quot;label&quot;: &quot;1&quot;,
+                    &quot;active&quot;: true
+                },
+                {
+                    &quot;url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=2&quot;,
+                    &quot;label&quot;: &quot;2&quot;,
+                    &quot;active&quot;: false
+                },
+                {
+                    &quot;url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=3&quot;,
+                    &quot;label&quot;: &quot;3&quot;,
+                    &quot;active&quot;: false
+                },
+                {
+                    &quot;url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=4&quot;,
+                    &quot;label&quot;: &quot;4&quot;,
+                    &quot;active&quot;: false
+                },
+                {
+                    &quot;url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=2&quot;,
+                    &quot;label&quot;: &quot;Siguiente &amp;raquo;&quot;,
+                    &quot;active&quot;: false
+                }
+            ],
+            &quot;next_page_url&quot;: &quot;http:\/\/atelierapp.test\/api\/colors?page=2&quot;,
+            &quot;path&quot;: &quot;http:\/\/atelierapp.test\/api\/colors&quot;,
+            &quot;per_page&quot;: 15,
+            &quot;prev_page_url&quot;: null,
+            &quot;to&quot;: 15,
+            &quot;total&quot;: 56
+        }
     }
 ]</code></pre>
 </div>    </div>
