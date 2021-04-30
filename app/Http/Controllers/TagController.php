@@ -11,11 +11,11 @@ use App\Models\Tag;
 class TagController extends Controller
 {
 
-    public function index(): TagCollection
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $tags = Tag::paginate();
 
-        return new TagCollection($tags);
+        return TagIndexResource::collection($tags);
     }
 
     public function store(TagStoreRequest $request): TagIndexResource

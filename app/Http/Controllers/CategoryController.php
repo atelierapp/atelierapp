@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
-use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryIndexResource;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Storage;
@@ -12,11 +12,11 @@ use Storage;
 class CategoryController extends Controller
 {
 
-    public function index(): CategoryCollection
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $categories = Category::all();
 
-        return new CategoryCollection($categories);
+        return CategoryIndexResource::collection($categories);
     }
 
     public function store(CategoryStoreRequest $request): CategoryResource
