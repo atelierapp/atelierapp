@@ -37,10 +37,10 @@ class RoomController extends Controller
         return new RoomResource($room);
     }
 
-    public function destroy(Room $room): \Illuminate\Http\Response
+    public function destroy(Room $room): \Illuminate\Http\JsonResponse
     {
         $room->delete();
 
-        return response()->noContent();
+        return $this->responseNoContect();
     }
 }

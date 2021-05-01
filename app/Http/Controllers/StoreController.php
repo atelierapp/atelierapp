@@ -37,10 +37,11 @@ class StoreController extends Controller
         return StoreDetailResource::make($store);
     }
 
-    public function destroy(Store $store): \Illuminate\Http\Response
+    public function destroy(Store $store): \Illuminate\Http\JsonResponse
     {
         $store->delete();
 
-        return response()->noContent();
+        return $this->responseNoContect();
     }
+
 }

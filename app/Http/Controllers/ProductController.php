@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
-use App\Http\Resources\ProductCollection;
 use App\Http\Resources\Product as ProductResource;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Tag;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
 
@@ -62,10 +62,11 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    public function destroy(Product $product): \Illuminate\Http\Response
+    public function destroy(Product $product): JsonResponse
     {
         $product->delete();
 
-        return response()->noContent();
+        return $this->responseNoContect();
     }
+
 }

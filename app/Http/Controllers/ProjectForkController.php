@@ -8,6 +8,7 @@ use App\Models\Project;
 
 class ProjectForkController extends Controller
 {
+
     public function __invoke(ProjectForkRequest $request, Project $project): ProjectDetailResource
     {
         $data = [
@@ -24,4 +25,5 @@ class ProjectForkController extends Controller
 
         return ProjectDetailResource::make($forkedProject);
     }
+
 }

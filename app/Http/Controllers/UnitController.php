@@ -37,10 +37,11 @@ class UnitController extends Controller
         return new UnitResource($unit);
     }
 
-    public function destroy(Unit $unit): \Illuminate\Http\Response
+    public function destroy(Unit $unit): \Illuminate\Http\JsonResponse
     {
         $unit->delete();
 
-        return response()->noContent();
+        return $this->responseNoContect();
     }
+
 }

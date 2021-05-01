@@ -43,4 +43,5 @@ class MaterialController extends Controller
 
         return response()->noContent();
     }
+
 }

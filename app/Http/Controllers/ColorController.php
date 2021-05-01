@@ -6,6 +6,7 @@ use App\Models\Color;
 
 class ColorController extends Controller
 {
+
     public function index(): array
     {
         $colors = Color::paginate();
@@ -17,4 +18,5 @@ class ColorController extends Controller
             ],
         ];
     }
+
 }

@@ -56,4 +56,5 @@ class CategoryController extends Controller
 
         return response()->noContent();
     }
+
 }

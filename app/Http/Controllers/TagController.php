@@ -37,10 +37,10 @@ class TagController extends Controller
         return new TagResource($tag);
     }
 
-    public function destroy(Tag $tag): \Illuminate\Http\Response
+    public function destroy(Tag $tag): \Illuminate\Http\JsonResponse
     {
         $tag->delete();
 
-        return response()->noContent();
+        return $this->responseNoContect();
     }
 }

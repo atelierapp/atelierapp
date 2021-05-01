@@ -7,6 +7,7 @@ use App\Http\Requests\MediaTypeUpdateRequest;
 use App\Http\Resources\MediaTypeCollection;
 use App\Http\Resources\MediaTypeResource;
 use App\Models\MediaType;
+use Illuminate\Http\JsonResponse;
 
 class MediaTypeController extends Controller
 {
@@ -37,10 +38,11 @@ class MediaTypeController extends Controller
         return new MediaTypeResource($mediaType);
     }
 
-    public function destroy(MediaType $mediaType): \Illuminate\Http\Response
+    public function destroy(MediaType $mediaType): JsonResponse
     {
         $mediaType->delete();
 
-        return response()->noContent();
+        return $this->responseNoContect();
     }
+
 }

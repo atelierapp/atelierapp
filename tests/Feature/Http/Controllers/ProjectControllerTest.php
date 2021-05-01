@@ -312,7 +312,7 @@ class ProjectControllerTest extends TestCase
 
         $response = $this->deleteJson(route('projects.destroy', $project));
 
-        $response->assertOk();
+        $response->assertNoContent();
         $this->assertSoftDeleted($project);
     }
 
