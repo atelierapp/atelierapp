@@ -8,6 +8,7 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductDetailResource;
 use App\Http\Resources\ProductIndexResource;
 use App\Models\Media;
+use App\Models\MediaType;
 use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -39,9 +40,10 @@ class ProductController extends Controller
 
         if ($request->has('attach')) {
             foreach ($request->file('attach') as $attach) {
+                $mediaTypeId = MediaType::getIdFromMimeType($attach['file']->getClientMimeType());
                 $path = Storage::disk('s3')->put('media', $attach['file']);
                 $product->medias()->save(
-                    new Media(['url' => $path])
+                    new Media(['url' => $path, 'type_id' => $mediaTypeId])
                 );
             }
         }

@@ -6,9 +6,11 @@ use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
 use App\Models\Style;
 use App\Models\Tag;
+use Database\Seeders\MediaTypeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -259,7 +261,8 @@ class ProductControllerTest extends TestCase
      */
     public function store_a_product_with_media(): void
     {
-        $this->markTestSkipped('Implementar prueba con s3');
+        $this->seed(MediaTypeSeeder::class);
+        Storage::fake('s3');
         $data = [
             'title' => $this->faker->name,
             'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
@@ -269,9 +272,10 @@ class ProductControllerTest extends TestCase
             'quantity' => $this->faker->numberBetween(1, 10),
             'sku' => $this->faker->word,
             'active' => true,
+            'style_id' => Style::factory()->create()->id,
             'properties' => ['demo' => $this->faker->word],
             'attach' => [
-                ['file' => UploadedFile::fake()->image('attachmedia1.jpg')],
+                ['file' => UploadedFile::fake()->image('attachmedia1.mp4')],
                 ['file' => UploadedFile::fake()->image('attachmedia2.jpg')],
             ],
         ];
@@ -284,31 +288,30 @@ class ProductControllerTest extends TestCase
                 'data' => [
                     'id',
                     'title',
+                    'manufacturer_type_code',
                     'manufacturer_type',
                     'manufactured_at',
                     'description',
                     'price',
+                    'style_id',
+                    'style',
                     'quantity',
                     'sku',
                     'active',
-                    'properties',
-                    'tags' => [
+                    'properties' => [
+                        'demo'
+                    ],
+                    'medias' => [
                         0 => [
                             'id',
-                            'name',
-                            'active',
+                            'type_id',
+                            'url',
                         ]
                     ]
                 ],
             ]
         );
-//        $this->assertDatabaseHas('tags', [
-//            'taggable_type' => Product::class,
-//            'name' => $tag
-//        ]);
-
-//        $data = collect($data)->except(['properties', 'manufactured_at', 'attach'])->toArray();
-//        $this->assertDatabaseHas('products', $data);
+        $this->assertDatabaseCount('media', 2);
     }
 
     /**
