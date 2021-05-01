@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Database\Factories\MediaFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Facades\Storage;
 
 class Media extends Model
 {
@@ -40,4 +40,10 @@ class Media extends Model
     {
         return $this->belongsTo(MediaType::class);
     }
+
+    public function getUrlAttribute(): string
+    {
+        return Storage::disk('s3')->url($this->attributes['url']);
+    }
+
 }
