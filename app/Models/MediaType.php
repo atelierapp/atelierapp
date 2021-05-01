@@ -12,6 +12,9 @@ class MediaType extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public const VIDEO = 'video';
+    public const IMAGE = 'image';
+
     protected $fillable = [
         'name',
         'image',
