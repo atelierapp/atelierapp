@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-social', [AuthController::class, 'socialLogin']);
-Route::post('/sign-up', [AuthController::class, 'signUp']);
+Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
 
 Route::group(
     ['middleware' => 'auth:sanctum'],
