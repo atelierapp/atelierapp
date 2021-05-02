@@ -33,6 +33,7 @@ class ProductControllerTest extends TestCase
         $params = [
             'search' => 'test-product'
         ];
+        Storage::fake('s3');
         Product::factory()->count(4)->create();
         Product::factory()->create(['title' => $params['search']]);
 
@@ -43,17 +44,17 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 0 => [
+                    'id',
                     'title',
-                    'manufacturer_type_code',
                     'manufacturer_type',
                     'manufactured_at',
                     'description',
                     'price',
-                    'style_id',
-                    'style',
                     'quantity',
                     'sku',
                     'active',
+                    'properties',
+                    'featured_media',
                 ]
             ],
             'meta' => [
@@ -82,6 +83,7 @@ class ProductControllerTest extends TestCase
      */
     public function index_accepts_filters()
     {
+        Storage::fake('s3');
         Product::factory()->times(5)->hasTags(2)->hasCategories(2)->hasMedias(2)->create();
 
         $response = $this->get(route('product.index'));
@@ -91,17 +93,17 @@ class ProductControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 0 => [
+                    'id',
                     'title',
-                    'manufacturer_type_code',
                     'manufacturer_type',
                     'manufactured_at',
                     'description',
                     'price',
-                    'style_id',
-                    'style',
                     'quantity',
                     'sku',
                     'active',
+                    'properties',
+                    'featured_media',
                 ]
             ],
             'meta' => [
@@ -142,6 +144,7 @@ class ProductControllerTest extends TestCase
      */
     public function store_saves(): void
     {
+        Storage::fake('s3');
         $data = [
             'title' => $this->faker->name,
             'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
@@ -232,7 +235,7 @@ class ProductControllerTest extends TestCase
                             'name',
                             'active',
                         ]
-                     ]
+                    ]
                 ],
             ]
         );
@@ -320,6 +323,7 @@ class ProductControllerTest extends TestCase
      */
     public function show_behaves_as_expected(): void
     {
+        Storage::fake('s3');
         $product = Product::factory()->hasTags(2)->hasCategories(2)->hasMedias(2)->create();
 
         $response = $this->get(route('product.show', $product));

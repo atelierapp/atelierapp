@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Enums\ManufacturerTypeEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductDetailResource extends JsonResource
+class ProductResource extends JsonResource
 {
 
     /**
@@ -30,9 +30,10 @@ class ProductDetailResource extends JsonResource
             'sku' => $this->sku,
             'active' => (boolean) $this->active,
             'properties' => $this->properties,
-            'medias' => MediaIndexResource::collection($this->medias),
-            'tags' => TagIndexResource::collection($this->tags),
-            'categories' => CategoryIndexResource::collection($this->categories),
+            'featured_media' => $this->featured_media->url,
+            'medias' => MediaIndexResource::collection($this->whenLoaded('medias')),
+            'tags' => TagIndexResource::collection($this->whenLoaded('tags')),
+            'categories' => CategoryIndexResource::collection($this->whenLoaded('categories')),
         ];
     }
 

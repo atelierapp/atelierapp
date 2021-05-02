@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
+use Storage;
 use Tests\TestCase;
 
 /**
@@ -24,6 +25,7 @@ class MediaControllerTest extends TestCase
      */
     public function index_behaves_as_expected(): void
     {
+        Storage::fake('s3');
         Media::factory()->count(3)->create();
 
         $response = $this->getJson(route('media.index'));
@@ -37,6 +39,7 @@ class MediaControllerTest extends TestCase
      */
     public function show_behaves_as_expected(): void
     {
+        Storage::fake('s3');
         $media = Media::factory()->create();
 
         $response = $this->get(route('media.show', $media));
@@ -62,6 +65,7 @@ class MediaControllerTest extends TestCase
      */
     public function update_behaves_as_expected(): void
     {
+        Storage::fake('s3');
         $media = Media::factory()->create();
         $data = [
             'type_id' => MediaType::factory()->create()->id,

@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
-use App\Http\Resources\ProductCollection;
-use App\Http\Resources\ProductDetailResource;
-use App\Http\Resources\ProductIndexResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Media;
 use App\Models\MediaType;
 use App\Models\Product;
@@ -21,14 +19,14 @@ class ProductController extends Controller
     {
         $products = Product::with('style')->search(request('search'))->paginate();
 
-        return ProductIndexResource::collection($products);
+        return ProductResource::collection($products);
     }
 
-    public function store(ProductStoreRequest $request): ProductDetailResource
+    public function store(ProductStoreRequest $request): ProductResource
     {
         $product = Product::create($request->validated());
 
-        if (!empty($request->get('tags'))) {
+        if (! empty($request->get('tags'))) {
             $tags = [];
             foreach ($request->tags as $tag) {
                 $tags[] = Tag::query()->firstOrNew([
@@ -48,23 +46,24 @@ class ProductController extends Controller
             }
         }
 
-        $product->load('style', 'tags', 'medias');
+        $product->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
 
-        return ProductDetailResource::make($product);
+        return ProductResource::make($product);
     }
 
-    public function show(Product $product): ProductDetailResource
+    public function show(Product $product): ProductResource
     {
-        $product->load('categories', 'style', 'materials');
+        $product->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
 
-        return ProductDetailResource::make($product);
+        return ProductResource::make($product);
     }
 
-    public function update(ProductUpdateRequest $request, Product $product): ProductDetailResource
+    public function update(ProductUpdateRequest $request, Product $product): ProductResource
     {
         $product->update($request->validated());
+        $product->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
 
-        return ProductDetailResource::make($product);
+        return ProductResource::make($product);
     }
 
     public function destroy(Product $product): \Illuminate\Http\Response
