@@ -67,9 +67,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_invalid_data(): void
+    public function an_account_cannot_be_created_with_invalid_data(): void
     {
         $response = $this->postJson(route('signUp'));
 
@@ -88,9 +88,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_short_first_name(): void
+    public function an_account_cannot_be_created_with_short_first_name(): void
     {
         $data = [
             'first_name' => 'a',
@@ -115,9 +115,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_long_first_name(): void
+    public function an_account_cannot_be_created_with_long_first_name(): void
     {
         $data = [
             'first_name' => $this->faker->text(),
@@ -142,9 +142,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_short_last_name(): void
+    public function an_account_cannot_be_created_with_short_last_name(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
@@ -169,9 +169,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_long_last_name(): void
+    public function an_account_cannot_be_created_with_long_last_name(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
@@ -196,9 +196,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_existing_email(): void
+    public function an_account_cannot_be_created_with_existing_email(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
@@ -224,9 +224,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_invalid_email(): void
+    public function an_account_cannot_be_created_with_invalid_email(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
@@ -251,9 +251,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_username_less_than_5_character(): void
+    public function an_account_cannot_be_created_with_username_less_than_5_character(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
@@ -278,9 +278,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_existing_username(): void
+    public function an_account_cannot_be_created_with_existing_username(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
@@ -306,9 +306,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_phone_less_than_7_digits(): void
+    public function an_account_cannot_be_created_with_phone_less_than_7_digits(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
@@ -333,9 +333,9 @@ class SignUpTest extends TestCase
     /**
      * @test
      * @title Invalid registration
-     * @description An account can't be create with invalid data.
+     * @description An account can't be created with invalid data.
      */
-    public function an_account_cannot_be_create_with_phone_more_than_14_digits(): void
+    public function an_account_cannot_be_created_with_phone_more_than_14_digits(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
