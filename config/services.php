@@ -37,5 +37,6 @@ return [
     'apple' => [
         'client_id' => env('APPLE_CLIENT_ID'),
         'client_secret' => env('APPLE_CLIENT_SECRET'),
+        'redirect' => env('APPLE_REDIRECT_URI', 'https://atelierapp.com./apple/redirect'),
     ]
 ];
