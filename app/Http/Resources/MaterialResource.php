@@ -19,6 +19,8 @@ class MaterialResource extends JsonResource
             'name' => $this->name,
             'image' => $this->image,
             'active' => $this->active,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }

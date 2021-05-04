@@ -11,30 +11,30 @@ use App\Models\Material;
 class MaterialController extends Controller
 {
 
-    public function index(): MaterialCollection
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $materials = Material::all();
 
-        return new MaterialCollection($materials);
+        return MaterialResource::collection($materials);
     }
 
     public function store(MaterialStoreRequest $request): MaterialResource
     {
         $material = Material::create($request->validated());
 
-        return new MaterialResource($material);
+        return MaterialResource::make($material);
     }
 
     public function show(Material $material): MaterialResource
     {
-        return new MaterialResource($material);
+        return MaterialResource::make($material);
     }
 
     public function update(MaterialUpdateRequest $request, Material $material): MaterialResource
     {
         $material->update($request->validated());
 
-        return new MaterialResource($material);
+        return MaterialResource::make($material);
     }
 
     public function destroy(Material $material): \Illuminate\Http\Response

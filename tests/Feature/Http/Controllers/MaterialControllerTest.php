@@ -22,12 +22,23 @@ class MaterialControllerTest extends TestCase
      */
     public function index_behaves_as_expected(): void
     {
-        $materials = Material::factory()->count(3)->create();
+        Material::factory()->count(3)->create();
 
         $response = $this->get(route('material.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'name',
+                    'image',
+                    'active',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]
+        ]);
     }
 
 
@@ -60,7 +71,16 @@ class MaterialControllerTest extends TestCase
         );
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'image',
+                'active',
+                'created_at',
+                'updated_at',
+            ]
+        ]);
 
         $this->assertDatabaseCount('materials', 1);
     }
@@ -75,7 +95,16 @@ class MaterialControllerTest extends TestCase
         $response = $this->get(route('material.show', $material));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'image',
+                'active',
+                'created_at',
+                'updated_at',
+            ]
+        ]);
     }
 
 
@@ -111,7 +140,16 @@ class MaterialControllerTest extends TestCase
         $material->refresh();
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'image',
+                'active',
+                'created_at',
+                'updated_at',
+            ]
+        ]);
 
         $this->assertEquals($name, $material->name);
         $this->assertEquals($active, $material->active);
