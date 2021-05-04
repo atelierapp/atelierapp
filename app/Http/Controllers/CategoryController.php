@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
-use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Storage;
@@ -12,11 +11,11 @@ use Storage;
 class CategoryController extends Controller
 {
 
-    public function index(): CategoryCollection
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $categories = Category::all();
 
-        return new CategoryCollection($categories);
+        return CategoryResource::collection($categories);
     }
 
     public function store(CategoryStoreRequest $request): CategoryResource
@@ -24,12 +23,12 @@ class CategoryController extends Controller
         $params = $this->processRequest($request);
         $category = Category::create($params);
 
-        return new CategoryResource($category);
+        return CategoryResource::make($category);
     }
 
     public function show(Category $category): CategoryResource
     {
-        return new CategoryResource($category);
+        return CategoryResource::make($category);
     }
 
     public function update(CategoryUpdateRequest $request, Category $category): CategoryResource
@@ -38,7 +37,7 @@ class CategoryController extends Controller
         Storage::delete($category->image);
         $category->update($params);
 
-        return new CategoryResource($category);
+        return CategoryResource::make($category);
     }
 
     private function processRequest($request): array
