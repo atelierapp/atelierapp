@@ -17,6 +17,7 @@ use Tests\TestCase;
  */
 class ProjectControllerTest extends TestCase
 {
+
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
@@ -261,10 +262,10 @@ class ProjectControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
         $project = Project::factory()->create(['author_id' => $user->id]);
 
-        $data = ['name' =>$this->faker->firstName];
+        $data = ['name' => $this->faker->firstName];
 
         $response = $this->patchJson(route('projects.update', $project), $data);
-        
+
         $response
             ->assertOk()
             ->assertJsonStructure([

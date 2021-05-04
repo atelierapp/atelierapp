@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
-use App\Http\Resources\ProjectDetailResource;
-use App\Http\Resources\ProjectIndexResource;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\Tag;
 
@@ -16,10 +15,10 @@ class ProjectController extends Controller
     {
         $projects = Project::with('style', 'author')->search(request('search'))->paginate();
 
-        return ProjectIndexResource::collection($projects);
+        return ProjectResource::collection($projects);
     }
 
-    public function store(ProjectStoreRequest $request): ProjectDetailResource
+    public function store(ProjectStoreRequest $request): ProjectResource
     {
         $project = Project::create($request->validated());
 
@@ -35,19 +34,19 @@ class ProjectController extends Controller
 
         $project->loadMissing('style', 'author', 'forkedFrom');
 
-        return ProjectDetailResource::make($project);
+        return ProjectResource::make($project);
     }
 
-    public function show(Project $project): ProjectDetailResource
+    public function show(Project $project): ProjectResource
     {
-        return ProjectDetailResource::make($project);
+        return ProjectResource::make($project);
     }
 
-    public function update(ProjectUpdateRequest $request, Project $project): ProjectDetailResource
+    public function update(ProjectUpdateRequest $request, Project $project): ProjectResource
     {
         $project->update($request->validated());
 
-        return ProjectDetailResource::make($project);
+        return ProjectResource::make($project);
     }
 
     public function destroy(Project $project): \Illuminate\Http\JsonResponse
