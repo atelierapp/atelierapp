@@ -31,9 +31,9 @@ class ProductResource extends JsonResource
             'active' => (boolean) $this->active,
             'properties' => $this->properties,
             'featured_media' => $this->featured_media->url,
-            'medias' => MediaIndexResource::collection($this->whenLoaded('medias')),
-            'tags' => TagIndexResource::collection($this->whenLoaded('tags')),
-            'categories' => CategoryIndexResource::collection($this->whenLoaded('categories')),
+            'medias' => MediaResource::collection($this->whenLoaded('medias')),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
 

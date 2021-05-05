@@ -4,43 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TagStoreRequest;
 use App\Http\Requests\TagUpdateRequest;
-use App\Http\Resources\TagCollection;
-use App\Http\Resources\TagIndexResource;
+use App\Http\Resources\TagResource;
 use App\Models\Tag;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TagController extends Controller
 {
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         $tags = Tag::paginate();
 
-        return TagIndexResource::collection($tags);
+        return TagResource::collection($tags);
     }
 
-    public function store(TagStoreRequest $request): TagIndexResource
+    public function store(TagStoreRequest $request): TagResource
     {
         $tag = Tag::create($request->validated());
 
-        return new TagIndexResource($tag);
+        return TagResource::make($tag);
     }
 
-    public function show(Tag $tag): TagIndexResource
+    public function show(Tag $tag): TagResource
     {
-        return new TagIndexResource($tag);
+        return TagResource::make($tag);
     }
 
-    public function update(TagUpdateRequest $request, Tag $tag): TagIndexResource
+    public function update(TagUpdateRequest $request, Tag $tag): TagResource
     {
         $tag->update($request->validated());
 
-        return new TagIndexResource($tag);
+        return TagResource::make($tag);
     }
 
-    public function destroy(Tag $tag): \Illuminate\Http\Response
+    public function destroy(Tag $tag): JsonResponse
     {
         $tag->delete();
 
-        return response()->noContent();
+        return $this->responseNoContent();
     }
+
 }

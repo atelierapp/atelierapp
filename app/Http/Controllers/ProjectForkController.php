@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectForkRequest;
-use App\Http\Resources\ProjectDetailResource;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 
 class ProjectForkController extends Controller
 {
-    public function __invoke(ProjectForkRequest $request, Project $project): ProjectDetailResource
+
+    public function __invoke(ProjectForkRequest $request, Project $project): ProjectResource
     {
         $data = [
             'name' => $request->get('name', $project->name . ' (forked)'),
@@ -22,6 +23,7 @@ class ProjectForkController extends Controller
         $forkedProject = Project::create($data);
         $forkedProject->load('style', 'author', 'forkedFrom');
 
-        return ProjectDetailResource::make($forkedProject);
+        return ProjectResource::make($forkedProject);
     }
+
 }

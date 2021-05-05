@@ -5,6 +5,9 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Media;
 use App\Models\MediaType;
 use App\Models\Product;
+use App\Models\Project;
+use Database\Seeders\ProductSeeder;
+use Database\Seeders\ProjectSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -20,18 +23,49 @@ class MediaControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'type_id',
+            'url',
+        ];
+    }
+
     /**
      * @test
      */
     public function index_behaves_as_expected(): void
     {
         Storage::fake('s3');
+        Product::factory()->times(2)->create();
+        Project::factory()->times(2)->create();
         Media::factory()->count(3)->create();
 
         $response = $this->getJson(route('media.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
     }
 
     /**
@@ -40,12 +74,16 @@ class MediaControllerTest extends TestCase
     public function show_behaves_as_expected(): void
     {
         Storage::fake('s3');
+        Product::factory()->times(2)->create();
+        Project::factory()->times(2)->create();
         $media = Media::factory()->create();
 
         $response = $this->get(route('media.show', $media));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
     /**
@@ -66,6 +104,8 @@ class MediaControllerTest extends TestCase
     public function update_behaves_as_expected(): void
     {
         Storage::fake('s3');
+        Product::factory()->times(2)->create();
+        Project::factory()->times(2)->create();
         $media = Media::factory()->create();
         $data = [
             'type_id' => MediaType::factory()->create()->id,
@@ -75,7 +115,9 @@ class MediaControllerTest extends TestCase
 
         $response = $this->put(route('media.update', $media), $data);
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $this->assertDatabaseHas('media', array_merge(['id' => $media->id], $data));
     }
@@ -85,9 +127,11 @@ class MediaControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with(): void
     {
+        Product::factory()->times(2)->create();
+        Project::factory()->times(2)->create();
         $media = Media::factory()->create();
 
-        $response = $this->delete(route('media.destroy', $media));
+        $response = $this->deleteJson(route('media.destroy', $media));
 
         $response->assertNoContent();
 

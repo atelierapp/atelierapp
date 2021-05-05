@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UnitSystemSeeder::class);
         $this->call(UnitSeeder::class);
         $this->call(MediaTypeSeeder::class);
-        $this->call(MediaSeeder::class);
         $this->call(ProjectSeeder::class);
+        $this->call(MediaSeeder::class);
         $this->call(RoomSeeder::class);
     }
 }

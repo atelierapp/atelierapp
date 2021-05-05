@@ -19,6 +19,19 @@ class CategoryControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+            'image',
+            'parent_id',
+            'active',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
     /**
      * @test
      * @title List categories
@@ -30,9 +43,28 @@ class CategoryControllerTest extends TestCase
         $response = $this->get(route('category.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
     }
-
 
     /**
      * @test
@@ -52,7 +84,7 @@ class CategoryControllerTest extends TestCase
      */
     public function store_saves(): void
     {
-         $data = [
+        $data = [
             'name' => $this->faker->name,
             'image' => UploadedFile::fake()->image('category.jpg'),
             'active' => $this->faker->boolean,
@@ -61,7 +93,9 @@ class CategoryControllerTest extends TestCase
         $response = $this->postJson(route('category.store'), $data);
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $this->assertDatabaseHas('categories', collect($data)->except(['image'])->toArray());
     }
@@ -78,7 +112,9 @@ class CategoryControllerTest extends TestCase
         $response = $this->getJson(route('category.show', $category));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -110,7 +146,9 @@ class CategoryControllerTest extends TestCase
         $response = $this->putJson(route('category.update', $category), $data);
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $params = collect($data)->except(['image'])->toArray();
         $params['id'] = $category->id;

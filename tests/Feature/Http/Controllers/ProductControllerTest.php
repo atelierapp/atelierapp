@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\ManufacturerTypeEnum;
+use App\Models\Media;
 use App\Models\Product;
 use App\Models\Style;
 use App\Models\Tag;

@@ -9,11 +9,17 @@ use App\Models\Media;
 use App\Models\MediaType;
 use App\Models\Product;
 use App\Models\Tag;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+
+    private function loadRelations(Product $productModel)
+    {
+        $productModel->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
+    }
 
     public function index(): AnonymousResourceCollection
     {
@@ -46,14 +52,14 @@ class ProductController extends Controller
             }
         }
 
-        $product->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
+        $this->loadRelations($product);
 
         return ProductResource::make($product);
     }
 
     public function show(Product $product): ProductResource
     {
-        $product->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
+        $this->loadRelations($product);
 
         return ProductResource::make($product);
     }
@@ -61,15 +67,16 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, Product $product): ProductResource
     {
         $product->update($request->validated());
-        $product->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
+        $this->loadRelations($product);
 
         return ProductResource::make($product);
     }
 
-    public function destroy(Product $product): \Illuminate\Http\Response
+    public function destroy(Product $product): JsonResponse
     {
         $product->delete();
 
-        return response()->noContent();
+        return $this->responseNoContent();
     }
+
 }

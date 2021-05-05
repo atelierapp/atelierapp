@@ -18,6 +18,14 @@ class UnitSystemControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+        ];
+    }
+
     /**
      * @test
      * @title List unit systems
@@ -29,7 +37,27 @@ class UnitSystemControllerTest extends TestCase
         $response = $this->get(route('unit-system.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
     }
 
 
@@ -61,7 +89,9 @@ class UnitSystemControllerTest extends TestCase
         );
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $this
             ->assertDatabaseCount('unit_systems', 1)
@@ -117,7 +147,9 @@ class UnitSystemControllerTest extends TestCase
         $unitSystem->refresh();
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $this->assertEquals($name, $unitSystem->name);
     }

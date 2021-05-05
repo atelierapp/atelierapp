@@ -4,43 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UnitSystemStoreRequest;
 use App\Http\Requests\UnitSystemUpdateRequest;
-use App\Http\Resources\UnitSystemCollection;
 use App\Http\Resources\UnitSystemResource;
 use App\Models\UnitSystem;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UnitSystemController extends Controller
 {
 
-    public function index(): UnitSystemCollection
+    public function index(): AnonymousResourceCollection
     {
-        $unitSystems = UnitSystem::all();
+        $unitSystems = UnitSystem::paginate();
 
-        return new UnitSystemCollection($unitSystems);
+        return UnitSystemResource::collection($unitSystems);
     }
 
     public function store(UnitSystemStoreRequest $request): UnitSystemResource
     {
         $unitSystem = UnitSystem::create($request->validated());
 
-        return new UnitSystemResource($unitSystem);
+        return UnitSystemResource::make($unitSystem);
     }
 
     public function show(UnitSystem $unitSystem): UnitSystemResource
     {
-        return new UnitSystemResource($unitSystem);
+        return UnitSystemResource::make($unitSystem);
     }
 
     public function update(UnitSystemUpdateRequest $request, UnitSystem $unitSystem): UnitSystemResource
     {
         $unitSystem->update($request->validated());
 
-        return new UnitSystemResource($unitSystem);
+        return UnitSystemResource::make($unitSystem);
     }
 
-    public function destroy(UnitSystem $unitSystem): \Illuminate\Http\Response
+    public function destroy(UnitSystem $unitSystem): JsonResponse
     {
         $unitSystem->delete();
 
-        return response()->noContent();
+        return $this->responseNoContent();
     }
+
 }

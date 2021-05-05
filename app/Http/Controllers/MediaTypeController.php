@@ -4,43 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MediaTypeStoreRequest;
 use App\Http\Requests\MediaTypeUpdateRequest;
-use App\Http\Resources\MediaTypeCollection;
 use App\Http\Resources\MediaTypeResource;
 use App\Models\MediaType;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MediaTypeController extends Controller
 {
 
-    public function index(): MediaTypeCollection
+    public function index(): AnonymousResourceCollection
     {
-        $mediaTypes = MediaType::all();
+        $mediaTypes = MediaType::paginate();
 
-        return new MediaTypeCollection($mediaTypes);
+        return MediaTypeResource::collection($mediaTypes);
     }
 
     public function store(MediaTypeStoreRequest $request): MediaTypeResource
     {
         $mediaType = MediaType::create($request->validated());
 
-        return new MediaTypeResource($mediaType);
+        return MediaTypeResource::make($mediaType);
     }
 
     public function show(MediaType $mediaType): MediaTypeResource
     {
-        return new MediaTypeResource($mediaType);
+        return MediaTypeResource::make($mediaType);
     }
 
     public function update(MediaTypeUpdateRequest $request, MediaType $mediaType): MediaTypeResource
     {
         $mediaType->update($request->validated());
 
-        return new MediaTypeResource($mediaType);
+        return MediaTypeResource::make($mediaType);
     }
 
-    public function destroy(MediaType $mediaType): \Illuminate\Http\Response
+    public function destroy(MediaType $mediaType): JsonResponse
     {
         $mediaType->delete();
 
-        return response()->noContent();
+        return $this->responseNoContent();
     }
+
 }

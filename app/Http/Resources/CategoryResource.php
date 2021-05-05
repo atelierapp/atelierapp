@@ -20,6 +20,8 @@ class CategoryResource extends JsonResource
             'image' => $this->image,
             'parent_id' => $this->parent_id,
             'active' => $this->active,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }

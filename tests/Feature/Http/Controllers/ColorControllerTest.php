@@ -13,8 +13,22 @@ use Tests\TestCase;
  */
 class ColorControllerTest extends TestCase
 {
+
     use AdditionalAssertions;
     use WithFaker;
+
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+            'hex',
+            'url',
+            'active',
+            'created_at',
+            'updated_at'
+        ];
+    }
 
     /**
      * @test
@@ -28,36 +42,28 @@ class ColorControllerTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertJsonStructure(
-                [
-                    [
-                        'brand',
-                        'items' => [
-                            'data' => [
-                                0 => [
-                                    'id',
-                                    'name',
-                                    'hex',
-                                    'url',
-                                    'active',
-                                    'created_at',
-                                    'updated_at'
-                                ],
-                            ],
-                            'current_page',
-                            'first_page_url',
-                            'from',
-                            'last_page',
-                            'last_page_url',
-                            'next_page_url',
-                            'path',
-                            'per_page',
-                            'prev_page_url',
-                            'to',
-                            'total',
-                        ],
-                    ],
+            ->assertJsonStructure([
+                'brand',
+                'data' => [
+                    0 => $this->structure(),
+                ],
+                'links' => [
+                    'first',
+                    'last',
+                    'prev',
+                    'next',
+                ],
+                'meta' => [
+                    'current_page',
+                    'from',
+                    'last_page',
+                    'links',
+                    'path',
+                    'per_page',
+                    'to',
+                    'total',
                 ]
-            );
+            ]);
     }
+
 }

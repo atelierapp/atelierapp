@@ -4,25 +4,24 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectIndexResource extends JsonResource
+class ColorResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray($request)
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'style' => $this->style->name,
-            'author' => $this->author->full_name,
-            'published' => (boolean) $this->published,
-            'public' => (boolean) $this->public,
+            'hex' => $this->hex,
+            'url' => $this->url,
+            'active' => $this->active,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
-
 }

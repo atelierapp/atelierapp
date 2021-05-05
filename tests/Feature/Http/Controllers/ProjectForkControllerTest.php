@@ -72,7 +72,7 @@ class ProjectForkControllerTest extends TestCase
             ]
         );
         $this->assertDatabaseHas('projects', [
-            'name' => $project->name.' (forked)',
+            'name' => $project->name . ' (forked)',
             'style_id' => $project->style_id,
             'author_id' => $user->id,
             'forked_from_id' => $project->id,

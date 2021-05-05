@@ -18,6 +18,15 @@ class TagControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure()
+    {
+        return [
+            'id',
+            'name',
+            'active',
+        ];
+    }
+
     /**
      * @test
      * List tags
@@ -31,7 +40,9 @@ class TagControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure(
             [
-                'data',
+                'data' => [
+                    0 => $this->structure()
+                ],
                 'meta' => [
                     'current_page',
                     'from',
@@ -40,18 +51,13 @@ class TagControllerTest extends TestCase
                     'path',
                     'per_page',
                     'to',
-                    'total'
-                ]
-            ]
-        );
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    0 => [
-                        'id',
-                        'name',
-                        'active'
-                    ]
+                    'total',
+                ],
+                'links' => [
+                    'first',
+                    'last',
+                    'prev',
+                    'next'
                 ]
             ]
         );
@@ -81,7 +87,9 @@ class TagControllerTest extends TestCase
         $response = $this->get(route('tag.show', $tag));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -118,7 +126,9 @@ class TagControllerTest extends TestCase
         $tag->refresh();
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $this->assertEquals($name, $tag->name);
         $this->assertEquals($active, $tag->active);

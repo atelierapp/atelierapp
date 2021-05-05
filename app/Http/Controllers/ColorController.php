@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ColorResource;
 use App\Models\Color;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ColorController extends Controller
 {
-    public function index(): array
-    {
-        $colors = Color::paginate();
 
-        return [
-            [
-                'brand' => 'CLARE',
-                'items' => $colors,
-            ],
-        ];
+    public function index(): AnonymousResourceCollection
+    {
+        $colors = Color::paginate(5);
+
+        return ColorResource::collection($colors)
+            ->additional(['brand' => 'CLARE']);
     }
+
 }

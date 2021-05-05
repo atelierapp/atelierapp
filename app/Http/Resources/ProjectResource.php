@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectDetailResource extends JsonResource
+class ProjectResource extends JsonResource
 {
 
     /**
@@ -22,8 +22,8 @@ class ProjectDetailResource extends JsonResource
             'style' => $this->style->name,
             'author_id' => $this->author_id,
             'author' => $this->author->full_name,
-            'published' => (boolean) $this->published,
-            'public' => (boolean) $this->public,
+            'published' => $this->published,
+            'public' => $this->public,
             'created_at' => $this->created_at->toDatetimeString(),
             'updated_at' => $this->updated_at->toDatetimeString(),
             'forkedFrom' => self::make($this->whenLoaded('forkedFrom'))

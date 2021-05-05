@@ -32,9 +32,9 @@ class AuthController extends Controller
             throw new AuthenticationException(trans('auth.failed'));
         }
 
-        return response()->json(['data' => [
+        return $this->response([
             'access_token' => $user->createToken('login')->plainTextToken,
-        ]]);
+        ]);
     }
 
     public function socialLogin(SocialLoginRequest $request): JsonResponse
@@ -81,4 +81,5 @@ class AuthController extends Controller
 
         return $this->response([], __('auth.logout.success'));
     }
+
 }

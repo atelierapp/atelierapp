@@ -4,22 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
-use App\Http\Resources\ProjectDetailResource;
-use App\Http\Resources\ProjectIndexResource;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\Tag;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectController extends Controller
 {
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         $projects = Project::with('style', 'author')->search(request('search'))->paginate();
 
-        return ProjectIndexResource::collection($projects);
+        return ProjectResource::collection($projects);
     }
 
-    public function store(ProjectStoreRequest $request): ProjectDetailResource
+    public function store(ProjectStoreRequest $request): ProjectResource
     {
         $project = Project::create($request->validated());
 
@@ -35,26 +36,26 @@ class ProjectController extends Controller
 
         $project->loadMissing('style', 'author', 'forkedFrom');
 
-        return ProjectDetailResource::make($project);
+        return ProjectResource::make($project);
     }
 
-    public function show(Project $project): ProjectDetailResource
+    public function show(Project $project): ProjectResource
     {
-        return ProjectDetailResource::make($project);
+        return ProjectResource::make($project);
     }
 
-    public function update(ProjectUpdateRequest $request, Project $project): ProjectDetailResource
+    public function update(ProjectUpdateRequest $request, Project $project): ProjectResource
     {
         $project->update($request->validated());
 
-        return ProjectDetailResource::make($project);
+        return ProjectResource::make($project);
     }
 
-    public function destroy(Project $project): \Illuminate\Http\JsonResponse
+    public function destroy(Project $project): JsonResponse
     {
         $project->delete();
 
-        return response()->json([], 200);
+        return $this->responseNoContent();
     }
 
 }
