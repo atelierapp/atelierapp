@@ -298,242 +298,74 @@
             <li>
             <a href="/docs/areas/feature.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
                 Feature
-                                <svg class="w-4 h-4 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </a>
-        </li>
-            <li>
-            <a href="/docs/feature-http-controllers-product-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
-                Products
                             </a>
         </li>
     </ul>
                      <div class="flex items-center justify-center space-x-4">
-                        <h3 class="text-gray-100 text-xl mt-6 mb-4 pb-4 w-full border-b border-gray-700"><div class="flex">
-            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </span>
-            Show product
-                    </div></h3>
+                        <h3 class="text-gray-100 text-xl mt-6 mb-4 pb-4 w-full border-b border-gray-700">Username Validation Controller</h3>
                     </div>
-                    <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
-                    <div class="flex space-x-4 mb-4 bg-gray-800">
-                                                        <button
-                            x-on:click="active='requests'"
-                            x-bind:class="{
-                                'border-teal-300': (active === 'requests'),
-                                'border-gray-800': (active !== 'requests')
-                            }"
-                            class="mx-2 text-gray-100 px-2 py-3 border-b-2 text-sm focus:outline-none hover:border-teal-500 transition-all ease-in-out duration-100"
-                    >Requests</button>
-                                                                                                                        </div>
-        
-        <div class="w-full h-full">
-                                                 <div x-cloak x-show="active === 'requests' " class="h-full">
-                         <div x-data="{active: 'response_2343'}" class="flex flex-col h-full">
-        
-        <div class="w-full h-full">
-                                                 <div x-cloak x-show="active === 'response_2343' " class="h-full">
-                         <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
-                        <div>
-                            <div class="bg-gray-800 rounded-md overflow-hidden">
-    <span class="block w-full bg-gray-700 px-4 py-2">
-        <h3 class="text-base text-gray-300">Request</h3>
+                    <div class="w-full my-4">
+        <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden">
+                            <a href="/docs/feature-http-controllers-username-validation-controller/it-will-return-true-if-the-username-is-available.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
+
+                    <div class="w-full lg:flex-1">
+                        <div class="flex space-x-2 items-start">
+                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
+            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </span>
-    <div>
-    
-    <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4">
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Method: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > GET</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Route: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > api/products/{product}</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Example: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > api/products/1</td>
-            </tr>
-            </table>
-</div>
-
-            <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
-    <thead>
-        <tr class="bg-gray-500">
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Parámetro de ruta</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Patrón</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Requerimiento</th>
-        </tr>
-    </thead>
-    <tbody>
-                    <tr class="break-all">
-                <td class="py-2 px-4 font-thin text-gray-200">product</td>
-                <td class="py-2 px-4 font-thin text-teal-300">*</td>
-                <td class="py-2 px-4 font-thin text-teal-300">Required</td>
-            </tr>
-            </tbody>
-</table>
-    
-    
-            <div>
-            <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
->Request Headers</span>
-    
-    <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4">
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">host: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > atelierapp.test</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">user-agent: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > Symfony</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept-language: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > en-us,en;q=0.5</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept-charset: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > ISO-8859-1,utf-8;q=0.7,*;q=0.7</td>
-            </tr>
-            </table>
-</div>
-</div>
-                            <span class="mb-8 w-full block"></span>
-
-                            <div class="bg-gray-800 rounded-md overflow-hidden">
-    <span class="block w-full bg-gray-700 px-4 py-2">
-        <h3 class="text-base text-gray-300">Respuesta</h3>
-    </span>
-    <div class="p-4 space-x-4">
-        <span class="p-1 bg-success-200 text-success-700">200</span>
-        <span class="text-gray-100">JSON</span>
-    </div>
-
-            <div>
-            <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
->Response Headers</span>
-    
-    <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4">
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">cache-control: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > no-cache, private</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">date: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > Wed, 05 May 2021 21:31:05 GMT</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > application/json</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">x-ratelimit-limit: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > 60</td>
-            </tr>
-                    <tr>
-                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">x-ratelimit-remaining: </td>
-                <td class="font-thin break-all text-teal-300 pr-4"
-                > 59</td>
-            </tr>
-            </table>
-</div>
-</div>
-                            <span class="mb-8 w-full block"></span>
-
-                                                    </div>
-                        <div class="h-full relative">
-                                                            <div class="h-full">
-            <div >
-    <pre style="margin:0;"
-         class="h-full w-full bg-gray-300 rounded-lg overflow-hidden"
-    ><code class="language-json">{
-    &quot;data&quot;: {
-        &quot;id&quot;: 1,
-        &quot;title&quot;: &quot;Distinctio modi blanditiis non maxime qui. Consequuntur veritatis nihil quos nemo deleniti in.&quot;,
-        &quot;manufacturer_type_code&quot;: &quot;external&quot;,
-        &quot;manufacturer_type&quot;: &quot;external&quot;,
-        &quot;manufactured_at&quot;: &quot;1991-02-10&quot;,
-        &quot;description&quot;: &quot;Quas labore itaque ut dignissimos laudantium a omnis. Et enim quae perspiciatis occaecati. Qui et velit soluta magnam.&quot;,
-        &quot;price&quot;: &quot;25926&quot;,
-        &quot;style_id&quot;: &quot;1&quot;,
-        &quot;style&quot;: &quot;Et&quot;,
-        &quot;quantity&quot;: &quot;68&quot;,
-        &quot;sku&quot;: &quot;0301109869&quot;,
-        &quot;active&quot;: false,
-        &quot;properties&quot;: &quot;[]&quot;,
-        &quot;featured_media&quot;: &quot;\/storage\/http:\/\/www.goodwin.org\/eos-consectetur-qui-labore-impedit&quot;,
-        &quot;medias&quot;: [
-            {
-                &quot;id&quot;: 1,
-                &quot;type_id&quot;: 1,
-                &quot;url&quot;: &quot;\/storage\/http:\/\/www.goodwin.org\/eos-consectetur-qui-labore-impedit&quot;
-            },
-            {
-                &quot;id&quot;: 2,
-                &quot;type_id&quot;: 2,
-                &quot;url&quot;: &quot;\/storage\/http:\/\/rutherford.com\/vitae-minima-nulla-consequuntur-impedit&quot;
-            }
-        ],
-        &quot;tags&quot;: [
-            {
-                &quot;id&quot;: 1,
-                &quot;name&quot;: &quot;beatae&quot;,
-                &quot;active&quot;: true
-            },
-            {
-                &quot;id&quot;: 2,
-                &quot;name&quot;: &quot;officia&quot;,
-                &quot;active&quot;: false
-            }
-        ],
-        &quot;categories&quot;: [
-            {
-                &quot;id&quot;: 6,
-                &quot;name&quot;: &quot;Hayden Monahan&quot;,
-                &quot;image&quot;: &quot;et&quot;,
-                &quot;parent_id&quot;: 5,
-                &quot;active&quot;: true,
-                &quot;created_at&quot;: &quot;2021-05-05 16:31:05&quot;,
-                &quot;updated_at&quot;: &quot;2021-05-05 16:31:05&quot;
-            },
-            {
-                &quot;id&quot;: 7,
-                &quot;name&quot;: &quot;Dr. Hilbert Hermann MD&quot;,
-                &quot;image&quot;: &quot;consequatur&quot;,
-                &quot;parent_id&quot;: null,
-                &quot;active&quot;: true,
-                &quot;created_at&quot;: &quot;2021-05-05 16:31:05&quot;,
-                &quot;updated_at&quot;: &quot;2021-05-05 16:31:05&quot;
-            }
-        ]
-    }
-}</code></pre>
-</div>    </div>
-                                                    </div>
+                            <span class="text-gray-700 font-medium">User available</span>
+                        </div>
                     </div>
-                     </div>
+
+                    <div class="w-full lg:w-1/2 flex justify-between">
+                        <div class="flex flex-col space-y-2">
+                                                            <div class="space-y-2">
+                                    <div class="flex  space-x-2">
+                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
+                                        POST: api/validate-username
+                                    </span>
+                                    <span class="text-sm px-2 flex items-center text-success-700 bg-success-200">
+                                        200 JSON
+                                    </span>
                                     </div>
-</div>
-                     </div>
-                                                                                            </div>
-</div>
+                                </div>
+                                                    </div>
+
+                        <div class="flex space-x-4 w-2/12 items-start">
+                                                                                </div>
+                    </div>
+                </a>
+                            <a href="/docs/feature-http-controllers-username-validation-controller/it-will-return-false-if-the-username-is-not-available.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
+
+                    <div class="w-full lg:flex-1">
+                        <div class="flex space-x-2 items-start">
+                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
+            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    </span>
+                            <span class="text-gray-700 font-medium">User unavailable</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full lg:w-1/2 flex justify-between">
+                        <div class="flex flex-col space-y-2">
+                                                            <div class="space-y-2">
+                                    <div class="flex  space-x-2">
+                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
+                                        POST: api/validate-username
+                                    </span>
+                                    <span class="text-sm px-2 flex items-center text-success-700 bg-success-200">
+                                        200 JSON
+                                    </span>
+                                    </div>
+                                </div>
+                                                    </div>
+
+                        <div class="flex space-x-4 w-2/12 items-start">
+                                                                                </div>
+                    </div>
+                </a>
+                    </div>
+    </div>
                 </div>
             </div>
         </main>
@@ -544,4 +376,3 @@
 
 </body>
 </html>
-

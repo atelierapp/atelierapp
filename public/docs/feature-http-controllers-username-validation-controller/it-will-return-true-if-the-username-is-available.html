@@ -302,8 +302,8 @@
                             </a>
         </li>
             <li>
-            <a href="/docs/feature-http-controllers-product-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
-                Products
+            <a href="/docs/feature-http-controllers-username-validation-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
+                Username Validation Controller
                             </a>
         </li>
     </ul>
@@ -312,7 +312,7 @@
             <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
             <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </span>
-            Show product
+            User available
                     </div></h3>
                     </div>
                     <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
@@ -329,10 +329,10 @@
         
         <div class="w-full h-full">
                                                  <div x-cloak x-show="active === 'requests' " class="h-full">
-                         <div x-data="{active: 'response_2343'}" class="flex flex-col h-full">
+                         <div x-data="{active: 'response_2396'}" class="flex flex-col h-full">
         
         <div class="w-full h-full">
-                                                 <div x-cloak x-show="active === 'response_2343' " class="h-full">
+                                                 <div x-cloak x-show="active === 'response_2396' " class="h-full">
                          <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                         <div>
                             <div class="bg-gray-800 rounded-md overflow-hidden">
@@ -345,38 +345,38 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Method: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > GET</td>
+                > POST</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Route: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/products/{product}</td>
+                > api/validate-username</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Example: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/products/1</td>
+                > api/validate-username</td>
             </tr>
             </table>
 </div>
 
+    
             <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
     <thead>
         <tr class="bg-gray-500">
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Parámetro de ruta</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Patrón</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Requerimiento</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Entrada</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Valor</th>
         </tr>
     </thead>
     <tbody>
-                    <tr class="break-all">
-                <td class="py-2 px-4 font-thin text-gray-200">product</td>
-                <td class="py-2 px-4 font-thin text-teal-300">*</td>
-                <td class="py-2 px-4 font-thin text-teal-300">Required</td>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">username</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            jane_doe
+                                    </td>
             </tr>
             </tbody>
 </table>
-    
     
             <div>
             <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
@@ -408,6 +408,11 @@
                 <td class="font-thin break-all text-teal-300 pr-4"
                 > ISO-8859-1,utf-8;q=0.7,*;q=0.7</td>
             </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > application/x-www-form-urlencoded</td>
+            </tr>
             </table>
 </div>
 </div>
@@ -435,7 +440,7 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">date: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > Wed, 05 May 2021 21:31:05 GMT</td>
+                > Wed, 05 May 2021 21:31:13 GMT</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
@@ -464,65 +469,9 @@
     <pre style="margin:0;"
          class="h-full w-full bg-gray-300 rounded-lg overflow-hidden"
     ><code class="language-json">{
+    &quot;message&quot;: &quot;Successful response.&quot;,
     &quot;data&quot;: {
-        &quot;id&quot;: 1,
-        &quot;title&quot;: &quot;Distinctio modi blanditiis non maxime qui. Consequuntur veritatis nihil quos nemo deleniti in.&quot;,
-        &quot;manufacturer_type_code&quot;: &quot;external&quot;,
-        &quot;manufacturer_type&quot;: &quot;external&quot;,
-        &quot;manufactured_at&quot;: &quot;1991-02-10&quot;,
-        &quot;description&quot;: &quot;Quas labore itaque ut dignissimos laudantium a omnis. Et enim quae perspiciatis occaecati. Qui et velit soluta magnam.&quot;,
-        &quot;price&quot;: &quot;25926&quot;,
-        &quot;style_id&quot;: &quot;1&quot;,
-        &quot;style&quot;: &quot;Et&quot;,
-        &quot;quantity&quot;: &quot;68&quot;,
-        &quot;sku&quot;: &quot;0301109869&quot;,
-        &quot;active&quot;: false,
-        &quot;properties&quot;: &quot;[]&quot;,
-        &quot;featured_media&quot;: &quot;\/storage\/http:\/\/www.goodwin.org\/eos-consectetur-qui-labore-impedit&quot;,
-        &quot;medias&quot;: [
-            {
-                &quot;id&quot;: 1,
-                &quot;type_id&quot;: 1,
-                &quot;url&quot;: &quot;\/storage\/http:\/\/www.goodwin.org\/eos-consectetur-qui-labore-impedit&quot;
-            },
-            {
-                &quot;id&quot;: 2,
-                &quot;type_id&quot;: 2,
-                &quot;url&quot;: &quot;\/storage\/http:\/\/rutherford.com\/vitae-minima-nulla-consequuntur-impedit&quot;
-            }
-        ],
-        &quot;tags&quot;: [
-            {
-                &quot;id&quot;: 1,
-                &quot;name&quot;: &quot;beatae&quot;,
-                &quot;active&quot;: true
-            },
-            {
-                &quot;id&quot;: 2,
-                &quot;name&quot;: &quot;officia&quot;,
-                &quot;active&quot;: false
-            }
-        ],
-        &quot;categories&quot;: [
-            {
-                &quot;id&quot;: 6,
-                &quot;name&quot;: &quot;Hayden Monahan&quot;,
-                &quot;image&quot;: &quot;et&quot;,
-                &quot;parent_id&quot;: 5,
-                &quot;active&quot;: true,
-                &quot;created_at&quot;: &quot;2021-05-05 16:31:05&quot;,
-                &quot;updated_at&quot;: &quot;2021-05-05 16:31:05&quot;
-            },
-            {
-                &quot;id&quot;: 7,
-                &quot;name&quot;: &quot;Dr. Hilbert Hermann MD&quot;,
-                &quot;image&quot;: &quot;consequatur&quot;,
-                &quot;parent_id&quot;: null,
-                &quot;active&quot;: true,
-                &quot;created_at&quot;: &quot;2021-05-05 16:31:05&quot;,
-                &quot;updated_at&quot;: &quot;2021-05-05 16:31:05&quot;
-            }
-        ]
+        &quot;is_available&quot;: true
     }
 }</code></pre>
 </div>    </div>
