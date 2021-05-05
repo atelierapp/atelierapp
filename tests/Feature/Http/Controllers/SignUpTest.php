@@ -26,7 +26,7 @@ class SignUpTest extends TestCase
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->safeEmail,
-            'username' => $this->faker->streetName,
+            'username' => $this->faker->userName,
             'phone' => $this->faker->numerify('9########'),
             'password' => 'P4as.sword'
         ];
@@ -253,13 +253,13 @@ class SignUpTest extends TestCase
      * @title Invalid registration
      * @description An account can't be create with invalid data.
      */
-    public function an_account_cannot_be_create_with_username_less_than_5_character(): void
+    public function an_account_cannot_be_create_with_username_less_than_3_characters(): void
     {
         $data = [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->safeEmail,
-            'username' => 'user',
+            'username' => 'us',
             'phone' => $this->faker->numerify('9########'),
             'password' => 'P4as.sword'
         ];

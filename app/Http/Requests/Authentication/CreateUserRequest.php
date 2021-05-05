@@ -13,7 +13,7 @@ class CreateUserRequest extends FormRequest
             'first_name' => ['required', 'string', 'min:2', 'max:80'],
             'last_name' => ['string', 'min:2', 'max:80'],
             'email' => ['required', 'email', 'unique:users'],
-            'username' => ['required', 'min:5', 'unique:users'],
+            'username' => ['required', 'min:3', 'unique:users', 'regex:/^[a-zA-Z0-9-_.]+$/'],
             'phone' => ['digits_between:7,14'],
             'password' => ['required', 'min:6', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
             'birthday' => ['date_format:m/d/Y'],

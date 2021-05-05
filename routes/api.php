@@ -15,6 +15,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UnitSystemController;
+use App\Http\Controllers\UsernameValidationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-social', [AuthController::class, 'socialLogin']);
 Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
+Route::post('/validate-username', UsernameValidationController::class)->name('validateUsername');
 
 Route::group(
     ['middleware' => 'auth:sanctum'],

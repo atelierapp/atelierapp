@@ -16,6 +16,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
  * @method static firstByEmailOrUsername($username)
+ * @method static whereUsername(string $username)
  * @property string first_name
  * @property string|null last_name
  * @property int id
