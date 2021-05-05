@@ -298,8 +298,8 @@
                             </a>
         </li>
             <li>
-            <a href="/docs/feature-http-controllers-unit-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
-                Unit Controller
+            <a href="/docs/feature-http-controllers-sign-up.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
+                Registration
                             </a>
         </li>
     </ul>
@@ -308,10 +308,13 @@
             <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
             <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </span>
-            Show behaves as expected
+            Invalid registration
                     </div></h3>
                     </div>
-                    <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
+                    <p class="text-gray-100 mb-4 bg-gray-800 p-4 rounded-md">An account can&#039;t be create with invalid data</p>
+    
+    
+    <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
                     <div class="flex space-x-4 mb-4 bg-gray-800">
                                                         <button
                             x-on:click="active='requests'"
@@ -325,10 +328,10 @@
         
         <div class="w-full h-full">
                                                  <div x-cloak x-show="active === 'requests' " class="h-full">
-                         <div x-data="{active: 'response_2224'}" class="flex flex-col h-full">
+                         <div x-data="{active: 'response_2209'}" class="flex flex-col h-full">
         
         <div class="w-full h-full">
-                                                 <div x-cloak x-show="active === 'response_2224' " class="h-full">
+                                                 <div x-cloak x-show="active === 'response_2209' " class="h-full">
                          <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                         <div>
                             <div class="bg-gray-800 rounded-md overflow-hidden">
@@ -341,38 +344,68 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Method: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > GET</td>
+                > POST</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Route: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/unit/{unit}</td>
+                > api/sign-up</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Example: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > api/unit/1</td>
+                > api/sign-up</td>
             </tr>
             </table>
 </div>
 
+    
             <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
     <thead>
         <tr class="bg-gray-500">
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Parámetro de ruta</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Patrón</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Requerimiento</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Entrada</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Valor</th>
         </tr>
     </thead>
     <tbody>
-                    <tr class="break-all">
-                <td class="py-2 px-4 font-thin text-gray-200">unit</td>
-                <td class="py-2 px-4 font-thin text-teal-300">*</td>
-                <td class="py-2 px-4 font-thin text-teal-300">Required</td>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">first_name</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            Dorcas
+                                    </td>
+            </tr>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">last_name</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            Brown
+                                    </td>
+            </tr>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">email</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            dylan.wolff@example.com
+                                    </td>
+            </tr>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">username</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            Quidem.
+                                    </td>
+            </tr>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">phone</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            996605985
+                                    </td>
+            </tr>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">password</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            P4as.sword
+                                    </td>
             </tr>
             </tbody>
 </table>
-    
     
             <div>
             <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
@@ -392,7 +425,7 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</td>
+                > application/json</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept-language: </td>
@@ -404,6 +437,16 @@
                 <td class="font-thin break-all text-teal-300 pr-4"
                 > ISO-8859-1,utf-8;q=0.7,*;q=0.7</td>
             </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-length: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > 142</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > application/json</td>
+            </tr>
             </table>
 </div>
 </div>
@@ -414,7 +457,7 @@
         <h3 class="text-base text-gray-300">Respuesta</h3>
     </span>
     <div class="p-4 space-x-4">
-        <span class="p-1 bg-success-200 text-success-700">200</span>
+        <span class="p-1 bg-warning-200 text-warning-700">422</span>
         <span class="text-gray-100">JSON</span>
     </div>
 
@@ -431,7 +474,7 @@
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">date: </td>
                 <td class="font-thin break-all text-teal-300 pr-4"
-                > Wed, 05 May 2021 04:26:00 GMT</td>
+                > Wed, 05 May 2021 04:25:57 GMT</td>
             </tr>
                     <tr>
                 <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
@@ -460,12 +503,11 @@
     <pre style="margin:0;"
          class="h-full w-full bg-gray-300 rounded-lg overflow-hidden"
     ><code class="language-json">{
-    &quot;data&quot;: {
-        &quot;id&quot;: 1,
-        &quot;name&quot;: &quot;porro&quot;,
-        &quot;class&quot;: &quot;tHoPg1oCPr&quot;,
-        &quot;factor&quot;: 403.487296962,
-        &quot;unit_system_id&quot;: 1
+    &quot;message&quot;: &quot;The given data was invalid.&quot;,
+    &quot;errors&quot;: {
+        &quot;username&quot;: [
+            &quot;The username has already been taken.&quot;
+        ]
     }
 }</code></pre>
 </div>    </div>
