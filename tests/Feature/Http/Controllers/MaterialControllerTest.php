@@ -17,6 +17,18 @@ class MaterialControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+            'image',
+            'active',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
     /**
      * @test
      */
@@ -29,14 +41,23 @@ class MaterialControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
-                0 => [
-                    'id',
-                    'name',
-                    'image',
-                    'active',
-                    'created_at',
-                    'updated_at',
-                ]
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
             ]
         ]);
     }
@@ -72,14 +93,7 @@ class MaterialControllerTest extends TestCase
 
         $response->assertCreated();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'image',
-                'active',
-                'created_at',
-                'updated_at',
-            ]
+            'data' => $this->structure()
         ]);
 
         $this->assertDatabaseCount('materials', 1);
@@ -96,14 +110,7 @@ class MaterialControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'image',
-                'active',
-                'created_at',
-                'updated_at',
-            ]
+            'data' => $this->structure()
         ]);
     }
 
@@ -141,14 +148,7 @@ class MaterialControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'image',
-                'active',
-                'created_at',
-                'updated_at',
-            ]
+            'data' => $this->structure()
         ]);
 
         $this->assertEquals($name, $material->name);

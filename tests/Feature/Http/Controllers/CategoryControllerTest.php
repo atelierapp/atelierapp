@@ -19,6 +19,19 @@ class CategoryControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+            'image',
+            'parent_id',
+            'active',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
     /**
      * @test
      * @title List categories
@@ -32,19 +45,26 @@ class CategoryControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
-                0 => [
-                    'id',
-                    'name',
-                    'image',
-                    'parent_id',
-                    'active',
-                    'created_at',
-                    'updated_at',
-                ]
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
             ]
         ]);
     }
-
 
     /**
      * @test
@@ -74,15 +94,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertCreated();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'image',
-                'parent_id',
-                'active',
-                'created_at',
-                'updated_at',
-            ]
+            'data' => $this->structure()
         ]);
 
         $this->assertDatabaseHas('categories', collect($data)->except(['image'])->toArray());
@@ -101,15 +113,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'image',
-                'parent_id',
-                'active',
-                'created_at',
-                'updated_at',
-            ]
+            'data' => $this->structure()
         ]);
     }
 
@@ -143,15 +147,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'image',
-                'parent_id',
-                'active',
-                'created_at',
-                'updated_at',
-            ]
+            'data' => $this->structure()
         ]);
 
         $params = collect($data)->except(['image'])->toArray();

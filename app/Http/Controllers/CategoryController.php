@@ -6,14 +6,16 @@ use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Storage;
 
 class CategoryController extends Controller
 {
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
-        $categories = Category::all();
+        $categories = Category::paginate();
 
         return CategoryResource::collection($categories);
     }
@@ -49,11 +51,11 @@ class CategoryController extends Controller
         return $params;
     }
 
-    public function destroy(Category $category): \Illuminate\Http\Response
+    public function destroy(Category $category): JsonResponse
     {
         $category->delete();
 
-        return response()->noContent();
+        return $this->responseNoContent();
     }
 
 }

@@ -17,6 +17,18 @@ class RoomControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure()
+    {
+        return [
+            'id',
+            'name',
+            'dimensions',
+            'doors',
+            'windows',
+            'framing',
+        ];
+    }
+
     /**
      * @test
      */
@@ -27,7 +39,27 @@ class RoomControllerTest extends TestCase
         $response = $this->get(route('room.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
     }
 
 
@@ -58,15 +90,9 @@ class RoomControllerTest extends TestCase
         $response = $this->postJson(route('room.store'), $data);
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
-
-        // $this->assertDatabaseHas(
-        //     'rooms',
-        //     [
-        //         'dimensions->alto' => $data['dimensions']['alto'],
-        //         'framing->alto' => $data['dimensions']['alto'],
-        //     ]
-        // );
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -80,7 +106,9 @@ class RoomControllerTest extends TestCase
         $response = $this->get(route('room.show', $room));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -114,7 +142,9 @@ class RoomControllerTest extends TestCase
         $response = $this->putJson(route('room.update', $room), $data);
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         // $this->assertDatabaseHas(
         //     'rooms',

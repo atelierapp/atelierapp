@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MaterialStoreRequest;
 use App\Http\Requests\MaterialUpdateRequest;
-use App\Http\Resources\MaterialCollection;
 use App\Http\Resources\MaterialResource;
 use App\Models\Material;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MaterialController extends Controller
 {
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
-        $materials = Material::all();
+        $materials = Material::paginate();
 
         return MaterialResource::collection($materials);
     }
@@ -37,11 +38,11 @@ class MaterialController extends Controller
         return MaterialResource::make($material);
     }
 
-    public function destroy(Material $material): \Illuminate\Http\Response
+    public function destroy(Material $material): JsonResponse
     {
         $material->delete();
 
-        return response()->noContent();
+        return $this->responseNoContent();
     }
 
 }

@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('docs', function () {
     return redirect('docs/index.html');
 });
+
+Route::get('/apple/redirect', function () {
+    return response()->json([], 200);
+});

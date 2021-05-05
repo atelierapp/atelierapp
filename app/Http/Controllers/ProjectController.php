@@ -7,11 +7,13 @@ use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\Tag;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectController extends Controller
 {
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         $projects = Project::with('style', 'author')->search(request('search'))->paginate();
 
@@ -49,11 +51,11 @@ class ProjectController extends Controller
         return ProjectResource::make($project);
     }
 
-    public function destroy(Project $project): \Illuminate\Http\JsonResponse
+    public function destroy(Project $project): JsonResponse
     {
         $project->delete();
 
-        return $this->responseNoContect();
+        return $this->responseNoContent();
     }
 
 }

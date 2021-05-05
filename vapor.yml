@@ -3,9 +3,12 @@ name: ateliar-app
 environments:
     production:
         memory: 1024
+        storage: atelier-production-bucket
+        runtime: 'php-7.4:al2'
         cli-memory: 512
+        domain: atelierapp.com
         build:
-            - 'composer install --no-dev --classmap-authoritative'
+            - 'composer install --no-dev'
             - 'php artisan event:cache'
             - 'npm install && npm run prod && rm -rf node_modules'
         deploy:
@@ -13,6 +16,7 @@ environments:
     staging:
         memory: 1024
         storage: atelier-staging-bucket
+        runtime: 'php-7.4:al2'
         cli-memory: 512
         database: staging-database
         domain: staging.atelierapp.com

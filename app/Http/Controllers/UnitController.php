@@ -4,44 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UnitStoreRequest;
 use App\Http\Requests\UnitUpdateRequest;
-use App\Http\Resources\UnitCollection;
 use App\Http\Resources\UnitResource;
 use App\Models\Unit;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UnitController extends Controller
 {
 
-    public function index(): UnitCollection
+    public function index(): AnonymousResourceCollection
     {
-        $units = Unit::all();
+        $units = Unit::paginate();
 
-        return new UnitCollection($units);
+        return UnitResource::collection($units);
     }
 
     public function store(UnitStoreRequest $request): UnitResource
     {
         $unit = Unit::create($request->validated());
 
-        return new UnitResource($unit);
+        return UnitResource::make($unit);
     }
 
     public function show(Unit $unit): UnitResource
     {
-        return new UnitResource($unit);
+        return UnitResource::make($unit);
     }
 
     public function update(UnitUpdateRequest $request, Unit $unit): UnitResource
     {
         $unit->update($request->validated());
 
-        return new UnitResource($unit);
+        return UnitResource::make($unit);
     }
 
-    public function destroy(Unit $unit): \Illuminate\Http\JsonResponse
+    public function destroy(Unit $unit): JsonResponse
     {
         $unit->delete();
 
-        return $this->responseNoContect();
+        return $this->responseNoContent();
     }
 
 }

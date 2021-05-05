@@ -17,6 +17,19 @@ class ColorControllerTest extends TestCase
     use AdditionalAssertions;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+            'hex',
+            'url',
+            'active',
+            'created_at',
+            'updated_at'
+        ];
+    }
+
     /**
      * @test
      * @title List colors
@@ -32,15 +45,7 @@ class ColorControllerTest extends TestCase
             ->assertJsonStructure([
                 'brand',
                 'data' => [
-                    0 => [
-                        'id',
-                        'name',
-                        'hex',
-                        'url',
-                        'active',
-                        'created_at',
-                        'updated_at'
-                    ],
+                    0 => $this->structure(),
                 ],
                 'links' => [
                     'first',

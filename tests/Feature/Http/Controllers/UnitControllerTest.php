@@ -18,17 +18,48 @@ class UnitControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+            'class',
+            'factor',
+            'unit_system_id',
+        ];
+    }
+
     /**
      * @test
      */
     public function index_behaves_as_expected(): void
     {
-        $units = Unit::factory()->count(3)->create();
+        Unit::factory()->count(3)->create();
 
         $response = $this->get(route('unit.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
     }
 
 
@@ -68,10 +99,11 @@ class UnitControllerTest extends TestCase
             ->where('unit_system_id', $unit_system->id)
             ->get();
         $this->assertCount(1, $units);
-        $unit = $units->first();
 
         $response->assertCreated();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -85,7 +117,9 @@ class UnitControllerTest extends TestCase
         $response = $this->get(route('unit.show', $unit));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
     }
 
 
@@ -117,7 +151,9 @@ class UnitControllerTest extends TestCase
         $response = $this->putJson(route('unit.update', $unit), $data);
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => $this->structure()
+        ]);
 
         $this->assertDatabaseHas('units', $data);
     }

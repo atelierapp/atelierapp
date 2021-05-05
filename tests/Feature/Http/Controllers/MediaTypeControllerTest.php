@@ -17,17 +17,46 @@ class MediaTypeControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    private function structure(): array
+    {
+        return [
+            'id',
+            'name',
+            'image',
+        ];
+    }
+
     /**
      * @test
      */
     public function index_behaves_as_expected(): void
     {
-        $mediaTypes = MediaType::factory()->count(3)->create();
+        MediaType::factory()->count(3)->create();
 
         $response = $this->get(route('media-type.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure([]);
+        $response->assertJsonStructure([
+            'data' => [
+
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
     }
 
 
