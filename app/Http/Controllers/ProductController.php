@@ -23,7 +23,10 @@ class ProductController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $products = Product::with('style')->search(request('search'))->paginate();
+        $products = Product::query()
+            ->with('style', 'medias', 'categories', 'tags')
+            ->search(request('search'))
+            ->paginate();
 
         return ProductResource::collection($products);
     }
