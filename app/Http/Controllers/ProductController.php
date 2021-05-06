@@ -15,16 +15,23 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-
     private function loadRelations(Product $productModel)
     {
         $productModel->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
     }
 
     public function index(): AnonymousResourceCollection
-    {
+    {// Refactor this to a better way. Maybe use a standardized way to do it: categories[]=1&categories[]=2&..
+        $categories = request('categories') ? explode(',', request('categories')) : null;
+
         $products = Product::query()
-            ->with('style', 'medias', 'categories', 'tags')
+            ->with([
+                'style',
+                'medias',
+                'tags',
+                'categories' => fn($query) => $query->when($categories, fn($query) => $query->whereIn('id', $categories))
+            ])
+            ->when($categories, fn($query) => $query->whereHas('categories', fn($query) => $query->whereIn('id', $categories)))
             ->search(request('search'))
             ->paginate();
 
@@ -81,5 +88,4 @@ class ProductController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

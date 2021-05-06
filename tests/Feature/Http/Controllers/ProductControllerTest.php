@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\ManufacturerTypeEnum;
-use App\Models\Media;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Style;
 use App\Models\Tag;
@@ -80,51 +80,31 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
-     * @title List products with filters
+     * @title List products with 'categories' filter
      */
-    public function index_accepts_filters()
+    public function index_accepts_categories_filter()
     {
         Storage::fake('s3');
-        Product::factory()->times(5)->hasTags(2)->hasCategories(2)->hasMedias(2)->create();
+        /** @var Category $category1 */
+        $category1 = Category::factory()->create();
+        $products = Product::factory()->times(2)->create(); // 2
+        $category1->products()->attach($products);
+        /** @var Category $category2 */
+        $category2 = Category::factory()->create();
+        $products = Product::factory()->times(3)->create(); // 3
+        $category2->products()->attach($products);
+        /** @var Category $category3 */
+        $category3 = Category::factory()->create();
+        $products = Product::factory()->times(4)->create(); // 4
+        $category3->products()->attach($products);
 
-        $response = $this->get(route('product.index'));
+        $response = $this->get(route('product.index', [
+            'categories' => sprintf('%d,%d', $category1->id, $category2->id),
+        ]));
 
         $response->assertOk();
-        $response->assertJsonCount(5, 'data');
-        $response->assertJsonStructure([
-            'data' => [
-                0 => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'featured_media',
-                ]
-            ],
-            'meta' => [
-                'current_page',
-                'from',
-                'last_page',
-                'links',
-                'path',
-                'per_page',
-                'to',
-                'total',
-            ],
-            'links' => [
-                'first',
-                'last',
-                'prev',
-                'next'
-            ]
-        ]);
-        $this->assertDatabaseCount('products', 5);
+        $response->assertJsonCount(5, 'data'); // 2 + 3
+        $this->assertDatabaseCount('products', 9); // 2 + 3 + 4
     }
 
     /**
