@@ -40,14 +40,4 @@ class Media extends Model
     {
         return $this->belongsTo(MediaType::class);
     }
-
-    public function getUrlAttribute(): ?string
-    {
-        if (empty($this->attributes['url'])) {
-            return null;
-        }
-
-        return Storage::disk('s3')->url($this->attributes['url']);
-    }
-
 }
