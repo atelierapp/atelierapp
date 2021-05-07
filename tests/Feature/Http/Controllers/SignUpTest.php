@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
+use App\Services\SocialService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
 use Tests\TestCase;
@@ -33,8 +34,9 @@ class SignUpTest extends TestCase
 
         $response = $this->postJson(route('signUp'), $data);
 
-        $response->assertCreated();
-        $response->assertJsonStructure([
+        $response
+            ->assertCreated()
+            ->assertJsonStructure([
             'data' => [
                 'user' => [
                     'id',
@@ -61,7 +63,21 @@ class SignUpTest extends TestCase
      */
     public function an_account_can_be_created_with_valid_data_linking_the_social_account()
     {
-        $this->markTestIncomplete();
+        $data = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->safeEmail,
+            'username' => $this->faker->userName,
+            'phone' => $this->faker->numerify('9########'),
+            'password' => 'P4as.sword',
+            'social_driver' => 'facebook',
+            'social_id' => $socialId = 'a-social-id',
+        ];
+
+        $response = $this->postJson(route('signUp'), $data);
+
+        $response->assertCreated();
+        $this->assertDatabaseCount('social_accounts', 1);
     }
 
     /**
