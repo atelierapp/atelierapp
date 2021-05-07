@@ -298,277 +298,361 @@
             <li>
             <a href="/docs/areas/feature.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
                 Feature
+                                <svg class="w-4 h-4 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+        </li>
+            <li>
+            <a href="/docs/feature-http-controllers-product-controller.html" class="text-gray-500 hover:text-gray-300 transition-all ease-in-out duration-100 flex items-center">
+                Products
                             </a>
         </li>
     </ul>
                      <div class="flex items-center justify-center space-x-4">
-                        <h3 class="text-gray-100 text-xl mt-6 mb-4 pb-4 w-full border-b border-gray-700">Projects</h3>
-                    </div>
-                    <div class="w-full my-4">
-        <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden">
-                            <a href="/docs/feature-http-controllers-project-controller/index-behaves-as-expected.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-gray-100 text-xl mt-6 mb-4 pb-4 w-full border-b border-gray-700"><div class="flex">
+            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
+            <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </span>
-                            <span class="text-gray-700 font-medium">List projects</span>
-                        </div>
+            List products with &#039;categories&#039; filter
+                    </div></h3>
                     </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        GET: api/projects
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-success-700 bg-success-200">
-                                        200 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/index-accepts-filters.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div x-data="{active: 'requests'}" class="flex flex-col h-full py-2 px-2">
+                    <div class="flex space-x-4 mb-4 bg-gray-800">
+                                                        <button
+                            x-on:click="active='requests'"
+                            x-bind:class="{
+                                'border-teal-300': (active === 'requests'),
+                                'border-gray-800': (active !== 'requests')
+                            }"
+                            class="mx-2 text-gray-100 px-2 py-3 border-b-2 text-sm focus:outline-none hover:border-teal-500 transition-all ease-in-out duration-100"
+                    >Requests</button>
+                                                                                                                        </div>
+        
+        <div class="w-full h-full">
+                                                 <div x-cloak x-show="active === 'requests' " class="h-full">
+                         <div x-data="{active: 'response_2506'}" class="flex flex-col h-full">
+        
+        <div class="w-full h-full">
+                                                 <div x-cloak x-show="active === 'response_2506' " class="h-full">
+                         <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
+                        <div>
+                            <div class="bg-gray-800 rounded-md overflow-hidden">
+    <span class="block w-full bg-gray-700 px-4 py-2">
+        <h3 class="text-base text-gray-300">Request</h3>
     </span>
-                            <span class="text-gray-700 font-medium">List projects with filters</span>
-                        </div>
-                    </div>
+    <div>
+    
+    <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4">
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Method: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > GET</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Route: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > api/products</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">Example: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > api/products?categories=1%2C3</td>
+            </tr>
+            </table>
+</div>
 
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        GET: api/projects
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-success-700 bg-success-200">
-                                        200 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
+    
+            <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
+    <thead>
+        <tr class="bg-gray-500">
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Entrada</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+                    <tr>
+                <td class="px-4 py-2 font-thin text-gray-200">categories</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                                            1,3
+                                    </td>
+            </tr>
+            </tbody>
+</table>
+    
+            <div>
+            <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
+>Request Headers</span>
+    
+    <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4">
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">host: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > atelierapp.test</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">user-agent: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > Symfony</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept-language: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > en-us,en;q=0.5</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">accept-charset: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > ISO-8859-1,utf-8;q=0.7,*;q=0.7</td>
+            </tr>
+            </table>
+</div>
+</div>
+                            <span class="mb-8 w-full block"></span>
 
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/store-saves-without-fork.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="bg-gray-800 rounded-md overflow-hidden">
+    <span class="block w-full bg-gray-700 px-4 py-2">
+        <h3 class="text-base text-gray-300">Respuesta</h3>
     </span>
-                            <span class="text-gray-700 font-medium">Create project</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        POST: api/projects
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-default-700 bg-default-200">
-                                        201 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/store-a-project-with-tags.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </span>
-                            <span class="text-gray-700 font-medium">Create product</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        POST: api/projects
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-default-700 bg-default-200">
-                                        201 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/show-behaves-as-expected.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </span>
-                            <span class="text-gray-700 font-medium">Show project</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        GET: api/projects/{project}
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-success-700 bg-success-200">
-                                        200 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/update-behaves-as-expected.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </span>
-                            <span class="text-gray-700 font-medium">Update project</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        PATCH: api/projects/{project}
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-success-700 bg-success-200">
-                                        200 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/a-user-cannot-update-someone-else-projects.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </span>
-                            <span class="text-gray-700 font-medium">A user can&#039;t update someone else&#039;s projects</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        PATCH: api/projects/{project}
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-warning-700 bg-warning-200">
-                                        403 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/destroy-deletes-and-responds-with.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </span>
-                            <span class="text-gray-700 font-medium">Delete project</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        DELETE: api/projects/{project}
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-default-700 bg-default-200">
-                                        204 NO RESPONSE
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                            <a href="/docs/feature-http-controllers-project-controller/a-user-cannot-delete-someone-else-projects.html" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
-
-                    <div class="w-full lg:flex-1">
-                        <div class="flex space-x-2 items-start">
-                            <span class="text-success-500 items-center text-sm justify-center rounded-lg flex">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </span>
-                            <span class="text-gray-700 font-medium">A user can&#039;t delete someone else&#039;s projects</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full lg:w-1/2 flex justify-between">
-                        <div class="flex flex-col space-y-2">
-                                                            <div class="space-y-2">
-                                    <div class="flex  space-x-2">
-                                    <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        DELETE: api/projects/{project}
-                                    </span>
-                                    <span class="text-sm px-2 flex items-center text-warning-700 bg-warning-200">
-                                        404 JSON
-                                    </span>
-                                    </div>
-                                </div>
-                                                    </div>
-
-                        <div class="flex space-x-4 w-2/12 items-start">
-                                                                                </div>
-                    </div>
-                </a>
-                    </div>
+    <div class="p-4 space-x-4">
+        <span class="p-1 bg-success-200 text-success-700">200</span>
+        <span class="text-gray-100">JSON</span>
     </div>
+
+            <div>
+            <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
+>Response Headers</span>
+    
+    <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4">
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">cache-control: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > no-cache, private</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">date: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > Fri, 07 May 2021 00:00:23 GMT</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">content-type: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > application/json</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">x-ratelimit-limit: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > 60</td>
+            </tr>
+                    <tr>
+                <td class="font-thin whitespace-no-wrap text-gray-200 px-4">x-ratelimit-remaining: </td>
+                <td class="font-thin break-all text-teal-300 pr-4"
+                > 59</td>
+            </tr>
+            </table>
+</div>
+</div>
+                            <span class="mb-8 w-full block"></span>
+
+                                                    </div>
+                        <div class="h-full relative">
+                                                            <div class="h-full">
+            <div >
+    <pre style="margin:0;"
+         class="h-full w-full bg-gray-300 rounded-lg overflow-hidden"
+    ><code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Id velit quam et ut. Aut eius dolores veniam qui nisi. Vel ea quidem aut dolore eum.&quot;,
+            &quot;manufacturer_type_code&quot;: &quot;employee&quot;,
+            &quot;manufacturer_type&quot;: &quot;employee&quot;,
+            &quot;manufactured_at&quot;: &quot;2016-09-08&quot;,
+            &quot;description&quot;: &quot;Porro sint nam blanditiis. Sed quam in reprehenderit et. Veritatis non qui sint sed inventore rerum quas.&quot;,
+            &quot;price&quot;: &quot;61524&quot;,
+            &quot;style_id&quot;: &quot;1&quot;,
+            &quot;style&quot;: &quot;Porro&quot;,
+            &quot;quantity&quot;: &quot;0&quot;,
+            &quot;sku&quot;: &quot;3413961462&quot;,
+            &quot;active&quot;: true,
+            &quot;properties&quot;: &quot;[]&quot;,
+            &quot;featured_media&quot;: null,
+            &quot;medias&quot;: [],
+            &quot;tags&quot;: [],
+            &quot;categories&quot;: [
+                {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Amira Howell&quot;,
+                    &quot;image&quot;: &quot;facilis&quot;,
+                    &quot;parent_id&quot;: null,
+                    &quot;active&quot;: true,
+                    &quot;created_at&quot;: &quot;2021-05-06 19:00:23&quot;,
+                    &quot;updated_at&quot;: &quot;2021-05-06 19:00:23&quot;
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;title&quot;: &quot;Quis officia consequatur maiores aut. Ullam nam illo minima rem sit qui delectus aut.&quot;,
+            &quot;manufacturer_type_code&quot;: &quot;employee&quot;,
+            &quot;manufacturer_type&quot;: &quot;employee&quot;,
+            &quot;manufactured_at&quot;: &quot;2010-12-19&quot;,
+            &quot;description&quot;: &quot;Saepe odit sit est molestiae tempore officiis non. A consectetur velit voluptatem ut at. Et ut omnis quia ut illum. Quas recusandae sed veritatis similique et.&quot;,
+            &quot;price&quot;: &quot;50698&quot;,
+            &quot;style_id&quot;: &quot;2&quot;,
+            &quot;style&quot;: &quot;Iure&quot;,
+            &quot;quantity&quot;: &quot;79&quot;,
+            &quot;sku&quot;: &quot;4043922337&quot;,
+            &quot;active&quot;: false,
+            &quot;properties&quot;: &quot;[]&quot;,
+            &quot;featured_media&quot;: null,
+            &quot;medias&quot;: [],
+            &quot;tags&quot;: [],
+            &quot;categories&quot;: [
+                {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Amira Howell&quot;,
+                    &quot;image&quot;: &quot;facilis&quot;,
+                    &quot;parent_id&quot;: null,
+                    &quot;active&quot;: true,
+                    &quot;created_at&quot;: &quot;2021-05-06 19:00:23&quot;,
+                    &quot;updated_at&quot;: &quot;2021-05-06 19:00:23&quot;
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;title&quot;: &quot;Molestiae rem qui iure eius. Velit molestiae quo eos aut facilis eligendi.&quot;,
+            &quot;manufacturer_type_code&quot;: &quot;store&quot;,
+            &quot;manufacturer_type&quot;: &quot;store&quot;,
+            &quot;manufactured_at&quot;: &quot;1974-05-10&quot;,
+            &quot;description&quot;: &quot;Voluptas culpa non ex inventore alias nemo. Et minus accusantium deserunt provident sed non sed inventore. Est reiciendis dolore mollitia et fugit tempore.&quot;,
+            &quot;price&quot;: &quot;58627&quot;,
+            &quot;style_id&quot;: &quot;3&quot;,
+            &quot;style&quot;: &quot;Consequatur&quot;,
+            &quot;quantity&quot;: &quot;64&quot;,
+            &quot;sku&quot;: &quot;4639688326&quot;,
+            &quot;active&quot;: false,
+            &quot;properties&quot;: &quot;[]&quot;,
+            &quot;featured_media&quot;: null,
+            &quot;medias&quot;: [],
+            &quot;tags&quot;: [],
+            &quot;categories&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Ruby Schowalter MD&quot;,
+                    &quot;image&quot;: &quot;sed&quot;,
+                    &quot;parent_id&quot;: 2,
+                    &quot;active&quot;: false,
+                    &quot;created_at&quot;: &quot;2021-05-06 19:00:23&quot;,
+                    &quot;updated_at&quot;: &quot;2021-05-06 19:00:23&quot;
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;title&quot;: &quot;Dolorem qui soluta soluta ex eos sequi. Delectus voluptas veritatis iure quasi.&quot;,
+            &quot;manufacturer_type_code&quot;: &quot;store&quot;,
+            &quot;manufacturer_type&quot;: &quot;store&quot;,
+            &quot;manufactured_at&quot;: &quot;1970-04-29&quot;,
+            &quot;description&quot;: &quot;Animi placeat porro nesciunt voluptates. Facilis alias impedit quas ad occaecati esse. Harum consequuntur molestiae neque ut. Cupiditate eius debitis et. Officia mollitia autem sint.&quot;,
+            &quot;price&quot;: &quot;19749&quot;,
+            &quot;style_id&quot;: &quot;4&quot;,
+            &quot;style&quot;: &quot;Quae&quot;,
+            &quot;quantity&quot;: &quot;16&quot;,
+            &quot;sku&quot;: &quot;2130400264&quot;,
+            &quot;active&quot;: true,
+            &quot;properties&quot;: &quot;[]&quot;,
+            &quot;featured_media&quot;: null,
+            &quot;medias&quot;: [],
+            &quot;tags&quot;: [],
+            &quot;categories&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Ruby Schowalter MD&quot;,
+                    &quot;image&quot;: &quot;sed&quot;,
+                    &quot;parent_id&quot;: 2,
+                    &quot;active&quot;: false,
+                    &quot;created_at&quot;: &quot;2021-05-06 19:00:23&quot;,
+                    &quot;updated_at&quot;: &quot;2021-05-06 19:00:23&quot;
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;title&quot;: &quot;Inventore et quae impedit. Placeat et aut architecto quibusdam. Quia velit reprehenderit et dolore.&quot;,
+            &quot;manufacturer_type_code&quot;: &quot;employee&quot;,
+            &quot;manufacturer_type&quot;: &quot;employee&quot;,
+            &quot;manufactured_at&quot;: &quot;1983-12-03&quot;,
+            &quot;description&quot;: &quot;Ipsum molestiae accusamus ut hic et fugit aspernatur voluptatem. Dolorem est voluptatem incidunt quia optio esse. Natus natus vel est officia qui unde voluptas. Voluptate ad porro quisquam ut neque.&quot;,
+            &quot;price&quot;: &quot;62407&quot;,
+            &quot;style_id&quot;: &quot;5&quot;,
+            &quot;style&quot;: &quot;Qui&quot;,
+            &quot;quantity&quot;: &quot;97&quot;,
+            &quot;sku&quot;: &quot;614116028X&quot;,
+            &quot;active&quot;: true,
+            &quot;properties&quot;: &quot;[]&quot;,
+            &quot;featured_media&quot;: null,
+            &quot;medias&quot;: [],
+            &quot;tags&quot;: [],
+            &quot;categories&quot;: [
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;Ruby Schowalter MD&quot;,
+                    &quot;image&quot;: &quot;sed&quot;,
+                    &quot;parent_id&quot;: 2,
+                    &quot;active&quot;: false,
+                    &quot;created_at&quot;: &quot;2021-05-06 19:00:23&quot;,
+                    &quot;updated_at&quot;: &quot;2021-05-06 19:00:23&quot;
+                }
+            ]
+        }
+    ],
+    &quot;links&quot;: {
+        &quot;first&quot;: &quot;http:\/\/atelierapp.test\/api\/products?page=1&quot;,
+        &quot;last&quot;: &quot;http:\/\/atelierapp.test\/api\/products?page=1&quot;,
+        &quot;prev&quot;: null,
+        &quot;next&quot;: null
+    },
+    &quot;meta&quot;: {
+        &quot;current_page&quot;: 1,
+        &quot;from&quot;: 1,
+        &quot;last_page&quot;: 1,
+        &quot;links&quot;: [
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;&amp;laquo; Previo&quot;,
+                &quot;active&quot;: false
+            },
+            {
+                &quot;url&quot;: &quot;http:\/\/atelierapp.test\/api\/products?page=1&quot;,
+                &quot;label&quot;: &quot;1&quot;,
+                &quot;active&quot;: true
+            },
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;Siguiente &amp;raquo;&quot;,
+                &quot;active&quot;: false
+            }
+        ],
+        &quot;path&quot;: &quot;http:\/\/atelierapp.test\/api\/products&quot;,
+        &quot;per_page&quot;: 15,
+        &quot;to&quot;: 5,
+        &quot;total&quot;: 5
+    }
+}</code></pre>
+</div>    </div>
+                                                    </div>
+                    </div>
+                     </div>
+                                    </div>
+</div>
+                     </div>
+                                                                                            </div>
+</div>
                 </div>
             </div>
         </main>
@@ -579,3 +663,4 @@
 
 </body>
 </html>
+
