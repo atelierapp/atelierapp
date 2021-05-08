@@ -59,9 +59,89 @@ class SignUpTest extends TestCase
      * @title Successful registration with social account
      * @description An account can be created with valid data linking the social account.
      */
-    public function an_account_can_be_created_with_valid_data_linking_the_social_account()
+    public function an_account_can_be_created_with_valid_data_linking_the_facebook_social_account()
     {
-        $this->markTestIncomplete();
+        $params = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->email,
+            'username' => $this->faker->userName,
+            'phone' => $this->faker->numerify('#########'),
+            'password' => 'P4ss,W0rd',
+            'social_driver' => 'facebook',
+            'social_id' => $this->faker->isbn10
+        ];
+
+        $response = $this->postJson(route('signUp'), $params);
+
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'data' => [
+                'user' => [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'username',
+                    'phone',
+                    'birthday',
+                    'avatar',
+                    'is_active',
+                    'created_at',
+                    'updated_at',
+                ],
+                'access_token',
+            ]
+        ]);
+        $this->assertDatabaseHas('social_accounts', [
+            'driver' => $params['social_driver'],
+            'social_id' => $params['social_id']
+        ]);
+    }
+
+    /**
+     * @test
+     * @title Successful registration with social account
+     * @description An account can be created with valid data linking the social account.
+     */
+    public function an_account_can_be_created_with_valid_data_linking_the_apple_social_account()
+    {
+        $params = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->email,
+            'username' => $this->faker->userName,
+            'phone' => $this->faker->numerify('#########'),
+            'password' => 'P4ss,W0rd',
+            'social_driver' => 'apple',
+            'social_id' => $this->faker->isbn10
+        ];
+
+        $response = $this->postJson(route('signUp'), $params);
+
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'data' => [
+                'user' => [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'username',
+                    'phone',
+                    'birthday',
+                    'avatar',
+                    'is_active',
+                    'created_at',
+                    'updated_at',
+                ],
+                'access_token',
+            ]
+        ]);
+        $this->assertDatabaseHas('social_accounts', [
+            'driver' => $params['social_driver'],
+            'social_id' => $params['social_id']
+        ]);
     }
 
     /**
