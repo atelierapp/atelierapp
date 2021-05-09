@@ -11,7 +11,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TagController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $tags = Tag::paginate();
@@ -44,5 +43,4 @@ class TagController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

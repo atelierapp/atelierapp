@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class MediumUpdateRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [
@@ -21,5 +20,4 @@ class MediumUpdateRequest extends FormRequest
     {
         return true;
     }
-
 }

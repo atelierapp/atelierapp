@@ -26,5 +26,4 @@ class ProjectStoreRequest extends FormRequest
     {
         return true;
     }
-
 }

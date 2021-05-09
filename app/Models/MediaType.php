@@ -37,5 +37,4 @@ class MediaType extends Model
 
         return null;
     }
-
 }

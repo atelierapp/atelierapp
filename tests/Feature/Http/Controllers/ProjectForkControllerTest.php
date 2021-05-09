@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 class ProjectForkControllerTest extends TestCase
 {
-
     use AdditionalAssertions;
     use WithFaker;
 
@@ -139,5 +138,4 @@ class ProjectForkControllerTest extends TestCase
             'public' => false
         ]);
     }
-
 }

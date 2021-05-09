@@ -10,7 +10,6 @@ use Tests\TestCase;
  */
 class ProfileTest extends TestCase
 {
-
     /**
      * @test
      * @title A user can access his/her info.

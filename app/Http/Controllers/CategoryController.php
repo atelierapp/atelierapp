@@ -12,7 +12,6 @@ use Storage;
 
 class CategoryController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $categories = Category::paginate();
@@ -57,5 +56,4 @@ class CategoryController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

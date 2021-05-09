@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
-
     use HasFactory;
     use SoftDeletes;
 
@@ -33,5 +32,4 @@ class Tag extends Model
     {
         return $this->morphedByMany(Project::class, 'taggable');
     }
-
 }

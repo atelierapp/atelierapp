@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RoomStoreRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [
@@ -22,5 +21,4 @@ class RoomStoreRequest extends FormRequest
     {
         return true;
     }
-
 }

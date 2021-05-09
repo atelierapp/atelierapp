@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class MediaTypeStoreRequest extends FormRequest
 {
-
     public function rules()
     {
         return [

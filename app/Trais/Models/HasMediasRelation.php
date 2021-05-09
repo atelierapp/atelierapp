@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait HasMediasRelation
 {
-
     public function featured_media(): MorphOne
     {
         return $this->morphOne(Media::class, 'mediable')
@@ -20,5 +19,4 @@ trait HasMediasRelation
     {
         return $this->morphMany(Media::class, 'mediable');
     }
-
 }

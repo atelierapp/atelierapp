@@ -11,7 +11,6 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-
     use AuthorizesRequests;
     use DispatchesJobs;
     use ValidatesRequests;
@@ -28,5 +27,4 @@ class Controller extends BaseController
     {
         return $this->response([], null, Response::HTTP_NO_CONTENT);
     }
-
 }

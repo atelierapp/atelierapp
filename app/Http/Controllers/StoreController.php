@@ -11,7 +11,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class StoreController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $stores = Store::search(request('search'))->paginate();
@@ -44,5 +43,4 @@ class StoreController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

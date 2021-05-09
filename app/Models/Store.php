@@ -48,5 +48,4 @@ class Store extends Model
             ->orWhere('legal_name', 'like', "%{$value}%")
             ->orWhere('team', 'like', "%{$value}%");
     }
-
 }

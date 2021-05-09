@@ -8,7 +8,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ColorController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $colors = Color::paginate(5);
@@ -16,5 +15,4 @@ class ColorController extends Controller
         return ColorResource::collection($colors)
             ->additional(['brand' => 'CLARE']);
     }
-
 }

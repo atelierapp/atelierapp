@@ -30,5 +30,4 @@ class ProductStoreRequest extends FormRequest
     {
         return true;
     }
-
 }

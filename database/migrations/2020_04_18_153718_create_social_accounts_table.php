@@ -3,8 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSocialAccountsTable extends Migration {
-
+class CreateSocialAccountsTable extends Migration
+{
     public function up()
     {
         \Schema::create('social_accounts', function (Blueprint $table) {

@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class ColorControllerTest extends TestCase
 {
-
     use AdditionalAssertions;
     use WithFaker;
 
@@ -65,5 +64,4 @@ class ColorControllerTest extends TestCase
                 ]
             ]);
     }
-
 }

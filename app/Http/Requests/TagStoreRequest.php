@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TagStoreRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [
@@ -19,5 +18,4 @@ class TagStoreRequest extends FormRequest
     {
         return true;
     }
-
 }

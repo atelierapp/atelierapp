@@ -423,5 +423,4 @@ class ProductControllerTest extends TestCase
 
         $this->assertSoftDeleted($product);
     }
-
 }

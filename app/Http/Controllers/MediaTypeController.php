@@ -11,7 +11,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MediaTypeController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $mediaTypes = MediaType::paginate();
@@ -44,5 +43,4 @@ class MediaTypeController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProjectResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
@@ -29,5 +28,4 @@ class ProjectResource extends JsonResource
             'forkedFrom' => self::make($this->whenLoaded('forkedFrom'))
         ];
     }
-
 }

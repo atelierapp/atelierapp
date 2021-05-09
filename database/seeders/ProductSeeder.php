@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -395,5 +394,4 @@ class ProductSeeder extends Seeder
             $category->products()->attach($ids);
         });
     }
-
 }

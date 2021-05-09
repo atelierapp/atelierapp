@@ -21,5 +21,4 @@ class RoomUpdateRequest extends FormRequest
     {
         return true;
     }
-
 }

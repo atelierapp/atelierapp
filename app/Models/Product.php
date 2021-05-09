@@ -91,5 +91,4 @@ class Product extends Model
                 $q->where('name', 'like', "%{$value}%");
             });
     }
-
 }

@@ -8,7 +8,6 @@ use Illuminate\Database\Seeder;
 use Bouncer;
 
 class UserSeeder extends Seeder {
-
     /**
      * Run the database Seeders.
      *

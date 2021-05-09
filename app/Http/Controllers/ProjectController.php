@@ -12,7 +12,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $projects = Project::with('style', 'author')->search(request('search'))->paginate();
@@ -57,5 +56,4 @@ class ProjectController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

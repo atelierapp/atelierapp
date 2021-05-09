@@ -11,7 +11,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MaterialController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $materials = Material::paginate();
@@ -44,5 +43,4 @@ class MaterialController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

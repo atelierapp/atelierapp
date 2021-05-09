@@ -10,7 +10,6 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class ProjectDeleteRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [];
@@ -20,5 +19,4 @@ class ProjectDeleteRequest extends FormRequest
     {
         return $this->user()->can('delete', $this->project);
     }
-
 }

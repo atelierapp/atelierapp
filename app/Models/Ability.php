@@ -6,5 +6,4 @@ use Silber\Bouncer\Database\Ability as AbilityModel;
 
 class Ability extends AbilityModel
 {
-
 }

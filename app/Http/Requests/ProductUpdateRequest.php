@@ -8,7 +8,6 @@ use Spatie\Enum\Laravel\Rules\EnumRule;
 
 class ProductUpdateRequest extends FormRequest
 {
-
     public function rules()
     {
         return [
@@ -29,5 +28,4 @@ class ProductUpdateRequest extends FormRequest
     {
         return true;
     }
-
 }

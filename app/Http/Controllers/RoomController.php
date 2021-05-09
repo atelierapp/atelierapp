@@ -11,7 +11,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class RoomController extends Controller
 {
-
     public function index(): AnonymousResourceCollection
     {
         $rooms = Room::paginate();
@@ -44,5 +43,4 @@ class RoomController extends Controller
 
         return $this->responseNoContent();
     }
-
 }

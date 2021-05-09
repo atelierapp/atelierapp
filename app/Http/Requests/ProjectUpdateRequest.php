@@ -11,7 +11,6 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class ProjectUpdateRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [
@@ -26,5 +25,4 @@ class ProjectUpdateRequest extends FormRequest
     {
         return Bouncer::can('update', $this->project);
     }
-
 }

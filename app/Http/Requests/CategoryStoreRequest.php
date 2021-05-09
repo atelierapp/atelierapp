@@ -20,5 +20,4 @@ class CategoryStoreRequest extends FormRequest
     {
         return true;
     }
-
 }

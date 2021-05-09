@@ -17,7 +17,6 @@ use Tests\TestCase;
  */
 class ProjectControllerTest extends TestCase
 {
-
     use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
@@ -331,5 +330,4 @@ class ProjectControllerTest extends TestCase
 
         $response->assertStatus(JsonResponse::HTTP_NOT_FOUND);
     }
-
 }

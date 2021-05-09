@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-
     use HasFactory;
     use SoftDeletes;
     use HasMediasRelation;
@@ -72,5 +71,4 @@ class Project extends Model
                     ->orWhere('last_name', 'like', "%{$value}%");
             });
     }
-
 }

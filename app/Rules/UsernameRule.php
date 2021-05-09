@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 
 class UsernameRule implements Rule {
-
     public function __construct()
     {
         //

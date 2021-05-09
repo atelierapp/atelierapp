@@ -13,7 +13,6 @@ use Tests\TestCase;
  */
 class SignUpTest extends TestCase
 {
-
     use WithFaker;
 
     /**
@@ -61,23 +60,44 @@ class SignUpTest extends TestCase
      * @title Successful registration with social account
      * @description An account can be created with valid data linking the social account.
      */
-    public function an_account_can_be_created_with_valid_data_linking_the_social_account()
+    public function an_account_can_be_created_with_valid_data_linking_the_facebook_social_account()
     {
         $data = [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'email' => $this->faker->safeEmail,
+            'email' => $this->faker->email,
             'username' => $this->faker->userName,
-            'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword',
+            'phone' => $this->faker->numerify('#########'),
+            'password' => 'P4ss,W0rd',
             'social_driver' => 'facebook',
-            'social_id' => $socialId = 'a-social-id',
+            'social_id' => 'a-social-id',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
 
         $response->assertCreated();
-        $this->assertDatabaseCount('social_accounts', 1);
+        $response->assertJsonStructure([
+            'data' => [
+                'user' => [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'username',
+                    'phone',
+                    'birthday',
+                    'avatar',
+                    'is_active',
+                    'created_at',
+                    'updated_at',
+                ],
+                'access_token',
+            ]
+        ]);
+        $this->assertDatabaseHas('social_accounts', [
+            'driver' => $data['social_driver'],
+            'social_id' => $data['social_id']
+        ]);
     }
 
     /**
@@ -372,5 +392,4 @@ class SignUpTest extends TestCase
             ]
         ]);
     }
-
 }

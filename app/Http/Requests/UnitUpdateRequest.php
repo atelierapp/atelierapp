@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UnitUpdateRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [
@@ -22,5 +21,4 @@ class UnitUpdateRequest extends FormRequest
     {
         return true;
     }
-
 }

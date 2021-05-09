@@ -24,5 +24,4 @@ class StoreUpdateRequest extends FormRequest
     {
         return true;
     }
-
 }
