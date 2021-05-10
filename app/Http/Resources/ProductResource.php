@@ -24,6 +24,7 @@ class ProductResource extends JsonResource
             'active' => (boolean)$this->active,
             'properties' => $this->properties,
             'featured_media' => $this->featured_media->url,
+            'store' => new StoreResource($this->whenLoaded('store')),
             'medias' => MediaResource::collection($this->whenLoaded('medias')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),

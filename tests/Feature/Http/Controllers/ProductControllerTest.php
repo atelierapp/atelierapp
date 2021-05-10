@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Enums\ManufacturerTypeEnum;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Store;
 use App\Models\Style;
 use App\Models\Tag;
 use Database\Seeders\MediaTypeSeeder;
@@ -136,7 +137,8 @@ class ProductControllerTest extends TestCase
             'sku' => $this->faker->word,
             'active' => true,
             'properties' => ['demo' => $this->faker->word],
-            'style_id' => Style::factory()->create()->id
+            'style_id' => Style::factory()->create()->id,
+            'store_id' => Store::factory()->create()->id,
         ];
 
         $response = $this->postJson(route('product.store'), $data);
@@ -184,6 +186,7 @@ class ProductControllerTest extends TestCase
             'sku' => $this->faker->word,
             'active' => true,
             'style_id' => Style::factory()->create()->id,
+            'store_id' => Store::factory()->create()->id,
             'properties' => ['demo' => $this->faker->word],
             'tags' => [
                 ['name' => $tag->name],
@@ -257,6 +260,7 @@ class ProductControllerTest extends TestCase
             'sku' => $this->faker->word,
             'active' => true,
             'style_id' => Style::factory()->create()->id,
+            'store_id' => Store::factory()->create()->id,
             'properties' => ['demo' => $this->faker->word],
             'attach' => [
                 ['file' => UploadedFile::fake()->image('attachmedia1.mp4')],

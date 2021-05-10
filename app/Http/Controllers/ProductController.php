@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     private function loadRelations(Product $productModel)
     {
-        $productModel->load('categories', 'style', 'materials', 'medias', 'tags', 'featured_media');
+        $productModel->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media');
     }
 
     public function index(): AnonymousResourceCollection
@@ -29,6 +29,7 @@ class ProductController extends Controller
                 'style',
                 'medias',
                 'tags',
+                'store',
                 'categories' => fn($query) => $query->when($categories, fn($query) => $query->whereIn('id', $categories))
             ])
             ->when($categories, fn($query) => $query->whereHas('categories', fn($query) => $query->whereIn('id', $categories)))

@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('store_id')->constrained();
             $table->string('title', 100);
             $table->enum('manufacturer_type', array_keys(ManufacturerTypeEnum::MAP_VALUE));
             $table->date('manufactured_at')->nullable();

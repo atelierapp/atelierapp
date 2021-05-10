@@ -16,6 +16,8 @@ class ProductUpdateRequest extends FormRequest
             'manufactured_at' => 'date_format:m/d/Y',
             'description' => 'string',
             'category_id' => ['integer', 'exists:categories,id'],
+            'style_id' => ['integer', 'exists:styles,id'],
+            'store_id' => ['integer', 'exists:stores,id'],
             'price' => 'integer',
             'quantity' => 'integer',
             'sku' => ['string', 'unique:products,sku'],

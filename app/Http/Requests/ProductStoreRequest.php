@@ -20,9 +20,10 @@ class ProductStoreRequest extends FormRequest
             'sku' => ['required', 'string', 'unique:products,sku'],
             'active' => ['boolean'],
             'style_id' => ['required', 'exists:styles,id'],
+            'store_id' => ['required', 'exists:stores,id'],
             'properties' => ['required', 'array'],
             'tags.*.name' => ['nullable', 'string'],
-            'attach.*.file' => ['nullable', 'file']
+            'attach.*.file' => ['nullable', 'file'],
         ];
     }
 

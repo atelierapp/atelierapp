@@ -23,10 +23,6 @@ class StoreSeeder extends Seeder
             'active' => true,
         ]);
         Store::factory()->create([
-            'name' => 'Burke Decor',
-            'active' => true,
-        ]);
-        Store::factory()->create([
             'name' => 'Blue Sky Environments Interior Decor',
             'active' => true,
         ]);

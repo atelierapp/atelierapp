@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
+use App\Models\Store;
 use App\Models\Style;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -29,6 +30,7 @@ class ProductFactory extends Factory
             'manufactured_at' => $this->faker->date(),
             'description' => $this->faker->paragraph(),
             'price' => $this->faker->numberBetween(100, 90000),
+            'store_id' => Store::factory(),
             'style_id' => Style::factory(),
             'quantity' => $this->faker->numberBetween(0, 100),
             'sku' => $this->faker->isbn10,

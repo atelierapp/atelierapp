@@ -21,6 +21,7 @@ class ProductSeeder extends Seeder
 
         // Creating products
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0001',
             'title' => 'Carmel Sideboard',
             'style_id' => 2,
@@ -35,6 +36,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0002',
             'title' => 'Ace Chair',
             'style_id' => 2,
@@ -49,6 +51,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0003',
             'title' => 'Ripley Dining',
             'style_id' => 4,
@@ -63,6 +66,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0004',
             'title' => 'Matthes Console',
             'style_id' => 2,
@@ -77,6 +81,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0005',
             'title' => 'Windsor Chair',
             'style_id' => 4,
@@ -91,6 +96,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0006',
             'title' => 'Tinsley Coffee Table',
             'style_id' => 2,
@@ -105,6 +111,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0007',
             'title' => 'Belmont Metal Cabinet',
             'style_id' => 8,
@@ -119,6 +126,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0008',
             'title' => 'Sirius Adjustable Accent Table',
             'style_id' => 4,
@@ -133,6 +141,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0009',
             'title' => 'Goat Fur Covered Wood Bench',
             'style_id' => 2,
@@ -147,6 +156,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0010',
             'title' => 'Hudson Coffee Table',
             'style_id' => 2,
@@ -161,6 +171,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0011',
             'title' => 'Camila Metal Cabinet',
             'style_id' => 8,
@@ -175,6 +186,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0012',
             'title' => 'Oxford Coffee Table',
             'style_id' => 4,
@@ -189,6 +201,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0013',
             'title' => 'Metal Chair w/ Wood Seat & Cotton Back Cushion',
             'style_id' => 2,
@@ -203,6 +216,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0014',
             'title' => 'Maxx Swivel Chair',
             'style_id' => 8,
@@ -217,6 +231,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0015',
             'title' => 'Clermont Chair',
             'style_id' => 4,
@@ -231,6 +246,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0016',
             'title' => 'Dylan Sofa',
             'style_id' => 4,
@@ -245,6 +261,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0017',
             'title' => 'Habitat Sofa',
             'style_id' => 2,
@@ -259,6 +276,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 2,
             'sku' => 'BD0018',
             'title' => 'Emery Sofa',
             'style_id' => 4,
@@ -273,6 +291,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 3,
             'sku' => 'BSE0001',
             'title' => 'Artichoke Queen Bed',
             'style_id' => 7,
@@ -287,6 +306,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 3,
             'sku' => 'BSE0002',
             'title' => 'Savannah Queen 4 Poster with Caning',
             'style_id' => 8,
@@ -301,6 +321,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 3,
             'sku' => 'BSE0003',
             'title' => 'Empire Queen',
             'style_id' => 8,
@@ -315,6 +336,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 3,
             'sku' => 'BSE0004',
             'title' => 'Azzalene Dresser',
             'style_id' => 8,
@@ -329,6 +351,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 3,
             'sku' => 'BSE0005',
             'title' => 'Ciborium 3 Drawers',
             'style_id' => 8,
@@ -343,6 +366,7 @@ class ProductSeeder extends Seeder
             ]
         ]);
         Product::create([
+            'store_id' => 3,
             'sku' => 'BSE0006',
             'title' => 'Bill 3-Drawer Chest',
             'style_id' => 8,

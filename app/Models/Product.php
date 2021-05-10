@@ -26,6 +26,7 @@ class Product extends Model
 
     protected $fillable = [
         'title',
+        'store_id',
         'manufacturer_type',
         'manufactured_at',
         'description',
@@ -48,6 +49,11 @@ class Product extends Model
     protected $enums = [
         'manufacturer_type' => ManufacturerTypeEnum::class,
     ];
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
+    }
 
     public function categories(): BelongsToMany
     {
