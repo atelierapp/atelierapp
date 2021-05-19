@@ -23,6 +23,7 @@ class CreateProjectsTable extends Migration
             $table->foreignId('forked_from_id')->nullable()->constrained('projects');
             $table->boolean('published')->default(true);
             $table->boolean('public')->default(true);
+            $table->json('settings')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

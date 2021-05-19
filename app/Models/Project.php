@@ -24,6 +24,7 @@ class Project extends Model
         'forked_from_id',
         'published',
         'public',
+        'settings',
     ];
 
     protected $casts = [
@@ -33,6 +34,7 @@ class Project extends Model
         'forked_from' => 'integer',
         'published' => 'boolean',
         'public' => 'boolean',
+        'settings' => 'array',
     ];
 
     public function rooms(): HasMany

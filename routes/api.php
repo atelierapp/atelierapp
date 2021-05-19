@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
+use App\Http\Controllers\ProjectTempController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TagController;
@@ -46,6 +47,9 @@ Route::group(
         */
         Route::apiResource('projects', ProjectController::class);
         Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
+
+        Route::get('projects-temp', [ProjectTempController::class, 'index']);
+        Route::post('projects-temp', [ProjectTempController::class, 'store']);
     }
 );
 
