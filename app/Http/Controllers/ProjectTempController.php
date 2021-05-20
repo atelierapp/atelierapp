@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProjectTempController extends Controller
 {
-    public function store(Request $request)
+    public function index(): JsonResponse
+    {
+        $projects = auth()->user()->projects()->latest()->get();
+
+        return $this->response($projects);
+    }
+
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'name' => 'required',
@@ -22,10 +30,15 @@ class ProjectTempController extends Controller
 
         return $this->response($project->toArray(), Response::HTTP_CREATED);
     }
-    public function index(Request $request)
-    {
-        $projects = auth()->user()->projects()->latest()->get();
 
-        return $this->response($projects);
+    public function update(Request $request, Project $project): JsonResponse
+    {
+        $request->validate([
+            'settings' => ['required', 'array'],
+        ]);
+        $project->settings = $request->all();
+        $project->save();
+
+        return $this->response($project->toArray(), null, Response::HTTP_ACCEPTED);
     }
 }

@@ -24,20 +24,22 @@ abstract class TestCase extends BaseTestCase
         $this->setUpEnlighten();
     }
 
-    public function createAuthenticatedUser($data = [])
-    {
-        return $this->createUser($data, [Role::USER]);
-    }
-
     public function createAuthenticatedAdmin($data = [])
     {
-        return $this->createUser($data, [Role::ADMIN]);
+        return $this->createAuthenticatedUser($data, [Role::ADMIN]);
     }
 
-    public function createUser($data = [], array $role = [])
+    public function createAuthenticatedUser($data = [], $roles = [])
+    {
+        $user = $this->createUser($data, $roles);
+
+        return Sanctum::actingAs($user);
+    }
+
+    public function createUser($data = [], array $roles = [])
     {
         $this->registerRolesAndPermissions();
 
-        return Sanctum::actingAs(User::factory()->withRoles($role)->create($data));
+        return User::factory()->withRoles($roles)->create($data);
     }
 }

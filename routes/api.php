@@ -50,6 +50,7 @@ Route::group(
 
         Route::get('projects-temp', [ProjectTempController::class, 'index']);
         Route::post('projects-temp', [ProjectTempController::class, 'store']);
+        Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
     }
 );
 
