@@ -32,8 +32,8 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "silber/bouncer": "v1.0.0-rc.10",
         "socialiteproviders/apple": "^5.0",
-        "spatie/enum": "^2.3",
-        "spatie/laravel-enum": "^1.6",
+        "spatie/enum": "^3.0",
+        "spatie/laravel-enum": "^2.0",
         "ext-json": "*"
     },
     "require-dev": {
