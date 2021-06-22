@@ -61,7 +61,7 @@
 
         <!-- COL 2 -->
         <div class="hidden lg:block lg:col-span-1">
-          <img src="{{ asset('landing/phone-atelier-feature.png') }}" alt="Atelier Home Design">
+          <img src="{{ asset('images/phone-atelier-feature.png') }}" alt="Atelier Home Design">
         </div>
 
         <!-- COL 3 -->

@@ -4,7 +4,7 @@
       <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
         <!-- IMAGE -->
         <div class="my-8 md:mt-0 lg:pb-8 lg:pt-10 flex flex-col space-y-4">
-          <img src="{{ asset('landing/hero.png') }}" alt="Atelier Home Design">
+          <img src="{{ asset('images/hero.png') }}" alt="Atelier Home Design">
         </div>
       </div>
       <div class="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">

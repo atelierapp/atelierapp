@@ -23,7 +23,7 @@ environments:
         build:
             - 'composer install'
             - 'php artisan event:cache'
-            - 'npm install && npm run dev && rm -rf node_modules'
+            - 'npm install && npm run prod && rm -rf node_modules'
         deploy:
             - 'php artisan migrate:fresh --force --seed'
 

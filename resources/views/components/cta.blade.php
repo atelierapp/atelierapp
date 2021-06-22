@@ -1,6 +1,6 @@
 <div class="relative">
   <div class="absolute inset-0 z-0">
-    <img class="w-full h-full object-cover" src="{{ asset('landing/cta-bg.png') }}" alt="Atelier Home Design">
+    <img class="w-full h-full object-cover" src="{{ asset('images/cta-bg.png') }}" alt="Atelier Home Design">
     <div class="absolute inset-0 bg-pink-400 mix-blend-multiply" aria-hidden="true"></div>
   </div>
   <div class="max-w-2xl relative z-10 mx-auto flex items-center flex-col text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">

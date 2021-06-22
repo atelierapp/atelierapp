@@ -48,7 +48,7 @@ class UserFactory extends Factory
     public function configure(): UserFactory
     {
         return $this->afterCreating(function (User $user) {
-            $user->assignRole(Role::USER);
+            $user->assign(Role::USER);
         });
     }
 }
