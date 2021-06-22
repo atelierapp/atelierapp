@@ -11,13 +11,11 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
   @stack('head')
 </head>
-<body>
-<div class="w-full flex flex-col justify-center">
+<body class="h-screen">
   <x-nav/>
   <div>
     {{ $slot }}
   </div>
-</div>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 @stack('scripts')
 </body>
