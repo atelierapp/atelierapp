@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property array|mixed settings
+ */
 class Project extends Model
 {
     use HasFactory;
@@ -24,6 +27,7 @@ class Project extends Model
         'forked_from_id',
         'published',
         'public',
+        'settings',
     ];
 
     protected $casts = [
@@ -33,6 +37,7 @@ class Project extends Model
         'forked_from' => 'integer',
         'published' => 'boolean',
         'public' => 'boolean',
+        'settings' => 'array',
     ];
 
     public function rooms(): HasMany

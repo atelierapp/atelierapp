@@ -32,18 +32,22 @@ abstract class TestCase extends BaseTestCase
      */
     public function createAuthenticatedUser($data = [])
     {
-        return $this->createUser($data, [Role::USER]);
+        $user = $this->createUser($data, [Role::USER]);
+
+        return Sanctum::actingAs($user);
     }
 
     public function createAuthenticatedAdmin($data = [])
     {
-        return $this->createUser($data, [Role::ADMIN]);
+        $user = $this->createUser($data, [Role::ADMIN]);
+
+        return Sanctum::actingAs($user);
     }
 
-    public function createUser($data = [], array $role = [])
+    public function createUser($data = [], array $roles = [])
     {
         $this->registerRolesAndPermissions();
 
-        return Sanctum::actingAs(User::factory()->withRoles($role)->create($data));
+        return User::factory()->withRoles($roles)->create($data);
     }
 }
