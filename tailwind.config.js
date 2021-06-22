@@ -13,6 +13,10 @@ module.exports = {
                 'pink-500': '#f7ecea',
                 'pink-700': '#a07979',
                 'pink-900': '#6e504f',
+                'green-300': '#D9E7E0',
+                'green-600': '#76938F',
+                'gray-500': '#F0F0F0',
+                'gray-800': '#707070'
             },
         },
     },
