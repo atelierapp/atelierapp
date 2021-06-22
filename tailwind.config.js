@@ -10,6 +10,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                'pink-400': '#BC9E9F',
                 'pink-500': '#f7ecea',
                 'pink-700': '#a07979',
                 'pink-900': '#6e504f',
