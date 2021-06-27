@@ -79,5 +79,10 @@ class CategorySeeder extends Seeder
             'parent_id' => null,
             'active' => true,
         ]);
+        Category::factory()->create([
+            'name' => 'Tiles',
+            'parent_id' => null,
+            'active' => true,
+        ]);
     }
 }

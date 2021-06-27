@@ -417,5 +417,67 @@ class ProductSeeder extends Seeder
             $category = Category::find($categoryId);
             $category->products()->attach($ids);
         });
+
+        // Products for Tiles category
+        $products = [];
+        $products[] = Product::create([
+            'store_id' => 3,
+            'sku' => 'TIL0001',
+            'title' => 'Granite Tile',
+            'style_id' => 8,
+            'price' => 30000,
+            'quantity' => random_int(5, 50),
+            'properties' => [
+                'dimensions' => [
+                ]
+            ]
+        ]);
+        $products[] = Product::create([
+            'store_id' => 3,
+            'sku' => 'TIL0002',
+            'title' => 'China Bathroom 3D',
+            'style_id' => 8,
+            'price' => 34000,
+            'quantity' => random_int(5, 50),
+            'properties' => [
+                'dimensions' => [
+                ]
+            ]
+        ]);
+        $products[] = Product::create([
+            'store_id' => 3,
+            'sku' => 'TIL0003',
+            'title' => 'Blue Mountain Kaleidoscope 2X Triangle Geometric',
+            'style_id' => 8,
+            'price' => 40000,
+            'quantity' => random_int(5, 50),
+            'properties' => [
+                'dimensions' => [
+                ]
+            ]
+        ]);
+        $products[] = Product::create([
+            'store_id' => 3,
+            'sku' => 'TIL0004',
+            'title' => 'Blue Mountain Kaleidoscope X Triangle Geometric',
+            'style_id' => 8,
+            'price' => 12000,
+            'quantity' => random_int(5, 50),
+            'properties' => [
+                'dimensions' => [
+                ]
+            ]
+        ]);
+
+        foreach ($products as $product) {
+            $product->medias()->create([
+                'url' => Str::of($product->sku)
+                    ->prepend('https://atelier-staging-bucket.s3.amazonaws.com/products/')
+                    ->append("-A.png"),
+                'featured' => 1,
+                'orientation' => 'Top',
+                'type_id' => 1,
+            ]);
+        }
     }
 }
