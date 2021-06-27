@@ -478,6 +478,8 @@ class ProductSeeder extends Seeder
                 'orientation' => 'Top',
                 'type_id' => 1,
             ]);
+            $category = Category::find(14); // Tiles
+            $category->products()->attach($product);
         }
     }
 }
