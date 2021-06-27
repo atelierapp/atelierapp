@@ -10,7 +10,7 @@ class AuthenticationTest extends TestCase {
     public function a_user_can_access_the_apps_with_a_correct_email_password()
     {
         $credentials = [
-            'email' => 'mesut@ozil.com',
+            'username' => 'mesut@ozil.com',
             'password' => 'TheChosenOne',
         ];
         $user = $this->createUser($credentials);
