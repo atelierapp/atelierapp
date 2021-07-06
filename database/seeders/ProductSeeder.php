@@ -429,7 +429,10 @@ class ProductSeeder extends Seeder
             'quantity' => random_int(5, 50),
             'properties' => [
                 'dimensions' => [
-                ]
+                    'width' => 20,
+                    'depth' => 20,
+                    'height' => 1,
+                ],
             ]
         ]);
         $products[] = Product::create([
@@ -441,7 +444,10 @@ class ProductSeeder extends Seeder
             'quantity' => random_int(5, 50),
             'properties' => [
                 'dimensions' => [
-                ]
+                    'width' => 20,
+                    'depth' => 20,
+                    'height' => 1,
+                ],
             ]
         ]);
         $products[] = Product::create([
@@ -453,7 +459,10 @@ class ProductSeeder extends Seeder
             'quantity' => random_int(5, 50),
             'properties' => [
                 'dimensions' => [
-                ]
+                    'width' => 20,
+                    'depth' => 20,
+                    'height' => 1,
+                ],
             ]
         ]);
         $products[] = Product::create([
@@ -465,7 +474,10 @@ class ProductSeeder extends Seeder
             'quantity' => random_int(5, 50),
             'properties' => [
                 'dimensions' => [
-                ]
+                    'width' => 20,
+                    'depth' => 20,
+                    'height' => 1,
+                ],
             ]
         ]);
 
