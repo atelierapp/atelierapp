@@ -1,7 +1,7 @@
 <x-layout>
   <div class="overflow-hidden">
     <div>
-      <x-hero/>
+      <x-hero-home/>
       <x-features.feature-a/>
       <x-features.feature-b/>
       <x-latest-posts/>

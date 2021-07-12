@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\Ability;
 use App\Models\Project;
 use App\Models\Role;
+use App\View\Components\WhoWeAre;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Bouncer;
@@ -34,5 +36,8 @@ class AppServiceProvider extends ServiceProvider
         Bouncer::useRoleModel(Role::class);
 
         Bouncer::ownedVia(Project::class, 'author_id');
+
+
+        Blade::component('who-we-are', WhoWeAre::class);
     }
 }

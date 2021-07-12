@@ -3,10 +3,10 @@
 
     <div class="relative lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
       <div class="relative">
-        <p class="mt-3 text-lg text-gray-500 uppercase tracking-wider font-semibold text-green-600">
+        <p class="mt-3 text-lg text-gray-500 uppercase tracking-wider font-bold text-green-600">
           What is atelier?
         </p>
-        <h3 class="text-2xl font-medium text-gray-900 tracking-wide sm:text-4xl mt-4">
+        <h3 class="text-2xl font-medium text-gray-900 tracking-narrow sm:text-4xl mt-4">
           Conscious &<br>quality design
         </h3>
 

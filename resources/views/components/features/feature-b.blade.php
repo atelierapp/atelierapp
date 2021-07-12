@@ -1,6 +1,5 @@
 <div class="pt-16 pb-8 bg-green-300 overflow-hidden lg:pt-24 lg:pb-0">
   <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-    <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
       <defs>
         <pattern id="b1e6e422-73f8-40a6-b5d9-c8586e37e0e7" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
@@ -10,12 +9,12 @@
     </svg>
 
     <div class="relative">
-      <p class="mt-4 max-w-3xl md:mx-auto md:text-center text-lg text-gray-500 uppercase tracking-wider font-semibold text-green-600">
+      <p class="mt-4 max-w-3xl md:mx-auto md:text-center text-lg text-gray-500 uppercase tracking-wider font-bold text-green-600">
         Atelier Home Design
       </p>
       <div class="w-full flex justify-start md:justify-center">
-        <div class="w-4/5 md:w-3/5 lg:w-2/5">
-          <h2 class="md:text-center text-2xl font-medium text-gray-900 tracking-wide sm:text-4xl mt-4">
+        <div class="w-4/5 md:w-3/5">
+          <h2 class="md:text-center text-2xl font-medium text-gray-900 tracking-narrow sm:text-4xl mt-4">
             The home design tool you’ve been needing for a while
           </h2>
         </div>
