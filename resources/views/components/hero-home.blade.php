@@ -18,13 +18,13 @@
             <span>The easiest-to-use tool to design your home</span>
           </h1>
           <div class="flex flex-row space-x-10">
-            <x-elements.button title="Download App" link="https://apps.apple.com/es/app/atelier-home-design/id1448129816">
+            <x-elements.button title="Download App" link="https://apps.apple.com/app/atelier-home-design/id1448129816">
               <x-slot name="icon">
                 <svg class="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.813 26.405"><path d="M24.833 26.33a2.169 2.169 0 01-1.327-1.018l-7.59-13.145L18.441 7.8l4.887 8.465h4.3a2.186 2.186 0 110 4.371h-1.776l1.439 2.494a2.185 2.185 0 01-2.458 3.2zm-21.51-.219a2.188 2.188 0 01-.8-2.985l.429-.744H8l-1.692 2.93a2.189 2.189 0 01-1.9 1.092 2.159 2.159 0 01-1.085-.293zm-1.137-5.479a2.186 2.186 0 110-4.371h4.3l5.9-10.214-1.6-2.77a2.185 2.185 0 113.784-2.184l.336.582.336-.582a2.186 2.186 0 013.786 2.185l-7.5 12.983h4.728l2.524 4.371z" fill="#bfe0d8"/></svg>
               </x-slot>
             </x-elements.button>
 
-            <x-elements.button title="Soon in Android">
+            <x-elements.button title="Soon on Android">
               <x-slot name="icon">
                 <svg class="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.86 27.29"><defs/><path fill="#bfe0d8" d="M2.06 27.22L14.33 14.9l3.97 3.99-14.18 7.96a2.66 2.66 0 01-1.45.43 2.63 2.63 0 01-.6-.07zM0 24.6V2.68a2.7 2.7 0 01.54-1.6l12.53 12.57L.54 26.21A2.69 2.69 0 010 24.6zm15.59-10.96l4.33-4.35 3.57 2a2.69 2.69 0 010 4.68l-3.57 2zM2.06.06a2.66 2.66 0 012.06.36L18.3 8.39l-3.98 4z"/></svg>
               </x-slot>

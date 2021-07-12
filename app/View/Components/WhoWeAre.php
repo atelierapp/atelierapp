@@ -20,7 +20,7 @@ class WhoWeAre extends Component
             [
                 'name' => 'JUNIOR QUEVEDO',
                 'position' => 'CTO & Co-founder',
-                'biography' => 'Software engineer specialized in mobile development and 3D technologies',
+                'biography' => 'Software engineer specialized in iOS & Android development, blockchain and 3D technologies',
                 'image' => 'images/team/junior.png',
             ],
             [
@@ -44,7 +44,7 @@ class WhoWeAre extends Component
             [
                 'name' => 'Ingle',
                 'position' => 'Emotional Support Director',
-                'biography' => 'Woof woof woof, woof woof woof. Woof!',
+                'biography' => "Woof woof woof, Woof woof woof, Woof woof woof, Woof woof woof, woof woof woof. Woof!",
                 'image' => 'images/team/ingle.png',
             ],
         ];

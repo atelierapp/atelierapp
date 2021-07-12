@@ -51,7 +51,7 @@
         </div>
       </nav>
       <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-        <a href="https://apps.apple.com/es/app/atelier-home-design/id1448129816"
+        <a href="https://apps.apple.com/app/atelier-home-design/id1448129816"
            class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
           Get it now!
         </a>
@@ -133,7 +133,7 @@
             </a>
 
             <div>
-              <a href="https://apps.apple.com/es/app/atelier-home-design/id1448129816"
+              <a href="https://apps.apple.com/app/atelier-home-design/id1448129816"
                  class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
                 Get it now
               </a>

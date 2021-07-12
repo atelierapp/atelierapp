@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Ability;
 use App\Models\Project;
 use App\Models\Role;
+use App\View\Components\LatestPosts;
 use App\View\Components\WhoWeAre;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
@@ -37,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
 
         Bouncer::ownedVia(Project::class, 'author_id');
 
-
         Blade::component('who-we-are', WhoWeAre::class);
+        Blade::component('latest-posts', LatestPosts::class);
     }
 }
