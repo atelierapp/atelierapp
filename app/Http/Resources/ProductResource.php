@@ -16,7 +16,7 @@ class ProductResource extends JsonResource
             'manufacturer_type' => ManufacturerTypeEnum::MAP_VALUE[$this->manufacturer_type],
             'manufactured_at' => optional($this->manufactured_at)->toDateString(),
             'description' => $this->description,
-            'price' => $this->price,
+            'price' => $this->price / 100,
             'style_id' => $this->style_id,
             'style' => $this->style->name,
             'quantity' => $this->quantity,
