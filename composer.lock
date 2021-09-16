@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ec98af36b2ad500c21732c7f096837c",
+    "content-hash": "9ee4f6bde0237d85c8b30bde7dd52749",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -56,10 +56,6 @@
                 "cors",
                 "stack"
             ],
-            "support": {
-                "issues": "https://github.com/asm89/stack-cors/issues",
-                "source": "https://github.com/asm89/stack-cors/tree/1.3.0"
-            },
             "time": "2019-12-24T22:41:47+00:00"
         },
         {
@@ -2764,6 +2760,74 @@
             "time": "2021-01-20T01:40:53+00:00"
         },
         {
+            "name": "livewire/livewire",
+            "version": "v2.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/livewire/livewire.git",
+                "reference": "ad9af07a9c623c1aefbbcfcbd178adcac8ebb8ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/ad9af07a9c623c1aefbbcfcbd178adcac8ebb8ac",
+                "reference": "ad9af07a9c623c1aefbbcfcbd178adcac8ebb8ac",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^7.0|^8.0",
+                "illuminate/support": "^7.0|^8.0",
+                "illuminate/validation": "^7.0|^8.0",
+                "php": "^7.2.5|^8.0",
+                "symfony/http-kernel": "^5.0"
+            },
+            "require-dev": {
+                "calebporzio/sushi": "^2.1",
+                "laravel/framework": "^7.0|^8.0",
+                "mockery/mockery": "^1.3.1",
+                "orchestra/testbench": "^5.0|^6.0",
+                "orchestra/testbench-dusk": "^5.2|^6.0",
+                "phpunit/phpunit": "^8.4|^9.0",
+                "psy/psysh": "@stable"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Livewire\\LivewireServiceProvider"
+                    ],
+                    "aliases": {
+                        "Livewire": "Livewire\\Livewire"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Livewire\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "A front-end framework for Laravel.",
+            "funding": [
+                {
+                    "url": "https://github.com/calebporzio",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-09-15T14:22:37+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "2.2.0",
             "source": {
@@ -2907,10 +2971,6 @@
                 "bcmath",
                 "math"
             ],
-            "support": {
-                "issues": "https://github.com/ramsey/moontoast-math/issues",
-                "source": "https://github.com/ramsey/moontoast-math"
-            },
             "abandoned": "brick/math",
             "time": "2020-01-05T04:49:34+00:00"
         },
@@ -3431,10 +3491,6 @@
                 "stream",
                 "uri"
             ],
-            "support": {
-                "issues": "https://github.com/php-http/message-factory/issues",
-                "source": "https://github.com/php-http/message-factory/tree/master"
-            },
             "time": "2015-12-19T14:08:53+00:00"
         },
         {
@@ -3771,10 +3827,6 @@
                 "psr",
                 "psr-14"
             ],
-            "support": {
-                "issues": "https://github.com/php-fig/event-dispatcher/issues",
-                "source": "https://github.com/php-fig/event-dispatcher/tree/1.0.0"
-            },
             "time": "2019-01-08T18:20:26+00:00"
         },
         {
@@ -3879,9 +3931,6 @@
                 "request",
                 "response"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/http-factory/tree/master"
-            },
             "time": "2019-04-30T12:38:16+00:00"
         },
         {
@@ -3932,9 +3981,6 @@
                 "request",
                 "response"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/http-message/tree/master"
-            },
             "time": "2016-08-06T14:39:51+00:00"
         },
         {
@@ -4033,9 +4079,6 @@
                 "psr-16",
                 "simple-cache"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/simple-cache/tree/master"
-            },
             "time": "2017-10-23T01:57:42+00:00"
         },
         {
@@ -4151,10 +4194,6 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "support": {
-                "issues": "https://github.com/ralouphie/getallheaders/issues",
-                "source": "https://github.com/ralouphie/getallheaders/tree/develop"
-            },
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
@@ -4376,10 +4415,6 @@
                 "multipart",
                 "parser"
             ],
-            "support": {
-                "issues": "https://github.com/Riverline/multipart-parser/issues",
-                "source": "https://github.com/Riverline/multipart-parser/tree/2.0.8"
-            },
             "time": "2020-01-24T09:39:24+00:00"
         },
         {
@@ -4809,10 +4844,6 @@
                 "once",
                 "spatie"
             ],
-            "support": {
-                "issues": "https://github.com/spatie/once/issues",
-                "source": "https://github.com/spatie/once/tree/2.2.1"
-            },
             "funding": [
                 {
                     "url": "https://spatie.be/open-source/support-us",
@@ -5107,23 +5138,6 @@
             ],
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2021-03-23T23:28:01+00:00"
         },
         {
@@ -5340,23 +5354,6 @@
                 "interoperability",
                 "standards"
             ],
-            "support": {
-                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v2.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2021-03-23T23:28:01+00:00"
         },
         {
@@ -5478,23 +5475,6 @@
                 "interfaces",
                 "interoperability",
                 "standards"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/http-client-contracts/tree/v2.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2021-04-11T23:07:08+00:00"
         },
@@ -6883,23 +6863,6 @@
                 "interoperability",
                 "standards"
             ],
-            "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/v2.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2021-04-01T10:43:52+00:00"
         },
         {
@@ -7138,23 +7101,6 @@
                 "interfaces",
                 "interoperability",
                 "standards"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/translation-contracts/tree/v2.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2021-03-23T23:28:01+00:00"
         },
@@ -7725,9 +7671,6 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "support": {
-                "source": "https://github.com/barryvdh/ReflectionDocBlock/tree/v2.0.6"
-            },
             "time": "2018-12-13T10:34:14+00:00"
         },
         {
@@ -8943,10 +8886,6 @@
                 }
             ],
             "description": "A registry for generating Faker data from a name or data type.",
-            "support": {
-                "issues": "https://github.com/laravel-shift/faker-registry/issues",
-                "source": "https://github.com/laravel-shift/faker-registry/tree/v0.1"
-            },
             "time": "2020-07-23T16:20:46+00:00"
         },
         {
@@ -11309,5 +11248,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "1.1.0"
 }
