@@ -21,6 +21,10 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/open-your-shop', function () {
+    return view('open-your-shop');
+})->name('open-your-shop');
+
 Route::get('docs', function () {
     return redirect('docs/index.html');
 });

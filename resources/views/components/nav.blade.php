@@ -34,10 +34,10 @@
           </a>
         </div>
 
-        <a href="#" class="text-base font-regular text-gray-800 hover:text-gray-900">
+        <a href="https://medium.com/@info_38937" target="_blank" class="text-base font-regular text-gray-800 hover:text-gray-900">
           Blog
         </a>
-        <a href="#" class="text-base font-regular text-gray-800 hover:text-gray-900">
+        <a href="{{ route('open-your-shop') }}" class="text-base font-regular text-gray-800 hover:text-gray-900" aria-label="Open your shop!">
           Open your Shop
         </a>
 
@@ -102,7 +102,7 @@
               </span>
             </a>
 
-            <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+            <a href="https://medium.com/@info_38937" target="_blank" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
               <!-- Heroicon name: outline/cursor-click -->
               <svg class="flex-shrink-0 h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -112,7 +112,7 @@
               </span>
             </a>
 
-            <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+            <a href="{{ route('open-your-shop') }}" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50" aria-label="Open your shop!">
               <!-- Heroicon name: outline/shield-check -->
               <svg class="flex-shrink-0 h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />

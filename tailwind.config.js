@@ -13,6 +13,7 @@ module.exports = {
         },
         extend: {
             colors: {
+                'pink-200': '#FDF9F8',
                 'pink-400': '#BC9E9F',
                 'pink-500': '#f7ecea',
                 'pink-700': '#a07979',

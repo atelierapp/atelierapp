@@ -26,6 +26,3 @@ environments:
             - 'npm install && npm run prod && rm -rf node_modules'
         deploy:
             - 'php artisan migrate:fresh --force --seed'
-            - 'php artisan optimize'
-            - 'php artisan view:cache'
-
