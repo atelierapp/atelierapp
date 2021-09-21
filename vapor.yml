@@ -6,6 +6,7 @@ environments:
         storage: atelier-production-bucket
         runtime: docker
         cli-memory: 512
+        database: production-database
         domain: atelierapp.com
         build:
             - 'composer install --no-dev'
