@@ -21,7 +21,7 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-3 gap-16 pt-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 pt-16">
     @foreach($team as $member)
       <div>
         <x-elements.team-member

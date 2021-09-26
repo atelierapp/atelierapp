@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-5 gap-16 pt-8 px-12">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-16 pt-8 px-6 md:px-12">
       @for ($i = 1; $i <= 12; $i++)
         <div class="">
           <img src="{{ asset(sprintf('images/brands/brand_%d.png', $i)) }}" alt="">

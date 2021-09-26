@@ -1,10 +1,10 @@
 <div class="bg-green-400">
   <div class="py-4 md:py-0 mx-auto max-w-7xl px-4 sm:px-6">
-    <div class="relative w-full flex items-center justify-center">
-      <img class="w-full" src="{{ asset('images/atelier-about.png') }}" alt="Atelier Home Design - About us">
-      <div class="absolute absolute bottom-0 right-0">
+    <div class="relative w-full flex flex-col-reverse md:flex-row items-center justify-center h-auto">
+      <img class="hidden md:block w-full" src="{{ asset('images/atelier-about.png') }}" alt="Atelier Home Design - About us">
+      <div class="md:absolute md:bottom-0 md:right-0">
         <div class="pb-16 max-w-lg">
-          <h1 class="text-3xl tracking-narrower font-medium text-green-600 sm:text-6xl xl:text-4xl pb-4">
+          <h1 class="pt-4 md:pt-0 text-3xl tracking-narrower font-medium text-green-600 sm:text-6xl xl:text-4xl pb-4">
             <span>What we do</span>
           </h1>
           <p class="tracking-wide leading-6 text-md">
