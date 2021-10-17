@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Authentication\CreateUserRequest;
 use App\Http\Requests\Authentication\LoginRequest;
+use App\Http\Requests\Authentication\ForgotPasswordRequest;
 use App\Http\Requests\Authentication\SocialLoginRequest;
 use App\Http\Resources\UserResource;
+use App\Mail\ForgotPasswordMail;
+use App\Models\ForgotPassword;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\SocialService;
@@ -13,6 +16,9 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -80,5 +86,20 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
 
         return $this->response([], __('auth.logout.success'));
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
+    {
+        if (User::whereEmail($request->get('email'))->count()) {
+            $recover = ForgotPassword::updateOrCreate([
+                'email' => $request->get('email')
+            ], [
+                'token' => Str::random(48)
+            ]);
+
+            Mail::to($recover->email)->send(new ForgotPasswordMail($recover->token));
+        }
+
+        return $this->response([], __('passwords.sent'));
     }
 }
