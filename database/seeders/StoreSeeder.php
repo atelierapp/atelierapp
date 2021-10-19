@@ -15,11 +15,11 @@ class StoreSeeder extends Seeder
     public function run(): void
     {
         Store::factory()->create([
-            'name' => 'CLARE',
+            'name' => 'Burke Decor',
             'active' => true,
         ]);
         Store::factory()->create([
-            'name' => 'Burke Decor',
+            'name' => 'Furbish Studio',
             'active' => true,
         ]);
         Store::factory()->create([
@@ -28,10 +28,6 @@ class StoreSeeder extends Seeder
         ]);
         Store::factory()->create([
             'name' => 'Modshop',
-            'active' => true,
-        ]);
-        Store::factory()->create([
-            'name' => 'GDF Studio',
             'active' => true,
         ]);
         Store::factory()->create([
@@ -47,19 +43,7 @@ class StoreSeeder extends Seeder
             'active' => true,
         ]);
         Store::factory()->create([
-            'name' => 'Wisteria',
-            'active' => true,
-        ]);
-        Store::factory()->create([
-            'name' => 'Modtempo LLC',
-            'active' => true,
-        ]);
-        Store::factory()->create([
             'name' => 'Boulevard Eight',
-            'active' => true,
-        ]);
-        Store::factory()->create([
-            'name' => 'Bowery and Grand',
             'active' => true,
         ]);
     }
