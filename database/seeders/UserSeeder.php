@@ -4,10 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Database\Seeder;
 use Bouncer;
+use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder {
+class UserSeeder extends Seeder
+{
     /**
      * Run the database Seeders.
      *
@@ -15,15 +16,27 @@ class UserSeeder extends Seeder {
      */
     public function run()
     {
-        $user = User::factory()->create([
+        $user = User::updateOrCreate([
+            'email' => 'kenny@qbklabs.com',
+        ], [
             'first_name' => 'Kenny',
-            'last_name'  => 'Horna',
-            'email'      => 'kenny@qbklabs.com',
-            'username'   => 'kenny',
-            'password'   => 'Mis3cretP@ss',
+            'last_name' => 'Horna',
+            'username' => 'kenny',
+            'password' => 'password',
+            'phone' => '987654321',
+            'birthday' => '1980-01-01',
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
 
-        User::factory()->create(['email' => 'john@doe.com']);
+        User::updateOrCreate([
+            'email' => 'john@doe.com',
+        ], [
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'username' => 'johndoe',
+            'password' => 'password',
+            'phone' => '987654321',
+            'birthday' => '1980-01-01',
+        ]);
     }
 }

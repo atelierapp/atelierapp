@@ -24,11 +24,9 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail,
             'username' => $this->faker->unique()->userName,
-            'password' => 'MiPassword@',
+            'password' => 'password',
             'phone' => $this->faker->numerify('9########'),
             'birthday' => $this->faker->dateTimeBetween('-50 years', '-18 years'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
         ];
     }
 
