@@ -34,26 +34,17 @@
           </a>
         </div>
 
-        <a href="https://medium.com/@info_38937" target="_blank" class="text-base font-regular text-gray-800 hover:text-gray-900">
+        <a href="https://medium.com/@atelierapp" target="_blank" class="text-base font-regular text-gray-800 hover:text-gray-900">
           Blog
         </a>
         <a href="{{ route('open-your-shop') }}" class="text-base font-regular text-gray-800 hover:text-gray-900" aria-label="Open your shop!">
           Open your Shop
         </a>
-
-        <div class="relative">
-          <!-- Item active: "text-gray-900", Item inactive: "text-gray-800" -->
-          <button type="button"
-                  class="text-gray-800 group bg-white rounded-md inline-flex items-center text-base font-regular hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  aria-expanded="false">
-            <span>FAQ & Support</span>
-          </button>
-        </div>
       </nav>
       <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-        <a href="https://apps.apple.com/app/atelier-home-design/id1448129816"
+        <a href="mailto:info@0110atelier.com?subject=I%20want%20to%20test%20the%20Atelier%20App&body=I%20want%20to%20try%20the%20app.%20Please%20add%20me%20to%20your%20user%20list"
            class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
-          Get it now!
+          Sign up to test the app
         </a>
       </div>
     </div>
@@ -102,7 +93,7 @@
               </span>
             </a>
 
-            <a href="https://medium.com/@info_38937" target="_blank" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+            <a href="https://medium.com/@atelierapp" target="_blank" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
               <!-- Heroicon name: outline/cursor-click -->
               <svg class="flex-shrink-0 h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -122,20 +113,10 @@
               </span>
             </a>
 
-            <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-              <!-- Heroicon name: outline/view-grid -->
-              <svg class="flex-shrink-0 h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              <span class="ml-3 text-base font-medium text-gray-900">
-                FAQ & Support
-              </span>
-            </a>
-
             <div>
-              <a href="https://apps.apple.com/app/atelier-home-design/id1448129816"
+              <a href="mailto:info@0110atelier.com?subject=I%20want%20to%20test%20the%20Atelier%20App&body=I%20want%20to%20try%20the%20app.%20Please%20add%20me%20to%20your%20user%20list"
                  class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
-                Get it now
+                Sign up to test the app
               </a>
             </div>
           </nav>

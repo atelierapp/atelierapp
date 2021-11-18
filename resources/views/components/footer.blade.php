@@ -3,38 +3,20 @@
   <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
     <div class="xl:grid xl:grid-cols-3 xl:gap-8">
       <div class="mt-12 md:grid md:grid-cols-3 gap-8 xl:mt-0 xl:col-span-2">
-          <div class="grid col-span-1">
+          <div class="mt-12 md:mt-0">
             <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
               Resources
             </h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                  Choose Your Lifestyle
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
+                <a href="https://www.atelier-app.com/design-principles-ebook" class="text-base text-gray-500 hover:text-gray-900">
                   Design Principles Guide
                 </a>
               </li>
 
               <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
+                <a href="https://www.amazon.com/Atelier-Home-Design-App/dp/B07D7JFC3B/ref=sr_1_1?crid=3G59NWF[…]igital-skills&sprefix=atelier+app%2Calexa-skills%2C103&sr=1-1" class="text-base text-gray-500 hover:text-gray-900">
                   Alexa Skill
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                  Press Kit
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                  Members Area (Beta)
                 </a>
               </li>
             </ul>
@@ -45,20 +27,14 @@
             </h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                  App Privacy Policy
+                <a href="https://www.iubenda.com/privacy-policy/92622916" class="text-base text-gray-500 hover:text-gray-900">
+                  Privacy Policy
                 </a>
               </li>
 
               <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                  Terms of Use
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                  FAQ
+                <a href="https://www.iubenda.com/terms-and-conditions/40005283" class="text-base text-gray-500 hover:text-gray-900">
+                  Terms & Conditions
                 </a>
               </li>
             </ul>
@@ -69,19 +45,13 @@
             </h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
+                <a href="https://www.atelier-app.com/investor-contact" class="text-base text-gray-500 hover:text-gray-900">
                   Information for Investors
                 </a>
               </li>
 
               <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
-                  Team Portal
-                </a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-500 hover:text-gray-900">
+                <a href="mailto:info@0110atelier.com" class="text-base text-gray-500 hover:text-gray-900">
                   Email us
                 </a>
               </li>
@@ -95,7 +65,7 @@
           Follow us
         </p>
         <div class="flex space-x-6">
-          <a href="#" class="text-white opacity-50 hover:opacity-100">
+          <a href="https://www.facebook.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100">
             <span class="sr-only">Facebook</span>
             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fill-rule="evenodd"
@@ -104,7 +74,7 @@
             </svg>
           </a>
 
-          <a href="#" class="text-white opacity-50 hover:opacity-100">
+          <a href="https://www.instagram.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100">
             <span class="sr-only">Instagram</span>
             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fill-rule="evenodd"
@@ -113,7 +83,7 @@
             </svg>
           </a>
 
-          <a href="#" class="text-white opacity-50 hover:opacity-100">
+          <a href="https://twitter.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100">
             <span class="sr-only">Twitter</span>
             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
