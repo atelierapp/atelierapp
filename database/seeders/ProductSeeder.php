@@ -137,40 +137,49 @@ class ProductSeeder extends Seeder
         $categories = Category::all();
         $styles = Style::all()->pluck('id', 'name');
 
-        foreach ($productsExcel as $product){
-            $product = Product::create([
-                'store_id' => $stores[$product['store']],
-                'sku' => $product['sku'],
-                'title' => $product['title'],
-                'style_id' => $styles[$product['style']],
-                'price' => $product['price'] * 100,
+        foreach ($productsExcel as $productExcel){
+            $product = Product::updateOrCreate([
+                'sku' => $productExcel['sku'],
+                ],[
+                'store_id' => $stores[$productExcel['store']],
+                'title' => $productExcel['title'],
+                'style_id' => $styles[$productExcel['style']],
+                'price' => $productExcel['price'] * 100,
                 'quantity' => random_int(5, 50),
                 'properties' => [
                     'dimensions' => [
-                        'width' => $product['width'],
-                        'depth' => $product['depth'],
-                        'height' => $product['height'],
+                        'width' => $productExcel['width'],
+                        'depth' => $productExcel['depth'],
+                        'height' => $productExcel['height'],
                     ]
                 ]
             ]);
+            $product->categories()->sync($categories->where('name', '=', $productExcel['category']));
+            $this->media($product, $productExcel['front']);
+            $this->media($product, $productExcel['side']);
+            $this->media($product, $productExcel['pers']);
+        }
+    }
 
-            $product->categories()->sync($categories->where('name', '=', $product['category']));
-
-            $views = [
-                'front' => '-F',
-                'side' => '-S',
-                'perspective' => '-P',
+    private function media(Product $product, string $view)
+    {
+        if ($view != '-') {
+            $orientations = [
+                '-F' => 'front',
+                '-S' => 'side',
+                '-P' => 'perspective',
             ];
-            foreach ($views as $view => $suffix) {
-                $product->medias()->create([
-                    'url' => Str::of($product->sku)
-                        ->prepend('https://atelier-staging-bucket.s3.amazonaws.com/products/')
-                        ->append("$suffix.png"),
-                    'featured' => $view === 'front',
-                    'orientation' => $view,
-                    'type_id' => 1,
-                ]);
-            }
+
+            $orientation = Str::substr($view, -2, 2);
+
+            $product->medias()->create([
+                'url' => Str::of($view)
+                    ->prepend('https://atelier-staging-bucket.s3.amazonaws.com/products/')
+                    ->append(".png"),
+                'featured' => Str::endsWith($view, '-F'),
+                'orientation' => $orientations[$orientation],
+                'type_id' => 1,
+            ]);
         }
     }
 }
