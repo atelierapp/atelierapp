@@ -9,11 +9,11 @@ environments:
         database: production-database
         domain: atelierapp.com
         build:
-            - 'composer install --no-dev'
+            - 'composer install'
             - 'php artisan event:cache'
             - 'npm install && npm run prod && rm -rf node_modules'
         deploy:
-            - 'php artisan migrate --force'
+            - 'php artisan migrate:fresh --force --seed'
     staging:
         memory: 1024
         storage: atelier-staging-bucket
