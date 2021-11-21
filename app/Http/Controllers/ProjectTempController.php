@@ -36,9 +36,10 @@ class ProjectTempController extends Controller
         $request->validate([
             'settings' => ['required', 'array'],
         ]);
-        $project->settings = $request->all();
+
+        $project->settings = $request->all()['settings'];
         $project->save();
 
-        return $this->response($project->toArray(), null, Response::HTTP_ACCEPTED);
+        return $this->response($project->toArray(), Response::HTTP_CREATED);
     }
 }
