@@ -1,12 +1,10 @@
 module.exports = {
-    mode: 'jit',
-    purge: [
+    content: [
         './storage/framework/views/*.php',
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './config/*.php',
     ],
-    darkMode: false, // or 'media' or 'class'
     theme: {
         fontFamily: {
             'sans': ['montserrat', 'sans-serif'],
@@ -32,9 +30,6 @@ module.exports = {
                 '2xl-soft': '0 25px 50px -12px rgba(0, 0, 0, 0.05)',
             }
         },
-    },
-    variants: {
-        extend: {},
     },
     plugins: [],
 }
