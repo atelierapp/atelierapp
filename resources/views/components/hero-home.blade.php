@@ -15,7 +15,7 @@
           </div>
           <span class="uppercase text-xl text-pink-900 tracking-wide font-medium">Easy & simple design</span>
           <h1 class=" text-4xl tracking-narrower font-medium text-pink-900 sm:text-6xl xl:text-5xl">
-            <span>The easiest-to-use tool to design your home</span>
+            <span>The easiest-to-use tool to design your home sustainably</span>
           </h1>
           <div class="flex flex-col md:flex-row -space-y-4 md:space-y-0 md:space-x-6">
             <x-elements.button title="Test the app" link="mailto:info@0110atelier.com?subject=I%20want%20to%20test%20the%20Atelier%20App&body=I%20want%20to%20try%20the%20app.%20Please%20add%20me%20to%20your%20user%20list">
