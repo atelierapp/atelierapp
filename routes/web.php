@@ -13,22 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-Route::get('/open-your-shop', function () {
-    return view('open-your-shop');
-})->name('open-your-shop');
-
-Route::get('docs', function () {
-    return redirect('docs/index.html');
-});
-
-Route::get('/apple/redirect', function () {
-    return response()->json([], 200);
-});
+Route::get('/', fn() => view('welcome'))->name('home');
+Route::get('/about', fn() => view('about'))->name('about');
+Route::get('/open-your-shop', fn() => view('open-your-shop'))->name('open-your-shop');
+Route::get('/privacy-policy', fn () => view('privacy-policy'))->name('privacy-policy');
+Route::get('docs', fn() => redirect('docs/index.html'));
+Route::get('/apple/redirect', fn() => response()->json());

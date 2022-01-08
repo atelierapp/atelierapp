@@ -16,7 +16,7 @@
     font-display: swap;
   }
 
-  p {
+  p, li {
   @apply font-light;
   }
 }
