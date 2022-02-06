@@ -48,6 +48,7 @@ Route::group(
         */
         Route::apiResource('projects', ProjectController::class);
         Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
+        Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
 
         Route::get('projects-temp', [ProjectTempController::class, 'index']);
         Route::post('projects-temp', [ProjectTempController::class, 'store']);

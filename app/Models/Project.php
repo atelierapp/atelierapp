@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Trais\Models\HasMediasRelation;
-use App\Trais\Models\HasTagsRelation;
+use App\Traits\Models\HasMediasRelation;
+use App\Traits\Models\HasTagsRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,6 +28,7 @@ class Project extends Model
         'published',
         'public',
         'settings',
+        'image',
     ];
 
     protected $casts = [

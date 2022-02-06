@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectImageRequest;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
@@ -9,6 +10,7 @@ use App\Models\Project;
 use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -55,5 +57,17 @@ class ProjectController extends Controller
         $project->delete();
 
         return $this->responseNoContent();
+    }
+
+    public function image(ProjectImageRequest $request, Project $project): ProjectResource
+    {
+        $path = Storage::putFileAs(
+            'projects',
+            $request->file('image'),
+            "{$project->id}.{$request->file('image')->getClientOriginalExtension()}"
+        );
+        $project->update(['image' => $path]);
+
+        return ProjectResource::make($project);
     }
 }

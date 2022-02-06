@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use App\Enums\ManufacturerTypeEnum;
-use App\Trais\Models\HasMediasRelation;
-use App\Trais\Models\HasTagsRelation;
+use App\Traits\Models\HasMediasRelation;
+use App\Traits\Models\HasTagsRelation;
 use Carbon\Carbon;
-use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

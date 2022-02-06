@@ -23,6 +23,7 @@ class ProjectResource extends JsonResource
             'author' => $this->author->full_name,
             'published' => $this->published,
             'public' => $this->public,
+            'image' => $this->image,
             'created_at' => $this->created_at->toDatetimeString(),
             'updated_at' => $this->updated_at->toDatetimeString(),
             'forkedFrom' => self::make($this->whenLoaded('forkedFrom'))
