@@ -28,6 +28,7 @@ class Project extends Model
         'published',
         'public',
         'settings',
+        'image',
     ];
 
     protected $casts = [

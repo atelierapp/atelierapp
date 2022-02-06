@@ -8,6 +8,8 @@ use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
@@ -208,6 +210,34 @@ class ProjectControllerTest extends TestCase
 
         $data = collect($data)->except(['tags'])->toArray();
         $this->assertDatabaseHas('projects', $data);
+    }
+
+    /**
+    /**
+     * @test
+     * @title Create product
+     */
+    public function user_can_upload_a_image_to_exists_project()
+    {
+        Storage::fake();
+        $user = $this->createAuthenticatedUser();
+        $project = Project::factory()->create(['author_id' => $user->id]);
+
+        $data = [
+            'image' => UploadedFile::fake()->image('imagen.jpg'),
+        ];
+        $response = $this->postJson(route('projects.image', $project), $data);
+
+        $response->assertOk();
+        $response->assertJsonFragment([
+            'id' => $response->json('data.id'),
+            'image' => 'projects/' . $response->json('data.id') . '.jpg'
+        ]);
+        $data['id'] = $response->json('data.id');
+        $data['image'] = 'projects/' . $response->json('data.id') . '.jpg';
+        $this->assertDatabaseHas('projects', $data);
+
+        Storage::assertExists($data['image']);
     }
 
     /**
