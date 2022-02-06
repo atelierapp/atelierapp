@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Trais\Models;
+namespace App\Traits\Models;
 
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
