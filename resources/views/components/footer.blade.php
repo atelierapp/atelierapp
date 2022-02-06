@@ -27,7 +27,7 @@
             </h3>
             <ul class="mt-4 space-y-4">
               <li>
-                <a href="https://www.iubenda.com/privacy-policy/92622916" class="text-base text-gray-500 hover:text-gray-900">
+                <a href="{{ route('privacy-policy') }}" class="text-base text-gray-500 hover:text-gray-900">
                   Privacy Policy
                 </a>
               </li>

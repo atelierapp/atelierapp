@@ -1,15 +1,13 @@
 module.exports = {
-    mode: 'jit',
-    purge: [
+    content: [
         './storage/framework/views/*.php',
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './config/*.php',
     ],
-    darkMode: false, // or 'media' or 'class'
     theme: {
         fontFamily: {
-            'sans': ['montserrat', 'sans-serif'],
+            'sans': ['Gotham', 'sans-serif'],
         },
         extend: {
             colors: {
@@ -33,8 +31,7 @@ module.exports = {
             }
         },
     },
-    variants: {
-        extend: {},
-    },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/typography'),
+    ],
 }

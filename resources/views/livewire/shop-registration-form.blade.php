@@ -16,9 +16,11 @@
       <x-form.input title="Position"/>
       <x-form.text-area title="Tell us about your business" name="about" fullWidth="true"/>
       <x-form.input title="Web Address" name="website" fullWidth="true" textArea="true"/>
-      <button class="py-4 px-6 rounded-lg bg-green-500 text-white hover:bg-gray-600 active:bg-pink-500">
-        Submit
-      </button>
+      <div class="col-span-2 flex justify-center">
+        <button class="py-4 px-16 rounded-lg bg-green-500 text-white hover:bg-gray-600 active:bg-pink-500">
+          Submit
+        </button>
+      </div>
     </form>
     @else
 
