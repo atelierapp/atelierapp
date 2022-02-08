@@ -14,6 +14,7 @@ class Media extends Model
     protected $fillable = [
         'type_id',
         'url',
+        'path',
         'properties',
         'featured',
         'mediable_id',
