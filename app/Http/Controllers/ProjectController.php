@@ -61,7 +61,7 @@ class ProjectController extends Controller
 
     public function image(ProjectImageRequest $request, Project $project): ProjectResource
     {
-        $path = Storage::putFileAs(
+        $path = Storage::disk('s3')->putFileAs(
             'projects',
             $request->file('image'),
             "{$project->id}.{$request->file('image')->getClientOriginalExtension()}"
