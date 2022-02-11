@@ -11,7 +11,11 @@ class ProjectTempController extends Controller
 {
     public function index(): JsonResponse
     {
-        $projects = auth()->user()->projects()->latest()->get();
+        $projects = auth()->user()->projects()->with('featured_media')->latest()->get()
+            ->each(function ($project) {
+                $project->image = $project->featured_media->url;
+                unset($project->featured_media);
+            });
 
         return $this->response($projects);
     }
