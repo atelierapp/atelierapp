@@ -40,4 +40,9 @@ class Media extends Model
     {
         return $this->belongsTo(MediaType::class);
     }
+
+    public function product(): MorphTo
+    {
+        return $this->morphTo(Product::class);
+    }
 }
