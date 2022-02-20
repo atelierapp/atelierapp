@@ -213,7 +213,6 @@ class ProjectControllerTest extends TestCase
     }
 
     /**
-    /**
      * @test
      * @title Create product
      */
@@ -229,15 +228,7 @@ class ProjectControllerTest extends TestCase
         $response = $this->postJson(route('projects.image', $project), $data);
 
         $response->assertOk();
-        $response->assertJsonFragment([
-            'id' => $response->json('data.id'),
-            'image' => 'projects/' . $response->json('data.id') . '.jpg'
-        ]);
-        $data['id'] = $response->json('data.id');
-        $data['image'] = 'projects/' . $response->json('data.id') . '.jpg';
-        $this->assertDatabaseHas('projects', $data);
-
-        Storage::disk('s3')->assertExists($data['image']);
+        $this->assertEquals(1, count(Storage::disk('s3')->allFiles('projects')));
     }
 
     /**

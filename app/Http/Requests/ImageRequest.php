@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @property null project
  */
-class ProjectImageRequest extends FormRequest
+class ImageRequest extends FormRequest
 {
     public function rules(): array
     {

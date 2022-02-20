@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProjectImageRequest;
+use App\Http\Requests\ImageRequest;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\Tag;
+use App\Traits\Controllers\StorageS3ImageTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+    use StorageS3ImageTrait;
+
     public function index(): AnonymousResourceCollection
     {
         $projects = Project::with('style', 'author', 'featured_media')->search(request('search'))->paginate();
@@ -59,32 +62,11 @@ class ProjectController extends Controller
         return $this->responseNoContent();
     }
 
-    public function image(ProjectImageRequest $request, Project $project): ProjectResource
+    public function image(ImageRequest $request, Project $project): ProjectResource
     {
         $this->deleteImageFromBucket($project->featured_media->path);
-
-        $fileName = "{$project->id}.{$request->file('image')->getClientOriginalExtension()}";
-        $path = Storage::disk('s3')->putFileAs(
-            'projects',
-            $request->file('image'),
-            $fileName,
-            ['visibility' => 'public']
-        );
-
-        $project->medias()->create([
-            'url' => Storage::disk('s3')->url($path),
-            'path' => $path,
-            'featured' => true,
-        ]);
-        $project->load('featured_media');
+        $project = $this->storageImageInBucket('projects', $request->file('image'), $project, true);
 
         return ProjectResource::make($project);
-    }
-
-    public function deleteImageFromBucket($imagePath): void
-    {
-        if (Storage::disk('s3')->exists($imagePath)) {
-            Storage::disk('s3')->delete($imagePath);
-        }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\MaterialController;
@@ -80,3 +81,6 @@ Route::apiResource('media', MediaController::class)
     ->parameters(['media' => 'media']);
 
 Route::apiResource('rooms', RoomController::class)->names('room');
+
+Route::apiResource('banners', BannerController::class)->names('banner');
+Route::post('banners/{banner}/image', [BannerController::class, 'image'])->name('banner.image');
