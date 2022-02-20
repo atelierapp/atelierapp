@@ -16,7 +16,7 @@ class ProjectController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $projects = Project::with('style', 'author')->search(request('search'))->paginate();
+        $projects = Project::with('style', 'author', 'featured_media')->search(request('search'))->paginate();
 
         return ProjectResource::collection($projects);
     }
@@ -61,13 +61,30 @@ class ProjectController extends Controller
 
     public function image(ProjectImageRequest $request, Project $project): ProjectResource
     {
-        $path = Storage::putFileAs(
+        $this->deleteImageFromBucket($project->featured_media->path);
+
+        $fileName = "{$project->id}.{$request->file('image')->getClientOriginalExtension()}";
+        $path = Storage::disk('s3')->putFileAs(
             'projects',
             $request->file('image'),
-            "{$project->id}.{$request->file('image')->getClientOriginalExtension()}"
+            $fileName,
+            ['visibility' => 'public']
         );
-        $project->update(['image' => $path]);
+
+        $project->medias()->create([
+            'url' => Storage::disk('s3')->url($path),
+            'path' => $path,
+            'featured' => true,
+        ]);
+        $project->load('featured_media');
 
         return ProjectResource::make($project);
+    }
+
+    public function deleteImageFromBucket($imagePath): void
+    {
+        if (Storage::disk('s3')->exists($imagePath)) {
+            Storage::disk('s3')->delete($imagePath);
+        }
     }
 }

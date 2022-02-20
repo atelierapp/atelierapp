@@ -37,7 +37,7 @@ class Project extends Resource
 
             BelongsTo::make('Author', 'author', User::class),
 
-            BelongsTo::make('ForkedFrom', 'forked_from', Project::class),
+            BelongsTo::make('ForkedFrom', 'forkedFrom', Project::class),
 
             HasMany::make('Rooms'),
         ];

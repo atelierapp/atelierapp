@@ -14,6 +14,7 @@ class Media extends Model
     protected $fillable = [
         'type_id',
         'url',
+        'path',
         'properties',
         'featured',
         'mediable_id',
@@ -38,5 +39,10 @@ class Media extends Model
     public function type(): BelongsTo
     {
         return $this->belongsTo(MediaType::class);
+    }
+
+    public function product(): MorphTo
+    {
+        return $this->morphTo(Product::class);
     }
 }

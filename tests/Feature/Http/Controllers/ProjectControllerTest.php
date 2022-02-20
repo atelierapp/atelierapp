@@ -219,7 +219,7 @@ class ProjectControllerTest extends TestCase
      */
     public function user_can_upload_a_image_to_exists_project()
     {
-        Storage::fake();
+        Storage::fake('s3');
         $user = $this->createAuthenticatedUser();
         $project = Project::factory()->create(['author_id' => $user->id]);
 
@@ -237,7 +237,7 @@ class ProjectControllerTest extends TestCase
         $data['image'] = 'projects/' . $response->json('data.id') . '.jpg';
         $this->assertDatabaseHas('projects', $data);
 
-        Storage::assertExists($data['image']);
+        Storage::disk('s3')->assertExists($data['image']);
     }
 
     /**
