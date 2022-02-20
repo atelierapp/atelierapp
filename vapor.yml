@@ -13,7 +13,7 @@ environments:
             - 'php artisan event:cache'
             - 'npm install && npm run prod && rm -rf node_modules'
         deploy:
-            - 'php artisan migrate'
+            - 'php artisan migrate --force'
     staging:
         memory: 1024
         storage: atelier-staging-bucket
