@@ -22,6 +22,7 @@ class ProductStoreRequest extends FormRequest
             'style_id' => ['required', 'exists:styles,id'],
             'store_id' => ['required', 'exists:stores,id'],
             'properties' => ['required', 'array'],
+            'url' => ['nullable', 'string'],
             'tags.*.name' => ['nullable', 'string'],
             'attach.*.file' => ['nullable', 'file'],
         ];

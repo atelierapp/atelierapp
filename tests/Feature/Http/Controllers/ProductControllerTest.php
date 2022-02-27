@@ -57,6 +57,7 @@ class ProductControllerTest extends TestCase
                     'active',
                     'properties',
                     'featured_media',
+                    'url',
                 ]
             ],
             'meta' => [
@@ -139,6 +140,7 @@ class ProductControllerTest extends TestCase
             'properties' => ['demo' => $this->faker->word],
             'style_id' => Style::factory()->create()->id,
             'store_id' => Store::factory()->create()->id,
+            'url' => $this->faker->url,
         ];
 
         $response = $this->postJson(route('product.store'), $data);
@@ -159,6 +161,7 @@ class ProductControllerTest extends TestCase
                     'sku',
                     'active',
                     'properties',
+                    'url',
                 ],
             ]
         );
@@ -329,6 +332,7 @@ class ProductControllerTest extends TestCase
                 'sku',
                 'active',
                 'properties',
+                'url',
                 'medias' => [
                     '*' => [
                         'id',
@@ -385,6 +389,7 @@ class ProductControllerTest extends TestCase
             'sku' => $this->faker->word,
             'active' => true,
             'properties' => ['demo' => $this->faker->word],
+            'url' => $this->faker->url,
         ];
 
         $response = $this->putJson(route('product.update', $product), $data);
@@ -406,6 +411,7 @@ class ProductControllerTest extends TestCase
                     'sku',
                     'active',
                     'properties',
+                    'url',
                 ],
             ]
         );
