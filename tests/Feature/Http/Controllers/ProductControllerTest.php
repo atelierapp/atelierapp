@@ -297,6 +297,7 @@ class ProductControllerTest extends TestCase
                             'id',
                             'type_id',
                             'url',
+                            'orientation',
                         ]
                     ]
                 ],
@@ -338,6 +339,7 @@ class ProductControllerTest extends TestCase
                         'id',
                         'type_id',
                         'url',
+                        'orientation',
                     ]
                 ],
                 'tags' => [
