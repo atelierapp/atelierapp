@@ -36,6 +36,7 @@ class ProductFactory extends Factory
             'sku' => $this->faker->isbn10,
             'active' => $this->faker->boolean,
             'properties' => json_encode([]),
+            'url' => $this->faker->url,
         ];
     }
 }

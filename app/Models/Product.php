@@ -35,6 +35,7 @@ class Product extends Model
         'sku',
         'active',
         'properties',
+        'url',
     ];
 
     protected $casts = [

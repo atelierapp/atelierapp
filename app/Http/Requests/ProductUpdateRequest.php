@@ -23,6 +23,7 @@ class ProductUpdateRequest extends FormRequest
             'sku' => ['string', 'unique:products,sku'],
             'active' => 'boolean',
             'properties' => 'array',
+            'url' => ['nullable', 'string'],
         ];
     }
 
