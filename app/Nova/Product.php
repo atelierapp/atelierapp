@@ -18,7 +18,7 @@ class Product extends Resource
 {
     public static $model = \App\Models\Product::class;
 
-    public static $title = 'id';
+    public static $title = 'title';
 
     public static $search = [
         'id',

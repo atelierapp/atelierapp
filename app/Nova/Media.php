@@ -6,6 +6,7 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
@@ -14,7 +15,7 @@ class Media extends Resource
 {
     public static $model = \App\Models\Media::class;
 
-    public static $title = 'id';
+    public static $title = 'url';
 
     public static $search = [
         'id',
@@ -25,18 +26,27 @@ class Media extends Resource
         return [
             ID::make()->sortable(),
 
+            BelongsTo::make('Type', 'type', MediaType::class),
+
             Text::make('Url')
                 ->rules('required', 'string'),
 
-            Code::make('Properties')
-                ->rules('json')
-                ->json(),
-
-            Boolean::make('Main')
+            Boolean::make('Featured')
                 ->rules('required'),
 
-            BelongsTo::make('Product'),
-            BelongsTo::make('Type', 'type', MediaType::class),
+            Select::make('Orientation')->options([
+                'front' => 'Front',
+                'side' => 'Side',
+                'perspective' => 'Perspective',
+            ])->displayUsingLabels()->onlyOnForms(),
+
+            MorphTo::make('mediable')
+                ->types([Product::class, Project::class])
+                ->exceptOnForms(),
+
+            Code::make('Extra')
+                ->rules('json')
+                ->json(),
         ];
     }
 }
