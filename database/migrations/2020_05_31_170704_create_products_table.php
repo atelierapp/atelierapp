@@ -18,19 +18,19 @@ class CreateProductsTable extends Migration
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained();
+            $table->string('sku')->unique();
             $table->string('title', 100);
+            $table->boolean('active')->default(true);
+            $table->foreignId('store_id')->constrained();
             $table->enum('manufacturer_type', array_keys(ManufacturerTypeEnum::MAP_VALUE));
             $table->date('manufactured_at')->nullable();
             $table->longText('description')->nullable();
             $table->integer('price');
             $table->foreignId('style_id')->constrained();
             $table->integer('quantity')->nullable();
-            $table->string('sku')->unique();
-            $table->boolean('active')->default(true);
             $table->json('properties')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();

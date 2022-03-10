@@ -9,7 +9,7 @@ class AddUrlColumnToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('url')->after('properties')->nullable();
+            $table->string('url', 255)->after('properties')->nullable();
         });
     }
 

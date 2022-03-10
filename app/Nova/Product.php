@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 
@@ -17,7 +18,7 @@ class Product extends Resource
 {
     public static $model = \App\Models\Product::class;
 
-    public static $title = 'id';
+    public static $title = 'title';
 
     public static $search = [
         'id',
@@ -32,7 +33,13 @@ class Product extends Resource
                 ->rules('required', 'string', 'max:100'),
 
             Number::make('Manufacturer type')
-                ->rules('required', 'integer'),
+                ->rules('required', 'integer')
+                ->exceptOnForms(),
+            Select::make('Manufacturer type')->options([
+                'store' => 'store',
+                'external' => 'external',
+                'employee' => 'employee',
+            ])->displayUsingLabels()->onlyOnForms(),
 
             Date::make('Manufactured at')
                 ->rules('date'),
@@ -47,7 +54,12 @@ class Product extends Resource
                 ->rules('integer'),
 
             Text::make('Sku')
-                ->rules('required', 'string', 'unique:products,sku'),
+                ->rules('required', 'string')
+                ->creationRules('unique:products,sku')
+                ->updateRules('unique:products,sku,{{resourceId}}'),
+
+            Text::make('Url')
+                ->rules('nullable'),
 
             Boolean::make('Active')
                 ->rules('required'),

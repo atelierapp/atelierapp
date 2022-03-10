@@ -27,6 +27,17 @@ class UserSeeder extends Seeder
             'birthday' => '1980-01-01',
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
+        $user = User::updateOrCreate([
+            'email' => 'jaime.virruetaf@gmail.com',
+        ], [
+            'first_name' => 'Jaime',
+            'last_name' => 'Virrueta',
+            'username' => 'jaime',
+            'password' => 'password',
+            'phone' => '987206134',
+            'birthday' => '1980-01-01',
+        ]);
+        Bouncer::assign(Role::ADMIN)->to($user);
 
         User::updateOrCreate([
             'email' => 'john@doe.com',

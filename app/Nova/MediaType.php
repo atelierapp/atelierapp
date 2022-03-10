@@ -10,7 +10,7 @@ class MediaType extends Resource
 {
     public static $model = \App\Models\MediaType::class;
 
-    public static $title = 'id';
+    public static $title = 'name';
 
     public static $search = [
         'id',
