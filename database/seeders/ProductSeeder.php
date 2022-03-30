@@ -155,6 +155,7 @@ class ProductSeeder extends Seeder
                 'url' => $productExcel['url'],
             ]);
             $product->categories()->sync($categories->where('name', '=', $productExcel['category']));
+            $product->medias()->delete();
             $this->media($product, $productExcel['front']);
             $this->media($product, $productExcel['side']);
             $this->media($product, $productExcel['pers']);
@@ -171,8 +172,6 @@ class ProductSeeder extends Seeder
             ];
 
             $orientation = Str::substr($view, -2, 2);
-
-            $product->medias()->delete();
             $product->medias()->create([
                 'url' => Str::of($view)
                     ->prepend('https://atelier-staging-bucket.s3.amazonaws.com/products/')
