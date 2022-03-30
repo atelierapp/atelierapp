@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers;
+namespace Http\Auth;
 
 use App\Services\SocialService;
 use Tests\TestCase;
+
+use function route;
 
 /**
  * @testdox Login
@@ -126,7 +128,7 @@ class LoginTest extends TestCase
             'username' => $username,
         ]);
 
-        $response = $this->postJson('/api/login', $credentials);
+        $response = $this->postJson(route('login'), $credentials);
 
         $response
             ->assertUnauthorized()

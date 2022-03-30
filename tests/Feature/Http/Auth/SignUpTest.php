@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers;
+namespace Http\Auth;
 
 use App\Models\User;
-use App\Services\SocialService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
 use Tests\TestCase;
+
+use function route;
 
 /**
  * @testdox Registration
@@ -28,7 +29,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->userName,
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -36,23 +37,23 @@ class SignUpTest extends TestCase
         $response
             ->assertCreated()
             ->assertJsonStructure([
-            'data' => [
-                'user' => [
-                    'id',
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'username',
-                    'phone',
-                    'birthday',
-                    'avatar',
-                    'is_active',
-                    'created_at',
-                    'updated_at',
+                'data' => [
+                    'user' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'username',
+                        'phone',
+                        'birthday',
+                        'avatar',
+                        'is_active',
+                        'created_at',
+                        'updated_at',
+                    ],
+                    'access_token',
                 ],
-                'access_token',
-            ]
-        ]);
+            ]);
     }
 
     /**
@@ -92,11 +93,11 @@ class SignUpTest extends TestCase
                     'updated_at',
                 ],
                 'access_token',
-            ]
+            ],
         ]);
         $this->assertDatabaseHas('social_accounts', [
             'driver' => $data['social_driver'],
-            'social_id' => $data['social_id']
+            'social_id' => $data['social_id'],
         ]);
     }
 
@@ -116,8 +117,8 @@ class SignUpTest extends TestCase
                 'first_name',
                 'email',
                 'username',
-                'password'
-            ]
+                'password',
+            ],
         ]);
     }
 
@@ -134,7 +135,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->streetName,
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -144,7 +145,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'first_name',
-            ]
+            ],
         ]);
     }
 
@@ -161,7 +162,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->streetName,
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -171,7 +172,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'first_name',
-            ]
+            ],
         ]);
     }
 
@@ -188,7 +189,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->streetName,
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -198,7 +199,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'last_name',
-            ]
+            ],
         ]);
     }
 
@@ -215,7 +216,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->streetName,
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -225,7 +226,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'last_name',
-            ]
+            ],
         ]);
     }
 
@@ -242,7 +243,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->streetName,
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
         User::factory()->create(['email' => $data['email']]);
 
@@ -253,7 +254,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'email',
-            ]
+            ],
         ]);
     }
 
@@ -270,7 +271,7 @@ class SignUpTest extends TestCase
             'email' => 'invalidmail',
             'username' => $this->faker->streetName,
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -280,7 +281,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'email',
-            ]
+            ],
         ]);
     }
 
@@ -297,7 +298,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => 'us',
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -307,7 +308,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'username',
-            ]
+            ],
         ]);
     }
 
@@ -324,7 +325,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->text(10),
             'phone' => $this->faker->numerify('9########'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
         User::factory()->create(['username' => $data['username']]);
 
@@ -335,7 +336,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'username',
-            ]
+            ],
         ]);
     }
 
@@ -352,7 +353,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->text(10),
             'phone' => $this->faker->numerify('######'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -362,7 +363,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'phone',
-            ]
+            ],
         ]);
     }
 
@@ -379,7 +380,7 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'username' => $this->faker->text(10),
             'phone' => $this->faker->numerify('####################'),
-            'password' => 'P4as.sword'
+            'password' => 'P4as.sword',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -389,7 +390,7 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'phone',
-            ]
+            ],
         ]);
     }
 }
