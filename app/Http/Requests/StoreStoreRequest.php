@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreStoreRequest extends FormRequest
@@ -10,18 +11,25 @@ class StoreStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:60'],
-            'legal_name' => ['required', 'string', 'max:80'],
-            'legal_id' => ['required', 'string', 'max:20'],
             'story' => ['required', 'string', 'max:120'],
-            'logo' => ['required', 'string'],
-            'cover' => ['nullable', 'string'],
-            'team' => ['nullable', 'string'],
-            'active' => ['required'],
+            'logo' => ['required', 'image'],
+            'team' => ['nullable', 'image'],
+            'cover' => ['nullable', 'image'],
+            // 'legal_name' => ['required', 'string', 'max:80'],
+            // 'legal_id' => ['required', 'string', 'max:20'],
+            // 'active' => ['required'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'logo.required' => 'The logo image is required.'
         ];
     }
 
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->isAn(Role::SELLER);
     }
 }

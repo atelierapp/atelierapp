@@ -6,11 +6,17 @@ use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\StoreUpdateRequest;
 use App\Http\Resources\StoreResource;
 use App\Models\Store;
+use App\Services\StoreService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class StoreController extends Controller
 {
+    public function __construct(protected StoreService $storeService)
+    {
+        $this->middleware('auth')->only(['store']);
+    }
+
     public function index(): AnonymousResourceCollection
     {
         $stores = Store::search(request('search'))->paginate();
@@ -20,7 +26,7 @@ class StoreController extends Controller
 
     public function store(StoreStoreRequest $request): StoreResource
     {
-        $store = Store::create($request->validated());
+        $store = $this->storeService->store($request);
 
         return StoreResource::make($store);
     }
