@@ -23,8 +23,8 @@ class StoreFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
-            'legal_name' => sprintf("%s %s", $this->faker->company, $this->faker->companySuffix),
-            'legal_id' => $this->faker->regexify('[A-Za-z0-9]{20}'),
+            // 'legal_name' => sprintf("%s %s", $this->faker->company, $this->faker->companySuffix),
+            // 'legal_id' => $this->faker->regexify('[A-Za-z0-9]{20}'),
             'story' => $this->faker->text('120'),
             'logo' => $this->faker->imageUrl(250, 250),
             'cover' => $this->faker->imageUrl(250, 250),

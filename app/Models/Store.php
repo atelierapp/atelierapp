@@ -2,20 +2,23 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasMediasRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasMediasRelation;
 
     protected $fillable = [
         'name',
-        'legal_name',
-        'legal_id',
+        // 'legal_name',
+        // 'legal_id',
         'story',
         'logo',
         'cover',
@@ -40,13 +43,38 @@ class Store extends Model
 
     public function scopeSearch($query, $value)
     {
-        if (empty($value)) {
-            return $query;
-        }
+        return empty($value)
+            ? $query
+            : $query
+                ->where('name', 'like', "%{$value}%")
+                ->orWhere('legal_name', 'like', "%{$value}%")
+                ->orWhere('team', 'like', "%{$value}%");
+    }
 
-        return $query
-            ->where('name', 'like', "%{$value}%")
-            ->orWhere('legal_name', 'like', "%{$value}%")
-            ->orWhere('team', 'like', "%{$value}%");
+    public function getLogoAttribute(): ?string
+    {
+        return $this->getFromMedia('logo');
+    }
+
+    public function getCoverAttribute(): ?string
+    {
+        return $this->getFromMedia('cover');
+    }
+
+    public function getTeamAttribute(): ?string
+    {
+        return $this->getFromMedia('team');
+    }
+
+    private function getFromMedia(string $type): ?string
+    {
+        $file = $this->loadMissing('medias')
+            ->medias
+            ->where('extra.type', '=', $type)
+            ->first();
+
+        return empty($file)
+            ? null
+            : $file->url;
     }
 }

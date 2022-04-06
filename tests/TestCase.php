@@ -19,27 +19,23 @@ abstract class TestCase extends BaseTestCase
     use RegisterRolesAndPermissions;
     use EnlightenSetup;
 
-    protected function setUp(): void
+    public function createAuthenticatedAdmin($data = [])
     {
-        parent::setUp();
-
-        $this->setUpEnlighten();
-    }
-
-    /**
-     * @param array $data
-     * @return HasApiTokens|Authenticatable
-     */
-    public function createAuthenticatedUser($data = [])
-    {
-        $user = $this->createUser($data, [Role::USER]);
+        $user = $this->createUser($data, [Role::ADMIN]);
 
         return Sanctum::actingAs($user);
     }
 
-    public function createAuthenticatedAdmin($data = [])
+    public function createAuthenticatedSeller($data = [])
     {
-        $user = $this->createUser($data, [Role::ADMIN]);
+        $user = $this->createUser($data, [Role::SELLER]);
+
+        return Sanctum::actingAs($user);
+    }
+
+    public function createAuthenticatedUser($data = [])
+    {
+        $user = $this->createUser($data, [Role::USER]);
 
         return Sanctum::actingAs($user);
     }
@@ -49,5 +45,12 @@ abstract class TestCase extends BaseTestCase
         $this->registerRolesAndPermissions();
 
         return User::factory()->withRoles($roles)->create($data);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUpEnlighten();
     }
 }
