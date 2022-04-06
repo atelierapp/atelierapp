@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\QualityController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MediaTypeController;
@@ -66,6 +67,8 @@ Route::apiResource('products', ProductController::class)->names('product');
 Route::apiResource('materials', MaterialController::class)->names('material');
 
 Route::apiResource('tags', TagController::class)->names('tag');
+
+Route::apiResource('qualities', QualityController::class)->names('quality')->only(['index']);
 
 Route::apiResource('unit', UnitController::class)->names('unit');
 
