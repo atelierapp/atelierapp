@@ -11,6 +11,9 @@ class Media extends Model
 {
     use HasFactory;
 
+    public const IMAGE = '1';
+    public const VIDEO = '2';
+
     protected $fillable = [
         'type_id',
         'url',
