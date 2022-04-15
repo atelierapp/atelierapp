@@ -6,12 +6,15 @@ use App\Http\Requests\QualityStoreRequest;
 use App\Http\Requests\QualityUpdateRequest;
 use App\Http\Resources\QualityResource;
 use App\Models\Quality;
+use App\Models\Role;
+use Bouncer;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class QualityController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['store', 'update']);
+        $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
     }
 
     public function index()
@@ -34,5 +37,25 @@ class QualityController extends Controller
         $quality->update($request->validated());
 
         return QualityResource::make($quality);
+    }
+
+    public function destroy($quality)
+    {
+        if (Bouncer::is(auth()->user())->notAn('admin')) {
+            throw new AuthorizationException;
+        }
+
+        $quality = Quality::query()
+            ->where('id', '=', $quality)
+            ->withCount(['store'])
+            ->firstOrFail();
+
+        if ($quality->store_count) {
+            return response()->json(['message' => 'Quality cannot delete because has associated stores']);
+        }
+
+        $quality->delete();
+
+        return response()->json([], 204);
     }
 }
