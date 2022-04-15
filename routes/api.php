@@ -32,9 +32,7 @@ Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
 Route::post('/validate-username', UsernameValidationController::class)->name('validateUsername');
 
-Route::group(
-    ['middleware' => 'auth:sanctum'],
-    function () {
+Route::middleware('auth:sanctum')->group(function () {
         /*
         |----------------------------------------------------------------------
         | Account
@@ -68,7 +66,9 @@ Route::apiResource('materials', MaterialController::class)->names('material');
 
 Route::apiResource('tags', TagController::class)->names('tag');
 
-Route::apiResource('qualities', QualityController::class)->names('quality')->only(['index']);
+Route::apiResource('qualities', QualityController::class)
+    ->names('quality')
+    ->except(['show']);
 
 Route::apiResource('unit', UnitController::class)->names('unit');
 
