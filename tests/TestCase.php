@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
 use Styde\Enlighten\Tests\EnlightenSetup;
@@ -18,6 +19,7 @@ abstract class TestCase extends BaseTestCase
     use RefreshDatabase;
     use RegisterRolesAndPermissions;
     use EnlightenSetup;
+    use WithFaker;
 
     public function createAuthenticatedAdmin($data = [])
     {

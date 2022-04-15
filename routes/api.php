@@ -68,7 +68,9 @@ Route::apiResource('materials', MaterialController::class)->names('material');
 
 Route::apiResource('tags', TagController::class)->names('tag');
 
-Route::apiResource('qualities', QualityController::class)->names('quality')->only(['index']);
+Route::apiResource('qualities', QualityController::class)
+    ->names('quality')
+    ->only(['index', 'store', 'update']);
 
 Route::apiResource('unit', UnitController::class)->names('unit');
 
