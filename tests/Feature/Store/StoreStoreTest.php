@@ -1,8 +1,9 @@
 <?php
 
-namespace Http\Store;
+namespace Tests\Feature\Store;
 
-use App\Models\Store;
+use App\Models\Quality;
+use Database\Seeders\QualitySeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ use Tests\TestCase;
  * @title Stores
  * @see \App\Http\Controllers\StoreController
  */
-class StoreControllerStoreTest extends TestCase
+class StoreStoreTest extends TestCase
 {
     use AdditionalAssertions;
     use WithFaker;
@@ -197,6 +198,33 @@ class StoreControllerStoreTest extends TestCase
         ]);
         $this->assertDatabaseCount('media', 3);
         $this->assertCount(3, Storage::disk('s3')->allFiles('stores'));
+    }
+
+    public function test_a_authenticated_seller_user_can_create_store_with_logo_and_qualities()
+    {
+        Storage::fake('s3');
+        $this->seed(QualitySeeder::class);
+        $this->createAuthenticatedSeller();
+
+        $data = [
+            'name' => $this->faker->name,
+            'story' => $this->faker->sentences(1, true),
+            'logo' => UploadedFile::fake()->image('logo.png'),
+            'qualities' => Quality::query()->inRandomOrder()->limit(2)->get()->pluck('id')->toArray(),
+        ];
+        $response = $this->postJson(route('store.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(['data' => $this->structure()]);
+        $this->assertEquals($data['name'], $response->json('data.name'));
+        $this->assertEquals($data['story'], $response->json('data.story'));
+        $this->assertDatabaseHas('stores', [
+            'name' => $data['name'],
+            'story' => $data['story'],
+        ]);
+        $this->assertDatabaseCount('media', 1);
+        $this->assertCount(1, Storage::disk('s3')->allFiles('stores'));
+        $this->assertDatabaseCount('qualityables', 2);
     }
 
 }

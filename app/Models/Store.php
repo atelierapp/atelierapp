@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Models\HasMediasRelation;
+use App\Traits\Models\HasQualitiesRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,8 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Store extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     use HasMediasRelation;
+    use HasQualitiesRelation;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

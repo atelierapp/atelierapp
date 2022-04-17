@@ -120,45 +120,6 @@ class StoreControllerTest extends TestCase
 
     /**
      * @test
-     * Create store
-     */
-    public function store_saves(): void
-    {
-        $name = $this->faker->name;
-        $legal_name = $this->faker->word;
-        $legal = $this->faker->word;
-        $story = $this->faker->word;
-        $logo = $this->faker->word;
-        $active = $this->faker->boolean;
-
-        $response = $this->post(route('store.store'), [
-            'name' => $name,
-            'legal_name' => $legal_name,
-            'legal_id' => $legal,
-            'story' => $story,
-            'logo' => $logo,
-            'active' => $active,
-        ]);
-
-        $stores = Store::query()
-            ->where('name', $name)
-            ->where('legal_name', $legal_name)
-            ->where('legal_id', $legal)
-            ->where('story', $story)
-            ->where('logo', $logo)
-            ->where('active', $active)
-            ->get();
-        $this->assertCount(1, $stores);
-
-        $response->assertCreated();
-        $response->assertJsonStructure([
-            'data' => $this->structure()
-        ]);
-    }
-
-
-    /**
-     * @test
      * Show store
      */
     public function show_behaves_as_expected(): void

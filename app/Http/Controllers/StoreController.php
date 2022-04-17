@@ -14,7 +14,7 @@ class StoreController extends Controller
 {
     public function __construct(protected StoreService $storeService)
     {
-        $this->middleware('auth')->only(['store']);
+        $this->middleware('auth:sanctum')->only(['store']);
     }
 
     public function index(): AnonymousResourceCollection
