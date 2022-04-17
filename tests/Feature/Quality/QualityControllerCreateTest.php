@@ -4,7 +4,7 @@ namespace Tests\Feature\Quality;
 
 use Tests\TestCase;
 
-class QualityCreateTest extends TestCase
+class QualityControllerCreateTest extends TestCase
 {
     public function test_a_guess_cannot_create_any_quality()
     {

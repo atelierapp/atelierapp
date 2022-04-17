@@ -14,7 +14,7 @@ use Tests\TestCase;
  * @title Stores
  * @see \App\Http\Controllers\StoreController
  */
-class StoreStoreTest extends TestCase
+class StoreControllerStoreTest extends TestCase
 {
     use AdditionalAssertions;
     use WithFaker;
