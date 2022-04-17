@@ -210,7 +210,7 @@ class StoreStoreTest extends TestCase
             'name' => $this->faker->name,
             'story' => $this->faker->sentences(1, true),
             'logo' => UploadedFile::fake()->image('logo.png'),
-            'qualities' => Quality::query()->inRandomOrder()->limit(2)->get()->pluck('name')->toArray(),
+            'qualities' => Quality::query()->inRandomOrder()->limit(2)->get()->pluck('id')->toArray(),
         ];
         $response = $this->postJson(route('store.store'), $data);
 

@@ -24,6 +24,7 @@ class StoreResource extends JsonResource
             'cover' => $this->cover,
             'team' => $this->team,
             'active' => $this->active,
+            'qualities' => QualityResource::collection($this->whenLoaded('qualities')),
         ];
     }
 }

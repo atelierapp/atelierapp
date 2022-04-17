@@ -15,6 +15,7 @@ class StoreStoreRequest extends FormRequest
             'logo' => ['required', 'image'],
             'team' => ['nullable', 'image'],
             'cover' => ['nullable', 'image'],
+            'qualities' => ['nullable', 'array', Rule::exists('qualities', 'id')],
             // 'legal_name' => ['required', 'string', 'max:80'],
             // 'legal_id' => ['required', 'string', 'max:20'],
             // 'active' => ['required'],
