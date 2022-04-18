@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Auth;
+namespace Tests\Feature\Auth;
 
 use App\Services\SocialService;
 use Tests\TestCase;
