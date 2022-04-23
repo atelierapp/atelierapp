@@ -57,13 +57,13 @@ class StoreService
 
         if ($request->hasAny($images)) {
             collect($images)->each(function ($file) use ($store, $request) {
-                $currentMedia =  $store->medias()->where('extra>type', $file)->first();
+                $currentMedia =  $store->medias()->where('orientation', $file)->first();
                 if (!is_null($currentMedia)) {
                     // TODO :: improvement process to get media
                     $this->mediaService->delete($currentMedia->path);
                 }
                 $this->mediaService->save($request->file($file), [
-                    'type' => $file,
+                    'orientation' => $file,
                     'type_id' => Media::IMAGE,
                 ]);
             });

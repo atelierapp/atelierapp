@@ -72,7 +72,7 @@ class Store extends Model
     {
         $file = $this->loadMissing('medias')
             ->medias
-            ->where('extra.type', '=', $type)
+            ->where('orientation', '=', $type)
             ->first();
 
         return empty($file)
