@@ -5,7 +5,7 @@ namespace Tests\Feature\Quality;
 use Database\Seeders\QualitySeeder;
 use Tests\TestCase;
 
-class QualityIndexTest extends TestCase
+class QualityControllerIndexTest extends TestCase
 {
     protected function setUp(): void
     {

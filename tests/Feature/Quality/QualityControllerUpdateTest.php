@@ -5,7 +5,7 @@ namespace Tests\Feature\Quality;
 use App\Models\Quality;
 use Tests\TestCase;
 
-class QualityUpdateTest extends TestCase
+class QualityControllerUpdateTest extends TestCase
 {
     public function test_a_guess_cannot_update_any_quality()
     {

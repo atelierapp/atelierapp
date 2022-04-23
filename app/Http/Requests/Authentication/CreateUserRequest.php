@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Authentication;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateUserRequest extends FormRequest
 {
@@ -20,6 +22,7 @@ class CreateUserRequest extends FormRequest
             'avatar' => ['url'],
             'social_id' => ['required_with:social_driver'],
             'social_driver' => ['required_with:social_id', 'in:' . \Config::get('social.active_drivers')],
+            'role' => ['nullable', Rule::in([Role::SELLER])]
         ];
     }
 

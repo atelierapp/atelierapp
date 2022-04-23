@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUpdateRequest extends FormRequest
 {
@@ -10,18 +12,16 @@ class StoreUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:60'],
-            'legal_name' => ['required', 'string', 'max:80'],
-            'legal_id' => ['required', 'string', 'max:20'],
-            'story' => ['required', 'string', 'max:120'],
-            'logo' => ['required', 'string'],
-            'cover' => ['string'],
-            'team' => ['string'],
-            'active' => ['required'],
+            'story' => ['nullable', 'string', 'max:120'],
+            'logo' => ['nullable', 'image'],
+            'team' => ['nullable', 'image'],
+            'cover' => ['nullable', 'image'],
+            'qualities' => ['nullable', 'array', Rule::exists('qualities', 'id')],
         ];
     }
 
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->isAn(Role::SELLER);
     }
 }

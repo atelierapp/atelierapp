@@ -66,7 +66,8 @@ class AuthController extends Controller
         $data = collect($request->validated())->except(['social_driver', 'social_id']);
         /** @var User $user */
         $user = User::query()->create($data->toArray());
-        $user->assign(Role::USER);
+        $role = $request->has('role') ? $request->get('role') : Role::USER;
+        $user->assign($role);
 
         if ($request->has('social_driver')) {
             $user->socialAccounts()->create([

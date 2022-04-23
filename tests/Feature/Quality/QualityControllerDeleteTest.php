@@ -5,7 +5,7 @@ namespace Tests\Feature\Quality;
 use App\Models\Quality;
 use Tests\TestCase;
 
-class QualityDeleteTest extends TestCase
+class QualityControllerDeleteTest extends TestCase
 {
     public function test_a_guess_cannot_delete_any_quality()
     {

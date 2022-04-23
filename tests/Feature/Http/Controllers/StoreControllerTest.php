@@ -22,8 +22,8 @@ class StoreControllerTest extends TestCase
     {
         return [
             'name',
-            'legal_name',
-            'legal_id',
+            // 'legal_name',
+            // 'legal_id',
             'story',
             'logo',
             'cover',
@@ -146,45 +146,6 @@ class StoreControllerTest extends TestCase
             \App\Http\Requests\StoreUpdateRequest::class
         );
     }
-
-    /**
-     * @test
-     * Update store
-     */
-    public function update_behaves_as_expected(): void
-    {
-        $store = Store::factory()->create();
-        $name = $this->faker->name;
-        $legal_name = $this->faker->word;
-        $legal = $this->faker->word;
-        $story = $this->faker->word;
-        $logo = $this->faker->word;
-        $active = $this->faker->boolean;
-
-        $response = $this->put(route('store.update', $store), [
-            'name' => $name,
-            'legal_name' => $legal_name,
-            'legal_id' => $legal,
-            'story' => $story,
-            'logo' => $logo,
-            'active' => $active,
-        ]);
-
-        $store->refresh();
-
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'data' => $this->structure()
-        ]);
-
-        $this->assertEquals($name, $store->name);
-        $this->assertEquals($legal_name, $store->legal_name);
-        $this->assertEquals($legal, $store->legal_id);
-        $this->assertEquals($story, $store->story);
-        $this->assertEquals($logo, $store->logo);
-        $this->assertEquals($active, $store->active);
-    }
-
 
     /**
      * @test

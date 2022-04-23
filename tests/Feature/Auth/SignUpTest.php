@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Auth;
+namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -30,6 +30,47 @@ class SignUpTest extends TestCase
             'username' => $this->faker->userName,
             'phone' => $this->faker->numerify('9########'),
             'password' => 'P4as.sword',
+        ];
+
+        $response = $this->postJson(route('signUp'), $data);
+
+        $response
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'user' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'username',
+                        'phone',
+                        'birthday',
+                        'avatar',
+                        'is_active',
+                        'created_at',
+                        'updated_at',
+                    ],
+                    'access_token',
+                ],
+            ]);
+    }
+
+    /**
+     * @test
+     * @title Successful registration
+     * @description An account can be created with valid data as seller.
+     */
+    public function an_account_can_be_created_with_valid_data_as_seller()
+    {
+        $data = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->safeEmail,
+            'username' => $this->faker->userName,
+            'phone' => $this->faker->numerify('9########'),
+            'password' => 'P4as.sword',
+            'role' => 'seller',
         ];
 
         $response = $this->postJson(route('signUp'), $data);
