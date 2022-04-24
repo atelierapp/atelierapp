@@ -41,6 +41,14 @@ class StoreService
 
     }
 
+    public function image(FormRequest $request, $store): Store
+    {
+        $store = $this->getById($store);
+        $this->processImages($store, $request);
+
+        return $store;
+    }
+
     private function processQualities(Store &$store, FormRequest $request)
     {
         if ($request->has('qualities') and count($request->get('qualities'))) {

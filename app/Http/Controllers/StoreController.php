@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\StoreUpdateRequest;
 use App\Http\Resources\StoreResource;
@@ -14,7 +15,7 @@ class StoreController extends Controller
 {
     public function __construct(protected StoreService $storeService)
     {
-        $this->middleware('auth:sanctum')->only(['store', 'update']);
+        $this->middleware('auth:sanctum')->only(['store', 'update', 'image']);
     }
 
     public function index(): AnonymousResourceCollection
@@ -39,6 +40,13 @@ class StoreController extends Controller
     public function update(StoreUpdateRequest $request, $store): StoreResource
     {
         $store = $this->storeService->update($request, $store);
+
+        return StoreResource::make($store);
+    }
+
+    public function image(StoreImageRequest $request, $store)
+    {
+        $store = $this->storeService->image($request, $store);
 
         return StoreResource::make($store);
     }
