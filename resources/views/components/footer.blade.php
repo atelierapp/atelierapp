@@ -1,66 +1,102 @@
-<footer class="bg-green-500" aria-labelledby="footerHeading">
+<footer class="bg-green-500" aria-labelledby="footerHeading" x-data>
   <h2 id="footerHeading" class="sr-only">Footer</h2>
   <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
     <div class="xl:grid xl:grid-cols-3 xl:gap-8">
       <div class="mt-12 md:grid md:grid-cols-3 gap-8 xl:mt-0 xl:col-span-2">
-          <div class="mt-12 md:mt-0">
-            <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
-              Resources
-            </h3>
-            <ul class="mt-4 space-y-4">
-              <li>
-                <a href="https://www.atelier-app.com/design-principles-ebook" class="text-base text-gray-500 hover:text-gray-900">
-                  Design Principles Guide
-                </a>
-              </li>
+        <div
+            class="mt-12 md:mt-0"
+            x-intersect="$el.classList.add('slide-in-bottom')"
+        >
+          <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
+            Resources
+          </h3>
+          <ul class="mt-4 space-y-4">
+            <li>
+              <a href="https://www.atelier-app.com/design-principles-ebook" class="text-base text-gray-500 hover:text-gray-900">
+                Design Principles Guide
+              </a>
+            </li>
 
-              <li>
-                <a href="https://www.amazon.com/Atelier-Home-Design-App/dp/B07D7JFC3B/ref=sr_1_1?crid=3G59NWF[…]igital-skills&sprefix=atelier+app%2Calexa-skills%2C103&sr=1-1" class="text-base text-gray-500 hover:text-gray-900">
-                  Alexa Skill
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-12 md:mt-0">
-            <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
-              Legal
-            </h3>
-            <ul class="mt-4 space-y-4">
-              <li>
-                <a href="{{ route('privacy-policy') }}" class="text-base text-gray-500 hover:text-gray-900">
-                  Privacy Policy
-                </a>
-              </li>
+            <li>
+              <a href="https://www.amazon.com/Atelier-Home-Design-App/dp/B07D7JFC3B/ref=sr_1_1?crid=3G59NWF[…]igital-skills&sprefix=atelier+app%2Calexa-skills%2C103&sr=1-1" class="text-base text-gray-500 hover:text-gray-900">
+                Alexa Skill
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+            class="mt-12 md:mt-0"
+            x-intersect="$el.classList.add('slide-in-bottom')"
+        >
+          <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
+            Legal
+          </h3>
+          <ul class="mt-4 space-y-4">
+            <li>
+              <a href="{{ route('privacy-policy') }}" class="text-base text-gray-500 hover:text-gray-900">
+                Privacy Policy
+              </a>
+            </li>
 
-              <li>
-                <a href="https://www.iubenda.com/terms-and-conditions/40005283" class="text-base text-gray-500 hover:text-gray-900">
-                  Terms & Conditions
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-12 md:mt-0">
-            <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
-              Others
-            </h3>
-            <ul class="mt-4 space-y-4">
-              <li>
-                <a href="https://www.atelier-app.com/investor-contact" class="text-base text-gray-500 hover:text-gray-900">
-                  Information for Investors
-                </a>
-              </li>
+            <li>
+              <a href="https://www.iubenda.com/terms-and-conditions/40005283" class="text-base text-gray-500 hover:text-gray-900">
+                Terms & Conditions
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+            class="mt-12 md:mt-0"
+            x-intersect="$el.classList.add('slide-in-bottom')"
+        >
+          <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
+            Others
+          </h3>
+          <ul class="mt-4 space-y-4">
+            <li>
+              <a href="https://www.atelier-app.com/investor-contact" class="text-base text-gray-500 hover:text-gray-900">
+                Information for Investors
+              </a>
+            </li>
 
-              <li>
-                <a href="mailto:info@0110atelier.com" class="text-base text-gray-500 hover:text-gray-900">
-                  Email us
-                </a>
-              </li>
-            </ul>
-          </div>
+            <li>
+              <a href="mailto:info@0110atelier.com" class="text-base text-gray-500 hover:text-gray-900">
+                Email us
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
       <!-- SINGLE COLUMN -->
-      <div class="space-y-8 flex flex-col items-start pt-16 md:pt-0 md:items-center mx-auto xl:block xl:grid-col-1">
-        <svg class='w-10' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57.227 57.227"><defs><linearGradient id="a" x1=".985" y1="-.155" x2=".103" y2="1.037" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#fce4da"/><stop offset=".337" stop-color="#f9e1d7"/><stop offset=".552" stop-color="#f2d8cf"/><stop offset=".733" stop-color="#e5c9c2"/><stop offset=".894" stop-color="#d4b5af"/><stop offset="1" stop-color="#c5a39f"/></linearGradient><linearGradient id="b" x1=".905" y1="-.048" x2=".168" y2=".949" xlink:href="#a"/></defs><g data-name="app logo"><g data-name="Group 1"><path data-name="Path 1" d="M133.186 233.39a23.925 23.925 0 1123.925-23.925 23.952 23.952 0 01-23.925 23.925z" transform="translate(-104.573 -180.851)" fill="url(#a)"/></g><g data-name="Group 2"><path data-name="Path 2" d="M131.775 236.666a28.614 28.614 0 1128.613-28.614 28.646 28.646 0 01-28.613 28.614zm0-55.134a26.52 26.52 0 1026.518 26.52 26.55 26.55 0 00-26.518-26.52z" transform="translate(-103.161 -179.439)" fill="url(#b)"/></g><g data-name="Group 3" fill="#fff"><path data-name="Path 3" d="M21.32 32.162v5.9a1.333 1.333 0 102.666 0v-3.237h9.263v3.237a1.333 1.333 0 102.667 0v-5.9z"/><path data-name="Path 4" d="M22.834 28.01h11.56v-1.028a1.322 1.322 0 00.075-.425v-4.514a3.49 3.49 0 00-3.483-3.484h-4.741a3.491 3.491 0 00-3.485 3.485v4.514a1.331 1.331 0 00.076.426zm3.409-6.785h4.743a.819.819 0 01.819.818V25.8h-6.379v-3.757a.818.818 0 01.817-.817z"/></g></g></svg>
+      <div
+          class="space-y-8 flex flex-col items-start pt-16 md:pt-0 md:items-center mx-auto xl:block xl:grid-col-1"
+          x-intersect="$el.classList.add('slide-in-right')"
+      >
+        <svg class='w-10' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57.227 57.227">
+          <defs>
+            <linearGradient id="a" x1=".985" y1="-.155" x2=".103" y2="1.037" gradientUnits="objectBoundingBox">
+              <stop offset="0" stop-color="#fce4da"/>
+              <stop offset=".337" stop-color="#f9e1d7"/>
+              <stop offset=".552" stop-color="#f2d8cf"/>
+              <stop offset=".733" stop-color="#e5c9c2"/>
+              <stop offset=".894" stop-color="#d4b5af"/>
+              <stop offset="1" stop-color="#c5a39f"/>
+            </linearGradient>
+            <linearGradient id="b" x1=".905" y1="-.048" x2=".168" y2=".949" xlink:href="#a"/>
+          </defs>
+          <g data-name="app logo">
+            <g data-name="Group 1">
+              <path data-name="Path 1" d="M133.186 233.39a23.925 23.925 0 1123.925-23.925 23.952 23.952 0 01-23.925 23.925z" transform="translate(-104.573 -180.851)" fill="url(#a)"/>
+            </g>
+            <g data-name="Group 2">
+              <path data-name="Path 2" d="M131.775 236.666a28.614 28.614 0 1128.613-28.614 28.646 28.646 0 01-28.613 28.614zm0-55.134a26.52 26.52 0 1026.518 26.52 26.55 26.55 0 00-26.518-26.52z" transform="translate(-103.161 -179.439)" fill="url(#b)"/>
+            </g>
+            <g data-name="Group 3" fill="#fff">
+              <path data-name="Path 3" d="M21.32 32.162v5.9a1.333 1.333 0 102.666 0v-3.237h9.263v3.237a1.333 1.333 0 102.667 0v-5.9z"/>
+              <path data-name="Path 4" d="M22.834 28.01h11.56v-1.028a1.322 1.322 0 00.075-.425v-4.514a3.49 3.49 0 00-3.483-3.484h-4.741a3.491 3.491 0 00-3.485 3.485v4.514a1.331 1.331 0 00.076.426zm3.409-6.785h4.743a.819.819 0 01.819.818V25.8h-6.379v-3.757a.818.818 0 01.817-.817z"/>
+            </g>
+          </g>
+        </svg>
         <p class="text-gray-500 text-base">
           Follow us
         </p>

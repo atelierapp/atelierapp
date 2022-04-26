@@ -1,4 +1,6 @@
-<div class="{{ ($fullWidth ?? false) ? 'col-span-2' : 'col-span-2 md:col-span-1' }}">
+<div class="{{ ($fullWidth ?? false) ? 'col-span-2' : 'col-span-2 md:col-span-1' }}"
+     x-intersect="$el.classList.add('slide-in-bottom')"
+>
   <label for="{{ $name ?? (\Illuminate\Support\Str::camel($title)) }}" class="sr-only">{{ $title }}</label>
   <input
       wire:model.lazy="{{ $name ?? (\Illuminate\Support\Str::camel($title)) }}"

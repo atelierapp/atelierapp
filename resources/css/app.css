@@ -20,3 +20,80 @@
   @apply font-light;
   }
 }
+
+@layer utilities {
+    .rotate-right {
+        animation: rotate-right 0.8s ease-in;
+    }
+
+    @keyframes rotate-right {
+      0% {
+        transform: rotate(-5deg);
+        opacity: 0;
+      }
+      100% {
+        transform: rotate(0);
+        opacity: 1;
+      }
+    }
+
+    .rotate-left {
+        animation: rotate-left 0.8s ease-in;
+    }
+
+    @keyframes rotate-left {
+      0% {
+        transform: rotate(5deg);
+        opacity: 0;
+      }
+      100% {
+        transform: rotate(0);
+        opacity: 1;
+      }
+    }
+
+    .slide-in-left {
+    	animation: slide-in-left 0.8s ease-in both;
+    }
+
+    @keyframes slide-in-left {
+      0% {
+        transform: translateX(-25px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .slide-in-right {
+    	animation: slide-in-right 0.8s ease-in both;
+    }
+
+    @keyframes slide-in-right {
+      0% {
+        transform: translateX(25px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .slide-in-bottom {
+    	animation: slide-in-bottom 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    @keyframes slide-in-bottom {
+      0% {
+        transform: translateY(25px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+}

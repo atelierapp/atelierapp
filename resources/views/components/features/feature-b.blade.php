@@ -1,14 +1,9 @@
-<div class="pt-16 pb-8 bg-green-300 overflow-hidden lg:pt-24 lg:pb-0">
+<div class="pt-16 pb-8 bg-green-300 overflow-hidden lg:pt-24 lg:pb-0" x-data>
   <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-      <defs>
-        <pattern id="b1e6e422-73f8-40a6-b5d9-c8586e37e0e7" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
-        </pattern>
-      </defs>
-      <rect width="404" height="784" fill="url(#b1e6e422-73f8-40a6-b5d9-c8586e37e0e7)" />
-    </svg>
-
-    <div class="relative">
+    <div
+        class="relative"
+        x-intersect="$el.classList.add('slide-in-bottom')"
+    >
       <p class="mt-4 max-w-3xl md:mx-auto md:text-center text-lg text-gray-500 uppercase tracking-wider font-bold text-green-600">
         Atelier Home Design
       </p>
@@ -29,7 +24,10 @@
       <div class="relative lg:grid lg:grid-cols-3 lg:gap-x-8">
         <!-- COL 1 -->
         <div class="mt-10 lg:col-span-1 space-y-8 flex flex-col items-start">
-          <div class="flex flex-col md:items-end">
+          <div
+              class="flex flex-col md:items-end"
+              x-intersect="$el.classList.add('slide-in-left')"
+          >
             <dt class="flex flex-col md:items-end">
               <div class="bg-gray-500 p-2 rounded-full w-20 h-20 flex items-center justify-center">
                 <div class="bg-white p-4 rounded-full">
@@ -43,7 +41,10 @@
             </dd>
           </div>
 
-          <div class="flex flex-col md:items-end">
+          <div
+              class="flex flex-col md:items-end"
+              x-intersect="$el.classList.add('slide-in-left')"
+          >
             <dt class="flex flex-col md:items-end">
               <div class="bg-gray-500 p-2 rounded-full w-20 h-20 flex items-center justify-center">
                 <div class="bg-white p-4 rounded-full">
@@ -59,13 +60,16 @@
         </div>
 
         <!-- COL 2 -->
-        <div class="hidden lg:block lg:col-span-1">
+        <div
+            class="hidden lg:block lg:col-span-1"
+            x-intersect="$el.classList.add('slide-in-bottom')"
+        >
           <img src="{{ asset('images/phone-atelier-feature.png') }}" alt="Atelier Home Design">
         </div>
 
         <!-- COL 3 -->
         <dl class="mt-10 space-y-10">
-          <div>
+          <div x-intersect="$el.classList.add('slide-in-right')">
             <dt class="w-full md:w-auto flex flex-col md:items-start">
               <div class="bg-gray-500 p-2 rounded-full w-20 h-20 flex justify-center">
                 <div class="bg-white p-4 rounded-full">
@@ -78,7 +82,7 @@
               We make sure that all the pieces of furniture and materials that you add to your project are high-quality and ethically made by working with small brands and independent makers.            </dd>
           </div>
 
-          <div>
+          <div x-intersect="$el.classList.add('slide-in-right')">
             <dt class="w-full md:w-auto flex flex-col md:items-start">
               <div class="bg-gray-500 p-2 rounded-full w-20 h-20 flex justify-center">
                 <div class="bg-white p-4 rounded-full">

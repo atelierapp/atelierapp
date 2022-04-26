@@ -1,8 +1,8 @@
-<div class="py-16 bg-pink-200 overflow-hidden lg:py-24">
+<div class="py-16 bg-pink-200 overflow-hidden lg:py-24" x-data>
   <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-
     <div class="relative lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-      <div class="relative">
+      <!-- LEFT COLUMN -->
+      <div class="relative" x-intersect="$el.classList.add('slide-in-left')">
         <p class="mt-3 text-lg text-gray-500 uppercase tracking-wider font-bold text-green-600">
           Open an Atelier store!
         </p>
@@ -30,7 +30,8 @@
       </div>
 
       <div class="mt-10 -mx-4 relative lg:mt-0" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" class="mx-8 md:ml-12" viewBox="0 0 654.837 636.867">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mx-8 md:ml-12" viewBox="0 0 654.837 636.867"
+             x-intersect="$el.classList.add('rotate-left')">
           <g id="Group_28" data-name="Group 28" transform="translate(-414.032 -249.716)">
             <path id="Path_163" data-name="Path 163"
                   d="M790.315,494.644c45.558,12.494,77.22,40.672,111.729,72.934,25.553,23.889,68.918,52.584,96.015,75.46,87.605,73.956,92.339,210.252,22.973,288.829s-209.078,128.9-348.954,103.672S352.74,851.612,434.622,715.975C513.8,584.818,637.1,452.629,790.315,494.644Z"
