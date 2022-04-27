@@ -3,12 +3,16 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
     private string $path = 'stores';
 
-    public function __construct()
+    public function __construct(
+        private TagService $tagService
+    )
     {
         //
     }
@@ -18,11 +22,15 @@ class ProductService
         $data = $params;
         $product = Product::create($data);
         $this->processCategories($product, [$data['category_id']]);
+        if (isset($data['tags'])) {
+            $this->processTags($product,$data['tags']);
+            $product->load('tags');
+        }
 
         return $product;
     }
 
-    public function processCategories(int|Product $product, array $categories): void
+    public function processCategories(Product|int $product, array $categories): void
     {
         if (is_int($product)) {
             $product = $this->getBy($product);
@@ -31,7 +39,22 @@ class ProductService
         $product->categories()->sync($categories);
     }
 
-    public function getBy(int $product, string $field = 'id')
+    public function processTags(Product|int $product, array $tags = []): void
+    {
+        if (is_int($product)) {
+            $product = $this->getBy($product);
+        }
+
+        $productTag = [];
+        foreach ($tags as $tag) {
+            $productTag[] = $this->tagService->getTag($tag['name']);
+        }
+        $product->tags()->saveMany($productTag);
+
+        dd(__METHOD__ . ': ' . __LINE__, $productTag, DB::table('product_tag')->get()->toArray());
+    }
+
+    public function getBy(int $product, string $field = 'id'): Product
     {
         return Product::where($field, '=', $product)->firstOrFail();
     }

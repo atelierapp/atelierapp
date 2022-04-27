@@ -79,7 +79,7 @@ class ProductControllerStoreTest extends TestCase
         $this->assertDatabaseCount('category_product', 1);
     }
 
-    public function wip_test_authenticated_seller_can_store_a_product_with_only_required_info(): void
+    public function test_authenticated_seller_can_store_a_product_with_tags(): void
     {
         Storage::fake('s3');
         $this->createAuthenticatedSeller();
@@ -96,6 +96,11 @@ class ProductControllerStoreTest extends TestCase
             'description' => $this->faker->paragraph(),
             'price' => $this->faker->numberBetween(100, 10000),
             'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ]
 
             // 'manufactured_at' => $this->faker->date('m/d/Y'),
             // 'sku' => $this->faker->word,
@@ -123,12 +128,23 @@ class ProductControllerStoreTest extends TestCase
                     'active',
                     'properties',
                     'url',
+                    'tags' => [
+                        0 => [
+                            'id',
+                            'name'
+                        ]
+                    ]
                 ],
             ]
         );
         $this->assertDatabaseHas(
             'products',
-            collect($data)->except(['properties', 'manufactured_at'])->toArray()
+            collect($data)->except([
+                'properties', 'manufactured_at', 'category_id', 'tags'
+            ])->toArray()
         );
+        $this->assertDatabaseCount('category_product', 1);
+        $this->assertDatabaseCount('tags', 3);
+        $this->assertDatabaseCount('product_tag', 3);
     }
 }
