@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   @stack('head')
+  <style> [x-cloak] { display: none !important; }</style>
 </head>
 <body class="h-screen">
 <x-nav/>
@@ -19,8 +20,10 @@
   {{ $slot }}
 </div>
 <x-footer/>
+
+<x-vendor-app.login/>
+@stack('scripts')
 <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-@stack('scripts')
 </body>
 </html>
