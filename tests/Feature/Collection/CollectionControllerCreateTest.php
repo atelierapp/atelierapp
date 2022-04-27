@@ -36,6 +36,7 @@ class CollectionControllerCreateTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'is_active',
             ],
         ]);
         $this->assertDatabaseHas('collections', $data);
@@ -55,6 +56,7 @@ class CollectionControllerCreateTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'is_active',
             ],
         ]);
         $this->assertDatabaseHas('collections', $data);
