@@ -30,6 +30,7 @@ class CollectionControllerIndexTest extends TestCase
                 0 => [
                     'id',
                     'name',
+                    'is_active',
                 ],
             ],
         ]);
@@ -49,6 +50,7 @@ class CollectionControllerIndexTest extends TestCase
                 0 => [
                     'id',
                     'name',
+                    'is_active',
                 ],
             ],
         ]);

@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CollectionStoreRequest;
 use App\Http\Requests\CollectionUpdateRequest;
-use App\Http\Resources\QualityResource;
-use App\Http\Resources\TagResource;
+use App\Http\Resources\CollectionResource;
 use App\Models\Collection;
 use Bouncer;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -24,14 +23,14 @@ class CollectionController extends Controller
             ? $query->get()
             : $query->where('is_active', true)->get();
 
-        return TagResource::collection($collections);
+        return CollectionResource::collection($collections);
     }
 
     public function store(CollectionStoreRequest $request)
     {
         $collection = Collection::create($request->validated());
 
-        return QualityResource::make($collection);
+        return CollectionResource::make($collection);
     }
 
     public function update(CollectionUpdateRequest $request, $collection)
@@ -39,7 +38,7 @@ class CollectionController extends Controller
         $collection = Collection::findOrFail($collection);
         $collection->update($request->validated());
 
-        return QualityResource::make($collection);
+        return CollectionResource::make($collection);
     }
 
     /**
