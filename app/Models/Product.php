@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasTagsRelation;
@@ -27,6 +28,7 @@ class Product extends Model
         'title',
         'store_id',
         'manufacturer_type',
+        'manufacturer_process',
         'manufactured_at',
         'description',
         'style_id',
@@ -39,7 +41,6 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'id' => 'integer',
         'manufactured_at' => 'date',
         'category_id' => 'integer',
         'active' => 'boolean',
@@ -48,6 +49,7 @@ class Product extends Model
 
     protected $enums = [
         'manufacturer_type' => ManufacturerTypeEnum::class,
+        'manufacturer_process' => ManufacturerProcessEnum::class,
     ];
 
     public function store(): BelongsTo
@@ -67,7 +69,7 @@ class Product extends Model
 
     public function style(): BelongsTo
     {
-        return $this->belongsTo(Style::class);
+        return $this->belongsTo(Style::class)->withDefault();
     }
 
     public function setManufacturedAtAttribute($value)

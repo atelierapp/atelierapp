@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers;
+namespace Product;
 
 use App\Enums\ManufacturerTypeEnum;
 use App\Models\Category;
@@ -16,13 +16,15 @@ use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
+use function collect;
+use function route;
+
 /**
  * @title Products
  * @see \App\Http\Controllers\ProductController
  */
 class ProductControllerTest extends TestCase
 {
-    use AdditionalAssertions;
     use RefreshDatabase;
     use WithFaker;
 
@@ -112,64 +114,11 @@ class ProductControllerTest extends TestCase
     /**
      * @test
      */
-    public function store_uses_form_request_validation(): void
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ProductController::class,
-            'store',
-            \App\Http\Requests\ProductStoreRequest::class
-        );
-    }
 
     /**
      * @test
      * @title Create product
      */
-    public function store_saves(): void
-    {
-        Storage::fake('s3');
-        $data = [
-            'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
-            'manufactured_at' => $this->faker->date('m/d/Y'),
-            'description' => $this->faker->paragraph(),
-            'price' => $this->faker->numberBetween(100, 10000),
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'sku' => $this->faker->word,
-            'active' => true,
-            'properties' => ['demo' => $this->faker->word],
-            'style_id' => Style::factory()->create()->id,
-            'store_id' => Store::factory()->create()->id,
-            'url' => $this->faker->url,
-        ];
-
-        $response = $this->postJson(route('product.store'), $data);
-
-        $response->assertCreated();
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
-                ],
-            ]
-        );
-        $this->assertDatabaseHas(
-            'products',
-            collect($data)->except(['properties', 'manufactured_at'])->toArray()
-        );
-    }
 
     /**
      * @test
