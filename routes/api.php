@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\MaterialController;
@@ -59,6 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 
 Route::apiResource('categories', CategoryController::class)->names('category');
+
+Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
 
 Route::apiResource('products', ProductController::class)->names('product');
 
