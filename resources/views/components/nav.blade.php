@@ -12,7 +12,7 @@
       <div class="-mr-2 -my-2 md:hidden">
         <button type="button"
                 @click="open = true"
-                class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
+                class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 transition ease-in-out delay-50 duration-300"
                 aria-expanded="false">
           <span class="sr-only">Open menu</span>
           <!-- Heroicon name: outline/menu -->
@@ -26,9 +26,15 @@
       <nav class="hidden md:flex space-x-10">
         <div class="relative">
           <a href="{{ \Request::route()->getActionName() == 'about' ? '#' : route('about') }}">
-            <button type="button"
-                    class="text-gray-800 group bg-white rounded-md inline-flex items-center text-base {{ \Request::route()->getName() == 'about' ? 'font-semibold' : 'text-medium' }} hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                    aria-expanded="false">
+            <button
+                type="button"
+                aria-expanded="false"
+                @class([
+                  'text-gray-800 group bg-white rounded-md inline-flex items-center text-base hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500',
+                  'font-semibold' => \Request::route()->getName() == 'about',
+                  'text-medium' => \Request::route()->getName() !== 'about',
+                ])
+            >
               <span>About</span>
             </button>
           </a>
@@ -43,7 +49,7 @@
       </nav>
       <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
         <a href="mailto:info@0110atelier.com?subject=I%20want%20to%20test%20the%20Atelier%20App&body=I%20want%20to%20try%20the%20app.%20Please%20add%20me%20to%20your%20user%20list"
-           class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
+           class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 transition ease-in-out delay-50 duration-300">
           Sign up to test the app
         </a>
       </div>
