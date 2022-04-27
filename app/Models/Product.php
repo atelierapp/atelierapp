@@ -52,6 +52,11 @@ class Product extends Model
         'manufacturer_process' => ManufacturerProcessEnum::class,
     ];
 
+    public function collections(): \Illuminate\Database\Eloquent\Relations\morphToMany
+    {
+        return $this->morphToMany(Collection::class, 'collectionable');
+    }
+
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);

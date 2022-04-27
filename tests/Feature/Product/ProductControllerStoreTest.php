@@ -5,8 +5,10 @@ namespace Tests\Feature\Product;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Store;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\CollectionSeeder;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
@@ -81,10 +83,8 @@ class ProductControllerStoreTest extends TestCase
 
     public function test_authenticated_seller_can_store_a_product_with_tags(): void
     {
-        Storage::fake('s3');
         $this->createAuthenticatedSeller();
         $store = Store::factory()->create();
-        $this->seed(CategorySeeder::class);
 
         $data = [
             'store_id' => $store->id,
@@ -92,7 +92,7 @@ class ProductControllerStoreTest extends TestCase
             'title' => $this->faker->name,
             'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
-            'category_id' => Category::inRandomOrder()->first()->id,
+            'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
             'price' => $this->faker->numberBetween(100, 10000),
             'quantity' => $this->faker->numberBetween(1, 10),
@@ -101,13 +101,6 @@ class ProductControllerStoreTest extends TestCase
                 ['name' => $this->faker->word],
                 ['name' => $this->faker->word],
             ]
-
-            // 'manufactured_at' => $this->faker->date('m/d/Y'),
-            // 'sku' => $this->faker->word,
-            // 'active' => true,
-            // 'properties' => ['demo' => $this->faker->word],
-            // 'style_id' => Style::factory()->create()->id,
-            // 'url' => $this->faker->url,
         ];
         $response = $this->postJson(route('product.store'), $data);
 
@@ -146,5 +139,70 @@ class ProductControllerStoreTest extends TestCase
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('tags', 3);
         $this->assertDatabaseCount('taggables', 3);
+    }
+
+    public function test_authenticated_seller_can_store_a_product_with_collections(): void
+    {
+        $this->createAuthenticatedSeller();
+        $store = Store::factory()->create();
+
+        $data = [
+            'store_id' => $store->id,
+
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'collections' => [
+                ['id' => Collection::factory()->create()->id],
+            ]
+
+            // 'manufactured_at' => $this->faker->date('m/d/Y'),
+            // 'sku' => $this->faker->word,
+            // 'active' => true,
+            // 'properties' => ['demo' => $this->faker->word],
+            // 'style_id' => Style::factory()->create()->id,
+            // 'url' => $this->faker->url,
+        ];
+        $response = $this->postJson(route('product.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'style_id',
+                    'style',
+                    'quantity',
+                    'sku',
+                    'active',
+                    'properties',
+                    'url',
+                    'collections' => [
+                        0 => [
+                            'id',
+                            'name'
+                        ]
+                    ]
+                ],
+            ]
+        );
+        $this->assertDatabaseHas(
+            'products',
+            collect($data)->except([
+                'properties', 'manufactured_at', 'category_id', 'collections'
+            ])->toArray()
+        );
+        $this->assertDatabaseCount('category_product', 1);
+        $this->assertDatabaseCount('collections', 1);
+        $this->assertDatabaseCount('collectionables', 1);
     }
 }

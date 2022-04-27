@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
             'store' => new StoreResource($this->whenLoaded('store')),
             'medias' => MediaResource::collection($this->whenLoaded('medias')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'collections' => TagResource::collection($this->whenLoaded('collections')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
