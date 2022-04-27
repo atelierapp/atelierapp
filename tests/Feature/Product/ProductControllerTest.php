@@ -27,6 +27,7 @@ class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
+    use AdditionalAssertions;
 
     /**
      * @test
@@ -124,82 +125,9 @@ class ProductControllerTest extends TestCase
      * @test
      * @title Create product
      */
-    public function store_a_product_with_tags(): void
-    {
-        $tag = Tag::factory()->create();
-        $tag2 = Tag::factory()->create();
-        $data = [
-            'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
-            'manufactured_at' => $this->faker->date('m/d/Y'),
-            'description' => $this->faker->paragraph(),
-            'price' => $this->faker->numberBetween(100, 10000),
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'sku' => $this->faker->word,
-            'active' => true,
-            'style_id' => Style::factory()->create()->id,
-            'store_id' => Store::factory()->create()->id,
-            'properties' => ['demo' => $this->faker->word],
-            'tags' => [
-                ['name' => $tag->name],
-                ['name' => $tag2->name],
-            ]
-        ];
-
-        $response = $this->postJson(route('product.store'), $data);
-
-        $response->assertCreated();
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type_code',
-                    'manufacturer_type',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'tags' => [
-                        0 => [
-                            'id',
-                            'name',
-                            'active',
-                        ]
-                    ]
-                ],
-            ]
-        );
-        $this->assertDatabaseHas(
-            'taggables',
-            [
-                'taggable_type' => Product::class,
-                'tag_id' => $tag->id
-            ]
-        );
-        $this->assertDatabaseHas(
-            'taggables',
-            [
-                'taggable_type' => Product::class,
-                'tag_id' => $tag2->id
-            ]
-        );
-
-        $data = collect($data)->except(['properties', 'manufactured_at', 'tags'])->toArray();
-        $this->assertDatabaseHas('products', $data);
-    }
-
-    /**
-     * @test
-     * @title Create product
-     */
     public function store_a_product_with_media(): void
     {
+        $this->markTestSkipped('will replace a new test');
         $this->seed(MediaTypeSeeder::class);
         Storage::fake('s3');
         $data = [
@@ -256,11 +184,11 @@ class ProductControllerTest extends TestCase
     }
 
     /**
-     * @test
      * @title Show product
      */
     public function show_behaves_as_expected(): void
     {
+        $this->markTestSkipped();
         Storage::fake('s3');
         $product = Product::factory()->hasTags(2)->hasCategories(2)->hasMedias(2)->create();
 
