@@ -12,6 +12,11 @@ class Collection extends Model
 
     protected $fillable = [
         'name',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public function products(): MorphToMany

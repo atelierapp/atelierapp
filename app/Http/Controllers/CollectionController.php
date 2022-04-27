@@ -19,7 +19,10 @@ class CollectionController extends Controller
 
     public function index()
     {
-        $collections = Collection::all();
+        $query = Collection::query();
+        $collections = request()->has('with_all')
+            ? $query->get()
+            : $query->where('is_active', true)->get();
 
         return TagResource::collection($collections);
     }

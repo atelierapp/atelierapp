@@ -23,7 +23,7 @@ class CollectionFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'active' => $this->faker->boolean,
+            'is_active' => $this->faker->boolean,
         ];
     }
 }
