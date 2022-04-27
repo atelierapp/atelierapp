@@ -64,4 +64,26 @@ class CollectionControllerUpdateTest extends TestCase
         ]);
         $this->assertDatabaseHas('collections', $data);
     }
+
+    public function test_an_authenticated_admin_can_update_to_inactive_any_collection()
+    {
+        $this->createAuthenticatedAdmin();
+        $collection = Collection::factory()->create(['is_active' => true]);
+
+        $data = [
+            'name' => $this->faker->name,
+            'is_active' => false,
+        ];
+        $response = $this->patchJson(route('collection.update', $collection->id), $data);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'is_active',
+            ],
+        ]);
+        $this->assertDatabaseHas('collections', $data);
+    }
 }

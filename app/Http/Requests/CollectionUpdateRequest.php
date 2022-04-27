@@ -12,7 +12,8 @@ class CollectionUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', Rule::unique('qualities', 'name')->ignore($this->collection)]
+            'name' => ['required', Rule::unique('qualities', 'name')->ignore($this->collection)],
+            'is_active' => ['nullable', 'boolean'],
         ];
     }
 
