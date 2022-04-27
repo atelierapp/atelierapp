@@ -30,7 +30,8 @@ class ProductStoreRequest extends FormRequest
             'is_unique' => ['nullable', 'boolean'],
             'sku' => ['nullable', 'string', 'unique:products,sku'],
 
-            'attach.*.file' => ['nullable', 'file'],
+            'images.*.file' => ['nullable', 'file'],
+            'images.*.orientation' => ['nullable', 'string', Rule::in('front', 'perspective', 'side', 'plan')],
             'depth' => ['required_with:attach.*.file', 'integer'],
             'height' => ['required_with:attach.*.file', 'integer'],
             'width' => ['required_with:attach.*.file', 'integer'],
