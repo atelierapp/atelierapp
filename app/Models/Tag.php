@@ -14,8 +14,6 @@ class Tag extends Model
     protected $fillable = [
         'name',
         'active',
-        'taggable_type',
-        'taggable_id',
     ];
 
     protected $casts = [

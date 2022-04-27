@@ -145,6 +145,6 @@ class ProductControllerStoreTest extends TestCase
         );
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('tags', 3);
-        $this->assertDatabaseCount('product_tag', 3);
+        $this->assertDatabaseCount('taggables', 3);
     }
 }

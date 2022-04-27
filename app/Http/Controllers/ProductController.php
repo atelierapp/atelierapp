@@ -44,20 +44,6 @@ class ProductController extends Controller
 
         return ProductResource::make($product);
 
-        dd(__METHOD__ . ': ' . __LINE__, $product);
-
-        $product = Product::create($request->validated());
-
-        // if (! empty($request->get('tags'))) {
-        //     $tags = [];
-        //     foreach ($request->tags as $tag) {
-        //         $tags[] = Tag::query()->firstOrNew([
-        //             'name' => $tag['name']
-        //         ]);
-        //     }
-        //     $product->tags()->saveMany($tags);
-        // }
-
         // if ($request->has('attach')) {
         //     foreach ($request->file('attach') as $attach) {
         //         $mediaTypeId = MediaType::getIdFromMimeType($attach['file']->getClientMimeType());
