@@ -3,12 +3,11 @@
 namespace App\Services;
 
 use App\Models\Collection as CollectionModel;
-use Illuminate\Support\Collection;
 
 class CollectionService
 {
-    public function getByIds(array $collectionIds): Collection
+    public function getCollectionToAuth(mixed $collectionName): CollectionModel
     {
-        return CollectionModel::whereIn('id', $collectionIds)->get();
+        return CollectionModel::updateOrCreate(['name' => $collectionName, 'user_id' => auth()->id()]);
     }
 }

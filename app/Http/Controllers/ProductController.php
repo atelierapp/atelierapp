@@ -43,20 +43,6 @@ class ProductController extends Controller
         $product = $this->productService->store($request->validated());
 
         return ProductResource::make($product);
-
-        // if ($request->has('attach')) {
-        //     foreach ($request->file('attach') as $attach) {
-        //         $mediaTypeId = MediaType::getIdFromMimeType($attach['file']->getClientMimeType());
-        //         $path = Storage::disk('s3')->put('media', $attach['file']);
-        //         $product->medias()->save(
-        //             new Media(['url' => $path, 'type_id' => $mediaTypeId])
-        //         );
-        //     }
-        // }
-
-        $this->loadRelations($product);
-
-        return ProductResource::make($product);
     }
 
     private function loadRelations(Product $productModel)

@@ -2,22 +2,24 @@
 
 namespace App\Services;
 
-use App\Models\Collection;
-use App\Models\MediaType;
 use App\Models\Product;
-use App\Models\Tag;
-use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
-    private string $path = 'stores';
+    private string $path = 'products';
 
     public function __construct(
         private TagService $tagService,
         private CollectionService $collectionService,
-        private MediaService $mediaService
+        private MediaService $mediaService,
+        private MaterialService $materialService
     ) {
         //
+    }
+
+    public function getBy(int $product, string $field = 'id'): Product
+    {
+        return Product::where($field, '=', $product)->firstOrFail();
     }
 
     public function store(array $params): Product
@@ -26,20 +28,14 @@ class ProductService
 
         $product = Product::create($data);
         $this->processCategories($product, [$data['category_id']]);
-
-        if (isset($data['tags'])) {
-            $this->processTags($product, $data['tags']);
-            $product->load('tags');
-        }
+        $this->processImages($product, $data['images']);
+        $this->processTags($product, $data['tags']);
+        $this->processMaterials($product, $data['materials']);
+        $product->load('categories', 'medias', 'tags', 'materials');
 
         if (isset($data['collections'])) {
             $this->processCollections($product, $data['collections']);
             $product->load('collections');
-        }
-
-        if (isset($data['images'])) {
-            $this->processImages($product, $data['images']);
-            $product->load('medias');
         }
 
         return $product;
@@ -54,23 +50,69 @@ class ProductService
         $product->categories()->sync($categories);
     }
 
-    public function processTags(Product|int $product, array $tags = []): void
+    /**
+     * @param \App\Models\Product|int $product
+     * @param array $images  [[orientation => front|side|perspective|plan, file => UploadedFile]]
+     * @return void
+     */
+    public function processImages(Product|int $product, array $images): void
     {
-        if (is_int($product)) {
-            $product = $this->getBy($product);
-        }
+        if (! empty($images)) {
+            if (is_int($product)) {
+                $product = $this->getBy($product);
+            }
 
-        $productTag = [];
-        foreach ($tags as $tag) {
-            $productTag[] = $this->tagService->getTag($tag['name']);
+            $this->mediaService->path($this->path)->model($product);
+            foreach ($images as $image) {
+                $this->processImage($product, $image);
+            }
         }
-
-        $product->tags()->saveMany($productTag);
     }
 
-    public function getBy(int $product, string $field = 'id'): Product
+    /**
+     * @param \App\Models\Product|int $product
+     * @param array $image  [orientation => front|side|perspective|plan, file => UploadedFile]
+     * @return void
+     */
+    public function processImage(Product|int $product, array $image): void
     {
-        return Product::where($field, '=', $product)->firstOrFail();
+        $this->mediaService->save($image['file'], [
+            'orientation' => $image['orientation'],
+            'featured' => $image['orientation'] == 'front',
+            'type_id' => 1 // App\Models\MediaType::IMAGE
+        ]);
+    }
+
+    public function processTags(Product|int $product, array $tags = []): void
+    {
+        if (! empty($tags)) {
+            if (is_int($product)) {
+                $product = $this->getBy($product);
+            }
+
+            $productTag = [];
+            foreach ($tags as $tag) {
+                $productTag[] = $this->tagService->getTag($tag['name']);
+            }
+
+            $product->tags()->saveMany($productTag);
+        }
+    }
+
+    public function processMaterials(Product|int $product, array $materials)
+    {
+        if (! empty($materials)) {
+            if (is_int($product)) {
+                $product = $this->getBy($product);
+            }
+
+            $productMaterial = [];
+            foreach ($materials as $material) {
+                $productMaterial[] = $this->materialService->getMaterial($material['name'])->id;
+            }
+
+            $product->materials()->sync($productMaterial);
+        }
     }
 
     public function processCollections(Product|int $product, array $collections): void
@@ -80,48 +122,12 @@ class ProductService
                 $product = $this->getBy($product);
             }
 
-            $ids = collect($collections)->pluck('id')->toArray();
-            $collections = $this->collectionService->getByIds($ids);
-            $product->collections()->saveMany($collections);
-        }
-    }
-
-    private function processImages(Product|int $product, array $images)
-    {
-        if (! empty($images)) {
-            if (is_int($product)) {
-                $product = $this->getBy($product);
+            $productCollection = [];
+            foreach ($collections as $collection) {
+                $productCollection[] = $this->collectionService->getCollectionToAuth($collection['name']);
             }
 
-            $this->mediaService->path('products')->model($product);
-            $product->load('medias');
-            foreach ($images as $image) {
-                // $media = $product->medias->where('orientation', $image['orientation'])->first();
-                // if (!is_null($media)) {
-                //     $this->mediaService->delete($media->path);
-                //     $media->delete();
-                // }
-                $bucketImage = $this->mediaService->save($image['file'], [
-                    'orientation' => $image['orientation'],
-                    'featured' => $image['orientation'] == 'front',
-                    'type_id' => 1 // App\Models\MediaType::IMAGE
-                ]);
-
-                // dd(__METHOD__ . ': ' . __LINE__, $media, $bucketImage->toArray());
-
-
-                // $product->medias()->create([
-                //     'url' => Str::of($view)
-                //         ->prepend('https://atelier-staging-bucket.s3.amazonaws.com/products/')
-                //         ->append(".png"),
-                //     'featured' => Str::endsWith($view, '-F'),
-                //     'orientation' => $orientations[$orientation],
-                //     'type_id' => 1,
-                // ]);
-
-                // dd(__METHOD__ . ': ' . __LINE__, $image);
-            }
-
+            $product->collections()->saveMany($productCollection);
         }
     }
 
