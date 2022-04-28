@@ -18,7 +18,8 @@ class ProductController extends Controller
     }
 
     public function index(): AnonymousResourceCollection
-    {// Refactor this to a better way. Maybe use a standardized way to do it: categories[]=1&categories[]=2&..
+    {
+        // Refactor this to a better way. Maybe use a standardized way to do it: categories[]=1&categories[]=2&..
         $categories = request('categories') ? explode(',', request('categories')) : null;
 
         $products = Product::query()
