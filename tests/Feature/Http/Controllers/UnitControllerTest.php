@@ -143,7 +143,7 @@ class UnitControllerTest extends TestCase
         $unit = Unit::factory()->create();
         $data = [
             'name' => $this->faker->text(20),
-            'class' => $this->faker->word,
+            'class' => $this->faker->text(8),
             'factor' => $this->faker->randomFloat(2, 10, 20),
             'unit_system_id' => UnitSystem::factory()->create()->id,
         ];
