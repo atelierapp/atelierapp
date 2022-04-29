@@ -41,6 +41,12 @@ class ProductStoreRequest extends FormRequest
             'materials' => ['required'],
             'materials.*.name' => ['required_with:materials', 'string'],
 
+            'variations' => ['nullable'],
+            'variations.*.name' => ['required_with:variations', 'string'],
+            'variations.*.images' => ['required_with:variations', new RequiredAllOrientationImages()],
+            'variations.*.images.*.file' => ['required', 'file'],
+            'variations.*.images.*.orientation' => ['required', 'string', Rule::in(['front', 'side', 'perspective', 'plan'])],
+
             // 'manufactured_at' => ['required', 'date_format:m/d/Y'],
             // 'style_id' => ['required', 'exists:styles,id'],
             // 'properties' => ['required', 'array'],

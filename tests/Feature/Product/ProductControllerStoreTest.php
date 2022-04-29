@@ -7,7 +7,9 @@ use App\Enums\ManufacturerTypeEnum;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Media;
+use App\Models\Product;
 use App\Models\Store;
+use App\Models\Variation;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -198,7 +200,7 @@ class ProductControllerStoreTest extends TestCase
         $this->assertDatabaseCount('material_product', 5);
     }
 
-    public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images_and_collections(): void
+    public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images_and_collections()
     {
         Storage::fake('s3');
         $user = $this->createAuthenticatedSeller();
@@ -277,5 +279,260 @@ class ProductControllerStoreTest extends TestCase
         $this->assertEquals(3, Media::where('featured', false)->count());
         $this->assertEquals(3, Collection::authUser()->count());
         $this->assertDatabaseCount('collectionables', 3);
+    }
+
+    public function test_authenticated_seller_can_store_a_product_with_info_and_images_and_one_variations()
+    {
+        Storage::fake('s3');
+        $this->createAuthenticatedSeller();
+        $store = Store::factory()->create();
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+            ],
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+            'variations' => [
+                [
+                    'name' => $this->faker->title,
+                    'images' => [
+                        ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                        ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                        ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                        ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+                    ],
+                ]
+            ]
+        ];
+        $response = $this->postJson(route('product.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufacturer_process',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'style_id',
+                    'style',
+                    'quantity',
+                    'sku',
+                    'active',
+                    'properties',
+                    'url',
+                    'featured_media',
+                    'medias' => [
+                        0 => [
+                            'type_id',
+                            'url',
+                            'orientation'
+                        ]
+                    ],
+                    'tags' => [
+                        0 => [
+                            'id',
+                            'name',
+                        ],
+                    ],
+                    'materials' => [
+                        0 => [
+                            'id',
+                            'name',
+                        ]
+                    ],
+                    'categories' => [
+                        0 => [
+                            'id',
+                            'name',
+                        ]
+                    ],
+                    'variations' => [
+                        0 => [
+                            'name',
+                            'medias' => [
+                                0 => [
+                                    'type_id',
+                                    'url',
+                                    'orientation'
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        );
+        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseCount('category_product', 1);
+        $this->assertDatabaseCount('tags', 3);
+        $this->assertDatabaseCount('taggables', 3);
+        $this->assertDatabaseCount('materials', 5);
+        $this->assertDatabaseCount('material_product', 5);
+        $this->assertDatabaseCount('variations', 1);
+        $this->assertDatabaseCount('media', 8);
+        $this->assertEquals(1, Media::featured()->model(Product::class)->count());
+        $this->assertEquals(3, Media::nonFeatured()->model(Product::class)->count());
+        $this->assertEquals(1, Media::featured()->model(Variation::class)->count());
+        $this->assertEquals(3, Media::nonFeatured()->model(Variation::class)->count());
+    }
+
+    public function test_authenticated_seller_can_store_a_product_with_info_and_images_and_two_variations()
+    {
+        Storage::fake('s3');
+        $this->createAuthenticatedSeller();
+        $store = Store::factory()->create();
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+            ],
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'variations' => [
+                [
+                    'name' => $this->faker->title,
+                    'images' => [
+                        ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                        ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                        ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                        ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+                    ],
+                ],
+                [
+                    'name' => $this->faker->title,
+                    'images' => [
+                        ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                        ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                        ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                        ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+                    ],
+                ],
+            ]
+        ];
+        $response = $this->postJson(route('product.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'title',
+                    'manufacturer_type',
+                    'manufacturer_process',
+                    'manufactured_at',
+                    'description',
+                    'price',
+                    'style_id',
+                    'style',
+                    'quantity',
+                    'sku',
+                    'active',
+                    'properties',
+                    'url',
+                    'featured_media',
+                    'medias' => [
+                        0 => [
+                            'type_id',
+                            'url',
+                            'orientation'
+                        ]
+                    ],
+                    'tags' => [
+                        0 => [
+                            'id',
+                            'name',
+                        ],
+                    ],
+                    'materials' => [
+                        0 => [
+                            'id',
+                            'name',
+                        ]
+                    ],
+                    'categories' => [
+                        0 => [
+                            'id',
+                            'name',
+                        ]
+                    ],
+                    'variations' => [
+                        0 => [
+                            'name',
+                            'medias' => [
+                                0 => [
+                                    'type_id',
+                                    'url',
+                                    'orientation'
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        );
+        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseCount('category_product', 1);
+        $this->assertDatabaseCount('tags', 3);
+        $this->assertDatabaseCount('taggables', 3);
+        $this->assertDatabaseCount('materials', 5);
+        $this->assertDatabaseCount('material_product', 5);
+        $this->assertDatabaseCount('variations', 2);
+        $this->assertDatabaseCount('media', 12);
+        $this->assertEquals(1, Media::featured()->model(Product::class)->count());
+        $this->assertEquals(3, Media::nonFeatured()->model(Product::class)->count());
+        $this->assertEquals(2, Media::featured()->model(Variation::class)->count());
+        $this->assertEquals(6, Media::nonFeatured()->model(Variation::class)->count());
     }
 }

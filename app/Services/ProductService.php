@@ -12,7 +12,8 @@ class ProductService
         private TagService $tagService,
         private CollectionService $collectionService,
         private MediaService $mediaService,
-        private MaterialService $materialService
+        private MaterialService $materialService,
+        private VariationService $variationService
     ) {
         //
     }
@@ -36,6 +37,11 @@ class ProductService
         if (isset($data['collections'])) {
             $this->processCollections($product, $data['collections']);
             $product->load('collections');
+        }
+
+        if (isset($data['variations'])) {
+            $this->processVariations($product, $data['variations']);
+            $product->load('variations.medias');
         }
 
         return $product;
@@ -64,17 +70,16 @@ class ProductService
 
             $this->mediaService->path($this->path)->model($product);
             foreach ($images as $image) {
-                $this->processImage($product, $image);
+                $this->processImage($image);
             }
         }
     }
 
     /**
-     * @param \App\Models\Product|int $product
      * @param array $image  [orientation => front|side|perspective|plan, file => UploadedFile]
      * @return void
      */
-    public function processImage(Product|int $product, array $image): void
+    public function processImage(array $image): void
     {
         $this->mediaService->save($image['file'], [
             'orientation' => $image['orientation'],
@@ -128,6 +133,18 @@ class ProductService
             }
 
             $product->collections()->saveMany($productCollection);
+        }
+    }
+
+    private function processVariations(Product|int $product, array $variations)
+    {
+        if (! empty($variations)) {
+            if (is_int($product)) {
+                $product = $this->getBy($product);
+            }
+
+            $this->variationService->createManyToProduct($product, $variations);
+
         }
     }
 
