@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin IdeHelperMediaType
+ */
 class MediaType extends Model
 {
     use HasFactory;

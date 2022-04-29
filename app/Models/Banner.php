@@ -6,6 +6,9 @@ use App\Traits\Models\HasMediasRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperBanner
+ */
 class Banner extends Model
 {
     use HasFactory;

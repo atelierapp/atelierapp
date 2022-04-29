@@ -13,8 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string $title
- * @property string $sku
+ * @mixin IdeHelperProduct
  */
 class Product extends Model
 {
