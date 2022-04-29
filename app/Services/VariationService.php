@@ -62,4 +62,15 @@ class VariationService
             'type_id' => 1 // App\Models\MediaType::IMAGE
         ]);
     }
+
+    public function duplicateFromProduct(Product $product, array $images)
+    {
+        $variation = $this->create([
+            'product_id' => $product->id,
+            'name' => $product->title,
+            'is_duplicated' => true,
+        ]);
+        $this->mediaService->path($this->path);
+        $this->processImages($variation, $images);
+    }
 }

@@ -28,8 +28,9 @@ class ProductService
         $data = $params;
 
         $product = Product::create($data);
-        $this->processCategories($product, [$data['category_id']]);
         $this->processImages($product, $data['images']);
+        $this->variationService->duplicateFromProduct($product, $data['images']);
+        $this->processCategories($product, [$data['category_id']]);
         $this->processTags($product, $data['tags']);
         $this->processMaterials($product, $data['materials']);
         $product->load('categories', 'medias', 'tags', 'materials');
@@ -41,8 +42,9 @@ class ProductService
 
         if (isset($data['variations'])) {
             $this->processVariations($product, $data['variations']);
-            $product->load('variations.medias');
         }
+
+        $product->load('variations.medias');
 
         return $product;
     }

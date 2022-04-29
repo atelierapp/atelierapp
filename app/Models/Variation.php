@@ -18,9 +18,12 @@ class Variation extends Model
     protected $fillable = [
         'product_id',
         'name',
+        'is_duplicated'
     ];
 
-    protected $guarded = [];
+    protected $casts = [
+        'is_duplicated' => 'boolean',
+    ];
 
     public function products(): BelongsTo
     {
