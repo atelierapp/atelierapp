@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasTagsRelation;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -26,6 +28,7 @@ class Product extends Model
         'title',
         'store_id',
         'manufacturer_type',
+        'manufacturer_process',
         'manufactured_at',
         'description',
         'style_id',
@@ -38,7 +41,6 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'id' => 'integer',
         'manufactured_at' => 'date',
         'category_id' => 'integer',
         'active' => 'boolean',
@@ -47,7 +49,13 @@ class Product extends Model
 
     protected $enums = [
         'manufacturer_type' => ManufacturerTypeEnum::class,
+        'manufacturer_process' => ManufacturerProcessEnum::class,
     ];
+
+    public function collections(): \Illuminate\Database\Eloquent\Relations\morphToMany
+    {
+        return $this->morphToMany(Collection::class, 'collectionable');
+    }
 
     public function store(): BelongsTo
     {
@@ -66,7 +74,12 @@ class Product extends Model
 
     public function style(): BelongsTo
     {
-        return $this->belongsTo(Style::class);
+        return $this->belongsTo(Style::class)->withDefault();
+    }
+
+    public function variations(): HasMany
+    {
+        return $this->hasMany(Variation::class);
     }
 
     public function setManufacturedAtAttribute($value)

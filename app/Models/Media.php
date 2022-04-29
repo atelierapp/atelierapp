@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\MediaBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,6 +37,12 @@ class Media extends Model
         'properties' => 'json',
         'extra' => 'json',
     ];
+
+    #[Pure]
+    public function newEloquentBuilder($query): MediaBuilder
+    {
+        return new MediaBuilder($query);
+    }
 
     public function mediable(): MorphTo
     {
