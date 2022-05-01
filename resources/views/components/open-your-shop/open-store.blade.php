@@ -31,7 +31,7 @@
 
       <div class="mt-10 -mx-4 relative lg:mt-0" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" class="mx-8 md:ml-12" viewBox="0 0 654.837 636.867"
-             x-intersect="$el.classList.add('rotate-left')">
+             x-intersect="$el.classList.add('slide-in-bottom')">
           <g id="Group_28" data-name="Group 28" transform="translate(-414.032 -249.716)">
             <path id="Path_163" data-name="Path 163"
                   d="M790.315,494.644c45.558,12.494,77.22,40.672,111.729,72.934,25.553,23.889,68.918,52.584,96.015,75.46,87.605,73.956,92.339,210.252,22.973,288.829s-209.078,128.9-348.954,103.672S352.74,851.612,434.622,715.975C513.8,584.818,637.1,452.629,790.315,494.644Z"
