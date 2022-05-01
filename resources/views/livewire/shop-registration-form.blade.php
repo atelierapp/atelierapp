@@ -23,9 +23,7 @@
             class="col-span-2 flex justify-center"
             x-intersect="$el.classList.add('slide-in-bottom')"
         >
-          <button class="py-4 px-16 rounded-lg bg-green-500 text-white hover:bg-gray-600 active:bg-pink-500 transition ease-in-out delay-50 duration-300">
-            Submit
-          </button>
+          <x-form.button/>
         </div>
       </form>
     @else
