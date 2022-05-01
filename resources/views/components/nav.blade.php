@@ -141,7 +141,8 @@
 @push('scripts')
   <script>
       document.addEventListener('alpine:init', () => {
-          Alpine.store('showVendorLogin', false)
+          Alpine.store('showVendorLogin', false);
+          Alpine.store('authMode', 'login');
       })
   </script>
 @endpush

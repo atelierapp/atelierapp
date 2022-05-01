@@ -18,3 +18,4 @@ Route::get('/apple/redirect', fn() => response()->json());
 | Vendor Routes
 |--------------------------------------------------------------------------
 */
+Route::get('/dashboard', fn() => 'dashboard!')->name('dashboard');

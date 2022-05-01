@@ -21,7 +21,7 @@
 </div>
 <x-footer/>
 
-<x-vendor-app.login/>
+<x-vendor-app.auth/>
 @stack('scripts')
 <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
