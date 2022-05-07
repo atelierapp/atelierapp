@@ -170,18 +170,6 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
-     */
-    public function update_uses_form_request_validation(): void
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ProductController::class,
-            'update',
-            \App\Http\Requests\ProductUpdateRequest::class
-        );
-    }
-
-    /**
-     * @test
      * @title Update product
      */
     public function update_behaves_as_expected(): void

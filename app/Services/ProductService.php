@@ -146,8 +146,29 @@ class ProductService
             }
 
             $this->variationService->createManyToProduct($product, $variations);
-
         }
+    }
+
+    public function update(Product|int $product, array $params): Product
+    {
+        if (is_int($product)) {
+            $product = $this->getBy($product);
+        }
+
+        $product->fill($params);
+        $product->save();
+
+        $this->processCategories($product, [$params['category_id']]);
+        $this->processTags($product, $params['tags']);
+        $this->processMaterials($product, $params['materials']);
+        $product->load('categories', 'medias', 'tags', 'materials');
+
+        if (isset($params['collections'])) {
+            $this->processCollections($product, $params['collections']);
+            $product->load('collections');
+        }
+
+        return $product;
     }
 
 }
