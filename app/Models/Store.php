@@ -21,6 +21,7 @@ class Store extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'name',
         // 'legal_name',
         // 'legal_id',

@@ -93,7 +93,7 @@ class StoreControllerStoreTest extends TestCase
     public function test_a_authenticated_seller_user_can_create_store_with_logo_image()
     {
         Storage::fake('s3');
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
 
         $data = [
             'name' => $this->faker->name,
@@ -107,6 +107,7 @@ class StoreControllerStoreTest extends TestCase
         $this->assertEquals($data['name'], $response->json('data.name'));
         $this->assertEquals($data['story'], $response->json('data.story'));
         $this->assertDatabaseHas('stores', [
+            'user_id' => $user->id,
             'name' => $data['name'],
             'story' => $data['story'],
         ]);
@@ -134,7 +135,7 @@ class StoreControllerStoreTest extends TestCase
     public function test_a_authenticated_seller_user_can_create_store_with_logo_and_cover_image()
     {
         Storage::fake('s3');
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
 
         $data = [
             'name' => $this->faker->name,
@@ -149,6 +150,7 @@ class StoreControllerStoreTest extends TestCase
         $this->assertEquals($data['name'], $response->json('data.name'));
         $this->assertEquals($data['story'], $response->json('data.story'));
         $this->assertDatabaseHas('stores', [
+            'user_id' => $user->id,
             'name' => $data['name'],
             'story' => $data['story'],
         ]);
@@ -178,6 +180,7 @@ class StoreControllerStoreTest extends TestCase
     {
         Storage::fake('s3');
         $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
 
         $data = [
             'name' => $this->faker->name,
@@ -193,6 +196,7 @@ class StoreControllerStoreTest extends TestCase
         $this->assertEquals($data['name'], $response->json('data.name'));
         $this->assertEquals($data['story'], $response->json('data.story'));
         $this->assertDatabaseHas('stores', [
+            'user_id' => $user->id,
             'name' => $data['name'],
             'story' => $data['story'],
         ]);
@@ -205,6 +209,7 @@ class StoreControllerStoreTest extends TestCase
         Storage::fake('s3');
         $this->seed(QualitySeeder::class);
         $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
 
         $data = [
             'name' => $this->faker->name,
@@ -219,6 +224,7 @@ class StoreControllerStoreTest extends TestCase
         $this->assertEquals($data['name'], $response->json('data.name'));
         $this->assertEquals($data['story'], $response->json('data.story'));
         $this->assertDatabaseHas('stores', [
+            'user_id' => $user->id,
             'name' => $data['name'],
             'story' => $data['story'],
         ]);

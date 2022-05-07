@@ -18,7 +18,9 @@ class StoreService
 
     public function store(FormRequest $request): Store
     {
-        $store = Store::create($request->only(['name', 'story']));
+        $data = $request->only(['name', 'story']);
+        $data['user_id'] = auth()->id();
+        $store = Store::create($data);
         $this->processQualities($store, $request);
         $this->processImages($store, $request);
 

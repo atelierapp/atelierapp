@@ -11,7 +11,7 @@ class AddIsDuplicatedColumnToVariationsTable extends Migration
         Schema::table(
             'variations',
             fn(Blueprint $table) => $table->boolean('is_duplicated')->default(false)->after('name')
-    );
+        );
     }
 
     public function down()
