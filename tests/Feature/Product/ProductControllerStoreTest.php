@@ -19,6 +19,13 @@ class ProductControllerStoreTest extends TestCase
 {
     use AdditionalAssertions;
 
+    private function createStore($user): Store
+    {
+        return Store::factory()->create([
+            'user_id' => $user->id,
+        ]);
+    }
+
     public function test_a_guess_cannot_create_any_product()
     {
         $response = $this->postJson(route('product.store'), []);
@@ -132,8 +139,7 @@ class ProductControllerStoreTest extends TestCase
     public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images()
     {
         Storage::fake('s3');
-        $this->createAuthenticatedSeller();
-        $store = Store::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
 
         $data = [
             'store_id' => $store->id,
@@ -203,8 +209,7 @@ class ProductControllerStoreTest extends TestCase
     public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images_and_duplicated_as_variation()
     {
         Storage::fake('s3');
-        $this->createAuthenticatedSeller();
-        $store = Store::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
 
         $data = [
             'store_id' => $store->id,
@@ -315,8 +320,7 @@ class ProductControllerStoreTest extends TestCase
     public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images_and_collections()
     {
         Storage::fake('s3');
-        $user = $this->createAuthenticatedSeller();
-        $store = Store::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
         Collection::factory()->count(3)->create();
 
         $data = [
@@ -396,8 +400,7 @@ class ProductControllerStoreTest extends TestCase
     public function test_authenticated_seller_can_store_a_product_with_info_and_images_and_one_variations()
     {
         Storage::fake('s3');
-        $this->createAuthenticatedSeller();
-        $store = Store::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
 
         $data = [
             'store_id' => $store->id,
@@ -519,8 +522,7 @@ class ProductControllerStoreTest extends TestCase
     public function test_authenticated_seller_can_store_a_product_with_info_and_images_and_two_variations()
     {
         Storage::fake('s3');
-        $this->createAuthenticatedSeller();
-        $store = Store::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
 
         $data = [
             'store_id' => $store->id,
