@@ -115,6 +115,31 @@ class StoreControllerStoreTest extends TestCase
         $this->assertCount(1, Storage::disk('s3')->allFiles('stores'));
     }
 
+    public function test_a_authenticated_seller_user_can_create_store_with_logo_image_and_has_authenticated_user_id()
+    {
+        Storage::fake('s3');
+        $user = $this->createAuthenticatedSeller();
+
+        $data = [
+            'name' => $this->faker->name,
+            'story' => $this->faker->sentences(1, true),
+            'logo' => UploadedFile::fake()->image('logo.png'),
+        ];
+        $response = $this->postJson(route('store.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(['data' => $this->structure()]);
+        $this->assertEquals($data['name'], $response->json('data.name'));
+        $this->assertEquals($data['story'], $response->json('data.story'));
+        $this->assertDatabaseHas('stores', [
+            'user_id' => $user->id,
+            'name' => $data['name'],
+            'story' => $data['story'],
+        ]);
+        $this->assertDatabaseCount('media', 1);
+        $this->assertCount(1, Storage::disk('s3')->allFiles('stores'));
+    }
+
     public function test_a_authenticated_seller_user_cannot_create_store_with_logo_and_invalid_cover_image()
     {
         $this->createAuthenticatedSeller();
