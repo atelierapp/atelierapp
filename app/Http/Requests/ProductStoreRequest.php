@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Models\Role;
+use App\Rules\ExistsForSpecifiedAuthenticatedUser;
 use App\Rules\RequiredAllOrientationImages;
 use Bouncer;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,7 +16,7 @@ class ProductStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'store_id' => ['required', 'exists:stores,id'],
+            'store_id' => ['required', new ExistsForSpecifiedAuthenticatedUser('stores', 'id')],
 
             'title' => ['required', 'string', 'max:100'],
             'manufacturer_type' => ['required', Rule::in(array_keys(ManufacturerTypeEnum::MAP_VALUE))],

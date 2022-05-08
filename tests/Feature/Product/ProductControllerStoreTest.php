@@ -136,6 +136,53 @@ class ProductControllerStoreTest extends TestCase
         ]);
     }
 
+    public function test_authenticated_seller_cannot_store_a_product_store_id_that_not_him()
+    {
+        Storage::fake('s3');
+        $this->createStore($this->createAuthenticatedSeller());
+
+        $data = [
+            'store_id' => Store::factory()->create()->id,
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+            ],
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+        ];
+        $response = $this->postJson(route('product.store'), $data);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(
+            [
+                'store_id',
+            ]
+        );
+        $this->assertDatabaseCount('products', 0);
+    }
+
     public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images()
     {
         Storage::fake('s3');
