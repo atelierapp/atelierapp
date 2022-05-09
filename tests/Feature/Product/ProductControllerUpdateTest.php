@@ -15,6 +15,20 @@ class ProductControllerUpdateTest extends TestCase
 {
     use AdditionalAssertions;
 
+    private function createStore($user): Store
+    {
+        return Store::factory()->create([
+            'user_id' => $user->id,
+        ]);
+    }
+
+    private function createProduct($store): Product
+    {
+        return Product::factory()->create([
+            'store_id' => $store->id,
+        ]);
+    }
+
     public function test_a_guess_cannot_update_any_product()
     {
         $response = $this->patchJson(route('product.update', 1), []);
@@ -84,8 +98,8 @@ class ProductControllerUpdateTest extends TestCase
     public function test_authenticated_seller_can_update_a_product_with_only_required_info()
     {
         $this->createAuthenticatedSeller();
-        $store = Store::factory()->create();
-        $product = Product::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
+        $product = $this->createProduct($store);
 
         $data = [
             'store_id' => $store->id,
@@ -174,8 +188,8 @@ class ProductControllerUpdateTest extends TestCase
     public function test_authenticated_seller_can_update_a_product_with_required_info_and_collections()
     {
         $this->createAuthenticatedSeller();
-        $store = Store::factory()->create();
-        $product = Product::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
+        $product = $this->createProduct($store);
         Collection::factory()->count(3)->create();
 
         $data = [
@@ -256,5 +270,43 @@ class ProductControllerUpdateTest extends TestCase
         $this->assertDatabaseCount('category_product', 1);
         $this->assertEquals(3, Collection::authUser()->count());
         $this->assertDatabaseCount('collectionables', 3);
+    }
+
+    public function test_authenticated_seller_cannot_update_a_product_that_has_a_store_and_that_not_him()
+    {
+        $store = $this->createStore($this->createAuthenticatedSeller());
+        $product = $this->createProduct($store);
+
+        $data = [
+            'store_id' => Store::factory()->create()->id,
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+        ];
+        $response = $this->patchJson(route('product.update', $product->id), $data);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors([
+            'store_id',
+        ]);
     }
 }

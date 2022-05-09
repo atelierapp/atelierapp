@@ -4,15 +4,16 @@ namespace App\Http\Requests;
 
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
+use App\Rules\ExistsForSpecifiedAuthenticatedUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Enum\Laravel\Rules\EnumRule;
 
 class ProductUpdateRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
+            'store_id' => ['required', new ExistsForSpecifiedAuthenticatedUser('stores', 'id')],
             'title' => ['required', 'string', 'max:100'],
             'manufacturer_type' => ['required', Rule::in(array_keys(ManufacturerTypeEnum::MAP_VALUE))],
             'manufacturer_process' => ['required', Rule::in(array_keys(ManufacturerProcessEnum::MAP_VALUE))],
@@ -27,7 +28,6 @@ class ProductUpdateRequest extends FormRequest
 
             'manufactured_at' => 'date_format:m/d/Y',
             'style_id' => ['integer', 'exists:styles,id'],
-            'store_id' => ['integer', 'exists:stores,id'],
             'quantity' => ['integer'],
             'sku' => ['string', 'unique:products,sku'],
             'active' => ['boolean'],
