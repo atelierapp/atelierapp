@@ -64,6 +64,7 @@ Route::apiResource('categories', CategoryController::class)->names('category');
 Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
 
 Route::apiResource('products', ProductController::class)->names('product');
+Route::post('products/{product}/images', [ProductController::class, 'image'])->name('product.image');
 
 Route::apiResource('materials', MaterialController::class)->names('material');
 

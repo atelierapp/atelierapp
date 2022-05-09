@@ -171,4 +171,16 @@ class ProductService
         return $product;
     }
 
+    public function image(Product|int $product, array $request): Product
+    {
+        if (is_int($product)) {
+            $product = $this->getBy($product);
+        }
+
+        $this->processImages($product, $request['images']);
+        $product->load('categories', 'medias', 'tags', 'materials', 'collections', 'variations.medias');
+
+        return $product;
+    }
+
 }

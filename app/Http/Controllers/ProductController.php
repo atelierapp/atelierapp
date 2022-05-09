@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductImageRequest;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
@@ -14,7 +15,8 @@ class ProductController extends Controller
 {
     public function __construct(private ProductService $productService)
     {
-        $this->middleware('auth:sanctum')->only(['store', 'update']);
+        $this->middleware('auth:sanctum')
+            ->only(['store', 'update', 'image']);
     }
 
     public function index(): AnonymousResourceCollection
@@ -46,11 +48,6 @@ class ProductController extends Controller
         return ProductResource::make($product);
     }
 
-    private function loadRelations(Product $productModel)
-    {
-        $productModel->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media');
-    }
-
     public function show(Product $product): ProductResource
     {
         $this->loadRelations($product);
@@ -58,9 +55,21 @@ class ProductController extends Controller
         return ProductResource::make($product);
     }
 
+    private function loadRelations(Product $productModel)
+    {
+        $productModel->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media');
+    }
+
     public function update(ProductUpdateRequest $request, $product): ProductResource
     {
         $product = $this->productService->update($product, $request->validated());
+
+        return ProductResource::make($product);
+    }
+
+    public function image(ProductImageRequest $request, $product): ProductResource
+    {
+        $product = $this->productService->image($product, $request->validated());
 
         return ProductResource::make($product);
     }
