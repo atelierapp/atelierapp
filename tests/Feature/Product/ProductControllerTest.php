@@ -170,53 +170,6 @@ class ProductControllerTest extends TestCase
 
     /**
      * @test
-     * @title Update product
-     */
-    public function update_behaves_as_expected(): void
-    {
-        $product = Product::factory()->create();
-        $data = [
-            'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
-            'manufactured_at' => $this->faker->date('m/d/Y'),
-            'description' => $this->faker->paragraph(),
-            'price' => $this->faker->numberBetween(100, 10000),
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'sku' => $this->faker->word,
-            'active' => true,
-            'properties' => ['demo' => $this->faker->word],
-            'url' => $this->faker->url,
-        ];
-
-        $response = $this->putJson(route('product.update', $product), $data);
-
-        $response->assertOk();
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type_code',
-                    'manufacturer_type',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
-                ],
-            ]
-        );
-
-        $this->assertDatabaseHas('products', collect($data)->except(['properties', 'manufactured_at'])->toArray());
-    }
-
-    /**
-     * @test
      * @title Delete product
      */
     public function destroy_deletes_and_responds_with(): void
