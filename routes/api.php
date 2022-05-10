@@ -62,6 +62,7 @@ Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 Route::apiResource('categories', CategoryController::class)->names('category');
 
 Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
+Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 
 Route::apiResource('products', ProductController::class)->names('product');
 Route::post('products/{product}/images', [ProductController::class, 'image'])->name('product.image');

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Builders\CollectionBuilder;
+use App\Traits\Models\HasMediasRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -14,6 +15,7 @@ use JetBrains\PhpStorm\Pure;
 class Collection extends Model
 {
     use HasFactory;
+    use HasMediasRelation;
 
     protected $fillable = [
         'name',

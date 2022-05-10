@@ -2,63 +2,76 @@
 
 namespace Tests\Feature\Collection;
 
+use App\Models\Collection;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
-class CollectionControllerCreateTest extends TestCase
+class CollectionControllerImageTest extends TestCase
 {
-    public function test_a_guess_cannot_create_any_collection()
+    use AdditionalAssertions;
+
+    public function test_a_guess_cannot_upload_any_image_to_any_collection()
     {
-        $response = $this->postJson(route('collection.store'), []);
+        $response = $this->postJson(route('collection.image', 1), []);
 
         $response->assertUnauthorized();
     }
 
-    public function test_a_authenticated_normal_user_cannot_create_any_collection()
+    public function test_a_authenticated_normal_user_cannot_upload_any_image_to_any_collection()
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('collection.store'), []);
+        $response = $this->postJson(route('collection.image', 1), []);
 
         $response->assertStatus(403);
     }
 
-    public function test_an_authenticated_seller_can_create_a_collection()
+    public function test_image_uses_form_request_validation(): void
     {
-        $this->createAuthenticatedSeller();
-
-        $data = [
-            'name' => $this->faker->name,
-        ];
-        $response = $this->postJson(route('collection.store'), $data);
-
-        $response->assertCreated();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'is_active',
-            ],
-        ]);
-        $this->assertDatabaseHas('collections', $data);
+        $this->assertActionUsesFormRequest(
+            \App\Http\Controllers\CollectionController::class,
+            'image',
+            \App\Http\Requests\CollectionImageRequest::class
+        );
     }
 
-    public function test_an_authenticated_admin_can_create_a_collection()
+    public function test_an_authenticated_seller_can_upload_a_image_to_his_collection()
     {
-        $this->createAuthenticatedAdmin();
+        Storage::fake('s3');
+        $user = $this->createAuthenticatedSeller();
+        $collection = Collection::factory(['user_id' => $user->id])->create();
 
         $data = [
-            'name' => $this->faker->name,
+            'image' => UploadedFile::fake()->image('image.png'),
         ];
-        $response = $this->postJson(route('collection.store'), $data);
+        $response = $this->postJson(route('collection.image', $collection->id), $data);
 
-        $response->assertCreated();
+        $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
                 'id',
                 'name',
+                'image',
                 'is_active',
             ],
         ]);
-        $this->assertDatabaseHas('collections', $data);
+        $this->assertNotNull($response->json('data.image'));
+        $this->assertDatabaseCount('media', 1);
+    }
+
+    public function test_an_authenticated_seller_cannot_upload_a_image_to_collection_is_not_him()
+    {
+        Storage::fake('s3');
+        $user = $this->createAuthenticatedSeller();
+        $collection = Collection::factory()->create();
+
+        $data = [
+            'image' => UploadedFile::fake()->image('image.png'),
+        ];
+        $response = $this->postJson(route('collection.image', $collection->id), $data);
+
+        $response->assertNotFound();
     }
 }

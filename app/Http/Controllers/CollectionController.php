@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CollectionImageRequest;
 use App\Http\Requests\CollectionStoreRequest;
 use App\Http\Requests\CollectionUpdateRequest;
 use App\Http\Resources\CollectionResource;
 use App\Models\Collection;
+use App\Services\CollectionService;
 use Bouncer;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class CollectionController extends Controller
 {
-    public function __construct()
+    public function __construct(private CollectionService $collectionService)
     {
         $this->middleware('auth:sanctum');
     }
@@ -37,6 +39,13 @@ class CollectionController extends Controller
     {
         $collection = Collection::findOrFail($collection);
         $collection->update($request->validated());
+
+        return CollectionResource::make($collection);
+    }
+
+    public function image(CollectionImageRequest $request, $collection): CollectionResource
+    {
+        $collection = $this->collectionService->processImage($collection, $request->file('image'));
 
         return CollectionResource::make($collection);
     }

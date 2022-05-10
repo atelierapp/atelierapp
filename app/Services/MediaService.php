@@ -14,7 +14,7 @@ class MediaService
 
     public function delete($imagePath): void
     {
-        if (Storage::disk('s3')->exists($imagePath)) {
+        if (!is_null($imagePath) && Storage::disk('s3')->exists($imagePath)) {
             Storage::disk('s3')->delete($imagePath);
             Media::query()->where('path', '=', $imagePath)->delete();
         }
@@ -64,5 +64,12 @@ class MediaService
         $values['extra'] = $properties;
 
         return $values;
+    }
+
+    public function saveImage(?UploadedFile $file, array $properties = []): ?Media
+    {
+        $properties['type_id'] = 1; // App\Models\MediaType::IMAGE
+
+        return $this->save($file, $properties);
     }
 }
