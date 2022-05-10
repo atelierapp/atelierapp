@@ -101,7 +101,7 @@
           Follow us
         </p>
         <div class="flex space-x-6">
-          <a href="https://www.facebook.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100">
+          <a href="https://www.facebook.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100 transition ease-in-out delay-50 duration-300">
             <span class="sr-only">Facebook</span>
             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fill-rule="evenodd"
@@ -110,7 +110,7 @@
             </svg>
           </a>
 
-          <a href="https://www.instagram.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100">
+          <a href="https://www.instagram.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100 transition ease-in-out delay-50 duration-300">
             <span class="sr-only">Instagram</span>
             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fill-rule="evenodd"
@@ -119,7 +119,7 @@
             </svg>
           </a>
 
-          <a href="https://twitter.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100">
+          <a href="https://twitter.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100 transition ease-in-out delay-50 duration-300">
             <span class="sr-only">Twitter</span>
             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
