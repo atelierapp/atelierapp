@@ -97,6 +97,7 @@ class ProductService
                 $product = $this->getBy($product);
             }
 
+            $product->tags()->sync([]);
             $productTag = [];
             foreach ($tags as $tag) {
                 $productTag[] = $this->tagService->getTag($tag['name']);
@@ -128,6 +129,8 @@ class ProductService
             if (is_int($product)) {
                 $product = $this->getBy($product);
             }
+
+            $product->collections()->sync([]);
 
             $productCollection = [];
             foreach ($collections as $collection) {
