@@ -4,14 +4,27 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Models\Variation;
+use Illuminate\Support\Collection;
 
 class VariationService
 {
     private string $path = 'variations';
 
-    public function __construct(private MediaService $mediaService)
-    {
+    public function __construct(
+        private MediaService $mediaService
+    ) {
         //
+    }
+
+    public function indexFromProduct(Product|int $product): Collection
+    {
+        if (is_int($product)) {
+            $product = app(ProductService::class)->getBy($product);
+        }
+
+        $product->load('variations');
+
+        return $product->variations;
     }
 
     /**

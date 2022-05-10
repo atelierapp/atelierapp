@@ -20,6 +20,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UnitSystemController;
 use App\Http\Controllers\UsernameValidationController;
+use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,7 +66,12 @@ Route::apiResource('collections', CollectionController::class)->names('collectio
 Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 
 Route::apiResource('products', ProductController::class)->names('product');
-Route::post('products/{product}/images', [ProductController::class, 'image'])->name('product.image');
+Route::prefix('products/{product}')->group(function () {
+    Route::post('images', [ProductController::class, 'image'])->name('product.image');
+    Route::prefix('variations')->group(function () {
+        Route::get('/', [VariationController::class, 'index'])->name('variation.index');
+    });
+});
 
 Route::apiResource('materials', MaterialController::class)->names('material');
 
