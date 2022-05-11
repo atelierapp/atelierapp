@@ -20,7 +20,7 @@ class ProductService
 
     public function getBy(int $product, string $field = 'id'): Product
     {
-        return Product::where($field, '=', $product)->firstOrFail();
+        return Product::authUser()->where($field, '=', $product)->firstOrFail();
     }
 
     public function store(array $params): Product
