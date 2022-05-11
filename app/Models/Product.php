@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\ProductBuilder;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Traits\Models\HasMediasRelation;
@@ -51,6 +52,11 @@ class Product extends Model
         'manufacturer_type' => ManufacturerTypeEnum::class,
         'manufacturer_process' => ManufacturerProcessEnum::class,
     ];
+
+    public function newEloquentBuilder($query): ProductBuilder
+    {
+        return new ProductBuilder($query);
+    }
 
     public function collections(): \Illuminate\Database\Eloquent\Relations\morphToMany
     {
