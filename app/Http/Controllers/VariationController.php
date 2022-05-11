@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VariationStoreRequest;
 use App\Http\Resources\VariationResource;
 use App\Services\VariationService;
-use Illuminate\Http\Request;
 
 class VariationController extends Controller
 {
@@ -18,5 +18,13 @@ class VariationController extends Controller
         $variations = $this->variationService->indexFromProduct($product);
 
         return VariationResource::collection($variations);
+    }
+
+    public function store(VariationStoreRequest $request, $product)
+    {
+        $variation = $this->variationService->store($product, $request->validated());
+
+        return VariationResource::make($variation);
+
     }
 }

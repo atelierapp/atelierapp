@@ -70,6 +70,7 @@ Route::prefix('products/{product}')->group(function () {
     Route::post('images', [ProductController::class, 'image'])->name('product.image');
     Route::prefix('variations')->group(function () {
         Route::get('/', [VariationController::class, 'index'])->name('variation.index');
+        Route::post('/', [VariationController::class, 'store'])->name('variation.store');
     });
 });
 

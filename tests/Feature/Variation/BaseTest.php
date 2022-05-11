@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 abstract class BaseTest extends TestCase
 {
-    protected function createProduct(): Product
+    protected function createProductForSellerUser(): Product
     {
         return Product::factory()->create([
             'store_id' => Store::factory()->create([
