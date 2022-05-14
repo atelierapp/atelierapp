@@ -137,4 +137,24 @@ class VariationService
 
         return $variation;
     }
+
+    /**
+     * @param \App\Models\Product|int $product
+     * @param $variation
+     * @param array $params  [ [images.file, images.orientation] ]
+     * @return \App\Models\Variation
+     */
+    public function image(Product|int $product, $variation, array $params): Variation
+    {
+        if (is_int($product)) {
+            $product = app(ProductService::class)->getBy($product);
+        }
+
+        $variation = $this->getBy($product->id, $variation);
+
+        $this->processImages($variation, $params['images']);
+        $variation->load('medias');
+
+        return $variation;
+    }
 }

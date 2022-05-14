@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VariationImageRequest;
 use App\Http\Requests\VariationStoreRequest;
 use App\Http\Requests\VariationUpdateRequest;
 use App\Http\Resources\VariationResource;
@@ -31,6 +32,13 @@ class VariationController extends Controller
     public function update(VariationUpdateRequest $request, $product, $variation)
     {
         $variation = $this->variationService->update($product, $variation, $request->validated());
+
+        return VariationResource::make($variation);
+    }
+
+    public function image(VariationImageRequest $request, $product, $variation)
+    {
+        $variation = $this->variationService->image($product, $variation, $request->validated());
 
         return VariationResource::make($variation);
     }
