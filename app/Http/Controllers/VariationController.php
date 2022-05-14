@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VariationStoreRequest;
+use App\Http\Requests\VariationUpdateRequest;
 use App\Http\Resources\VariationResource;
 use App\Services\VariationService;
 
@@ -25,6 +26,12 @@ class VariationController extends Controller
         $variation = $this->variationService->store($product, $request->validated());
 
         return VariationResource::make($variation);
+    }
 
+    public function update(VariationUpdateRequest $request, $product, $variation)
+    {
+        $variation = $this->variationService->update($product, $variation, $request->validated());
+
+        return VariationResource::make($variation);
     }
 }

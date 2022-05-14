@@ -50,6 +50,13 @@ class VariationService
         return $variation;
     }
 
+    public function getBy(int $productId, int $variation, string $field = 'id'): Variation
+    {
+        return Variation::where('product_id', '=', $productId)
+            ->where($field, '=', $variation)
+            ->firstOrFail();
+    }
+
     /**
      * @param \App\Models\Product $product
      * @param array $variations [[name => string, images => [[orientation => string, file => file]]]]
@@ -111,5 +118,23 @@ class VariationService
             'featured' => $image['orientation'] == 'front',
             'type_id' => 1 // App\Models\MediaType::IMAGE
         ]);
+    }
+
+    public function update(Product|int $product, Variation|int $variation, array $params): Variation
+    {
+        if (is_int($product)) {
+            $product = app(ProductService::class)->getBy($product);
+        }
+
+        $variation = $this->getBy($product->id, $variation);
+        $variation->fill($params);
+        $variation->save();
+
+        if (isset($params['images'])) {
+            $this->processImages($variation, $params['images']);
+            $variation->load('medias');
+        }
+
+        return $variation;
     }
 }

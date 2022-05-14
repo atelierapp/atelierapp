@@ -71,6 +71,7 @@ Route::prefix('products/{product}')->group(function () {
     Route::prefix('variations')->group(function () {
         Route::get('/', [VariationController::class, 'index'])->name('variation.index');
         Route::post('/', [VariationController::class, 'store'])->name('variation.store');
+        Route::patch('{variation}', [VariationController::class, 'update'])->name('variation.update');
     });
 });
 
