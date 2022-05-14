@@ -6,11 +6,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
+
     public function run()
     {
         $this->call(BouncerSeeder::class);
@@ -23,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StoreSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(ProductSeeder::class);
+        $this->call(QualitySeeder::class);
 
         // if (app()->environment(['local', 'staging'])) {
         //     $this->call(TagSeeder::class);
@@ -34,4 +31,5 @@ class DatabaseSeeder extends Seeder
         //     $this->call(RoomSeeder::class);
         // }
     }
+
 }
