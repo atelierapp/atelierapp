@@ -22,7 +22,7 @@ class VariationService
             $product = app(ProductService::class)->getBy($product);
         }
 
-        $product->load('variations');
+        $product->load('variations.medias');
 
         return $product->variations;
     }
