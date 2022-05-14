@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 
 class VariationControllerStoreTest extends BaseTest
 {
-    public function test_a_guess_cannot_list_any_variation_of_any_product()
+    public function test_a_guess_cannot_create_any_variation_of_any_product()
     {
         $response = $this->postJson(route('variation.store', 1), []);
 
