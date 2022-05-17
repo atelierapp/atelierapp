@@ -107,4 +107,5 @@ Route::post('banners/{banner}/image', [BannerController::class, 'image'])->name(
 
 Route::prefix('resources')->group(function () {
     Route::get('manufacture-type', ManufactureTypeController::class)->name('resources.manufacture-type');
-}); 
+    Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
+});
