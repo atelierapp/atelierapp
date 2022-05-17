@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ManufactureProcessController;
 use App\Http\Controllers\ManufactureTypeController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\MaterialController;
@@ -24,11 +25,6 @@ use App\Http\Controllers\UsernameValidationController;
 use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Auth
-|--------------------------------------------------------------------------
-*/
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-social', [AuthController::class, 'socialLogin']);
 Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
@@ -36,28 +32,17 @@ Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name
 Route::post('/validate-username', UsernameValidationController::class)->name('validateUsername');
 
 Route::middleware('auth:sanctum')->group(function () {
-        /*
-        |----------------------------------------------------------------------
-        | Account
-        |----------------------------------------------------------------------
-        */
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::get('/profile', ProfileController::class);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/profile', ProfileController::class);
 
-        /*
-        |----------------------------------------------------------------------
-        | Projects
-        |----------------------------------------------------------------------
-        */
-        Route::apiResource('projects', ProjectController::class);
-        Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
-        Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
+    Route::apiResource('projects', ProjectController::class);
+    Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
+    Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
 
-        Route::get('projects-temp', [ProjectTempController::class, 'index']);
-        Route::post('projects-temp', [ProjectTempController::class, 'store']);
-        Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
-    }
-);
+    Route::get('projects-temp', [ProjectTempController::class, 'index']);
+    Route::post('projects-temp', [ProjectTempController::class, 'store']);
+    Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
+});
 
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 
@@ -82,9 +67,7 @@ Route::apiResource('materials', MaterialController::class)->names('material');
 
 Route::apiResource('tags', TagController::class)->names('tag');
 
-Route::apiResource('qualities', QualityController::class)
-    ->names('quality')
-    ->except(['show']);
+Route::apiResource('qualities', QualityController::class)->names('quality')->except(['show']);
 
 Route::apiResource('unit', UnitController::class)->names('unit');
 
