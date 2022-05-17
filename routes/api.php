@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ManufactureTypeController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
@@ -103,3 +104,7 @@ Route::apiResource('rooms', RoomController::class)->names('room');
 
 Route::apiResource('banners', BannerController::class)->names('banner');
 Route::post('banners/{banner}/image', [BannerController::class, 'image'])->name('banner.image');
+
+Route::prefix('resources')->group(function () {
+    Route::get('manufacture-type', ManufactureTypeController::class)->name('resources.manufacture-type');
+}); 
