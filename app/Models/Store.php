@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Builders\StoreBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @mixin IdeHelperStore
@@ -36,6 +37,12 @@ class Store extends Model
         'id' => 'integer',
         'active' => 'boolean',
     ];
+
+    #[Pure]
+    public function newEloquentBuilder($query): StoreBuilder
+    {
+        return new StoreBuilder($query);
+    }
 
     public function products(): HasMany
     {

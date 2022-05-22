@@ -15,7 +15,7 @@ class StoreController extends Controller
 {
     public function __construct(protected StoreService $storeService)
     {
-        $this->middleware('auth:sanctum')->only(['store', 'update', 'image']);
+        $this->middleware('auth:sanctum')->only(['store', 'show', 'update', 'image']);
     }
 
     public function index(): AnonymousResourceCollection
@@ -32,8 +32,10 @@ class StoreController extends Controller
         return StoreResource::make($store);
     }
 
-    public function show(Store $store): StoreResource
+    public function show($store): StoreResource
     {
+        $store = $this->storeService->getById((int) $store);
+
         return StoreResource::make($store);
     }
 

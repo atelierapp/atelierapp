@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Models\Media;
 use App\Models\Quality;
+use App\Models\Role;
 use App\Models\Store;
+use Bouncer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreService
@@ -29,6 +31,10 @@ class StoreService
 
     public function getById(int $id): Store
     {
+        if (Bouncer::is(auth()->user())->a(Role::SELLER)) {
+            return Store::authUser()->where('id', '=', auth()->id())->firstOrFail();
+        }
+
         return Store::where('id', '=', $id)->firstOrFail();
     }
 
