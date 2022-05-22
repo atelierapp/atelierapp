@@ -62,8 +62,8 @@ class StoreControllerUpdateTest extends TestCase
 
     public function test_a_authenticated_seller_user_can_update_a_store_without_logo_image()
     {
-        $store = Store::factory()->create();
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
 
         $data = [
             'name' => $this->faker->name,
@@ -83,8 +83,8 @@ class StoreControllerUpdateTest extends TestCase
     public function test_a_authenticated_seller_user_can_update_a_store_with_logo_image()
     {
         Storage::fake('s3');
-        $store = Store::factory()->create();
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
 
         $data = [
             'name' => $this->faker->name,
@@ -109,8 +109,8 @@ class StoreControllerUpdateTest extends TestCase
     public function test_a_authenticated_seller_user_can_update_a_store_with_cover_image()
     {
         Storage::fake('s3');
-        $store = Store::factory()->create();
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
 
         $data = [
             'name' => $this->faker->name,
@@ -135,8 +135,8 @@ class StoreControllerUpdateTest extends TestCase
     public function test_a_authenticated_seller_user_can_update_a_store_with_team_image()
     {
         Storage::fake('s3');
-        $store = Store::factory()->create();
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
 
         $data = [
             'name' => $this->faker->name,
@@ -161,9 +161,9 @@ class StoreControllerUpdateTest extends TestCase
     public function test_a_authenticated_seller_user_can_update_store_with_logo_and_qualities()
     {
         Storage::fake('s3');
-        $store = Store::factory()->create();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
         $this->seed(QualitySeeder::class);
-        $this->createAuthenticatedSeller();
 
         $data = [
             'name' => $this->faker->name,

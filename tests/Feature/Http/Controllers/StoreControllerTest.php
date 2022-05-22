@@ -120,23 +120,6 @@ class StoreControllerTest extends TestCase
 
     /**
      * @test
-     * Show store
-     */
-    public function show_behaves_as_expected(): void
-    {
-        $store = Store::factory()->create();
-
-        $response = $this->getJson(route('store.show', $store));
-
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'data' => $this->structure()
-        ]);
-    }
-
-
-    /**
-     * @test
      */
     public function update_uses_form_request_validation(): void
     {

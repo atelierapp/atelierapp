@@ -4,6 +4,7 @@ namespace Tests\Feature\Variation;
 
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class VariationControllerStoreTest extends BaseTest
 {
@@ -115,6 +116,7 @@ class VariationControllerStoreTest extends BaseTest
 
     public function test_authenticated_seller_can_store_a_variation_with_valid_data_and_product_id()
     {
+        Storage::fake('s3');
         $product = $this->createProductForSellerUser();
 
         $data = [

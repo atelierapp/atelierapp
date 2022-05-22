@@ -46,8 +46,8 @@ class StoreControllerImageTest extends TestCase
     public function test_a_authenticated_seller_user_can_upload_a_logo_image_to_his_store()
     {
         Storage::fake('s3');
-        $store = Store::factory()->create();
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
 
         $data = [
             'logo' => UploadedFile::fake()->image('logo.png'),
@@ -80,8 +80,8 @@ class StoreControllerImageTest extends TestCase
     public function test_a_authenticated_seller_user_can_upload_a_team_image_to_his_store()
     {
         Storage::fake('s3');
-        $store = Store::factory()->create();
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
 
         $data = [
             'team' => UploadedFile::fake()->image('team.png'),
@@ -99,8 +99,8 @@ class StoreControllerImageTest extends TestCase
     public function test_a_authenticated_seller_user_can_upload_all_images_to_his_store()
     {
         Storage::fake('s3');
-        $store = Store::factory()->create();
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $user->id])->create();
 
         $data = [
             'logo' => UploadedFile::fake()->image('logo.png'),
