@@ -2,9 +2,10 @@
 
 namespace App\Builders;
 
+use App\Contracts\Builders\AuthUserContractBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
-class CollectionBuilder extends Builder
+class CollectionBuilder extends Builder implements AuthUserContractBuilder
 {
     public function authUser(): static
     {

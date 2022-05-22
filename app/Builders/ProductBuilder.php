@@ -2,11 +2,12 @@
 
 namespace App\Builders;
 
+use App\Contracts\Builders\AuthUserContractBuilder;
 use App\Models\Role;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
 
-class ProductBuilder extends Builder
+class ProductBuilder extends Builder implements AuthUserContractBuilder
 {
     public function authUser(): static
     {
