@@ -3,14 +3,10 @@
 namespace App\Builders;
 
 use App\Contracts\Builders\AuthUserContractBuilder;
+use App\Traits\Builders\AuthBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class StoreBuilder extends Builder implements AuthUserContractBuilder
 {
-    public function authUser(): static
-    {
-        $this->where('user_id', '=', auth()->user()->id);
-
-        return $this;
-    }
+    use AuthBuilderTrait;
 }
