@@ -32,7 +32,7 @@ class StoreService
     public function getById(int $id): Store
     {
         if (Bouncer::is(auth()->user())->a(Role::SELLER)) {
-            return Store::authUser()->where('id', '=', auth()->id())->firstOrFail();
+            return Store::authUser()->where('id', '=', $id)->firstOrFail();
         }
 
         return Store::where('id', '=', $id)->firstOrFail();
