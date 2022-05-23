@@ -16,27 +16,12 @@ class ProductController extends Controller
     public function __construct(private ProductService $productService)
     {
         $this->middleware('auth:sanctum')
-            ->only(['store', 'update', 'image']);
+            ->only(['index', 'store', 'update', 'image']);
     }
 
     public function index(): AnonymousResourceCollection
     {
-        // Refactor this to a better way. Maybe use a standardized way to do it: categories[]=1&categories[]=2&..
-        $categories = request('categories') ? explode(',', request('categories')) : null;
-
-        $products = Product::query()
-            ->with([
-                'style',
-                'medias',
-                'tags',
-                'store',
-                'categories' => fn($query) => $query->when($categories,
-                    fn($query) => $query->whereIn('id', $categories)),
-            ])
-            ->when($categories,
-                fn($query) => $query->whereHas('categories', fn($query) => $query->whereIn('id', $categories)))
-            ->search(request('search'))
-            ->paginate();
+        $products = $this->productService->list();
 
         return ProductResource::collection($products);
     }

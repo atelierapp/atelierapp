@@ -18,6 +18,18 @@ class ProductService
         //
     }
 
+    public function list()
+    {
+        $products = Product::query()
+            ->authUser()
+            ->with(['style', 'medias', 'tags', 'store',])
+            ->applyFiltersFrom(request()->all())
+            ->paginate()
+        ;
+        // dd(__METHOD__ . ': ' . __LINE__, $products->toSql());
+        return $products;
+    }
+
     public function getBy(int $product, string $field = 'id'): Product
     {
         return Product::authUser()->where($field, '=', $product)->firstOrFail();

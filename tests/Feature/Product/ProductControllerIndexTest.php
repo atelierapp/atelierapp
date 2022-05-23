@@ -8,12 +8,31 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Product;
 use App\Models\Store;
+use Illuminate\Support\Facades\DB;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
 
 class ProductControllerIndexTest extends TestCase
 {
     use AdditionalAssertions;
+
+    private function strucure(): array
+    {
+        return [
+            'id',
+            'title',
+            'manufacturer_type',
+            'manufactured_at',
+            'description',
+            'price',
+            'quantity',
+            'sku',
+            'active',
+            'properties',
+            'featured_media',
+            'url',
+        ];
+    }
 
     private function createStore($user): Store
     {
@@ -22,291 +41,393 @@ class ProductControllerIndexTest extends TestCase
         ]);
     }
 
-    private function createProduct($store): Product
+    public function test_a_guess_cannot_list_products()
     {
-        return Product::factory()->create([
-            'store_id' => $store->id,
-        ]);
-    }
-
-    public function test_a_guess_cannot_update_any_product()
-    {
-        $response = $this->patchJson(route('product.update', 1), []);
+        $response = $this->getJson(route('product.index'));
 
         $response->assertUnauthorized();
     }
 
-    public function test_update_uses_form_request_validation(): void
+    public function test_authenticated_app_user_can_list_all_products()
     {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ProductController::class,
-            'update',
-            \App\Http\Requests\ProductUpdateRequest::class
-        );
-    }
+        $this->createAuthenticatedUser();
+        Product::factory()->count(8)->create();
 
-    public function test_authenticated_seller_cannot_update_a_product_without_any_required_param()
-    {
-        $this->createAuthenticatedSeller();
-        $product = Product::factory()->create();
-
-        $response = $this->patchJson(route('product.update', $product->id), []);
-
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors([
-            'title',
-            'manufacturer_type',
-            'manufacturer_process',
-            'category_id',
-            'description',
-            'tags',
-            'materials',
-            'price',
-        ]);
-    }
-
-    public function test_authenticated_seller_cannot_update_a_product_with_invalid_params()
-    {
-        $this->createAuthenticatedSeller();
-        $product = Product::factory()->create();
-
-        $data = [
-            'title' => $this->faker->name,
-            'description' => $this->faker->paragraph(),
-            'depth' => $this->faker->numberBetween(100, 200),
-            'height' => $this->faker->numberBetween(100, 200),
-            'width' => $this->faker->numberBetween(100, 200),
-            'price' => $this->faker->numberBetween(100, 10000),
-            'quantity' => $this->faker->numberBetween(1, 10),
-
-            'store_id' => 'invalid_param',
-            'category_id' => 'invalid_param',
-            'manufacturer_type' => 'invalid_param',
-            'manufacturer_process' => 'invalid_param',
-        ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
-
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors([
-            'store_id',
-            'category_id',
-            'manufacturer_type',
-            'manufacturer_process',
-        ]);
-    }
-
-    public function test_authenticated_seller_can_update_a_product_with_only_required_info()
-    {
-        $this->createAuthenticatedSeller();
-        $store = $this->createStore($this->createAuthenticatedSeller());
-        $product = $this->createProduct($store);
-
-        $data = [
-            'store_id' => $store->id,
-            'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
-            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
-            'category_id' => Category::factory()->create()->id,
-            'description' => $this->faker->paragraph(),
-            'depth' => $this->faker->numberBetween(100, 200),
-            'height' => $this->faker->numberBetween(100, 200),
-            'width' => $this->faker->numberBetween(100, 200),
-            'price' => $this->faker->numberBetween(100, 10000),
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'tags' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-            ],
-            'materials' => [
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-            ],
-        ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $response = $this->getJson(route('product.index'));
 
         $response->assertOk();
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_type_code',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'tags' => [
-                        0 => [
-                            'id',
-                            'name',
-                            'active'
-                        ],
-                    ],
-                    'materials' => [
-                        0 => [
-                            'id',
-                            'name',
-                            'active'
-                        ],
-                    ],
-                    'categories' => [
-                        0 => [
-                            'id',
-                            'name',
-                            'image'
-                        ],
-                    ],
-                ],
+        $response->assertJsonCount(8, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
             ]
-        );
-        $this->assertDatabaseHas('products', [
-            'id' => $product->id,
-            'title' => $data['title'],
-            'manufacturer_type' => $data['manufacturer_type'],
-            'manufacturer_process' => $data['manufacturer_process'],
         ]);
-        $this->assertDatabaseHas('category_product', [
-            'product_id' => $product->id,
-            'category_id' => $data['category_id'],
-        ]);
-        $this->assertDatabaseCount('tags', 3);
-        $this->assertDatabaseCount('taggables', 3);
-        $this->assertDatabaseCount('materials', 5);
-        $this->assertDatabaseCount('material_product', 5);
     }
 
-    public function test_authenticated_seller_can_update_a_product_with_required_info_and_collections()
+    public function test_authenticated_app_user_can_list_products_filtered_by_search_param()
     {
-        $this->createAuthenticatedSeller();
-        $store = $this->createStore($this->createAuthenticatedSeller());
-        $product = $this->createProduct($store);
-        Collection::factory()->count(3)->create();
+        $this->createAuthenticatedUser();
+        Product::factory()->count(6)->create();
+        Product::factory(['title' => 'jaime'])->create();
+        Product::factory(['title' => 'jaime'])->create();
 
-        $data = [
-            'store_id' => $store->id,
-            'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
-            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
-            'category_id' => Category::factory()->create()->id,
-            'description' => $this->faker->paragraph(),
-            'depth' => $this->faker->numberBetween(100, 200),
-            'height' => $this->faker->numberBetween(100, 200),
-            'width' => $this->faker->numberBetween(100, 200),
-            'price' => $this->faker->numberBetween(100, 10000),
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'tags' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-            ],
-            'materials' => [
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-            ],
-
-            'collections' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-            ],
-        ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $response = $this->getJson(route('product.index', [
+            'search' => 'jaime'
+        ]));
 
         $response->assertOk();
-        $response->assertJsonStructure(
-            [
-                'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_type_code',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'tags' => [
-                        0 => [
-                            'id',
-                            'name',
-                            'active'
-                        ],
-                    ],
-                    'materials' => [
-                        0 => [
-                            'id',
-                            'name',
-                            'active'
-                        ],
-                    ],
-                    'categories' => [
-                        0 => [
-                            'id',
-                            'name',
-                            'image'
-                        ],
-                    ],
-                ],
+        $response->assertJsonCount(2, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
             ]
-        );
-        $this->assertDatabaseCount('products', 1);
-        $this->assertDatabaseCount('category_product', 1);
-        $this->assertEquals(3, Collection::authUser()->count());
-        $this->assertDatabaseCount('collectionables', 3);
+        ]);
     }
 
-    public function test_authenticated_seller_cannot_update_a_product_that_has_a_store_and_that_not_him()
+    public function test_authenticated_app_user_can_list_products_filtered_by_categories_param()
     {
-        $store = $this->createStore($this->createAuthenticatedSeller());
-        $product = $this->createProduct($store);
+        $this->createAuthenticatedUser();
 
-        $data = [
-            'store_id' => Store::factory()->create()->id,
-            'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
-            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
-            'category_id' => Category::factory()->create()->id,
-            'description' => $this->faker->paragraph(),
-            'depth' => $this->faker->numberBetween(100, 200),
-            'height' => $this->faker->numberBetween(100, 200),
-            'width' => $this->faker->numberBetween(100, 200),
-            'price' => $this->faker->numberBetween(100, 10000),
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'tags' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-            ],
-            'materials' => [
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-            ],
-        ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $category1 = Category::factory()->create();
+        $products = Product::factory()->times(4)->create(); // 2
+        $category1->products()->attach($products);
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors([
-            'store_id',
+        $category2 = Category::factory()->create();
+        $products = Product::factory()->times(3)->create(); // 3
+        $category2->products()->attach($products);
+
+        $response = $this->getJson(route('product.index', [
+            'categories' => [
+                $category1->id,
+            ]
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(4, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+    }
+
+    public function test_authenticated_admin_user_can_list_all_products()
+    {
+        $this->createAuthenticatedAdmin();
+        Product::factory()->count(8)->create();
+
+        $response = $this->getJson(route('product.index'));
+
+        $response->assertOk();
+        $response->assertJsonCount(8, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+    }
+
+    public function test_authenticated_admin_user_can_list_products_filtered_by_search_param()
+    {
+        $this->createAuthenticatedUser();
+        Product::factory()->count(6)->create();
+        Product::factory(['title' => 'jaime'])->create();
+        Product::factory(['title' => 'jaime'])->create();
+
+        $response = $this->getJson(route('product.index', [
+            'search' => 'jaime'
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(2, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+    }
+
+    public function test_authenticated_admin_user_can_list_products_filtered_by_categories_param()
+    {
+        $this->createAuthenticatedAdmin();
+
+        $category1 = Category::factory()->create();
+        $products = Product::factory()->times(4)->create(); // 2
+        $category1->products()->attach($products);
+
+        $category2 = Category::factory()->create();
+        $products = Product::factory()->times(3)->create(); // 3
+        $category2->products()->attach($products);
+
+        $response = $this->getJson(route('product.index', [
+            'categories' => [
+                $category1->id,
+            ]
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(4, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+    }
+
+    public function test_authenticated_seller_user_can_only_list_your_products()
+    {
+        Product::factory()->count(4)->create();
+        $user = $this->createAuthenticatedSeller();
+        $store = $this->createStore($user);
+        Product::factory(['store_id' => $store->id])->count(4)->create();
+
+        $response = $this->getJson(route('product.index'));
+
+        $response->assertOk();
+        $response->assertJsonCount(4, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+    }
+
+    public function test_authenticated_seller_user_can_list_your_products_filtered_by_search_param()
+    {
+        Product::factory()->count(4)->create();
+        $user = $this->createAuthenticatedSeller();
+        $store = $this->createStore($user);
+        Product::factory(['store_id' => $store->id])->count(3)->create();
+        Product::factory(['store_id' => $store->id, 'title' => 'jaime'])->create();
+        Product::factory(['title' => 'jaime'])->create();
+
+        $response = $this->getJson(route('product.index', [
+            'search' => 'jaime'
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(1, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+        $this->assertEquals('jaime', $response->json('data.0.title'));
+    }
+
+    public function test_authenticated_seller_user_can_list_your_products_filtered_by_categories_param()
+    {
+        $user = $this->createAuthenticatedSeller();
+        $store = $this->createStore($user);
+
+        $category1 = Category::factory()->create();
+        $products = Product::factory()->times(2)->create(['store_id' => $store->id]);
+        $category1->products()->attach($products);
+        Product::factory()->times(3)->create(['store_id' => $store->id]);
+
+        $category2 = Category::factory()->create();
+        $products = Product::factory()->times(3)->create();
+        $category2->products()->attach($products);
+
+        $response = $this->getJson(route('product.index', [
+            'categories' => [
+                $category1->id,
+            ]
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(2, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+    }
+
+    public function test_authenticated_seller_user_can_list_your_products_filtered_by_collection_param()
+    {
+        $user = $this->createAuthenticatedSeller();
+        $store = $this->createStore($user);
+
+        $collection1 = Collection::factory()->create();
+        $products = Product::factory()->times(2)->create(['store_id' => $store->id]);
+        $collection1->products()->attach($products);
+        Product::factory()->times(3)->create(['store_id' => $store->id]);
+
+        $collection2 = Collection::factory()->create();
+        $products = Product::factory()->times(3)->create();
+        $collection2->products()->attach($products);
+
+        $response = $this->getJson(route('product.index', [
+            'collection' => $collection1->id,
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(2, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->strucure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
         ]);
     }
 }
