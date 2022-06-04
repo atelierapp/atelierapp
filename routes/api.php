@@ -59,7 +59,7 @@ Route::prefix('products/{product}')->group(function () {
         Route::post('/', [VariationController::class, 'store'])->name('variation.store');
         Route::patch('{variation}', [VariationController::class, 'update'])->name('variation.update');
         Route::post('{variation}/images', [VariationController::class, 'image'])->name('variation.image');
-        // Route::delete('{variation}', [VariationController::class, 'destroy'])->name('variation.destroy');
+        Route::delete('{variation}', [VariationController::class, 'destroy'])->name('variation.destroy');
     });
 });
 

@@ -7,6 +7,7 @@ use App\Http\Requests\VariationStoreRequest;
 use App\Http\Requests\VariationUpdateRequest;
 use App\Http\Resources\VariationResource;
 use App\Services\VariationService;
+use Illuminate\Http\Response;
 
 class VariationController extends Controller
 {
@@ -41,5 +42,12 @@ class VariationController extends Controller
         $variation = $this->variationService->image($product, $variation, $request->validated());
 
         return VariationResource::make($variation);
+    }
+
+    public function destroy($product, $variation)
+    {
+        $this->variationService->delete($product, $variation);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

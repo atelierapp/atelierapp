@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Exceptions\AtelierException;
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\Variation;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 class VariationService
@@ -11,7 +14,8 @@ class VariationService
     private string $path = 'variations';
 
     public function __construct(
-        private MediaService $mediaService
+        private MediaService $mediaService,
+        private RoleService $roleService
     ) {
         $this->mediaService->path($this->path);
     }
@@ -156,5 +160,15 @@ class VariationService
         $variation->load('medias');
 
         return $variation;
+    }
+
+    public function delete($product, $variation)
+    {
+        if (!$this->roleService->isAdminOrSeller()) {
+            throw new AtelierException('User not authorized', Response::HTTP_FORBIDDEN);
+        }
+
+        $variation = $this->getBy($product, $variation);
+        $variation->delete();
     }
 }
