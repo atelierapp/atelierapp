@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Authentication\CreateUserRequest;
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Http\Requests\Authentication\ForgotPasswordRequest;
+use App\Http\Requests\Authentication\ResetPasswordRequest;
 use App\Http\Requests\Authentication\SocialLoginRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\ForgotPasswordMail;
 use App\Models\ForgotPassword;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\AuthService;
 use App\Services\SocialService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
@@ -22,12 +24,11 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    /** @var SocialService */
-    private SocialService $socialService;
-
-    public function __construct(SocialService $socialService)
-    {
-        $this->socialService = $socialService;
+    public function __construct(
+        private SocialService $socialService,
+        private AuthService $authService
+    ){
+        //
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -102,5 +103,15 @@ class AuthController extends Controller
         }
 
         return $this->response([], __('passwords.sent'));
+    }
+
+    /**
+     * @throws \App\Exceptions\AtelierException
+     */
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $this->authService->resetPassword($request->validated());
+
+        return $this->response([], __('passwords.reset'));
     }
 }
