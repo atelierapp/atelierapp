@@ -20,10 +20,14 @@ class AuthService
     {
         $token = $this->getByToken($params['token']);
         if (!$token->exists || $token->email != $params['email']) {
-            throw new AtelierException('Invalid token.', 422);
+            throw new AtelierException(__('passwords.token'), 422);
         }
 
-        $user = $this->userService->getByActiveEmail($params['email']);
+        $user = $this->userService->getByActiveEmail($params['email'], false);
+        if (!$user->exists) {
+            throw new AtelierException(__('passwords.user'), 422);
+        }
+
         $user->password = $params['password'];
         $user->save();
         $token->delete();

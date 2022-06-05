@@ -75,7 +75,7 @@ class RecoverPasswordTest extends TestCase
         ]);
     }
 
-    public function test_guest_user_can_recover_a_password_with_valid_params()
+    public function test_guest_user_can_recover_a_password_with_valid_params_and_can_login_with_new_password()
     {
         $user = User::factory()->create();
         $forgotPassword = ForgotPassword::create([
@@ -88,6 +88,13 @@ class RecoverPasswordTest extends TestCase
             'email' => $forgotPassword->email,
             'password' => 'password',
             'password_confirmation' => 'password',
+        ]);
+
+        $response->assertOk();
+
+        $response = $this->postJson(route('login'), [
+            'username' => $user->username,
+            'password' => 'password'
         ]);
 
         $response->assertOk();
