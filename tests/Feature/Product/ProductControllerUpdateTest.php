@@ -9,25 +9,15 @@ use App\Models\Collection;
 use App\Models\Product;
 use App\Models\Store;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
 
-class ProductControllerUpdateTest extends TestCase
+/**
+ * @title Products
+ * @group products
+ * @see \App\Http\Controllers\ProductController
+ */
+class ProductControllerUpdateTest extends BaseTest
 {
     use AdditionalAssertions;
-
-    private function createStore($user): Store
-    {
-        return Store::factory()->create([
-            'user_id' => $user->id,
-        ]);
-    }
-
-    private function createProduct($store): Product
-    {
-        return Product::factory()->create([
-            'store_id' => $store->id,
-        ]);
-    }
 
     public function test_a_guess_cannot_update_any_product()
     {
@@ -129,41 +119,29 @@ class ProductControllerUpdateTest extends TestCase
         $response = $this->patchJson(route('product.update', $product->id), $data);
 
         $response->assertOk();
+        $response->assertJsonStructure(['data' => $this->structure()]);
         $response->assertJsonStructure(
             [
                 'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_type_code',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
                     'tags' => [
                         0 => [
                             'id',
                             'name',
-                            'active'
+                            'active',
                         ],
                     ],
                     'materials' => [
                         0 => [
                             'id',
                             'name',
-                            'active'
+                            'active',
                         ],
                     ],
                     'categories' => [
                         0 => [
                             'id',
                             'name',
-                            'image'
+                            'image',
                         ],
                     ],
                 ],
@@ -226,41 +204,29 @@ class ProductControllerUpdateTest extends TestCase
         $response = $this->patchJson(route('product.update', $product->id), $data);
 
         $response->assertOk();
+        $response->assertJsonStructure(['data' => $this->structure()]);
         $response->assertJsonStructure(
             [
                 'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_type_code',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
                     'tags' => [
                         0 => [
                             'id',
                             'name',
-                            'active'
+                            'active',
                         ],
                     ],
                     'materials' => [
                         0 => [
                             'id',
                             'name',
-                            'active'
+                            'active',
                         ],
                     ],
                     'categories' => [
                         0 => [
                             'id',
                             'name',
-                            'image'
+                            'image',
                         ],
                     ],
                 ],
