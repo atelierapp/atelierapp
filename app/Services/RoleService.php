@@ -10,4 +10,9 @@ class RoleService
     {
         return \Bouncer::is(auth()->user())->a(Role::SELLER, Role::ADMIN);
     }
+
+    public function isSeller(): bool
+    {
+        return \Bouncer::is(auth()->user())->a(Role::SELLER);
+    }
 }

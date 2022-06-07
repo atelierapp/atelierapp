@@ -74,6 +74,7 @@ Route::apiResource('unit', UnitController::class)->names('unit');
 
 Route::apiResource('unit-system', UnitSystemController::class)->names('unit-system');
 
+Route::get('stores/my-store', [StoreController::class, 'myStore'])->name('store.my-store');
 Route::apiResource('stores', StoreController::class)->names('store');
 Route::post('stores/{store}/image', [StoreController::class, 'image'])->name('store.image');
 

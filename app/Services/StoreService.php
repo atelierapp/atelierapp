@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\AtelierException;
 use App\Models\Media;
 use App\Models\Quality;
 use App\Models\Role;
@@ -13,8 +14,10 @@ class StoreService
 {
     private string $path = 'stores';
 
-    public function __construct(private MediaService $mediaService)
-    {
+    public function __construct(
+        private MediaService $mediaService,
+        private RoleService $roleService
+    ) {
         //
     }
 
@@ -38,7 +41,21 @@ class StoreService
         return Store::where('id', '=', $id)->firstOrFail();
     }
 
-    public function update(FormRequest $request, $store)
+    /**
+     * @throws \App\Exceptions\AtelierException
+     */
+    public function getMySellerStore(): Store
+    {
+        if (!$this->roleService->isSeller()) {
+            throw new AtelierException(__('authorization.without_access'), 403);
+        }
+
+        return Store::where('user_id', '=', auth()->id())
+            ->with('qualities')
+            ->firstOrFail();
+    }
+
+    public function update(FormRequest $request, $store): Store
     {
         $store = $this->getById($store);
         $store->update($request->only(['name', 'story']));
@@ -46,7 +63,6 @@ class StoreService
         $this->processImages($store, $request);
 
         return $store;
-
     }
 
     public function image(FormRequest $request, $store): Store
