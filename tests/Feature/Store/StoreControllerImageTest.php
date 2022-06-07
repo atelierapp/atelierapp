@@ -7,13 +7,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
 
 /**
  * @title Stores
+ * @group stores
  * @see \App\Http\Controllers\StoreController
  */
-class StoreControllerImageTest extends TestCase
+class StoreControllerImageTest extends BaseTest
 {
     use AdditionalAssertions;
     use WithFaker;
@@ -60,21 +60,6 @@ class StoreControllerImageTest extends TestCase
             'mediable_type' => Store::class,
             'orientation' => 'logo',
         ]);
-    }
-
-    private function structure(): array
-    {
-        return [
-            'id',
-            'name',
-            // 'legal_name',
-            // 'legal_id',
-            'story',
-            'logo',
-            'cover',
-            'team',
-            'active',
-        ];
     }
 
     public function test_a_authenticated_seller_user_can_upload_a_team_image_to_his_store()

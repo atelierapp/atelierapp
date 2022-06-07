@@ -9,31 +9,16 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
 
 /**
  * @title Stores
+ * @group stores
  * @see \App\Http\Controllers\StoreController
  */
-class StoreControllerUpdateTest extends TestCase
+class StoreControllerUpdateTest extends BaseTest
 {
     use AdditionalAssertions;
     use WithFaker;
-
-    private function structure(): array
-    {
-        return [
-            'id',
-            'name',
-            // 'legal_name',
-            // 'legal_id',
-            'story',
-            'logo',
-            'cover',
-            'team',
-            'active',
-        ];
-    }
 
     public function test_a_guess_user_cannot_update_any_store()
     {

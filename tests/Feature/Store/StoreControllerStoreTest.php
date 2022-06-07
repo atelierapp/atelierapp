@@ -8,31 +8,16 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
 
 /**
  * @title Stores
+ * @group stores
  * @see \App\Http\Controllers\StoreController
  */
-class StoreControllerStoreTest extends TestCase
+class StoreControllerStoreTest extends BaseTest
 {
     use AdditionalAssertions;
     use WithFaker;
-
-    private function structure(): array
-    {
-        return [
-            'id',
-            'name',
-            // 'legal_name',
-            // 'legal_id',
-            'story',
-            'logo',
-            'cover',
-            'team',
-            'active',
-        ];
-    }
 
     public function test_a_guess_user_cannot_create_any_store()
     {

@@ -3,27 +3,14 @@
 namespace Tests\Feature\Store;
 
 use App\Models\Store;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class StoreControllerShowTest extends TestCase
+/**
+ * @title Stores
+ * @group stores
+ * @see \App\Http\Controllers\StoreController
+ */
+class StoreControllerShowTest extends BaseTest
 {
-    private function structure(): array
-    {
-        return [
-            'id',
-            'name',
-            // 'legal_name',
-            // 'legal_id',
-            'story',
-            'logo',
-            'cover',
-            'team',
-            'active',
-        ];
-    }
-
     public function test_a_guess_user_cannot_show_any_store()
     {
         $response = $this->getJson(route('store.show', 1));

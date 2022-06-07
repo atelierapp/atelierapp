@@ -30,4 +30,13 @@ class StoreControllerMyStoreTest extends BaseTest
         $this->assertEquals($store->id, $response->json('data.id'));
     }
 
+    public function test_a_normal_user_can_view_his_store()
+    {
+        $this->createAuthenticatedUser();
+
+        $response = $this->getJson(route('store.my-store'));
+
+        $response->assertStatus(403);
+    }
+
 }
