@@ -2,44 +2,19 @@
 
 namespace Tests\Feature\Product;
 
-use App\Enums\ManufacturerProcessEnum;
-use App\Enums\ManufacturerTypeEnum;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Product;
-use App\Models\Store;
-use Illuminate\Support\Facades\DB;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
 
-class ProductControllerIndexTest extends TestCase
+/**
+ * @title Products
+ * @group products
+ * @see \App\Http\Controllers\ProductController
+ */
+class ProductControllerIndexTest extends BaseTest
 {
     use AdditionalAssertions;
-
-    private function strucure(): array
-    {
-        return [
-            'id',
-            'title',
-            'manufacturer_type',
-            'manufactured_at',
-            'description',
-            'price',
-            'quantity',
-            'sku',
-            'active',
-            'properties',
-            'featured_media',
-            'url',
-        ];
-    }
-
-    private function createStore($user): Store
-    {
-        return Store::factory()->create([
-            'user_id' => $user->id,
-        ]);
-    }
 
     public function test_a_guess_cannot_list_products()
     {
@@ -59,7 +34,7 @@ class ProductControllerIndexTest extends TestCase
         $response->assertJsonCount(8, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -75,8 +50,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -88,14 +63,14 @@ class ProductControllerIndexTest extends TestCase
         Product::factory(['title' => 'jaime'])->create();
 
         $response = $this->getJson(route('product.index', [
-            'search' => 'jaime'
+            'search' => 'jaime',
         ]));
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -111,8 +86,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -131,14 +106,14 @@ class ProductControllerIndexTest extends TestCase
         $response = $this->getJson(route('product.index', [
             'categories' => [
                 $category1->id,
-            ]
+            ],
         ]));
 
         $response->assertOk();
         $response->assertJsonCount(4, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -154,8 +129,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -170,7 +145,7 @@ class ProductControllerIndexTest extends TestCase
         $response->assertJsonCount(8, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -186,8 +161,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -199,14 +174,14 @@ class ProductControllerIndexTest extends TestCase
         Product::factory(['title' => 'jaime'])->create();
 
         $response = $this->getJson(route('product.index', [
-            'search' => 'jaime'
+            'search' => 'jaime',
         ]));
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -222,8 +197,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -242,14 +217,14 @@ class ProductControllerIndexTest extends TestCase
         $response = $this->getJson(route('product.index', [
             'categories' => [
                 $category1->id,
-            ]
+            ],
         ]));
 
         $response->assertOk();
         $response->assertJsonCount(4, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -265,8 +240,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -283,7 +258,7 @@ class ProductControllerIndexTest extends TestCase
         $response->assertJsonCount(4, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -299,8 +274,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -314,14 +289,14 @@ class ProductControllerIndexTest extends TestCase
         Product::factory(['title' => 'jaime'])->create();
 
         $response = $this->getJson(route('product.index', [
-            'search' => 'jaime'
+            'search' => 'jaime',
         ]));
 
         $response->assertOk();
         $response->assertJsonCount(1, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -337,8 +312,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
         $this->assertEquals('jaime', $response->json('data.0.title'));
     }
@@ -360,14 +335,14 @@ class ProductControllerIndexTest extends TestCase
         $response = $this->getJson(route('product.index', [
             'categories' => [
                 $category1->id,
-            ]
+            ],
         ]));
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -383,8 +358,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -410,7 +385,7 @@ class ProductControllerIndexTest extends TestCase
         $response->assertJsonCount(2, 'data');
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->strucure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -426,8 +401,8 @@ class ProductControllerIndexTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 }

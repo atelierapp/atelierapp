@@ -13,18 +13,15 @@ use App\Models\Variation;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
 
-class ProductControllerStoreTest extends TestCase
+/**
+ * @title Products
+ * @group products
+ * @see \App\Http\Controllers\ProductController
+ */
+class ProductControllerStoreTest extends BaseTest
 {
     use AdditionalAssertions;
-
-    private function createStore($user): Store
-    {
-        return Store::factory()->create([
-            'user_id' => $user->id,
-        ]);
-    }
 
     public function test_a_guess_cannot_create_any_product()
     {
@@ -224,22 +221,7 @@ class ProductControllerStoreTest extends TestCase
         $response->assertCreated();
         $response->assertJsonStructure(
             [
-                'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
-                ],
+                'data' => $this->structure(),
             ]
         );
         $this->assertDatabaseCount('products', 1);
@@ -292,24 +274,10 @@ class ProductControllerStoreTest extends TestCase
         $response = $this->postJson(route('product.store'), $data);
 
         $response->assertCreated();
+        $response->assertJsonStructure(['data' => $this->structure()]);
         $response->assertJsonStructure(
             [
                 'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
-                    'featured_media',
                     'medias' => [
                         0 => [
                             'type_id',
@@ -410,22 +378,10 @@ class ProductControllerStoreTest extends TestCase
         $response = $this->postJson(route('product.store'), $data);
 
         $response->assertCreated();
+        $response->assertJsonStructure(['data' => $this->structure()]);
         $response->assertJsonStructure(
             [
                 'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
                     'collections' => [
                         0 => [
                             'id',
@@ -494,24 +450,10 @@ class ProductControllerStoreTest extends TestCase
         $response = $this->postJson(route('product.store'), $data);
 
         $response->assertCreated();
+        $response->assertJsonStructure(['data' => $this->structure()]);
         $response->assertJsonStructure(
             [
                 'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
-                    'featured_media',
                     'medias' => [
                         0 => [
                             'type_id',
@@ -625,24 +567,10 @@ class ProductControllerStoreTest extends TestCase
         $response = $this->postJson(route('product.store'), $data);
 
         $response->assertCreated();
+        $response->assertJsonStructure(['data' => $this->structure()]);
         $response->assertJsonStructure(
             [
                 'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
-                    'featured_media',
                     'medias' => [
                         0 => [
                             'type_id',

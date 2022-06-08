@@ -3,30 +3,18 @@
 namespace Tests\Feature\Product;
 
 use App\Models\Media;
-use App\Models\Product;
-use App\Models\Store;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
 
-class ProductControllerImageTest extends TestCase
+/**
+ * @title Products
+ * @group products
+ * @see \App\Http\Controllers\ProductController
+ */
+class ProductControllerImageTest extends BaseTest
 {
     use AdditionalAssertions;
-
-    private function createStore($user): Store
-    {
-        return Store::factory()->create([
-            'user_id' => $user->id,
-        ]);
-    }
-
-    private function createProduct($store): Product
-    {
-        return Product::factory()->create([
-            'store_id' => $store->id,
-        ]);
-    }
 
     public function test_a_guess_cannot_upload_any_image_to_any_product()
     {
@@ -99,22 +87,7 @@ class ProductControllerImageTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure(
             [
-                'data' => [
-                    'id',
-                    'title',
-                    'manufacturer_type',
-                    'manufacturer_process',
-                    'manufactured_at',
-                    'description',
-                    'price',
-                    'style_id',
-                    'style',
-                    'quantity',
-                    'sku',
-                    'active',
-                    'properties',
-                    'url',
-                ],
+                'data' => $this->structure(),
             ]
         );
         $this->assertDatabaseCount('media', 4);
