@@ -51,8 +51,9 @@ class ProductControllerShowTest extends BaseTest
 
     public function  test_a_seller_user_can_view_detail_of_his_product()
     {
-        $this->createAuthenticatedSeller();
-        $product = Product::factory()->create();
+        $user = $this->createAuthenticatedSeller();
+        $store = $this->createStore($user);
+        $product = $this->createProduct($store);
 
         $response = $this->getJson(route('product.show', $product->id));
 
