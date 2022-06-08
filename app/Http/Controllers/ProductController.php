@@ -15,8 +15,7 @@ class ProductController extends Controller
 {
     public function __construct(private ProductService $productService)
     {
-        $this->middleware('auth:sanctum')
-            ->only(['index', 'store', 'update', 'image']);
+        $this->middleware('auth:sanctum');
     }
 
     public function index(): AnonymousResourceCollection
@@ -33,9 +32,10 @@ class ProductController extends Controller
         return ProductResource::make($product);
     }
 
-    public function show(Product $product): ProductResource
+    public function show($product): ProductResource
     {
-        $this->loadRelations($product);
+        $product = $this->productService->getBy($product);
+        $this->productService->loadRelations($product);
 
         return ProductResource::make($product);
     }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ProductService
 {
@@ -18,16 +19,12 @@ class ProductService
         //
     }
 
-    public function list()
+    public function list(): LengthAwarePaginator
     {
-        $products = Product::query()
-            ->authUser()
+        return Product::authUser()
             ->with(['style', 'medias', 'tags', 'store',])
             ->applyFiltersFrom(request()->all())
-            ->paginate()
-        ;
-        // dd(__METHOD__ . ': ' . __LINE__, $products->toSql());
-        return $products;
+            ->paginate();
     }
 
     public function getBy(int $product, string $field = 'id'): Product
@@ -196,6 +193,11 @@ class ProductService
         $product->load('categories', 'medias', 'tags', 'materials', 'collections', 'variations.medias');
 
         return $product;
+    }
+
+    public function loadRelations(Product &$product)
+    {
+        $product->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media');
     }
 
 }
