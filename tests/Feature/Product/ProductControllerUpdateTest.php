@@ -275,4 +275,75 @@ class ProductControllerUpdateTest extends BaseTest
             'store_id',
         ]);
     }
+
+    public function test_authenticated_seller_can_update_a_product_with_required_info_more_is_on_demand_more_is_unique_param()
+    {
+        $this->createAuthenticatedSeller();
+        $store = $this->createStore($this->createAuthenticatedSeller());
+        $product = $this->createProduct($store);
+        Collection::factory()->count(3)->create();
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+            'is_on_demand' => $this->faker->boolean,
+            'is_unique' => $this->faker->boolean,
+        ];
+        $response = $this->patchJson(route('product.update', $product->id), $data);
+
+        $response->assertOk();
+        $response->assertJsonStructure(['data' => $this->structure()]);
+        $response->assertJsonStructure(
+            [
+                'data' => [
+                    'tags' => [
+                        0 => [
+                            'id',
+                            'name',
+                            'active',
+                        ],
+                    ],
+                    'materials' => [
+                        0 => [
+                            'id',
+                            'name',
+                            'active',
+                        ],
+                    ],
+                    'categories' => [
+                        0 => [
+                            'id',
+                            'name',
+                            'image',
+                        ],
+                    ],
+                ],
+            ]
+        );
+        $this->assertEquals($data['is_on_demand'], $response->json('data.is_on_demand'));
+        $this->assertEquals($data['is_unique'], $response->json('data.is_unique'));
+        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseCount('category_product', 1);
+    }
 }

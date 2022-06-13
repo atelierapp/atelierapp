@@ -39,6 +39,8 @@ class Product extends Model
         'active',
         'properties',
         'url',
+        'is_on_demand',
+        'is_unique',
     ];
 
     protected $casts = [
@@ -46,6 +48,8 @@ class Product extends Model
         'category_id' => 'integer',
         'active' => 'boolean',
         'extra' => 'array',
+        'is_on_demand' => 'boolean',
+        'is_unique' => 'boolean',
     ];
 
     protected $enums = [

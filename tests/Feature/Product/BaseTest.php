@@ -43,6 +43,8 @@ abstract class BaseTest extends TestCase
             'properties',
             'featured_media',
             'url',
+            'is_on_demand',
+            'is_unique',
         ];
     }
 }

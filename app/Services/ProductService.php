@@ -163,6 +163,7 @@ class ProductService
 
     public function update(Product|int $product, array $params): Product
     {
+        // TODO :: validate logic process when receive is_unique param and have stock more than 1
         if (is_int($product)) {
             $product = $this->getBy($product);
         }
@@ -190,14 +191,14 @@ class ProductService
         }
 
         $this->processImages($product, $request['images']);
-        $product->load('categories', 'medias', 'tags', 'materials', 'collections', 'variations.medias');
+        $this->loadRelations($product);
 
         return $product;
     }
 
     public function loadRelations(Product &$product)
     {
-        $product->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media');
+        $product->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media', 'collections');
     }
 
 }

@@ -27,6 +27,8 @@ class ProductResource extends JsonResource
             'properties' => $this->properties,
             'url' => $this->url,
             'featured_media' => $this->featured_media->url,
+            'is_on_demand' => $this->is_on_demand,
+            'is_unique' => $this->is_unique,
             'store' => new StoreResource($this->whenLoaded('store')),
             'medias' => MediaResource::collection($this->whenLoaded('medias')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),

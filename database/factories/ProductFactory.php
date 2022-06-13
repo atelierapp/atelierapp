@@ -39,6 +39,8 @@ class ProductFactory extends Factory
             'active' => $this->faker->boolean,
             'properties' => json_encode([]),
             'url' => $this->faker->url,
+            'is_on_demand' => $this->faker->boolean,
+            'is_unique' => $this->faker->boolean,
         ];
     }
 }

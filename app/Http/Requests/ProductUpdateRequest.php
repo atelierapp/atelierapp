@@ -31,6 +31,8 @@ class ProductUpdateRequest extends FormRequest
             'quantity' => ['integer'],
             'sku' => ['string', 'unique:products,sku'],
             'active' => ['boolean'],
+            'is_on_demand' => ['nullable', 'boolean'],
+            'is_unique' => ['nullable', 'boolean'],
 
             'collections.*.name' => ['nullable', 'string'],
 

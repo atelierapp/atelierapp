@@ -624,4 +624,57 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertEquals(3, Media::featured()->model(Variation::class)->count());
         $this->assertEquals(9, Media::nonFeatured()->model(Variation::class)->count());
     }
+
+    public function test_authenticated_seller_can_store_a_product_with_required_info_more_images_more_is_on_demand_more_is_unique_param()
+    {
+        Storage::fake('s3');
+        $store = $this->createStore($this->createAuthenticatedSeller());
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+            ],
+            'price' => $this->faker->numberBetween(100, 10000),
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+            ],
+            'is_on_demand' => $this->faker->boolean,
+            'is_unique' => $this->faker->boolean,
+        ];
+        $response = $this->postJson(route('product.store'), $data);
+
+        $response->assertCreated();
+        $response->assertJsonStructure(
+            [
+                'data' => $this->structure(),
+            ]
+        );
+        $this->assertEquals($data['is_on_demand'], $response->json('data.is_on_demand'));
+        $this->assertEquals($data['is_unique'], $response->json('data.is_unique'));
+        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseCount('category_product', 1);
+        $this->assertDatabaseCount('media', 8);
+        $this->assertEquals(2, Media::featured()->count());
+        $this->assertEquals(6, Media::nonFeatured()->count());
+        $this->assertDatabaseCount('tags', 1);
+        $this->assertDatabaseCount('taggables', 1);
+        $this->assertDatabaseCount('materials', 1);
+        $this->assertDatabaseCount('material_product', 1);
+    }
 }
