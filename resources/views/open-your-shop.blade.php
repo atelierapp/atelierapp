@@ -3,8 +3,9 @@
   <div class="overflow-hidden">
     <div>
       <x-open-your-shop.open-store/>
-      <x-open-your-shop.what-we-offer/>
+      <x-selling-points/>
       <x-cta-2/>
+      <x-open-your-shop.what-we-offer/>
       <livewire:shop-registration-form/>
     </div>
   </div>
