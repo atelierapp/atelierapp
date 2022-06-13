@@ -36,8 +36,8 @@
               </div>
               <p class="mt-5 text-lg leading-6 font-medium text-gray-900">We care about your project</p>
             </dt>
-            <dd class="mt-2 text-base md:text-right text-gray-800">
-              Atelier Home Design is the to-go app to create, visualize, and purchase what you need for any interior design project you have.
+            <dd class="mt-2 text-base md:text-right text-gray-800 font-light tracking-wider text-sm">
+              Atelier home design is the to-go app to create, visualize, and purchase what you need for any interior design project you have.
             </dd>
           </div>
 
@@ -53,8 +53,8 @@
               </div>
               <p class="mt-5 text-lg leading-6 font-medium text-gray-900">We care about  the planet</p>
             </dt>
-            <dd class="mt-2 text-base md:text-center md:text-right text-gray-800">
-              We curate these brands to ensure ethical practices and good quality products and we give you the most advanced —and easiest to use— project visualizer in which you can virtually create your project.            </dd>
+            <dd class="mt-2 text-base md:text-right text-gray-800 font-light tracking-wider text-sm">
+              We curate these brands to ensure ethical practices and good quality products, and we give you the most advanced —and easiest to use— project visualizer in which you can virtually create your project.
             </dd>
           </div>
         </div>
@@ -78,7 +78,7 @@
               </div>
               <p class="mt-5 text-lg leading-6 font-medium text-gray-900">We care about good quality</p>
             </dt>
-            <dd class="mt-2 text-base md:text-left text-gray-800">
+            <dd class="mt-2 text-base md:text-left text-gray-800 font-light tracking-wider text-sm">
               We make sure that all the pieces of furniture and materials that you add to your project are high-quality and ethically made by working with small brands and independent makers.            </dd>
           </div>
 
@@ -91,7 +91,7 @@
               </div>
               <p class="mt-5 text-lg leading-6 font-medium text-gray-900">We care about your experience</p>
             </dt>
-            <dd class="mt-2 text-base md:text-left text-gray-800">
+            <dd class="mt-2 text-base md:text-left text-gray-800 font-light tracking-wider text-sm">
               You can create a model of your room and add the finishes you want, furniture, and decor; and calculate exactly how much it all costs. you can call yourself a pro designer now!          </div>
         </dl>
       </div>
