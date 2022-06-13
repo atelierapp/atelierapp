@@ -18,8 +18,8 @@ class ManufactureProcessController extends Controller
 
         $rows->each( function ($index, $value) use (&$result) {
             $result[] = [
-                'id' => $index,
-                'name' => $value,
+                'id' => $value,
+                'name' => $index,
             ];
         });
 
