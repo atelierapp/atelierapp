@@ -4,6 +4,7 @@
       <x-hero-home/>
       <x-features.feature-a/>
       <x-features.feature-b/>
+      <x-features.feature-c/>
       <x-cta/>
     </div>
   </div>
