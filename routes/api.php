@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\LinkStripeStoreController;
 use App\Http\Controllers\ManufactureProcessController;
 use App\Http\Controllers\ManufactureTypeController;
 use App\Http\Controllers\QualityController;
@@ -43,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('projects-temp', [ProjectTempController::class, 'index']);
     Route::post('projects-temp', [ProjectTempController::class, 'store']);
     Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
+
+    Route::post('stripe/connect-store', LinkStripeStoreController::class)->name('stripe.connect-store');
 });
 
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
