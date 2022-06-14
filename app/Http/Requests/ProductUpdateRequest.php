@@ -14,27 +14,31 @@ class ProductUpdateRequest extends FormRequest
     {
         return [
             'store_id' => ['required', new ExistsForSpecifiedAuthenticatedUser('stores', 'id')],
+
             'title' => ['required', 'string', 'max:100'],
             'manufacturer_type' => ['required', Rule::in(array_keys(ManufacturerTypeEnum::MAP_VALUE))],
             'manufacturer_process' => ['required', Rule::in(array_keys(ManufacturerProcessEnum::MAP_VALUE))],
             'category_id' => ['required', Rule::exists('categories', 'id')],
+            'collections.*.name' => ['nullable', 'string'],
             'description' => ['required', 'string', 'max:1000'],
             'price' => ['required', 'integer'],
+            'quantity' => ['integer'],
+            'is_on_demand' => ['nullable', 'boolean'],
+            'is_unique' => ['nullable', 'boolean'],
+            'sku' => ['string', 'unique:products,sku'],
+
+            'depth' => ['nullable', 'integer'],
+            'height' => ['nullable', 'integer'],
+            'width' => ['nullable', 'integer'],
 
             'tags' => ['required'],
             'tags.*.name' => ['required_with:tags', 'string'],
             'materials' => ['required'],
             'materials.*.name' => ['required_with:materials', 'string'],
 
-            'manufactured_at' => 'date_format:m/d/Y',
-            'style_id' => ['integer', 'exists:styles,id'],
-            'quantity' => ['integer'],
-            'sku' => ['string', 'unique:products,sku'],
+            // 'manufactured_at' => 'date_format:m/d/Y',
+            // 'style_id' => ['integer', 'exists:styles,id'],
             'active' => ['boolean'],
-            'is_on_demand' => ['nullable', 'boolean'],
-            'is_unique' => ['nullable', 'boolean'],
-
-            'collections.*.name' => ['nullable', 'string'],
 
             // 'properties' => ['array'],
             // 'url' => ['nullable', 'string'],
