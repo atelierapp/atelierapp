@@ -28,6 +28,7 @@
         "laravel/socialite": "^5.0",
         "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.0",
+        "laravel/vapor-cli": "^1.39",
         "laravel/vapor-core": "^2.22",
         "laravel/vapor-ui": "^1.5",
         "league/flysystem-aws-s3-v3": "^1.0",
