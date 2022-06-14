@@ -7,12 +7,14 @@ use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JetBrains\PhpStorm\Pure;
 
 /**
  * @mixin IdeHelperStore
+ * @property bool has_active_store
  */
 class Store extends Model
 {
@@ -31,6 +33,7 @@ class Store extends Model
         'cover',
         'team',
         'active',
+        'stripe_connect_id'
     ];
 
     protected $casts = [
@@ -49,9 +52,9 @@ class Store extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function users(): HasMany
+    public function admin(): BelongsTo
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function scopeSearch($query, $value)
@@ -89,5 +92,10 @@ class Store extends Model
         return empty($file)
             ? null
             : $file->url;
+    }
+
+    public function getHasActiveStoreAttribute(): bool
+    {
+        return $this->attributes['stripe_connect_id'] !== null;
     }
 }
