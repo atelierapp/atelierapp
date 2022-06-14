@@ -8,7 +8,7 @@
       id="{{ $name ?? (Str::camel($title)) }}"
       type="{{ $type ?? 'text' }}"
       @class([
-        'py-4 px-6 block w-full sm:text-sm sm:leading-5 outline-none ring ring-1 ring-gray-700 focus:ring-gray-800 focus:shadow-outline-gray text-gray-900 placeholder-gray-300',
+        'py-4 px-6 block w-full sm:text-sm sm:leading-5 outline-none ring ring-[1px] ring-gray-700 focus:ring-gray-800 focus:shadow-outline-gray text-gray-900 placeholder-gray-300',
         'rounded-lg' => ! ($roundedFull ?? false),
         'rounded-full' => ($roundedFull ?? true),
         'text-center' => $centered ?? false,

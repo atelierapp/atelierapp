@@ -28,7 +28,7 @@
         </dl>
 
         <dl class="mt-6 space-y-10">
-          <x-elements.button :link="route('join-atelier')" title="See more +">
+          <x-elements.button :link="route('open-your-shop')" title="See more +">
             <x-slot name="icon"></x-slot>
           </x-elements.button>
         </dl>
