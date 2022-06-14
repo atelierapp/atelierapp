@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
@@ -22,6 +23,7 @@ class User extends Authenticatable
     use HasFactory;
     use HasRolesAndAbilities;
     use Notifiable;
+    use Billable;
 
     protected $fillable = [
         'first_name',
@@ -34,6 +36,10 @@ class User extends Authenticatable
         'is_active',
         'avatar',
         'remember_token',
+        'stripe_id',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
     ];
 
     protected $hidden = [
