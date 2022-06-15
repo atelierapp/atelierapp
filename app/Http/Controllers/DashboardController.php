@@ -80,4 +80,22 @@ class DashboardController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function topProduct()
+    {
+        $products = Product::query()->inRandomOrder()->take(5)->get();
+        $data = [];
+
+        foreach ($products as $product) {
+            $tmp = [
+                'image' => $product->featured_media->url,
+                'name' => $product->title,
+                'availability' => rand(0, 150),
+                'sales' => rand(10000, 30000),
+            ];
+            $data[] = $tmp;
+        }
+
+        return response()->json(['data' => $data]);
+    }
+
 }

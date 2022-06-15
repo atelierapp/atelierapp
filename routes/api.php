@@ -103,4 +103,5 @@ Route::prefix('dashboard')->group(function () {
     Route::get('kpi', [DashboardController::class, 'kpi'])->name('dashboard.kpi');
     Route::get('statics', [DashboardController::class, 'statics'])->name('dashboard.statics');
     Route::get('orders', [DashboardController::class, 'orders'])->name('dashboard.orders');
+    Route::get('top-product', [DashboardController::class, 'topProduct'])->name('dashboard.top-product');
 });
