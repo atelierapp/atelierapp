@@ -31,7 +31,7 @@ class Store extends Model
         'cover',
         'team',
         'active',
-        'stripe_connect_id'
+        'stripe_connect_id',
         'customer_rating',
         'internal_rating',
     ];
