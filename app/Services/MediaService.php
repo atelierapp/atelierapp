@@ -14,7 +14,7 @@ class MediaService
 
     public function delete($imagePath): void
     {
-        if (!is_null($imagePath) && Storage::disk('s3')->exists($imagePath)) {
+        if (!is_null($imagePath)) {
             Storage::disk('s3')->delete($imagePath);
             Media::query()->where('path', '=', $imagePath)->delete();
         }
