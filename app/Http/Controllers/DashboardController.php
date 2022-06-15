@@ -98,4 +98,15 @@ class DashboardController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    public function quickDetails()
+    {
+        return response()->json(['data' => [
+            'customers' => rand(50, 150),
+            'awaiting_orders' => rand(150, 300),
+            'on_hold_orders' => rand(50, 150),
+            'low_stock_orders' => rand(25, 75),
+            'out_stock_orders' => rand(0, 25),
+        ]]);
+    }
+
 }
