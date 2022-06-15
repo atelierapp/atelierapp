@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Support\Str;
 
 class DashboardController extends Controller
@@ -59,6 +60,24 @@ class DashboardController extends Controller
         }
 
         return response()->json(['data' => $values]);
+    }
+
+    public function orders()
+    {
+        $products = Product::query()->inRandomOrder()->take(10)->get();
+        $data = [];
+
+        foreach ($products as $product) {
+            $tmp = [
+                'product' => $product->title,
+                'price' => $product->price,
+                'is_accepted' => (boolean) rand(0, 1),
+                'delivery_notes' => '',
+            ];
+            $data[] = $tmp;
+        }
+
+        return response()->json(['data' => $data]);
     }
 
 }
