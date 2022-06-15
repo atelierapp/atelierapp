@@ -78,12 +78,9 @@ class User extends Authenticatable
     | Query Scopes
     |--------------------------------------------------------------------------
     */
-    public function scopeFirstByEmailOrUsername(Builder $query, $value)
+    public function scopeFirstByEmail(Builder $query, $value)
     {
-        return $query
-            ->where('email', $value)
-            ->orWhere('username', $value)
-            ->first();
+        return $query->where('email', $value)->first();
     }
 
     /*
