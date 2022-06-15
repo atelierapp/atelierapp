@@ -24,7 +24,7 @@ class CollectionControllerCreateTest extends TestCase
 
     public function test_an_authenticated_seller_can_create_a_collection()
     {
-        $this->createAuthenticatedSeller();
+        $user = $this->createAuthenticatedSeller();
 
         $data = [
             'name' => $this->faker->name,
@@ -39,12 +39,13 @@ class CollectionControllerCreateTest extends TestCase
                 'is_active',
             ],
         ]);
+        $data['user_id'] = $user->id;
         $this->assertDatabaseHas('collections', $data);
     }
 
     public function test_an_authenticated_admin_can_create_a_collection()
     {
-        $this->createAuthenticatedAdmin();
+        $user = $this->createAuthenticatedAdmin();
 
         $data = [
             'name' => $this->faker->name,
@@ -59,6 +60,7 @@ class CollectionControllerCreateTest extends TestCase
                 'is_active',
             ],
         ]);
+        $data['user_id'] = $user->id;
         $this->assertDatabaseHas('collections', $data);
     }
 }

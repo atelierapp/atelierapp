@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Collection as CollectionModel;
+use App\Models\Collection;
 use Illuminate\Http\UploadedFile;
 
 class CollectionService
@@ -12,15 +12,39 @@ class CollectionService
         //
     }
 
-    public function getCollectionToAuth(string $collectionName): CollectionModel
+    public function store(array $params): Collection
     {
-        return CollectionModel::updateOrCreate(['name' => $collectionName, 'user_id' => auth()->id()]);
+        $params['user_id'] = auth()->id();
+
+        return Collection::create($params);
     }
 
-    public function processImage(CollectionModel|int $collection, UploadedFile $file): CollectionModel
+    public function getById(int $collectionId, bool $throwable = false): Collection
+    {
+        $query = Collection::authUser()->where('id', $collectionId);
+
+        return $throwable
+            ? $query->firstOrFail()
+            : $query->firstOrNew();
+    }
+
+    public function update(Collection|int $collection, array $params): Collection
+    {
+        $collection = $this->getById($collection);
+        $collection->update($params);
+
+        return $collection;
+    }
+
+    public function getCollectionToAuth(string $collectionName): Collection
+    {
+        return Collection::updateOrCreate(['name' => $collectionName, 'user_id' => auth()->id()]);
+    }
+
+    public function processImage(Collection|int $collection, UploadedFile $file): Collection
     {
         if (is_int($collection)) {
-            $collection = CollectionModel::authUser()->whereId($collection)->firstOrFail();
+            $collection = Collection::authUser()->whereId($collection)->firstOrFail();
         }
 
         $collection->load('featured_media');
