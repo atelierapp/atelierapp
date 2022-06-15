@@ -93,7 +93,7 @@ class RecoverPasswordTest extends TestCase
         $response->assertOk();
 
         $response = $this->postJson(route('login'), [
-            'username' => $user->username,
+            'email' => $user->email,
             'password' => 'password'
         ]);
 
