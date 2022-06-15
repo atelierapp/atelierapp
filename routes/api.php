@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LinkStripeStoreController;
 use App\Http\Controllers\ManufactureProcessController;
 use App\Http\Controllers\ManufactureTypeController;
@@ -96,4 +97,8 @@ Route::post('banners/{banner}/image', [BannerController::class, 'image'])->name(
 Route::prefix('resources')->group(function () {
     Route::get('manufacture-type', ManufactureTypeController::class)->name('resources.manufacture-type');
     Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
+});
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('kpi', [DashboardController::class, 'kpi'])->name('dashboard.kpi');
 });
