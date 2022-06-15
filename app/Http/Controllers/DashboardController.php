@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+
 class DashboardController extends Controller
 {
     public function __construct()
@@ -41,4 +43,22 @@ class DashboardController extends Controller
 
         return $values;
     }
+
+    public function statics()
+    {
+        $values = [];
+
+        for ($i = 0; $i < 6; $i++) {
+            $tmp = [
+                'month' => Str::title(now()->subMonths($i)->monthName),
+                'sales' => rand(10000, 30000),
+                'views' => rand(10000, 30000),
+            ];
+
+            $values[] = $tmp;
+        }
+
+        return response()->json(['data' => $values]);
+    }
+
 }

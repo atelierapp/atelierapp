@@ -101,4 +101,5 @@ Route::prefix('resources')->group(function () {
 
 Route::prefix('dashboard')->group(function () {
     Route::get('kpi', [DashboardController::class, 'kpi'])->name('dashboard.kpi');
+    Route::get('statics', [DashboardController::class, 'statics'])->name('dashboard.statics');
 });
