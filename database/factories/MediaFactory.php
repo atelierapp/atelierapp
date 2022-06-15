@@ -7,6 +7,7 @@ use App\Models\MediaType;
 use App\Models\Product;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 
 class MediaFactory extends Factory
 {
@@ -35,5 +36,15 @@ class MediaFactory extends Factory
             'orientation' => $this->faker->word,
             'extra' => null,
         ];
+    }
+
+    public function model(Model $model)
+    {
+        return $this->state(function (array $attributes) use ($model) {
+            return [
+                'mediable_type' => get_class($model),
+                'mediable_id' => $model->id,
+            ];
+        });
     }
 }

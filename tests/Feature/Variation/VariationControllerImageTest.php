@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Variation;
 
+use App\Models\Media;
 use App\Models\Product;
 use App\Models\Variation;
 use Illuminate\Http\UploadedFile;
@@ -98,6 +99,42 @@ class VariationControllerImageTest extends BaseTest
         Storage::fake('s3');
         $product = $this->createProductForSellerUser();
         $variation = Variation::factory()->create(['product_id' => $product->id]);
+
+        $data = [
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')], // 0
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')], // 1
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')], // 2
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
+            ],
+        ];
+        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => $variation->id]), $data);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                'name',
+                'medias' => [
+                    0 => [
+                        'id',
+                        'orientation',
+                        'url',
+                    ]
+                ]
+            ]
+        ]);
+        $this->assertDatabaseCount('media', 4);
+    }
+
+    public function test_authenticated_seller_can_upload_image_to_update_a_variation_with_valid_image_when_product_id_and_variation_id_is_valid()
+    {
+        Storage::fake('s3');
+        $product = $this->createProductForSellerUser();
+        $variation = Variation::factory()->create(['product_id' => $product->id]);
+        Media::factory()->model($variation)->create(['orientation' => 'front', 'path' => $this->faker->word]);
+        Media::factory()->model($variation)->create(['orientation' => 'side', 'path' => $this->faker->word]);
+        Media::factory()->model($variation)->create(['orientation' => 'plan', 'path' => $this->faker->word]);
+        Media::factory()->model($variation)->create(['orientation' => 'perspective', 'path' => $this->faker->word]);
 
         $data = [
             'images' => [
