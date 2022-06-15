@@ -32,6 +32,8 @@ class StoreFactory extends Factory
             'cover' => $this->faker->imageUrl(250, 250),
             'team' => $this->faker->word,
             'active' => $this->faker->boolean,
+            'customer_rating' => rand(30, 50) / 10,
+            'internal_rating' => rand(30, 50) / 10,
         ];
     }
 }

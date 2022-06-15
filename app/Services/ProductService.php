@@ -183,7 +183,7 @@ class ProductService
         if (isset($params['width'])) {
             $params['properties']['width'] = $params['width'];
         }
-        
+
         $product->fill($params);
         $product->save();
 

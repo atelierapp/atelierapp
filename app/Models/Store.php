@@ -24,13 +24,13 @@ class Store extends Model
     protected $fillable = [
         'user_id',
         'name',
-        // 'legal_name',
-        // 'legal_id',
         'story',
         'logo',
         'cover',
         'team',
         'active',
+        'customer_rating',
+        'internal_rating',
     ];
 
     protected $casts = [
