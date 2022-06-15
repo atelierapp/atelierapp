@@ -24,6 +24,8 @@ class StoreResource extends JsonResource
             'cover' => $this->cover,
             'team' => $this->team,
             'active' => $this->active,
+            'customer_rating' => rand(30, 50) / 10, // TODO :: implement
+            'internal_rating' => rand(30, 50) / 10, // TODO :: implement
             'qualities' => QualityResource::collection($this->whenLoaded('qualities')),
         ];
     }
