@@ -21,7 +21,6 @@ class UserSeeder extends Seeder
         ], [
             'first_name' => 'Kenny',
             'last_name' => 'Horna',
-            'username' => 'kenny',
             'password' => 'password',
             'phone' => '987654321',
             'birthday' => '1980-01-01',
@@ -32,7 +31,6 @@ class UserSeeder extends Seeder
         ], [
             'first_name' => 'Jaime',
             'last_name' => 'Virrueta',
-            'username' => 'jaime',
             'password' => 'password',
             'phone' => '987206134',
             'birthday' => '1980-01-01',
@@ -44,7 +42,6 @@ class UserSeeder extends Seeder
         ], [
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'username' => 'johndoe',
             'password' => 'password',
             'phone' => '987654321',
             'birthday' => '1980-01-01',
