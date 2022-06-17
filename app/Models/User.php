@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,6 +18,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
  * @mixin IdeHelperUser
+ * @mixin Eloquent
  */
 class User extends Authenticatable
 {

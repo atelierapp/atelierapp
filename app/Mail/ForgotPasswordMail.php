@@ -11,18 +11,19 @@ class ForgotPasswordMail extends Mailable
     use Queueable;
     use SerializesModels;
 
-    private string $token;
-
-    public function __construct(string $token)
-    {
-        $this->token = $token;
+    public function __construct(
+        private string $name,
+        private string $token
+    ) {
     }
 
     public function build(): ForgotPasswordMail
     {
         return $this
-            ->view('emails.recoverPassword')
-            ->subject('Recover your password')
-            ->with(['token' => $this->token]);
+            ->markdown('emails.recover-password', [
+                'name' => $this->name,
+                'token' => $this->token,
+            ])
+            ->subject('Recover your password');
     }
 }
