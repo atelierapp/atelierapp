@@ -72,7 +72,8 @@ class DashboardController extends Controller
                 'product' => $product->title,
                 'price' => $product->price,
                 'is_accepted' => (boolean) rand(0, 1),
-                'delivery_notes' => '',
+                'email' => User::query()->inRandomOrder()->first()->email,
+                'delivery_notes' => 'lorem ipsum',
             ];
             $data[] = $tmp;
         }
