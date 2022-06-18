@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasMediasRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +30,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasRolesAndAbilities;
+    use HasMediasRelation;
     use Notifiable;
     use Billable;
 
@@ -109,21 +111,21 @@ class User extends Authenticatable
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function getAvatarAttribute(): ?string
-    {
-        if (! isset($this->attributes['avatar'])) {
-            return null;
-        }
-
-        if (Str::startsWith($this->attributes['avatar'], 'http')) {
-            return $this->attributes['avatar'];
-        }
-
-        return Storage::disk('s3')->temporaryUrl(
-            $this->attributes['avatar'],
-            now()->addMinutes(30)
-        );
-    }
+    // public function getAvatarAttribute(): ?string
+    // {
+    //     if (!isset($this->attributes['avatar'])) {
+    //         return null;
+    //     }
+    //
+    //     if (Str::startsWith($this->attributes['avatar'], 'http')) {
+    //         return $this->attributes['avatar'];
+    //     }
+    //
+    //     return Storage::disk('s3')->temporaryUrl(
+    //         $this->attributes['avatar'],
+    //         now()->addMinutes(30)
+    //     );
+    // }
 
     protected static function booted()
     {
