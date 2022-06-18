@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
@@ -24,6 +22,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
  * @mixin Eloquent
  * @property Variation $shopping_cart
  * @property int $id
+ * @property Store|null $store
  */
 class User extends Authenticatable
 {
