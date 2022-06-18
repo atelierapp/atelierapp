@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,6 +16,7 @@ use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
+use function Illuminate\Events\queueable;
 
 /**
  * @mixin IdeHelperUser
@@ -80,7 +82,7 @@ class User extends Authenticatable
     | Query Scopes
     |--------------------------------------------------------------------------
     */
-    public function scopeFirstByEmail(Builder $query, $value)
+    public function scopeFirstByEmail(Builder $query, $value): Model|Builder|null
     {
         return $query->where('email', $value)->first();
     }
@@ -114,5 +116,19 @@ class User extends Authenticatable
             $this->attributes['avatar'],
             now()->addMinutes(30)
         );
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($customer) {
+            if ($customer->hasStripeId()) {
+                $customer->syncStripeCustomerDetails();
+            }
+        });
+    }
+
+    public function stripeName(): ?string
+    {
+        return $this->full_name;
     }
 }
