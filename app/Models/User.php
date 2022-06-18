@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,11 +17,12 @@ use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
-use function Illuminate\Events\queueable;
 
 /**
  * @mixin IdeHelperUser
  * @mixin Eloquent
+ * @property Variation $shopping_cart
+ * @property int $id
  */
 class User extends Authenticatable
 {
@@ -77,6 +79,11 @@ class User extends Authenticatable
         return $this->hasOne(Store::class);
     }
 
+    public function shopping_cart(): BelongsToMany
+    {
+        return $this->belongsToMany(Variation::class, 'shopping_cart')->with('product')->using(ShoppingCart::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Query Scopes
@@ -104,7 +111,7 @@ class User extends Authenticatable
 
     public function getAvatarAttribute(): ?string
     {
-        if (!isset($this->attributes['avatar'])) {
+        if (! isset($this->attributes['avatar'])) {
             return null;
         }
 

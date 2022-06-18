@@ -97,11 +97,11 @@ class ProductControllerIndexTest extends BaseTest
 
         $category1 = Category::factory()->create();
         $products = Product::factory()->times(4)->create(); // 2
-        $category1->products()->attach($products);
+        $category1->product()->attach($products);
 
         $category2 = Category::factory()->create();
         $products = Product::factory()->times(3)->create(); // 3
-        $category2->products()->attach($products);
+        $category2->product()->attach($products);
 
         $response = $this->getJson(route('product.index', [
             'categories' => [
@@ -208,11 +208,11 @@ class ProductControllerIndexTest extends BaseTest
 
         $category1 = Category::factory()->create();
         $products = Product::factory()->times(4)->create(); // 2
-        $category1->products()->attach($products);
+        $category1->product()->attach($products);
 
         $category2 = Category::factory()->create();
         $products = Product::factory()->times(3)->create(); // 3
-        $category2->products()->attach($products);
+        $category2->product()->attach($products);
 
         $response = $this->getJson(route('product.index', [
             'categories' => [
@@ -325,12 +325,12 @@ class ProductControllerIndexTest extends BaseTest
 
         $category1 = Category::factory()->create();
         $products = Product::factory()->times(2)->create(['store_id' => $store->id]);
-        $category1->products()->attach($products);
+        $category1->product()->attach($products);
         Product::factory()->times(3)->create(['store_id' => $store->id]);
 
         $category2 = Category::factory()->create();
         $products = Product::factory()->times(3)->create();
-        $category2->products()->attach($products);
+        $category2->product()->attach($products);
 
         $response = $this->getJson(route('product.index', [
             'categories' => [
@@ -370,12 +370,12 @@ class ProductControllerIndexTest extends BaseTest
 
         $collection1 = Collection::factory()->create();
         $products = Product::factory()->times(2)->create(['store_id' => $store->id]);
-        $collection1->products()->attach($products);
+        $collection1->product()->attach($products);
         Product::factory()->times(3)->create(['store_id' => $store->id]);
 
         $collection2 = Collection::factory()->create();
         $products = Product::factory()->times(3)->create();
-        $collection2->products()->attach($products);
+        $collection2->product()->attach($products);
 
         $response = $this->getJson(route('product.index', [
             'collection' => $collection1->id,

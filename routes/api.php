@@ -19,6 +19,7 @@ use App\Http\Controllers\ProjectForkController;
 use App\Http\Controllers\ProjectTempController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TagController;
@@ -48,6 +49,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
 
     Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
+
+    Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
+    Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
+    Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
+    Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
 });
 
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
