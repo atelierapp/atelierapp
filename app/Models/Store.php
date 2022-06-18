@@ -16,9 +16,18 @@ use JetBrains\PhpStorm\Pure;
 /**
  * @mixin IdeHelperStore
  * @mixin Eloquent
- * @property bool has_active_store
- * @property int store_id
+ * @property int|null user_id
+ * @property string name
+ * @property string story
+ * @property int customer_rating
+ * @property int internal_rating
+ * @property string|null logo
+ * @property string|null cover
+ * @property string|null team
+ * @property bool active
+ * @property string|null stripe_connect_id
  * @property string vendor_mode
+ * @property bool has_active_store
  */
 class Store extends Model
 {

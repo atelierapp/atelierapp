@@ -22,6 +22,7 @@ class StoreResource extends JsonResource
             'internal_rating' => rand(30, 50) / 10, // TODO :: implement
             'qualities' => QualityResource::collection($this->whenLoaded('qualities')),
             'connected' => $this->has_active_store,
+            'vendor_mode' => $this->vendor_mode,
         ];
     }
 }
