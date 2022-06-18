@@ -18,6 +18,7 @@ use JetBrains\PhpStorm\Pure;
  * @mixin Eloquent
  * @property bool has_active_store
  * @property int store_id
+ * @property string vendor_mode
  */
 class Store extends Model
 {
@@ -25,6 +26,9 @@ class Store extends Model
     use HasMediasRelation;
     use HasQualitiesRelation;
     use SoftDeletes;
+
+    public const VENDOR_MODE_SUBSCRIPTION = 'subscription';
+    public const VENDOR_MODE_COMMISSION = 'commission';
 
     protected $fillable = [
         'user_id',
