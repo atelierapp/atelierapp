@@ -6,12 +6,12 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LinkStripeStoreController;
 use App\Http\Controllers\ManufactureProcessController;
 use App\Http\Controllers\ManufactureTypeController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MediaTypeController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -20,6 +20,7 @@ use App\Http\Controllers\ProjectTempController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UnitSystemController;
@@ -45,6 +46,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('projects-temp', [ProjectTempController::class, 'index']);
     Route::post('projects-temp', [ProjectTempController::class, 'store']);
     Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
+
+    Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
 });
 
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
@@ -104,3 +107,5 @@ Route::prefix('dashboard')->group(function () {
     Route::get('top-product', [DashboardController::class, 'topProduct'])->name('dashboard.top-product');
     Route::get('quick-details', [DashboardController::class, 'quickDetails'])->name('dashboard.quick-details');
 });
+
+Route::get('plans', PlanController::class)->name('plans.index');

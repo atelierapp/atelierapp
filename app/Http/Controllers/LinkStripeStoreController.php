@@ -61,7 +61,7 @@ class LinkStripeStoreController extends Controller
         return redirect(
             sprintf(
                 '%s?connected=%s&message=%s',
-                config('atelier.web-app.redirect_uri_stripe'),
+                config('atelier.web-app.redirect.stripe.connect'),
                 $connected,
                 $message,
             )

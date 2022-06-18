@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Store;
 use Bouncer;
 use Illuminate\Foundation\Http\FormRequest;
+use Laravel\Cashier\Cashier;
 
 class StoreService
 {
@@ -27,6 +28,7 @@ class StoreService
         $data = $request->only(['name', 'story']);
         $data['user_id'] = $seller->id;
         $store = Store::create($data);
+        $seller->createOrGetStripeCustomer();
         Bouncer::assign(Role::SELLER)->to($seller);
         $this->processQualities($store, $request);
         $this->processImages($store, $request);
