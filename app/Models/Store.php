@@ -96,6 +96,6 @@ class Store extends Model
 
     public function getHasActiveStoreAttribute(): bool
     {
-        return $this->attributes['stripe_connect_id'] !== null;
+        return ! is_null($this->stripe_connect_id);
     }
 }

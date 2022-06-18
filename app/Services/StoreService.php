@@ -23,9 +23,11 @@ class StoreService
 
     public function store(FormRequest $request): Store
     {
+        $seller = auth()->user();
         $data = $request->only(['name', 'story']);
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = $seller->id;
         $store = Store::create($data);
+        Bouncer::assign(Role::SELLER)->to($seller);
         $this->processQualities($store, $request);
         $this->processImages($store, $request);
 
