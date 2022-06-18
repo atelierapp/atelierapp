@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/image', [ProfileController::class, 'image'])->name('profile.image');
 
     Route::apiResource('projects', ProjectController::class);
     Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
