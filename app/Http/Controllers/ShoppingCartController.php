@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateShoppingCartRequest;
 use App\Http\Resources\ShoppingCartResource;
 use App\Models\ShoppingCart;
-use App\Models\Variation;
 use Illuminate\Http\Request;
 
 class ShoppingCartController extends Controller
