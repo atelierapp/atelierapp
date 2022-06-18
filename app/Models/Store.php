@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Builders\StoreBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
+use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,9 @@ use JetBrains\PhpStorm\Pure;
 
 /**
  * @mixin IdeHelperStore
+ * @mixin Eloquent
  * @property bool has_active_store
+ * @property int store_id
  */
 class Store extends Model
 {

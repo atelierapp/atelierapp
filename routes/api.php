@@ -21,6 +21,7 @@ use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\StoreProductController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UnitController;
@@ -62,6 +63,8 @@ Route::apiResource('categories', CategoryController::class)->names('category');
 
 Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
 Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
+
+Route::get('stores/{id}/products', StoreProductController::class)->name('store.products.index');
 
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
