@@ -95,10 +95,12 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
+        /** @var Category $category1 */
         $category1 = Category::factory()->create();
         $products = Product::factory()->times(4)->create(); // 2
         $category1->products()->attach($products);
 
+        /** @var Category $category2 */
         $category2 = Category::factory()->create();
         $products = Product::factory()->times(3)->create(); // 3
         $category2->products()->attach($products);
@@ -206,10 +208,12 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedAdmin();
 
+        /** @var Category $category1 */
         $category1 = Category::factory()->create();
         $products = Product::factory()->times(4)->create(); // 2
         $category1->products()->attach($products);
 
+        /** @var Category $category2 */
         $category2 = Category::factory()->create();
         $products = Product::factory()->times(3)->create(); // 3
         $category2->products()->attach($products);
@@ -323,11 +327,13 @@ class ProductControllerIndexTest extends BaseTest
         $user = $this->createAuthenticatedSeller();
         $store = $this->createStore($user);
 
+        /** @var Category $category1 */
         $category1 = Category::factory()->create();
         $products = Product::factory()->times(2)->create(['store_id' => $store->id]);
         $category1->products()->attach($products);
         Product::factory()->times(3)->create(['store_id' => $store->id]);
 
+        /** @var Category $category2 */
         $category2 = Category::factory()->create();
         $products = Product::factory()->times(3)->create();
         $category2->products()->attach($products);
@@ -368,11 +374,13 @@ class ProductControllerIndexTest extends BaseTest
         $user = $this->createAuthenticatedSeller();
         $store = $this->createStore($user);
 
+        /** @var Collection $collection1 */
         $collection1 = Collection::factory()->create();
         $products = Product::factory()->times(2)->create(['store_id' => $store->id]);
         $collection1->products()->attach($products);
         Product::factory()->times(3)->create(['store_id' => $store->id]);
 
+        /** @var Collection $collection2 */
         $collection2 = Collection::factory()->create();
         $products = Product::factory()->times(3)->create();
         $collection2->products()->attach($products);

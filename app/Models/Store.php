@@ -5,14 +5,29 @@ namespace App\Models;
 use App\Builders\StoreBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
+use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JetBrains\PhpStorm\Pure;
 
 /**
  * @mixin IdeHelperStore
+ * @mixin Eloquent
+ * @property int|null user_id
+ * @property string name
+ * @property string story
+ * @property int customer_rating
+ * @property int internal_rating
+ * @property string|null logo
+ * @property string|null cover
+ * @property string|null team
+ * @property bool active
+ * @property string|null stripe_connect_id
+ * @property string vendor_mode
+ * @property bool has_active_store
  */
 class Store extends Model
 {
@@ -21,16 +36,20 @@ class Store extends Model
     use HasQualitiesRelation;
     use SoftDeletes;
 
+    public const VENDOR_MODE_SUBSCRIPTION = 'subscription';
+    public const VENDOR_MODE_COMMISSION = 'commission';
+
     protected $fillable = [
         'user_id',
         'name',
-        // 'legal_name',
-        // 'legal_id',
         'story',
         'logo',
         'cover',
         'team',
         'active',
+        'stripe_connect_id',
+        'customer_rating',
+        'internal_rating',
     ];
 
     protected $casts = [
@@ -49,9 +68,9 @@ class Store extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function users(): HasMany
+    public function admin(): BelongsTo
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function scopeSearch($query, $value)
@@ -89,5 +108,10 @@ class Store extends Model
         return empty($file)
             ? null
             : $file->url;
+    }
+
+    public function getHasActiveStoreAttribute(): bool
+    {
+        return ! is_null($this->stripe_connect_id);
     }
 }

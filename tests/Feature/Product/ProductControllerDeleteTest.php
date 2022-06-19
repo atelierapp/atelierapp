@@ -1,20 +1,17 @@
 <?php
 
-namespace Product;
+namespace Tests\Feature\Product;
 
-use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Tests\TestCase;
-
 use function route;
 
 /**
  * @title Products
  * @see \App\Http\Controllers\ProductController
  */
-class ProductControllerTest extends TestCase
+class ProductControllerDeleteTest extends BaseTest
 {
     use RefreshDatabase;
     use WithFaker;
@@ -26,13 +23,12 @@ class ProductControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with(): void
     {
-        $this->markTestSkipped();
-        $product = Product::factory()->create();
+        $store = $this->createStore($this->createAuthenticatedSeller());
+        $product = $this->createProduct($store);
 
-        $response = $this->delete(route('product.destroy', $product));
+        $response = $this->deleteJson(route('product.destroy', $product));
 
         $response->assertNoContent();
-
         $this->assertSoftDeleted($product);
     }
 }

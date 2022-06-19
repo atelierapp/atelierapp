@@ -25,8 +25,8 @@ class CollectionControllerUpdateTest extends TestCase
 
     public function test_an_authenticated_seller_can_update_any_collection()
     {
-        $this->createAuthenticatedSeller();
-        $collection = Collection::factory()->create();
+        $user = $this->createAuthenticatedSeller();
+        $collection = Collection::factory()->create(['user_id' => $user->id]);
 
         $data = [
             'name' => $this->faker->name,
@@ -46,8 +46,8 @@ class CollectionControllerUpdateTest extends TestCase
 
     public function test_an_authenticated_admin_can_update_any_collection()
     {
-        $this->createAuthenticatedAdmin();
-        $collection = Collection::factory()->create();
+        $user = $this->createAuthenticatedSeller();
+        $collection = Collection::factory()->create(['user_id' => $user->id]);
 
         $data = [
             'name' => $this->faker->name,
@@ -67,8 +67,8 @@ class CollectionControllerUpdateTest extends TestCase
 
     public function test_an_authenticated_admin_can_update_to_inactive_any_collection()
     {
-        $this->createAuthenticatedAdmin();
-        $collection = Collection::factory()->create(['is_active' => true]);
+        $user = $this->createAuthenticatedSeller();
+        $collection = Collection::factory()->create(['user_id' => $user->id, 'is_active' => true]);
 
         $data = [
             'name' => $this->faker->name,

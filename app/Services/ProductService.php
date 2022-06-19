@@ -35,6 +35,11 @@ class ProductService
     public function store(array $params): Product
     {
         $data = $params;
+        $data['properties'] = [
+            'depth' => $params['depth'],
+            'height' => $params['height'],
+            'width' => $params['width'],
+        ];
 
         $product = Product::create($data);
         $this->processImages($product, $data['images']);
@@ -166,6 +171,17 @@ class ProductService
         // TODO :: validate logic process when receive is_unique param and have stock more than 1
         if (is_int($product)) {
             $product = $this->getBy($product);
+        }
+
+        $params['properties'] = [];
+        if (isset($params['depth'])) {
+            $params['properties']['depth'] = $params['depth'];
+        }
+        if (isset($params['height'])) {
+            $params['properties']['height'] = $params['height'];
+        }
+        if (isset($params['width'])) {
+            $params['properties']['width'] = $params['width'];
         }
 
         $product->fill($params);

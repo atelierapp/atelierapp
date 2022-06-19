@@ -2,26 +2,36 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasMediasRelation;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
  * @mixin IdeHelperUser
+ * @mixin Eloquent
+ * @property Variation $shopping_cart
+ * @property int $id
+ * @property Store|null $store
  */
 class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
     use HasRolesAndAbilities;
+    use HasMediasRelation;
     use Notifiable;
+    use Billable;
 
     protected $fillable = [
         'first_name',
@@ -34,6 +44,10 @@ class User extends Authenticatable
         'is_active',
         'avatar',
         'remember_token',
+        'stripe_id',
+        'pm_type',
+        'pm_last_four',
+        'trial_ends_at',
     ];
 
     protected $hidden = [
@@ -61,17 +75,24 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'author_id');
     }
 
+    public function store(): HasOne
+    {
+        return $this->hasOne(Store::class);
+    }
+
+    public function shopping_cart(): BelongsToMany
+    {
+        return $this->belongsToMany(Variation::class, 'shopping_cart')->with('product')->using(ShoppingCart::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Query Scopes
     |--------------------------------------------------------------------------
     */
-    public function scopeFirstByEmailOrUsername(Builder $query, $value)
+    public function scopeFirstByEmail(Builder $query, $value): Model|Builder|null
     {
-        return $query
-            ->where('email', $value)
-            ->orWhere('username', $value)
-            ->first();
+        return $query->where('email', $value)->first();
     }
 
     /*
@@ -89,19 +110,33 @@ class User extends Authenticatable
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function getAvatarAttribute(): ?string
+    // public function getAvatarAttribute(): ?string
+    // {
+    //     if (!isset($this->attributes['avatar'])) {
+    //         return null;
+    //     }
+    //
+    //     if (Str::startsWith($this->attributes['avatar'], 'http')) {
+    //         return $this->attributes['avatar'];
+    //     }
+    //
+    //     return Storage::disk('s3')->temporaryUrl(
+    //         $this->attributes['avatar'],
+    //         now()->addMinutes(30)
+    //     );
+    // }
+
+    protected static function booted()
     {
-        if (!isset($this->attributes['avatar'])) {
-            return null;
-        }
+        static::updated(function ($customer) {
+            if ($customer->hasStripeId()) {
+                $customer->syncStripeCustomerDetails();
+            }
+        });
+    }
 
-        if (Str::startsWith($this->attributes['avatar'], 'http')) {
-            return $this->attributes['avatar'];
-        }
-
-        return Storage::disk('s3')->temporaryUrl(
-            $this->attributes['avatar'],
-            now()->addMinutes(30)
-        );
+    public function stripeName(): ?string
+    {
+        return $this->full_name;
     }
 }

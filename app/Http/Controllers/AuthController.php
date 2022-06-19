@@ -34,7 +34,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $user = User::firstByEmailOrUsername($request->get('username'));
+        $user = User::firstByEmail($request->get('email'));
         if (! $user || ! Hash::check($data['password'], $user->password)) {
             throw new AuthenticationException(trans('auth.failed'));
         }
@@ -92,14 +92,15 @@ class AuthController extends Controller
 
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
-        if (User::whereEmail($request->get('email'))->count()) {
+        $user = User::where('email', $email = request('email'))->first();
+        if ($user) {
             $recover = ForgotPassword::updateOrCreate([
-                'email' => $request->get('email')
+                'email' => $email,
             ], [
-                'token' => Str::random(48)
+                'token' => Str::random(48),
             ]);
 
-            Mail::to($recover->email)->send(new ForgotPasswordMail($recover->token));
+            Mail::to($email)->send(new ForgotPasswordMail($user->first_name, $recover->token));
         }
 
         return $this->response([], __('passwords.sent'));

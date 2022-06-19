@@ -21,6 +21,8 @@ abstract class BaseTest extends TestCase
             'cover',
             'team',
             'active',
+            'customer_rating',
+            'internal_rating',
         ];
     }
 }

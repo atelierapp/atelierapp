@@ -20,7 +20,7 @@ class LoginTest extends TestCase
     public function a_user_can_access_the_app_with_a_correct_email_password()
     {
         $credentials = [
-            'username' => 'mesut@ozil.com',
+            'email' => 'mesut@ozil.com',
             'password' => 'TheChosenOne',
         ];
 
@@ -121,11 +121,11 @@ class LoginTest extends TestCase
     public function a_user_cannot_access_without_a_valid_account(): void
     {
         $credentials = [
-            'username' => $username = 'mesut@ozil.com',
+            'email' => $email = 'mesut@ozil.com',
             'password' => 'wrong-password',
         ];
         $this->createUser([
-            'username' => $username,
+            'email' => $email,
         ]);
 
         $response = $this->postJson(route('login'), $credentials);

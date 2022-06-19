@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'username' => $this->username,
             'phone' => $this->phone,
-            'birthday' => $this->birthdat ? $this->birthday->format('m/d/Y') : null,
+            'birthday' => $this->birthday ? $this->birthday->format('m/d/Y') : null,
             'avatar' => $this->avatar,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at->format('m/d/Y H:i:s'),

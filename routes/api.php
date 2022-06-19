@@ -5,19 +5,24 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManufactureProcessController;
 use App\Http\Controllers\ManufactureTypeController;
-use App\Http\Controllers\QualityController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MediaTypeController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
 use App\Http\Controllers\ProjectTempController;
+use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\StoreProductController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UnitSystemController;
@@ -34,7 +39,9 @@ Route::post('/validate-username', UsernameValidationController::class)->name('va
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/profile', ProfileController::class);
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/image', [ProfileController::class, 'image'])->name('profile.image');
 
     Route::apiResource('projects', ProjectController::class);
     Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
@@ -43,6 +50,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('projects-temp', [ProjectTempController::class, 'index']);
     Route::post('projects-temp', [ProjectTempController::class, 'store']);
     Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
+
+    Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
+
+    Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
+    Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
+    Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
+    Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
 });
 
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
@@ -51,6 +65,8 @@ Route::apiResource('categories', CategoryController::class)->names('category');
 
 Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
 Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
+
+Route::get('stores/{id}/products', StoreProductController::class)->name('store.products.index');
 
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
@@ -94,3 +110,13 @@ Route::prefix('resources')->group(function () {
     Route::get('manufacture-type', ManufactureTypeController::class)->name('resources.manufacture-type');
     Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
 });
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('kpi', [DashboardController::class, 'kpi'])->name('dashboard.kpi');
+    Route::get('statics', [DashboardController::class, 'statics'])->name('dashboard.statics');
+    Route::get('orders', [DashboardController::class, 'orders'])->name('dashboard.orders');
+    Route::get('top-product', [DashboardController::class, 'topProduct'])->name('dashboard.top-product');
+    Route::get('quick-details', [DashboardController::class, 'quickDetails'])->name('dashboard.quick-details');
+});
+
+Route::get('plans', PlanController::class)->name('plans.index');

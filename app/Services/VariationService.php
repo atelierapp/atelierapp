@@ -107,6 +107,8 @@ class VariationService
     {
         $this->mediaService->model($variation);
         foreach ($images as $image) {
+            $path = $variation->medias()->where('orientation', $image['orientation'])->firstOrNew()->path;
+            $this->mediaService->delete($path);
             $this->processImage($image);
         }
     }

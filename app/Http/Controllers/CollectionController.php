@@ -30,15 +30,14 @@ class CollectionController extends Controller
 
     public function store(CollectionStoreRequest $request)
     {
-        $collection = Collection::create($request->validated());
+        $collection = $this->collectionService->store($request->validated());
 
         return CollectionResource::make($collection);
     }
 
     public function update(CollectionUpdateRequest $request, $collection)
     {
-        $collection = Collection::findOrFail($collection);
-        $collection->update($request->validated());
+        $collection = $this->collectionService->update($collection, $request->validated());
 
         return CollectionResource::make($collection);
     }

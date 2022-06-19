@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Store;
 use Bouncer;
 use Illuminate\Foundation\Http\FormRequest;
+use Laravel\Cashier\Cashier;
 
 class StoreService
 {
@@ -23,9 +24,12 @@ class StoreService
 
     public function store(FormRequest $request): Store
     {
+        $seller = auth()->user();
         $data = $request->only(['name', 'story']);
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = $seller->id;
         $store = Store::create($data);
+        $seller->createOrGetStripeCustomer();
+        Bouncer::assign(Role::SELLER)->to($seller);
         $this->processQualities($store, $request);
         $this->processImages($store, $request);
 
@@ -89,15 +93,17 @@ class StoreService
 
         if ($request->hasAny($images)) {
             collect($images)->each(function ($file) use ($store, $request) {
-                $currentMedia =  $store->medias()->where('orientation', $file)->first();
-                if (!is_null($currentMedia)) {
-                    // TODO :: improvement process to get media
-                    $this->mediaService->delete($currentMedia->path);
+                if ($request->has($file)) {
+                    $currentMedia =  $store->medias()->where('orientation', $file)->first();
+                    if (!is_null($currentMedia)) {
+                        // TODO :: improvement process to get media
+                        $this->mediaService->delete($currentMedia->path);
+                    }
+                    $this->mediaService->save($request->file($file), [
+                        'orientation' => $file,
+                        'type_id' => Media::IMAGE,
+                    ]);
                 }
-                $this->mediaService->save($request->file($file), [
-                    'orientation' => $file,
-                    'type_id' => Media::IMAGE,
-                ]);
             });
 
             $store->load('medias');
