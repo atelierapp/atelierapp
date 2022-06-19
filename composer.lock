@@ -114,16 +114,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.225.4",
+            "version": "3.227.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ddfe35918317380245c376a3b2b97b7428135ae1"
+                "reference": "88d803113ade68604ec03c591d65e1e44406ab8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ddfe35918317380245c376a3b2b97b7428135ae1",
-                "reference": "ddfe35918317380245c376a3b2b97b7428135ae1",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/88d803113ade68604ec03c591d65e1e44406ab8e",
+                "reference": "88d803113ade68604ec03c591d65e1e44406ab8e",
                 "shasum": ""
             },
             "require": {
@@ -131,9 +131,9 @@
                 "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
-                "guzzlehttp/guzzle": "^5.3.3 || ^6.2.1 || ^7.0",
+                "guzzlehttp/guzzle": "^6.5.7 || ^7.4.4",
                 "guzzlehttp/promises": "^1.4.0",
-                "guzzlehttp/psr7": "^1.7.0 || ^2.1.1",
+                "guzzlehttp/psr7": "^1.8.5 || ^2.3",
                 "mtdowling/jmespath.php": "^2.6",
                 "php": ">=5.5"
             },
@@ -199,9 +199,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.225.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.227.0"
             },
-            "time": "2022-06-14T18:32:31+00:00"
+            "time": "2022-06-17T18:15:06+00:00"
         },
         {
             "name": "brick/math",
@@ -5921,16 +5921,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v8.6.0",
+            "version": "v8.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "d8ce03ae74d012d108f2338214444f24d94c2496"
+                "reference": "07e92daf7bc4635f34542966bddaf48c2777d48d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d8ce03ae74d012d108f2338214444f24d94c2496",
-                "reference": "d8ce03ae74d012d108f2338214444f24d94c2496",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/07e92daf7bc4635f34542966bddaf48c2777d48d",
+                "reference": "07e92daf7bc4635f34542966bddaf48c2777d48d",
                 "shasum": ""
             },
             "require": {
@@ -5975,9 +5975,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v8.6.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v8.7.0"
             },
-            "time": "2022-06-08T16:13:12+00:00"
+            "time": "2022-06-17T19:22:08+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -10703,16 +10703,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.20",
+            "version": "9.5.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "12bc8879fb65aef2138b26fc633cb1e3620cffba"
+                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/12bc8879fb65aef2138b26fc633cb1e3620cffba",
-                "reference": "12bc8879fb65aef2138b26fc633cb1e3620cffba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0e32b76be457de00e83213528f6bb37e2a38fcb1",
+                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1",
                 "shasum": ""
             },
             "require": {
@@ -10746,7 +10746,6 @@
                 "sebastian/version": "^3.0.2"
             },
             "require-dev": {
-                "ext-pdo": "*",
                 "phpspec/prophecy-phpunit": "^2.0.1"
             },
             "suggest": {
@@ -10790,7 +10789,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.20"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.21"
             },
             "funding": [
                 {
@@ -10802,7 +10801,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-01T12:37:26+00:00"
+            "time": "2022-06-19T12:14:25+00:00"
         },
         {
             "name": "sebastian/cli-parser",
