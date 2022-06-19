@@ -1,5 +1,5 @@
 <div class="w-full bg-white" x-data>
-  <div class="w-full md:w-2/3 py-16 px-10 mx-auto">
+  <div class="w-full md:w-2/3 pt-0 md:pt-16 pb-16 px-10 mx-auto">
     @unless($registered)
       <div class="text-center py-8">
         <h2
