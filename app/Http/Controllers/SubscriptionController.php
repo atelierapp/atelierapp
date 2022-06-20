@@ -26,6 +26,8 @@ class SubscriptionController extends Controller
             'mode' => 'subscription',
         ]);
 
-        return redirect()->to($session->url);
+        return $this->response([
+            'redirect_url' => $session->url,
+        ]);
     }
 }
