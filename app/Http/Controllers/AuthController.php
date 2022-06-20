@@ -34,7 +34,10 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $user = User::firstByEmail($request->get('email'));
+        $user = request('username')
+            ? User::firstWhere('username', $request->get('username'))
+            : User::firstWhere('email', $request->get('email'));
+
         if (! $user || ! Hash::check($data['password'], $user->password)) {
             throw new AuthenticationException(trans('auth.failed'));
         }
