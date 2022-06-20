@@ -20,7 +20,11 @@ class CollectionController extends Controller
 
     public function index()
     {
-        $query = Collection::query();
+        $query = Collection::query()->when(
+            auth()->check(),
+            fn ($query) => $query->where('user_id', auth()->id())
+        );
+
         $collections = request()->has('with_all')
             ? $query->get()
             : $query->where('is_active', true)->get();
