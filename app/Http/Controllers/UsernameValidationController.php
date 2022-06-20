@@ -19,9 +19,4 @@ class UsernameValidationController extends Controller
                ->exists(),
         ]);
     }
-
-    public function cleanUsername(string $username): string
-    {
-        return Str::of($username)->remove('.')->lower();
-    }
 }

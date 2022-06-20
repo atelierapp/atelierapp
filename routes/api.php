@@ -35,7 +35,7 @@ Route::post('/login-social', [AuthController::class, 'socialLogin']);
 Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
 Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
-Route::post('/validate-username', UsernameValidationController::class)->name('validateUsername');
+Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
