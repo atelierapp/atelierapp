@@ -15,7 +15,7 @@ class ProductController extends Controller
 {
     public function __construct(private ProductService $productService)
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum')->except('index');
     }
 
     public function index(): AnonymousResourceCollection
