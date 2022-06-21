@@ -18,7 +18,7 @@
   </div>
   <!-- DIVIDER -->
 
-  <div class="hidden md:block overflow-hidden w-full flex justify-center pt-10 pb-24" x-intersect="$el.classList.add('slide-in-bottom')">
+  <div class="hidden md:flex overflow-hidden w-full justify-center pt-10 pb-24" x-intersect="$el.classList.add('slide-in-bottom')">
     <img src="{{ asset('images/atelier-benefits.png') }}"  class="max-w-5xl w-full" alt="Atelier benefits">
   </div>
   <div class="md:hidden flex flex-col w-full space-y-2 py-10" x-intersect="$el.classList.add('slide-in-bottom')">

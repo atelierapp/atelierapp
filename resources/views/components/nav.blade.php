@@ -53,7 +53,7 @@
             Sell on Atelier
           </span>
         @endif
-        <a href="mailto:info@0110atelier.com?subject=I%20want%20to%20test%20the%20Atelier%20App&body=I%20want%20to%20try%20the%20app.%20Please%20add%20me%20to%20your%20user%20list"
+        <a href="https://apps.apple.com/app/atelier-home-design/id1448129816"
            class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 transition ease-in-out delay-50 duration-300">
           Sign up to test the app
         </a>
@@ -126,7 +126,7 @@
             </a>
 
             <div>
-              <a href="mailto:info@0110atelier.com?subject=I%20want%20to%20test%20the%20Atelier%20App&body=I%20want%20to%20try%20the%20app.%20Please%20add%20me%20to%20your%20user%20list"
+              <a href="https://apps.apple.com/app/atelier-home-design/id1448129816"
                  class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
                 Sign up to test the app
               </a>
