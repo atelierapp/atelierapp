@@ -22,7 +22,7 @@
             Atelier connects high-quality and planet-conscious makers to design-savvy users who want to create their own interior design projects and we do it all in an interactive design app and marketplace!
           </p>
           <div x-intersect="$el.classList.add('slide-in-bottom')">
-            <x-elements.button link="" title="Test the app" link="https://apps.apple.com/app/atelier-home-design/id1448129816">
+            <x-elements.button link="" title="Test the app" link="https://apps.apple.com/app/atelier/id1565516356">
               <x-slot name="icon">
                 <svg class="w-4 fill-current hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.1 16.43">
                   <defs/>
