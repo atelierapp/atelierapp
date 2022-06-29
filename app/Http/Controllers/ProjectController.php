@@ -24,7 +24,9 @@ class ProjectController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $projects = Project::with('style', 'author', 'featured_media')->search(request('search'))->paginate();
+        $projects = Project::with('style', 'author', 'featured_media')
+            ->search(request('search'))
+            ->paginate();
 
         return ProjectResource::collection($projects);
     }
