@@ -121,99 +121,6 @@ class ProjectControllerTest extends TestCase
 
     /**
      * @test
-     * @exc
-     */
-    public function store_uses_form_request_validation(): void
-    {
-        $this->assertActionUsesFormRequest(
-            \App\Http\Controllers\ProjectController::class,
-            'store',
-            \App\Http\Requests\ProjectStoreRequest::class
-        );
-    }
-
-    /**
-     * @test
-     * @title Create project
-     */
-    public function store_saves_without_fork()
-    {
-        $user = $this->createAuthenticatedUser();
-
-        $data = [
-            'name' => $name = $this->faker->name,
-            'style_id' => Style::factory()->create()->id,
-            'author_id' => $user->id,
-        ];
-
-        $response = $this->postJson(route('projects.store'), $data);
-
-        $response
-            ->assertCreated()
-            ->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'name',
-                    'style_id',
-                    'style',
-                    'author_id',
-                    'author',
-                    'published',
-                    'public',
-                    'created_at',
-                    'updated_at'
-                ]
-            ])
-            ->assertJsonFragment(
-                [
-                    'name' => $name,
-                    'author_id' => $user->id,
-                    'author' => $user->full_name,
-                ]
-            );
-
-        $this->assertDatabaseHas('projects', $data);
-    }
-
-    /**
-     * @test
-     * @title Create product
-     */
-    public function store_a_project_with_tags(): void
-    {
-        $user = $this->createAuthenticatedUser();
-        $tag = Tag::factory()->create();
-        $data = [
-            'name' => $name = $this->faker->name,
-            'style_id' => Style::factory()->create()->id,
-            'author_id' => $user->id,
-            'tags' => [
-                ['name' => $tag->name],
-                ['name' => $this->faker->text(30)],
-            ]
-        ];
-
-        $response = $this->postJson(route('projects.store'), $data);
-
-        $response->assertCreated();
-        $response->assertJsonFragment([
-            'name' => $name,
-            'author_id' => $user->id,
-        ]);
-        $this->assertDatabaseHas(
-            'taggables',
-            [
-                'taggable_type' => Project::class,
-                'tag_id' => $tag->id
-            ]
-        );
-
-        $data = collect($data)->except(['tags'])->toArray();
-        $this->assertDatabaseHas('projects', $data);
-    }
-
-    /**
-     * @test
      * @title Create product
      */
     public function user_can_upload_a_image_to_exists_project()
@@ -318,7 +225,7 @@ class ProjectControllerTest extends TestCase
 
         $response = $this->patchJson(route('projects.update', $project), $data);
 
-        $response->assertForbidden();
+        $response->assertNotFound();
     }
 
     /**

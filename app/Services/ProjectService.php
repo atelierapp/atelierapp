@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Project;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 
 class ProjectService
@@ -53,6 +54,11 @@ class ProjectService
     public function update($project, array $params)
     {
         $project = $this->getBy($project);
+
+        if ($project->author_id != auth()->id()) {
+            throw new ModelNotFoundException();
+        }
+
         $project->fill($params);
         $project->save();
         $this->loadRelations($project);
