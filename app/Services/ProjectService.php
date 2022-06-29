@@ -18,7 +18,7 @@ class ProjectService
 
         $project = Project::query()->create($params);
         $this->processTags($project, Arr::get($params, 'tags', []));
-        $project->load('style', 'author', 'forkedFrom');
+        $this->loadRelations($project);
         $project->refresh();
 
         return $project;
@@ -34,5 +34,29 @@ class ProjectService
             $project->tags()->saveMany($projectTags);
             $project->load('tags');
         }
+    }
+
+    private function loadRelations(Project &$project): void
+    {
+        $project->load('style', 'author', 'forkedFrom');
+    }
+
+    public function getBy(int|string $projectId, string $field = 'id', bool $throwable = true): Project
+    {
+        $query = Project::query()->where($field, $projectId);
+
+        return $throwable
+            ? $query->firstOrFail()
+            : $query->firstOrNew();
+    }
+
+    public function update($project, array $params)
+    {
+        $project = $this->getBy($project);
+        $project->fill($params);
+        $project->save();
+        $this->loadRelations($project);
+
+        return $project;
     }
 }

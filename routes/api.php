@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('projects-temp', [ProjectTempController::class, 'index']);
     Route::post('projects-temp', [ProjectController::class, 'store']);
-    Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
+    Route::put('projects-temp/{project}', [ProjectController::class, 'update']);
 
     Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
 

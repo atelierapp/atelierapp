@@ -41,9 +41,9 @@ class ProjectController extends Controller
         return ProjectResource::make($project);
     }
 
-    public function update(ProjectUpdateRequest $request, Project $project): ProjectResource
+    public function update(ProjectUpdateRequest $request, $project): ProjectResource
     {
-        $project->update($request->validated());
+        $project = $this->projectService->update($project, $request->validated());
 
         return ProjectResource::make($project);
     }
