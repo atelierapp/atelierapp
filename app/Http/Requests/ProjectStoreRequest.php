@@ -18,7 +18,8 @@ class ProjectStoreRequest extends FormRequest
             'forked_from_id' => ['nullable', 'integer', 'exists:' . Project::class . ',id'],
             'published' => ['boolean'],
             'public' => ['boolean'],
-            'tags.*.name' => ['string']
+            'tags.*.name' => ['string'],
+            'settings' => ['nullable'],
         ];
     }
 
