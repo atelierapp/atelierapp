@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
     Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
 
-    Route::get('projects-temp', [ProjectTempController::class, 'index']);
+    Route::get('projects-temp', [ProjectController::class, 'index']);
     Route::post('projects-temp', [ProjectController::class, 'store']);
     Route::put('projects-temp/{project}', [ProjectController::class, 'update']);
 

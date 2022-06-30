@@ -20,6 +20,7 @@ class ProjectResource extends JsonResource
             'image' => $this->featured_media->url,
             'created_at' => $this->created_at->toDatetimeString(),
             'updated_at' => $this->updated_at->toDatetimeString(),
+            'forked_from_id' => $this->forked_from_id,
             'forkedFrom' => self::make($this->whenLoaded('forkedFrom')),
             'tags' => $this->whenLoaded('tags', TagResource::collection($this->tags)),
             'settings' => $this->settings,

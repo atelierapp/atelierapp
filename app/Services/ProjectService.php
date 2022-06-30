@@ -13,6 +13,16 @@ class ProjectService
         //
     }
 
+    public function index(?int $userId, ?string $search)
+    {
+        return Project::query()
+            ->with('style', 'author', 'featured_media')
+            ->search($search)
+            ->authUser($userId)
+            ->latest()
+            ->paginate();
+    }
+
     public function store(array $params = []): Project
     {
         $params['author_id'] = auth()->id();

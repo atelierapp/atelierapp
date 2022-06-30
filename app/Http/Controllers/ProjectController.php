@@ -7,7 +7,6 @@ use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
-use App\Models\Tag;
 use App\Services\ProjectService;
 use App\Traits\Controllers\StorageS3ImageTrait;
 use Illuminate\Http\JsonResponse;
@@ -24,9 +23,7 @@ class ProjectController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $projects = Project::with('style', 'author', 'featured_media')
-            ->search(request('search'))
-            ->paginate();
+        $projects = $this->projectService->index(auth()->id(), request('search'));
 
         return ProjectResource::collection($projects);
     }
@@ -38,8 +35,10 @@ class ProjectController extends Controller
         return ProjectResource::make($project);
     }
 
-    public function show(Project $project): ProjectResource
+    public function show($project): ProjectResource
     {
+        $project = $this->projectService->getBy($project);
+
         return ProjectResource::make($project);
     }
 

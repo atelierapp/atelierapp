@@ -23,7 +23,7 @@ abstract class BaseTest extends TestCase
             'image',
             'created_at',
             'updated_at',
-            'forkedFrom',
+            'forked_from_id',
             'tags',
             'settings',
         ];
