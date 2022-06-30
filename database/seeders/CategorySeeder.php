@@ -28,12 +28,21 @@ class CategorySeeder extends Seeder
             ['name' => 'Shelf'],
             ['name' => 'Side Table'],
             ['name' => 'Sofa'],
+            ['name' => 'Lighting'],
+            ['name' => 'Vegetation'],
+            ['name' => 'Art'],
+            ['name' => 'Drapery'],
+            ['name' => 'Rugs'],
+            ['name' => 'Decor'],
         ])->each(function ($category){
-            Category::factory()->create([
-                'name' => $category['name'],
-                'parent_id' => null,
-                'active' => true,
-            ]);
+            $currentCategory = Category::query()->where('name', $category['name'])->first();
+            if (is_null($currentCategory)) {
+                Category::factory()->create([
+                    'name' => $category['name'],
+                    'parent_id' => null,
+                    'active' => true,
+                ]);
+            }
         });
     }
 }
