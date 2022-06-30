@@ -2,4 +2,4 @@
 !atelier-logo.png
 !.gitignore
 !fonts
-!fonts/Gotham-Book.otf
+!fonts/*.otf

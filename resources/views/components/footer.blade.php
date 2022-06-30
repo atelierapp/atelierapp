@@ -131,7 +131,7 @@
     </div>
     <div class="mt-12 pt-8">
       <p class="text-base text-white opacity-50 xl:text-center">
-        &copy; {{ date('Y') }} 0110 Atelier, LLC. All rights reserved.
+        &copy; {{ date('Y') }} Atelier App, inc. All rights reserved.
       </p>
     </div>
   </div>
