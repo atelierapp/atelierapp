@@ -9,11 +9,11 @@ class QualitySeeder extends Seeder
 {
     public function run(): void
     {
-        Quality::create(['name' => 'Circular economy']);
-        Quality::create(['name' => 'Fair trade']);
-        Quality::create(['name' => 'Part of reforestation programs']);
-        Quality::create(['name' => 'Part of give back programs and causes']);
-        Quality::create(['name' => 'Sustainable manufactured']);
-        Quality::create(['name' => 'Sustainably sourced']);
+        Quality::query()->updateOrCreate(['name' => 'Circular economy']);
+        Quality::query()->updateOrCreate(['name' => 'Fair trade']);
+        Quality::query()->updateOrCreate(['name' => 'Part of reforestation programs']);
+        Quality::query()->updateOrCreate(['name' => 'Part of give back programs and causes']);
+        Quality::query()->updateOrCreate(['name' => 'Sustainable manufactured']);
+        Quality::query()->updateOrCreate(['name' => 'Sustainably sourced']);
     }
 }
