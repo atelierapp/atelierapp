@@ -2,14 +2,17 @@
 
 namespace App\Services;
 
+use App\Exceptions\AtelierException;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 
 class ProjectService
 {
-    public function __construct(private TagService $tagService)
-    {
+    public function __construct(
+        private TagService $tagService,
+        private MediaService $mediaService
+    ) {
         //
     }
 
@@ -39,12 +42,39 @@ class ProjectService
     {
         if (count($tags)) {
             $projectTags = [];
+
             foreach ($tags as $tag) {
                 $projectTags[] = $this->tagService->getTag($tag['name']);
             }
             $project->tags()->saveMany($projectTags);
             $project->load('tags');
         }
+    }
+
+    public function fork(int|string $project, array $params): Project
+    {
+        $project = $this->getBy($project);
+
+        if (!$this->validateIsForkeable($project)) {
+            throw new AtelierException('You do not own this project', 403);
+        }
+
+        $data = [
+            'name' => Arr::get($params, 'name', $project->name) . ' (forked)',
+            'style_id' => Arr::get($params, 'style_id', $project->style_id),
+            'author_id' => auth()->id(),
+            'forked_from_id' => $project->id,
+            'published' => false,
+            'public' => false,
+            'settings' => $project->settings,
+        ];
+        $forkedProject = Project::create($data);
+        $this->processTags($forkedProject, $project->tags()->select('name')->get()->toArray());
+        $this->loadRelations($forkedProject);
+        $this->mediaService->model($forkedProject)->path('projects');
+        $project->load('medias')->medias->each(fn ($media) => $this->mediaService->duplicate($media));
+
+        return $forkedProject;
     }
 
     private function loadRelations(Project &$project): void
@@ -74,5 +104,18 @@ class ProjectService
         $this->loadRelations($project);
 
         return $project;
+    }
+
+    private function validateIsForkeable(Project $project): bool
+    {
+        if ($project->author_id == auth()->id()) {
+            return true;
+        }
+
+        if ($project->published && $project->public) {
+            return true;
+        }
+
+        return false;
     }
 }
