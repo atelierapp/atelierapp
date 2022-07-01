@@ -16,7 +16,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
-use App\Http\Controllers\ProjectTempController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ShoppingCartController;
@@ -34,7 +33,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-social', [AuthController::class, 'socialLogin']);
 Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
-Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
 Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
 
 Route::middleware('auth:sanctum')->group(function () {

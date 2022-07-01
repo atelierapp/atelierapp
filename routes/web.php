@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LinkStripeStoreController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,10 @@ Route::get('/to-app', fn() => redirect(config('atelier.web-app.url')))->name('we
 |--------------------------------------------------------------------------
 */
 Route::get('/dashboard', fn() => 'dashboard!')->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Recover Password
+|--------------------------------------------------------------------------
+*/
+Route::get('recover-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
