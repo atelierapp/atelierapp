@@ -13,6 +13,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MediaTypeController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductFavoriteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
@@ -70,6 +71,7 @@ Route::get('stores/{id}/products', StoreProductController::class)->name('store.p
 
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
+    Route::post('favorite', ProductFavoriteController::class)->name('product.favorite');
     Route::post('images', [ProductController::class, 'image'])->name('product.image');
     Route::prefix('variations')->group(function () {
         Route::get('/', [VariationController::class, 'index'])->name('variation.index');
