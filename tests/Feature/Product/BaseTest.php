@@ -30,7 +30,6 @@ abstract class BaseTest extends TestCase
         return [
             'id',
             'title',
-            'manufacturer_type',
             'manufacturer_process',
             'manufactured_at',
             'description',
