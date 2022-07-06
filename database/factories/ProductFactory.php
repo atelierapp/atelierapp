@@ -27,7 +27,6 @@ class ProductFactory extends Factory
     {
         return [
             'title' => $this->faker->text(100),
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date(),
             'description' => $this->faker->paragraph(),

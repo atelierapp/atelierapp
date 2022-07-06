@@ -21,4 +21,9 @@ class Quality extends Model
     {
         return $this->morphedByMany(Store::class, 'qualityable');
     }
+
+    public function product(): MorphToMany
+    {
+        return $this->morphedByMany(Product::class, 'qualityable');
+    }
 }

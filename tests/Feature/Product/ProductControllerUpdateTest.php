@@ -3,10 +3,10 @@
 namespace Tests\Feature\Product;
 
 use App\Enums\ManufacturerProcessEnum;
-use App\Enums\ManufacturerTypeEnum;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Product;
+use App\Models\Quality;
 use App\Models\Store;
 use JMac\Testing\Traits\AdditionalAssertions;
 
@@ -45,7 +45,7 @@ class ProductControllerUpdateTest extends BaseTest
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
             'title',
-            'manufacturer_type',
+            'qualities',
             'manufacturer_process',
             'category_id',
             'description',
@@ -80,7 +80,7 @@ class ProductControllerUpdateTest extends BaseTest
         $response->assertJsonValidationErrors([
             'store_id',
             'category_id',
-            'manufacturer_type',
+            'qualities',
             'manufacturer_process',
         ]);
     }
@@ -94,7 +94,7 @@ class ProductControllerUpdateTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -150,7 +150,6 @@ class ProductControllerUpdateTest extends BaseTest
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
             'title' => $data['title'],
-            'manufacturer_type' => $data['manufacturer_type'],
             'manufacturer_process' => $data['manufacturer_process'],
         ]);
         $this->assertDatabaseHas('category_product', [
@@ -161,6 +160,7 @@ class ProductControllerUpdateTest extends BaseTest
         $this->assertDatabaseCount('taggables', 3);
         $this->assertDatabaseCount('materials', 5);
         $this->assertDatabaseCount('material_product', 5);
+        $this->assertDatabaseCount('qualityables', 2);
     }
 
     public function test_authenticated_seller_can_update_a_product_with_required_info_and_collections()
@@ -173,7 +173,7 @@ class ProductControllerUpdateTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -236,6 +236,7 @@ class ProductControllerUpdateTest extends BaseTest
         $this->assertDatabaseCount('category_product', 1);
         $this->assertEquals(3, Collection::authUser()->count());
         $this->assertDatabaseCount('collectionables', 3);
+        $this->assertDatabaseCount('qualityables', 2);
     }
 
     public function test_authenticated_seller_cannot_update_a_product_that_has_a_store_and_that_not_him()
@@ -246,7 +247,7 @@ class ProductControllerUpdateTest extends BaseTest
         $data = [
             'store_id' => Store::factory()->create()->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -286,7 +287,7 @@ class ProductControllerUpdateTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -345,5 +346,6 @@ class ProductControllerUpdateTest extends BaseTest
         $this->assertEquals($data['is_unique'], $response->json('data.is_unique'));
         $this->assertDatabaseCount('products', 1);
         $this->assertDatabaseCount('category_product', 1);
+        $this->assertDatabaseCount('qualityables', 2);
     }
 }
