@@ -1,3 +1,5 @@
 *
 !atelier-logo.png
 !.gitignore
+!fonts
+!fonts/*.otf

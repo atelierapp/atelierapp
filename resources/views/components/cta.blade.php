@@ -9,7 +9,7 @@
   >
     <h2 class="text-white">
       <span class="block text-lg uppercase tracking-wider font-semibold">Available now!</span>
-      <span class="block text-2xl font-medium tracking-wide sm:text-4xl">Beta available through TestFlight</span>
+      <span class="block text-2xl font-medium tracking-wide sm:text-4xl">Get it on the App Store</span>
     </h2>
     <x-elements.button title="Get it for iOS" link="https://apps.apple.com/app/atelier/id1565516356">
       <x-slot name="icon">

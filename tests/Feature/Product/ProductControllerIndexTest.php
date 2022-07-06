@@ -9,20 +9,18 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use JMac\Testing\Traits\AdditionalAssertions;
 
-/**
- * @title Products
- * @group products
- * @see \App\Http\Controllers\ProductController
- */
 class ProductControllerIndexTest extends BaseTest
 {
     use AdditionalAssertions;
 
     public function test_a_guess_can_list_products()
     {
+        Product::factory()->count(5)->create();
+
         $response = $this->getJson(route('product.index'));
 
         $response->assertOk();
+        $response->assertJsonStructure(['data' => [0 => $this->structure()]]);
     }
 
     public function test_authenticated_app_user_can_list_all_products()
