@@ -20,30 +20,28 @@ class ProjectTempController extends Controller
         return $this->response($projects);
     }
 
-    public function store(Request $request): JsonResponse
-    {
-        $request->validate([
-            'name' => 'required',
-            'style_id' => ['required', 'exists:styles,id'],
-            'settings' => ['required', 'array'],
-        ]);
+    // public function store(Request $request): JsonResponse
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'style_id' => ['required', 'exists:styles,id'],
+    //         'settings' => ['required', 'array'],
+    //     ]);
+    //
+    //     $project = $this->projectService->store($request->all());
+    //
+    //     return $this->response($project->toArray(), Response::HTTP_CREATED);
+    // }
 
-        $data = $request->all();
-        $data['author_id'] = auth()->id();
-        $project = Project::create($data);
-
-        return $this->response($project->toArray(), Response::HTTP_CREATED);
-    }
-
-    public function update(Request $request, Project $project): JsonResponse
-    {
-        $request->validate([
-            'settings' => ['required', 'array'],
-        ]);
-
-        $project->settings = $request->all()['settings'];
-        $project->save();
-
-        return $this->response($project->toArray(), Response::HTTP_CREATED);
-    }
+    // public function update(Request $request, Project $project): JsonResponse
+    // {
+    //     $request->validate([
+    //         'settings' => ['required', 'array'],
+    //     ]);
+    //
+    //     $project->settings = $request->all()['settings'];
+    //     $project->save();
+    //
+    //     return $this->response($project->toArray(), Response::HTTP_CREATED);
+    // }
 }

@@ -6,12 +6,16 @@ use App\Http\Requests\ProfileImageRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Services\MediaService;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
 {
-    public function __construct(private MediaService $mediaService)
-    {
+    public function __construct(
+        private MediaService $mediaService,
+        private UserService $userService
+    ) {
+        //
     }
 
     public function show(): JsonResponse
@@ -43,5 +47,12 @@ class ProfileController extends Controller
         $user->save();
 
         return UserResource::make($user);
+    }
+
+    public function destroy()
+    {
+        $this->userService->downAccount();
+
+        return response()->json([], 204);
     }
 }

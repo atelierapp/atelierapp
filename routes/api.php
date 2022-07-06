@@ -17,7 +17,6 @@ use App\Http\Controllers\ProductFavoriteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
-use App\Http\Controllers\ProjectTempController;
 use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ShoppingCartController;
@@ -35,7 +34,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-social', [AuthController::class, 'socialLogin']);
 Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
-Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
 Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -43,14 +41,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('profile/image', [ProfileController::class, 'image'])->name('profile.image');
+    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::apiResource('projects', ProjectController::class);
     Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
     Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
 
-    Route::get('projects-temp', [ProjectTempController::class, 'index']);
-    Route::post('projects-temp', [ProjectTempController::class, 'store']);
-    Route::put('projects-temp/{project}', [ProjectTempController::class, 'update']);
+    Route::get('projects-temp', [ProjectController::class, 'index']);
+    Route::post('projects-temp', [ProjectController::class, 'store']);
+    Route::put('projects-temp/{project}', [ProjectController::class, 'update']);
 
     Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
 

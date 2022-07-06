@@ -40,7 +40,25 @@ class MediaService
             return null;
         }
 
-        $storage = Storage::disk('s3')->putFile($this->path, $file, ['visibility' => 'public']);
+        $file = $this->uploadImage($file);
+
+        return $this->attachToModel($file, $properties);
+    }
+
+    public function saveImage(?UploadedFile $file, array $properties = []): ?Media
+    {
+        $properties['type_id'] = 1; // \App\Models\MediaType::IMAGE
+
+        return $this->save($file, $properties);
+    }
+
+    private function uploadImage(mixed $file): bool|string
+    {
+        return Storage::disk('s3')->putFile($this->path, $file, ['visibility' => 'public']);
+    }
+
+    private function attachToModel($storage, array $properties = [])
+    {
         $attributes = array_merge($this->getParams($properties), [
             'url' => Storage::disk('s3')->url($storage),
             'path' => $storage,
@@ -53,7 +71,7 @@ class MediaService
     {
         $values = [];
 
-        $toFields = ['type_id', 'featured', 'orientation'];
+        $toFields = ['type_id', 'featured', 'orientation', 'extra'];
         foreach ($toFields as $toField) {
             if (isset($properties[$toField])) {
                 $values[$toField] = $properties[$toField];
@@ -61,15 +79,20 @@ class MediaService
             }
         }
 
-        $values['extra'] = $properties;
+        foreach (['id', 'mediable_type', 'mediable_id', 'url', 'path', 'created_at', 'updated_at'] as $attribute) {
+            unset($properties[$attribute]);
+        }
+        if (count($properties)) {
+            $values['extra'] = array_merge($values['extra'], $properties);
+        }
 
         return $values;
     }
 
-    public function saveImage(?UploadedFile $file, array $properties = []): ?Media
+    public function duplicate(Media $media)
     {
-        $properties['type_id'] = 1; // App\Models\MediaType::IMAGE
-
-        return $this->save($file, $properties);
+        $copyPath = str_replace('.', "_{$this->model->id}_forked.", $media->path);
+        Storage::disk('s3')->copy($media->path, $copyPath);
+        $this->attachToModel($copyPath, $media->toArray());
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Profile;
 
-use App\Models\Store;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+
+use function route;
 
 class ImageProfileTest extends TestCase
 {
