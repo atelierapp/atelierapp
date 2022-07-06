@@ -29,6 +29,9 @@ class ProductResource extends JsonResource
             'featured_media' => $this->featured_media->url,
             'is_on_demand' => $this->is_on_demand,
             'is_unique' => $this->is_unique,
+            $this->mergeWhen(auth()->check(), [
+                'is_favorite' => (bool) $this->authFavorite?->exists,
+            ]),
             'store' => new StoreResource($this->whenLoaded('store')),
             'medias' => MediaResource::collection($this->whenLoaded('medias')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),

@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\morphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -62,9 +64,16 @@ class Product extends Model
         return new ProductBuilder($query);
     }
 
-    public function collections(): \Illuminate\Database\Eloquent\Relations\morphToMany
+    public function collections(): morphToMany
     {
         return $this->morphToMany(Collection::class, 'collectionable');
+    }
+
+    public function authFavorite(): HasOne
+    {
+        return $this->hasOne(FavoriteProduct::class, 'product_id', 'id')
+            ->where('user_id', '=', auth()->id())
+            ;
     }
 
     public function store(): BelongsTo

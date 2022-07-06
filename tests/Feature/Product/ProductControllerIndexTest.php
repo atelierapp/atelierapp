@@ -4,7 +4,9 @@ namespace Tests\Feature\Product;
 
 use App\Models\Category;
 use App\Models\Collection;
+use App\Models\FavoriteProduct;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use JMac\Testing\Traits\AdditionalAssertions;
 
 /**
@@ -16,11 +18,11 @@ class ProductControllerIndexTest extends BaseTest
 {
     use AdditionalAssertions;
 
-    public function test_a_guess_cannot_list_products()
+    public function test_a_guess_can_list_products()
     {
         $response = $this->getJson(route('product.index'));
 
-        $response->assertUnauthorized();
+        $response->assertOk();
     }
 
     public function test_authenticated_app_user_can_list_all_products()
@@ -32,6 +34,46 @@ class ProductControllerIndexTest extends BaseTest
 
         $response->assertOk();
         $response->assertJsonCount(8, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_all_products_with_favorite()
+    {
+        $user = $this->createAuthenticatedUser();
+        Product::factory()->count(8)->create();
+        FavoriteProduct::query()->create(['user_id' => $user->id, 'product_id' => 2]);
+
+        $response = $this->getJson(route('product.index'));
+
+        $response->assertOk();
+        $response->assertJsonCount(8, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'is_favorite'
+                ]
+            ]
+        ]);
         $response->assertJsonStructure([
             'data' => [
                 0 => $this->structure(),

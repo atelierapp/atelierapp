@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Role;
+use Bouncer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ProductService
@@ -21,8 +23,13 @@ class ProductService
 
     public function list(): LengthAwarePaginator
     {
+        $relations = ['style', 'medias', 'tags', 'store'];
+        if (auth()->check()) {
+            $relations[] = 'authFavorite';
+        }
+
         return Product::authUser()
-            ->with(['style', 'medias', 'tags', 'store',])
+            ->with($relations)
             ->applyFiltersFrom(request()->all())
             ->paginate();
     }
@@ -215,6 +222,10 @@ class ProductService
     public function loadRelations(Product &$product)
     {
         $product->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media', 'collections');
+
+        if (auth()->check()) {
+            $product->load('authFavorite');
+        }
     }
 
 }

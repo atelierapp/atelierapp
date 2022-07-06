@@ -40,11 +40,6 @@ class ProductController extends Controller
         return ProductResource::make($product);
     }
 
-    private function loadRelations(Product $productModel)
-    {
-        $productModel->load('categories', 'style', 'store', 'materials', 'medias', 'tags', 'featured_media');
-    }
-
     public function update(ProductUpdateRequest $request, $product): ProductResource
     {
         $product = $this->productService->update($product, $request->validated());
