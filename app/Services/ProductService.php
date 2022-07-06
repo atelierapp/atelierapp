@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Quality;
 use App\Models\Role;
 use Bouncer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 
 class ProductService
 {
@@ -49,6 +51,7 @@ class ProductService
         ];
 
         $product = Product::create($data);
+        $this->processQualities($product, Arr::get($params, 'qualities'));
         $this->processImages($product, $data['images']);
         $this->variationService->duplicateFromProduct($product, $data['images']);
         $this->processCategories($product, [$data['category_id']]);
@@ -68,6 +71,15 @@ class ProductService
         $product->load('variations.medias');
 
         return $product;
+    }
+
+    private function processQualities(Product &$product, array $qualities)
+    {
+        if (count($qualities)) {
+            $qualities = Quality::query()->whereIn('id', $qualities)->get();
+            $product->qualities()->sync($qualities);
+            $product->load('qualities');
+        }
     }
 
     public function processCategories(Product|int $product, array $categories): void
@@ -194,6 +206,7 @@ class ProductService
         $product->fill($params);
         $product->save();
 
+        $this->processQualities($product, Arr::get($params, 'qualities'));
         $this->processCategories($product, [$params['category_id']]);
         $this->processTags($product, $params['tags']);
         $this->processMaterials($product, $params['materials']);

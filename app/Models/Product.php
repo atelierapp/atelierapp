@@ -6,6 +6,7 @@ use App\Builders\ProductBuilder;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Traits\Models\HasMediasRelation;
+use App\Traits\Models\HasQualitiesRelation;
 use App\Traits\Models\HasTagsRelation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,12 +26,12 @@ class Product extends Model
     use HasFactory;
     use SoftDeletes;
     use HasMediasRelation;
+    use HasQualitiesRelation;
     use HasTagsRelation;
 
     protected $fillable = [
         'title',
         'store_id',
-        'manufacturer_type',
         'manufacturer_process',
         'manufactured_at',
         'description',
