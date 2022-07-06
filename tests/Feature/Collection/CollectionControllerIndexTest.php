@@ -17,10 +17,10 @@ class CollectionControllerIndexTest extends TestCase
 
     public function test_a_authenticated_user_can_list_all_active_collections_by_default()
     {
+        $user = $this->createAuthenticatedUser();
         Collection::factory()->count(10)->state(new Sequence(
             ['is_active' => true], ['is_active' => false]
-        ))->create();
-        $this->createAuthenticatedUser();
+        ))->create(['user_id' => $user->id]);
 
         $response = $this->getJson(route('collection.index'));
 
@@ -39,8 +39,8 @@ class CollectionControllerIndexTest extends TestCase
 
     public function test_a_authenticated_user_can_list_all_active_collection()
     {
-        Collection::factory()->count(10)->create();
-        $this->createAuthenticatedUser();
+        $user = $this->createAuthenticatedUser();
+        Collection::factory()->count(10)->create(['user_id' => $user->id]);
 
         $response = $this->getJson(route('collection.index', ['with_all' => true]));
 
