@@ -58,14 +58,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
     Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
     Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
+
+    Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
+    Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 });
 
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 
 Route::apiResource('categories', CategoryController::class)->names('category');
-
-Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
-Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {

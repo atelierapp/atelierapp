@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @mixin IdeHelperVariation
  * @mixin Eloquent
  * @property int $id
  * @property int $product_id
  * @property string $name
  * @property Product $product
+ * @mixin IdeHelperVariation
  */
 class Variation extends Model
 {
