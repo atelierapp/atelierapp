@@ -73,6 +73,11 @@ class Store extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function userRatings(): HasMany
+    {
+        return $this->hasMany(StoreUserRating::class, 'store_id');
+    }
+
     public function scopeSearch($query, $value)
     {
         return empty($value)

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\StoreUserQualify;
+use App\Models\StoreUserRating;
 
 class QualifyService
 {
@@ -13,6 +13,6 @@ class QualifyService
         $params['user_id'] = auth()->id();
         $params['store_id'] = $store->id;
 
-        return StoreUserQualify::query()->create($params);
+        return StoreUserRating::query()->create($params);
     }
 }

@@ -83,6 +83,6 @@ class StoreUserQualifyControllerTest extends TestCase
         ]);
         self::assertEquals($data['score'], $response->json('data.score'));
         self::assertEquals($data['comment'], $response->json('data.comment'));
-        self::assertDatabaseCount('store_user_qualifies', 1);
+        self::assertDatabaseCount('store_user_ratings', 1);
     }
 }

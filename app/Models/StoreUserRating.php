@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StoreUserQualify extends Model
+/**
+ * @mixin IdeHelperStoreUserQualify
+ */
+class StoreUserRating extends Model
 {
     use HasFactory;
 
-    protected $table = 'store_user_qualifies';
+    protected $table = 'store_user_ratings';
 
     protected $fillable = [
         'user_id',
