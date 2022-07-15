@@ -18,11 +18,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 /**
- * @mixin IdeHelperUser
  * @mixin Eloquent
  * @property Variation $shopping_cart
  * @property int $id
  * @property Store|null $store
+ * @mixin IdeHelperUser
  */
 class User extends Authenticatable
 {
@@ -60,11 +60,6 @@ class User extends Authenticatable
         'is_active' => 'boolean',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
     public function socialAccounts(): HasMany
     {
         return $this->hasMany(SocialAccount::class);
@@ -85,21 +80,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Variation::class, 'shopping_cart')->with('product')->using(ShoppingCart::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Query Scopes
-    |--------------------------------------------------------------------------
-    */
     public function scopeFirstByEmail(Builder $query, $value): Model|Builder|null
     {
         return $query->where('email', $value)->first();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Accessors & Mutators
-    |--------------------------------------------------------------------------
-    */
     public function setPasswordAttribute($value): void
     {
         $this->attributes['password'] = Hash::make($value);
@@ -109,22 +94,6 @@ class User extends Authenticatable
     {
         return "{$this->first_name} {$this->last_name}";
     }
-
-    // public function getAvatarAttribute(): ?string
-    // {
-    //     if (!isset($this->attributes['avatar'])) {
-    //         return null;
-    //     }
-    //
-    //     if (Str::startsWith($this->attributes['avatar'], 'http')) {
-    //         return $this->attributes['avatar'];
-    //     }
-    //
-    //     return Storage::disk('s3')->temporaryUrl(
-    //         $this->attributes['avatar'],
-    //         now()->addMinutes(30)
-    //     );
-    // }
 
     protected static function booted()
     {
