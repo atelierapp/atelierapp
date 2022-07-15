@@ -16,9 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::updateOrCreate([
-            'email' => 'kenny@qbklabs.com',
-        ], [
+        $user = User::updateOrCreate(['email' => 'kenny@qbklabs.com',], [
             'first_name' => 'Kenny',
             'last_name' => 'Horna',
             'password' => 'password',
@@ -26,9 +24,8 @@ class UserSeeder extends Seeder
             'birthday' => '1980-01-01',
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
-        $user = User::updateOrCreate([
-            'email' => 'jaime.virruetaf@gmail.com',
-        ], [
+
+        $user = User::updateOrCreate(['email' => 'jaime.virruetaf@gmail.com',], [
             'first_name' => 'Jaime',
             'last_name' => 'Virrueta',
             'password' => 'password',
@@ -37,9 +34,7 @@ class UserSeeder extends Seeder
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
 
-        User::updateOrCreate([
-            'email' => 'john@doe.com',
-        ], [
+        User::updateOrCreate(['email' => 'john@doe.com',], [
             'first_name' => 'John',
             'last_name' => 'Doe',
             'password' => 'password',
