@@ -11,7 +11,7 @@ class ShoppingCartController extends Controller
     public function index()
     {
         $variants = ShoppingCart::query()
-            ->with('variation.product')
+            ->with('variation.product.medias', 'variation.medias')
             ->where('user_id', auth()->id())
             ->paginate(request('pageSize', 20));
 
