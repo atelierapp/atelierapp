@@ -73,8 +73,7 @@ class Product extends Model
     public function authFavorite(): HasOne
     {
         return $this->hasOne(FavoriteProduct::class, 'product_id', 'id')
-            ->where('user_id', '=', auth()->id())
-            ;
+            ->where('user_id', '=', request()->user('sanctum')->id);
     }
 
     public function store(): BelongsTo

@@ -10,6 +10,7 @@ class ProductResource extends JsonResource
 {
     public function toArray($request): array
     {
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -28,8 +29,8 @@ class ProductResource extends JsonResource
             'featured_media' => $this->featured_media->url,
             'is_on_demand' => $this->is_on_demand,
             'is_unique' => $this->is_unique,
-            $this->mergeWhen(auth()->check(), [
-                'is_favorite' => (bool) $this->authFavorite?->exists,
+            $this->mergeWhen(request()->user('sanctum'), [
+                'is_favorite' => $this->authFavorite?->exists,
             ]),
             'qualities' => QualityResource::collection($this->whenLoaded('qualities')),
             'store' => new StoreResource($this->whenLoaded('store')),

@@ -26,7 +26,7 @@ class ProductService
     public function list(): LengthAwarePaginator
     {
         $relations = ['style', 'medias', 'tags', 'store'];
-        if (auth()->check()) {
+        if (request()->user('sanctum')) {
             $relations[] = 'authFavorite';
         }
 
