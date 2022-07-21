@@ -15,13 +15,13 @@ class LinkStripeStoreController extends Controller
     public function __invoke(Request $request)
     {
         if (! request()->query('state') || ! request()->query('code')) {
-            return $this->buildFailedResponse('There was an issue identifying the store.');
+            return $this->buildFailedResponse();
         }
 
         $token = PersonalAccessToken::findToken(request('state'));
 
         if (! $token) {
-            return $this->buildFailedResponse('There provided token is invalid.');
+            return $this->buildFailedResponse();
         }
 
         $response = Cashier::stripe()->oauth->token([
@@ -51,19 +51,18 @@ class LinkStripeStoreController extends Controller
         return $this->buildRedirectUri(true);
     }
 
-    private function buildFailedResponse(string $message)
+    private function buildFailedResponse()
     {
-        return $this->buildRedirectUri(false, $message);
+        return $this->buildRedirectUri(false);
     }
 
-    private function buildRedirectUri(bool $connected, string $message = 'Successfully connected')
+    private function buildRedirectUri(bool $connected)
     {
         return redirect(
             sprintf(
-                '%s?connected=%s&message=%s',
+                '%s?connected=%s',
                 config('atelier.web-app.redirect.stripe.connect'),
-                $connected,
-                $message,
+                $connected ? 'true' : 'false',
             )
         );
     }
