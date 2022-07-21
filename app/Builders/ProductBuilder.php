@@ -67,7 +67,9 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
                 ->where('title', 'like', "%{$value}%")
                 ->orWhereHas('style', function ($q) use ($value) {
                     $q->where('name', 'like', "%{$value}%");
-                });
+                })
+                ->orWhereHas('categories', fn ($q) => $q->where('name', 'like', "%{$value}%"))
+            ;
         }
 
         return $this;
