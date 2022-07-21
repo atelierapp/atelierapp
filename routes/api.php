@@ -15,6 +15,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileFavoriteController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
 use App\Http\Controllers\QualityController;
@@ -43,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('profile/image', [ProfileController::class, 'image'])->name('profile.image');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
 
     Route::apiResource('projects', ProjectController::class);
     Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
