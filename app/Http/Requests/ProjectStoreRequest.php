@@ -14,8 +14,6 @@ class ProjectStoreRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3'],
             'style_id' => ['required', 'integer', 'exists:' . Style::class . ',id'],
-            'author_id' => ['required', 'exists:' . User::class . ',id'],
-            'forked_from_id' => ['nullable', 'integer', 'exists:' . Project::class . ',id'],
             'published' => ['boolean'],
             'public' => ['boolean'],
             'tags.*.name' => ['string'],
