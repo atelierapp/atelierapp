@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Media;
 use App\Models\Product;
+use App\Models\Quality;
 use App\Models\Store;
 use App\Models\Variation;
 use Illuminate\Http\UploadedFile;
@@ -49,7 +50,6 @@ class ProductControllerStoreTest extends BaseTest
         $response->assertJsonValidationErrors([
             'store_id',
             'title',
-            'manufacturer_type',
             'manufacturer_process',
             'category_id',
             'description',
@@ -88,7 +88,6 @@ class ProductControllerStoreTest extends BaseTest
         $response->assertJsonValidationErrors([
             'store_id',
             'category_id',
-            'manufacturer_type',
             'manufacturer_process',
         ]);
     }
@@ -188,7 +187,7 @@ class ProductControllerStoreTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -224,6 +223,11 @@ class ProductControllerStoreTest extends BaseTest
                 'data' => $this->structure(),
             ]
         );
+        $response->assertJsonStructure(
+            [
+                'data' => ['qualities'],
+            ]
+        );
         $this->assertDatabaseCount('products', 1);
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('media', 8);
@@ -233,6 +237,7 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertDatabaseCount('taggables', 3);
         $this->assertDatabaseCount('materials', 5);
         $this->assertDatabaseCount('material_product', 5);
+        $this->assertDatabaseCount('qualityables', 2);
     }
 
     public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images_and_duplicated_as_variation()
@@ -243,7 +248,7 @@ class ProductControllerStoreTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -328,6 +333,7 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertDatabaseCount('materials', 5);
         $this->assertDatabaseCount('material_product', 5);
         $this->assertDatabaseCount('variations', 1);
+        $this->assertDatabaseCount('qualityables', 2);
         $this->assertEquals(1, Media::featured()->model(Variation::class)->count());
         $this->assertEquals(3, Media::nonFeatured()->model(Variation::class)->count());
     }
@@ -341,7 +347,7 @@ class ProductControllerStoreTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -398,6 +404,7 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertEquals(6, Media::nonFeatured()->count());
         $this->assertEquals(3, Collection::authUser()->count());
         $this->assertDatabaseCount('collectionables', 3);
+        $this->assertDatabaseCount('qualityables', 2);
     }
 
     public function test_authenticated_seller_can_store_a_product_with_info_and_images_and_one_variations()
@@ -408,7 +415,7 @@ class ProductControllerStoreTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -502,6 +509,7 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertDatabaseCount('material_product', 5);
         $this->assertDatabaseCount('variations', 2);
         $this->assertDatabaseCount('media', 12);
+        $this->assertDatabaseCount('qualityables', 2);
         $this->assertEquals(1, Media::featured()->model(Product::class)->count());
         $this->assertEquals(3, Media::nonFeatured()->model(Product::class)->count());
         $this->assertEquals(2, Media::featured()->model(Variation::class)->count());
@@ -516,7 +524,7 @@ class ProductControllerStoreTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -619,6 +627,7 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertDatabaseCount('material_product', 5);
         $this->assertDatabaseCount('variations', 3);
         $this->assertDatabaseCount('media', 16);
+        $this->assertDatabaseCount('qualityables', 2);
         $this->assertEquals(1, Media::featured()->model(Product::class)->count());
         $this->assertEquals(3, Media::nonFeatured()->model(Product::class)->count());
         $this->assertEquals(3, Media::featured()->model(Variation::class)->count());
@@ -633,7 +642,7 @@ class ProductControllerStoreTest extends BaseTest
         $data = [
             'store_id' => $store->id,
             'title' => $this->faker->name,
-            'manufacturer_type' => $this->faker->randomElement(array_keys(ManufacturerTypeEnum::MAP_VALUE)),
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'category_id' => Category::factory()->create()->id,
             'description' => $this->faker->paragraph(),
@@ -676,5 +685,6 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertDatabaseCount('taggables', 1);
         $this->assertDatabaseCount('materials', 1);
         $this->assertDatabaseCount('material_product', 1);
+        $this->assertDatabaseCount('qualityables', 2);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\CollectionStoreRequest;
 use App\Http\Requests\CollectionUpdateRequest;
 use App\Http\Resources\CollectionResource;
 use App\Models\Collection;
+use App\Models\Role;
 use App\Services\CollectionService;
 use Bouncer;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -15,7 +16,7 @@ class CollectionController extends Controller
 {
     public function __construct(private CollectionService $collectionService)
     {
-        $this->middleware('auth:sanctum');
+        //
     }
 
     public function index()
@@ -58,14 +59,17 @@ class CollectionController extends Controller
      */
     public function destroy($collection)
     {
-        if (Bouncer::is(auth()->user())->notAn('admin')) {
+        if (Bouncer::is(auth()->user())->a(Role::USER)) {
             throw new AuthorizationException();
         }
 
-        $collection = Collection::query()
-            ->where('id', '=', $collection)
-            ->withCount(['products'])
-            ->firstOrFail();
+        $query = Collection::whereId($collection)->withCount(['products']);
+
+        if (Bouncer::is(auth()->user())->a(Role::SELLER)) {
+            $query->authUser();
+        }
+
+        $collection = $query->firstOrFail();
 
         if ($collection->products_count) {
             return response()->json(['message' => 'Collection cannot delete because has associated stores']);

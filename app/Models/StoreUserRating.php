@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperFavoriteProduct
+ * @mixin IdeHelperStoreUserQualify
  */
-class FavoriteProduct extends Model
+class StoreUserRating extends Model
 {
     use HasFactory;
 
-    protected $table = 'favorite_products';
+    protected $table = 'store_user_ratings';
 
     protected $fillable = [
         'user_id',
-        'product_id',
+        'store_id',
+        'score',
+        'comment',
     ];
-
-    public $timestamps = false;
 }

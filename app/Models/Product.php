@@ -6,6 +6,7 @@ use App\Builders\ProductBuilder;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Traits\Models\HasMediasRelation;
+use App\Traits\Models\HasQualitiesRelation;
 use App\Traits\Models\HasTagsRelation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,12 +26,12 @@ class Product extends Model
     use HasFactory;
     use SoftDeletes;
     use HasMediasRelation;
+    use HasQualitiesRelation;
     use HasTagsRelation;
 
     protected $fillable = [
         'title',
         'store_id',
-        'manufacturer_type',
         'manufacturer_process',
         'manufactured_at',
         'description',
@@ -72,8 +73,7 @@ class Product extends Model
     public function authFavorite(): HasOne
     {
         return $this->hasOne(FavoriteProduct::class, 'product_id', 'id')
-            ->where('user_id', '=', auth()->id())
-            ;
+            ->where('user_id', '=', request()->user('sanctum')->id);
     }
 
     public function store(): BelongsTo

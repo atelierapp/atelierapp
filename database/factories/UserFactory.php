@@ -4,17 +4,10 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Bouncer;
-use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
 
 class UserFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = User::class;
 
     public function definition(): array
@@ -40,12 +33,5 @@ class UserFactory extends Factory
                 Bouncer::assign($roles)->to($user);
             }
         );
-    }
-
-    public function configure(): UserFactory
-    {
-        return $this->afterCreating(function (User $user) {
-            $user->assign(Role::USER);
-        });
     }
 }

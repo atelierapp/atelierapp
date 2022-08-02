@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\Style;
+use App\Models\Variation;
+use App\Services\VariationService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -136,10 +138,12 @@ class ProductSeeder extends Seeder
         $categories = Category::all();
         $styles = Style::all()->pluck('id', 'name');
 
+        $variationService = app(VariationService::class);
+
         foreach ($productsExcel as $productExcel){
             $product = Product::updateOrCreate([
                 'sku' => $productExcel['sku'],
-                ],[
+            ],[
                 'store_id' => $stores[$productExcel['store']],
                 'title' => $productExcel['title'],
                 'style_id' => $styles[$productExcel['style']],
@@ -159,10 +163,18 @@ class ProductSeeder extends Seeder
             $this->media($product, $productExcel['front']);
             $this->media($product, $productExcel['side']);
             $this->media($product, $productExcel['pers']);
+            $variation = $variationService->create([
+                'product_id' => $product->id,
+                'name' => $product->title,
+                'is_duplicated' => true,
+            ]);
+            $this->media($variation, $productExcel['front']);
+            $this->media($variation, $productExcel['side']);
+            $this->media($variation, $productExcel['pers']);
         }
     }
 
-    private function media(Product $product, string $view)
+    private function media(Product|Variation $model, string $view)
     {
         if ($view != '-') {
             $orientations = [
@@ -172,7 +184,7 @@ class ProductSeeder extends Seeder
             ];
 
             $orientation = Str::substr($view, -2, 2);
-            $product->medias()->create([
+            $model->medias()->create([
                 'url' => Str::of($view)
                     ->prepend('https://atelier-staging-bucket.s3.amazonaws.com/products/')
                     ->append(".png"),

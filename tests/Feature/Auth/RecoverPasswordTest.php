@@ -10,7 +10,7 @@ class RecoverPasswordTest extends TestCase
 {
     public function test_guest_user_cannot_recover_a_password_without_any_params()
     {
-        $response = $this->postJson(route('resetPassword'));
+        $response = $this->getJson(route('resetPassword'));
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -27,7 +27,7 @@ class RecoverPasswordTest extends TestCase
             'token' => md5('token'),
         ]);
 
-        $response = $this->postJson(route('resetPassword'), [
+        $response = $this->getJson(route('resetPassword'), [
             'token' => 'some-token',
             'email' => $forgotPassword->email,
             'password' => 'password',
@@ -44,7 +44,7 @@ class RecoverPasswordTest extends TestCase
             'token' => md5('token'),
         ]);
 
-        $response = $this->postJson(route('resetPassword'), [
+        $response = $this->getJson(route('resetPassword'), [
             'token' => $forgotPassword->token,
             'email' => $forgotPassword->email,
             'password' => 'password',
@@ -62,7 +62,7 @@ class RecoverPasswordTest extends TestCase
             'token' => md5('token'),
         ]);
 
-        $response = $this->postJson(route('resetPassword'), [
+        $response = $this->getJson(route('resetPassword'), [
             'token' => $forgotPassword->token,
             'email' => $forgotPassword->email,
             'password' => 'password',
@@ -83,7 +83,7 @@ class RecoverPasswordTest extends TestCase
             'token' => md5('token'),
         ]);
 
-        $response = $this->postJson(route('resetPassword'), [
+        $response = $this->getJson(route('resetPassword'), [
             'token' => $forgotPassword->token,
             'email' => $forgotPassword->email,
             'password' => 'password',
@@ -92,7 +92,7 @@ class RecoverPasswordTest extends TestCase
 
         $response->assertOk();
 
-        $response = $this->postJson(route('login'), [
+        $response = $this->getJson(route('login'), [
             'email' => $user->email,
             'password' => 'password'
         ]);

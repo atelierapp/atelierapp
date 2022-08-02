@@ -18,8 +18,8 @@ class StoreResource extends JsonResource
             'cover' => $this->cover,
             'team' => $this->team,
             'active' => $this->active,
-            'customer_rating' => rand(30, 50) / 10, // TODO :: implement
-            'internal_rating' => rand(30, 50) / 10, // TODO :: implement
+            'customer_rating' => $this->customer_rating,
+            'internal_rating' => $this->internal_rating,
             'qualities' => QualityResource::collection($this->whenLoaded('qualities')),
             'connected' => $this->has_active_store,
             'vendor_mode' => $this->vendor_mode,

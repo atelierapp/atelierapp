@@ -23,7 +23,7 @@ class CollectionControllerDeleteTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_an_authenticated_admin_can_delete_a_quality()
+    public function test_an_authenticated_admin_can_delete_a_collection()
     {
         $this->createAuthenticatedAdmin();
         $quality = Collection::factory()->create();
@@ -32,5 +32,26 @@ class CollectionControllerDeleteTest extends TestCase
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('collections', ['id' => $quality->id]);
+    }
+
+    public function test_an_authenticated_seller_can_delete_his_collection()
+    {
+        $user = $this->createAuthenticatedSeller();
+        $quality = Collection::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->deleteJson(route('collection.destroy', $quality->id));
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('collections', ['id' => $quality->id]);
+    }
+
+    public function test_an_authenticated_seller_cannot_delete_a_collection_that_not_him()
+    {
+        $this->createAuthenticatedSeller();
+        $quality = Collection::factory()->create();
+
+        $response = $this->deleteJson(route('collection.destroy', $quality->id));
+
+        $response->assertNotFound();
     }
 }

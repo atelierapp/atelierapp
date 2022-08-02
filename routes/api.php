@@ -15,6 +15,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileFavoriteController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
 use App\Http\Controllers\QualityController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\StoreProductController;
+use App\Http\Controllers\StoreUserQualifyController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UnitController;
@@ -42,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('profile/image', [ProfileController::class, 'image'])->name('profile.image');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
 
     Route::apiResource('projects', ProjectController::class);
     Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
@@ -57,16 +60,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
     Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
     Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
+
+    Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
+    Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 });
 
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 
 Route::apiResource('categories', CategoryController::class)->names('category');
-
-Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
-Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
-
-Route::get('stores/{id}/products', StoreProductController::class)->name('store.products.index');
 
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
@@ -94,6 +95,8 @@ Route::apiResource('unit-system', UnitSystemController::class)->names('unit-syst
 Route::get('stores/my-store', [StoreController::class, 'myStore'])->name('store.my-store');
 Route::apiResource('stores', StoreController::class)->names('store');
 Route::post('stores/{store}/image', [StoreController::class, 'image'])->name('store.image');
+Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
+Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
 
 Route::apiResource('media-types', MediaTypeController::class)->names('media-type');
 

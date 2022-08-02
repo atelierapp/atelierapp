@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * @mixin IdeHelperStore
  * @mixin Eloquent
  * @property int|null user_id
  * @property string name
@@ -28,6 +27,7 @@ use JetBrains\PhpStorm\Pure;
  * @property string|null stripe_connect_id
  * @property string vendor_mode
  * @property bool has_active_store
+ * @mixin IdeHelperStore
  */
 class Store extends Model
 {
@@ -71,6 +71,11 @@ class Store extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function userRatings(): HasMany
+    {
+        return $this->hasMany(StoreUserRating::class, 'store_id');
     }
 
     public function scopeSearch($query, $value)
