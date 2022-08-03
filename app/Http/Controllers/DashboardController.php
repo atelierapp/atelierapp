@@ -46,6 +46,17 @@ class DashboardController extends Controller
         return $values;
     }
 
+    public function kpiProducts()
+    {
+        return [
+            'data' => [
+                'total_revenue' => 0,
+                'revenue' => 0,
+                'growth' => 0,
+            ],
+        ];
+    }
+
     public function statics()
     {
         $values = [];
