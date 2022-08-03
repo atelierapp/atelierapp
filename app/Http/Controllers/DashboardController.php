@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductView;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class DashboardController extends Controller
@@ -18,9 +20,9 @@ class DashboardController extends Controller
         return [
             'data' => [
                 'views' => [
-                    'value' => 0,
+                    'value' => Product::authUser()->sum('view_count'),
                     'percent' => 0,
-                    'history' => $this->prepareHistory(),
+                    'history' => $this->prepareProductViewsHistory(),
                 ],
                 'products' => [
                     'value' => 0,
@@ -44,6 +46,19 @@ class DashboardController extends Controller
         }
 
         return $values;
+    }
+
+    private function prepareProductViewsHistory(int $lastDays = 15): array
+    {
+        return ProductView::query()
+            ->select([DB::raw('date(product_views.created_at) as date'), DB::raw('count(1) as views')])
+            ->join('products', 'product_views.product_id', '=', 'products.id')
+            ->join('stores', fn($join) => $join->on('products.store_id', '=', 'stores.id')->where('stores.user_id', '=', auth()->id()))
+            ->whereDate('product_views.created_at', '>=', now()->subDays($lastDays)->toDateString())
+            ->groupBy(DB::raw('date(product_views.created_at)'))
+            ->get()
+            ->pluck('views', 'date')
+            ->toArray();
     }
 
     public function kpiProducts()
