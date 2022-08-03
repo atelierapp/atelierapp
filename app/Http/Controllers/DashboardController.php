@@ -18,18 +18,18 @@ class DashboardController extends Controller
         return [
             'data' => [
                 'views' => [
-                    'value' => rand(100000, 200000),
-                    'percent' => rand(-200, 200) / 10,
+                    'value' => 0,
+                    'percent' => 0,
                     'history' => $this->prepareHistory(),
                 ],
                 'products' => [
-                    'value' => rand(100000, 200000),
-                    'percent' => rand(-200, 200) / 10,
+                    'value' => 0,
+                    'percent' => 0,
                     'history' => $this->prepareHistory(),
                 ],
                 'earnings' => [
-                    'value' => rand(100000, 200000),
-                    'percent' => rand(-200, 200) / 10,
+                    'value' => 0,
+                    'percent' => 0,
                     'history' => $this->prepareHistory(),
                 ],
             ],
@@ -40,7 +40,7 @@ class DashboardController extends Controller
     {
         $values = [];
         for ($i = 0; $i < 13; $i++) {
-            $values[] = rand(10000, 30000);
+            $values[] = 0;
         }
 
         return $values;
