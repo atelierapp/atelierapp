@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use App\Builders\ProductBuilder;
+use App\Builders\ProductViewBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperProductView
+ */
 class ProductView extends Model
 {
     use HasFactory;
@@ -18,4 +23,9 @@ class ProductView extends Model
     ];
 
     public $timestamps = false;
+
+    public function newEloquentBuilder($query): ProductViewBuilder
+    {
+        return new ProductViewBuilder($query);
+    }
 }
