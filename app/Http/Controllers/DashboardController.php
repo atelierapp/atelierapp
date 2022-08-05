@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductView;
 use App\Models\User;
+use App\Services\DashboardService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
-    public function __construct()
+    public function __construct(private DashboardService $dashboardService)
     {
         $this->middleware('auth:sanctum');
     }
@@ -18,18 +21,18 @@ class DashboardController extends Controller
         return [
             'data' => [
                 'views' => [
-                    'value' => rand(100000, 200000),
-                    'percent' => rand(-200, 200) / 10,
-                    'history' => $this->prepareHistory(),
+                    'value' => $this->dashboardService->productViews(),
+                    'percent' => $this->dashboardService->percentViewsHistory(),
+                    'history' => $this->dashboardService->productViewsHistory(),
                 ],
                 'products' => [
-                    'value' => rand(100000, 200000),
-                    'percent' => rand(-200, 200) / 10,
+                    'value' => 0,
+                    'percent' => 0,
                     'history' => $this->prepareHistory(),
                 ],
                 'earnings' => [
-                    'value' => rand(100000, 200000),
-                    'percent' => rand(-200, 200) / 10,
+                    'value' => 0,
+                    'percent' => 0,
                     'history' => $this->prepareHistory(),
                 ],
             ],
@@ -40,7 +43,7 @@ class DashboardController extends Controller
     {
         $values = [];
         for ($i = 0; $i < 13; $i++) {
-            $values[] = rand(10000, 30000);
+            $values[] = 0;
         }
 
         return $values;

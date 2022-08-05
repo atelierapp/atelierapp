@@ -70,4 +70,23 @@ class ProductControllerShowTest extends BaseTest
 
         $response->assertNotFound();
     }
+
+    public function test_when_product_is_viewed_increase_counter_and_save_a_new_record_on_database_through_a_job()
+    {
+        $user = $this->createAuthenticatedUser();
+        $product = Product::factory()->create();
+
+        $response = $this->getJson(route('product.show', $product->id));
+
+        $response->assertOk();
+        $response->assertJsonStructure(['data' => $this->structure()]);
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'view_count' => 1
+        ]);
+        $this->assertDatabaseHas('product_views', [
+            'product_id' => $product->id,
+            'user_id' => $user->id
+        ]);
+    }
 }
