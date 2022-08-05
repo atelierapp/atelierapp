@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductView;
 use App\Models\User;
+use App\Services\DashboardService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
-    public function __construct()
+    public function __construct(private DashboardService $dashboardService)
     {
         $this->middleware('auth:sanctum');
     }
@@ -18,9 +21,9 @@ class DashboardController extends Controller
         return [
             'data' => [
                 'views' => [
-                    'value' => 0,
-                    'percent' => 0,
-                    'history' => $this->prepareHistory(),
+                    'value' => $this->dashboardService->productViews(),
+                    'percent' => $this->dashboardService->percentViewsHistory(),
+                    'history' => $this->dashboardService->productViewsHistory(),
                 ],
                 'products' => [
                     'value' => 0,

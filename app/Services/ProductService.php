@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\ProductViewCount;
 use App\Models\Product;
 use App\Models\Quality;
 use App\Models\Role;
@@ -239,6 +240,11 @@ class ProductService
         if (auth()->check()) {
             $product->load('authFavorite');
         }
+    }
+
+    public function processViewCount(Product $product)
+    {
+        ProductViewCount::dispatch($product, auth()->id());
     }
 
 }

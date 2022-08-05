@@ -36,6 +36,7 @@ class ProductController extends Controller
     {
         $product = $this->productService->getBy($product);
         $this->productService->loadRelations($product);
+        $this->productService->processViewCount($product);
 
         return ProductResource::make($product);
     }
