@@ -52,7 +52,7 @@ class ProductService
         ];
 
         $product = Product::create($data);
-        $this->processQualities($product, Arr::get($params, 'qualities'));
+        $this->processQualities($product, Arr::get($params, 'qualities', []));
         $this->processImages($product, $data['images']);
         $this->variationService->duplicateFromProduct($product, $data['images']);
         $this->processCategories($product, [$data['category_id']]);
