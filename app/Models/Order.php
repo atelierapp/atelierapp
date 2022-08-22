@@ -14,6 +14,14 @@ class Order extends Model
 {
     use HasFactory;
 
+    public const SELLER_PENDING = 1;
+    public const SELLER_APPROVAL = 2;
+    public const SELLER_REJECT = 3;
+
+    public const PAYMENT_PENDING = 1;
+    public const PAYMENT_APPROVAL = 2;
+    public const PAYMENT_REJECT = 3;
+
     protected $fillable = [
         'user_id',
         'store_id',
@@ -35,6 +43,11 @@ class Order extends Model
     public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function sellerOrders(): HasMany
+    {
+        return $this->hasMany(static::class, 'parent_id');
     }
 
     public function store(): BelongsTo

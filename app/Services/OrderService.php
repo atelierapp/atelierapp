@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Exceptions\AtelierException;
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\ShoppingCart;
 
 class OrderService
 {
@@ -18,12 +20,37 @@ class OrderService
         return $throwable
             ? $query->firstOrFail()
             : $query->firstOrNew();
-
     }
 
-    public function createFromShoppingCart()
+    public function createFromShoppingCart(int|string $userId): Order
     {
+        $items = ShoppingCart::whereUserId($userId)->with('variation.product.store')->get();
 
+        $parentOrder = Order::create([
+            'user_id' => $items[0]->user_id,
+        ]);
+        foreach ($items as $item) {
+            $store = $item->variation->product->store;
+            $order = Order::updateOrCreate([
+                'parent_id' => $parentOrder->id,
+                'user_id' => $userId,
+                'store_id' => $store->id,
+                'seller_id' => $store->user_id
+            ]);
+            $order->items += $item->quantity;
+            $order->total_price += $item->variation->product->price * $item->quantity;
+
+            OrderDetail::create([
+                'order_id' => $order->id,
+                'product_id' => $item->variation->product_id,
+                'variation_id' => $item->variation_id,
+                'unit_price' => $item->variation->product->price,
+                'quantity' => $item->quantity,
+                'total_price' => $item->variation->product->price * $item->quantity,
+            ]);
+        }
+
+        return $parentOrder;
     }
 
     /**
@@ -32,8 +59,8 @@ class OrderService
     public function sellerApproval(Order|string|int $orderId): Order
     {
         $order = $this->validateIfTheOrderBelongsToTheAuthenticatedSeller($orderId);
-        $order->is_accepted = true;
-        $order->accepted_on = now();
+        $order->seller_status = Order::SELLER_APPROVAL;
+        $order->seller_accepted_on = now();
         $order->save();
 
         return $order;
@@ -44,7 +71,7 @@ class OrderService
     {
         $order = $this->getBy($orderId);
         // $order->payment_gateway_code = some value; TODO: view to add the value from payment gateway
-        $order->is_paid = true;
+        $order->paid_status = Order::PAYMENT_APPROVAL;
         $order->paid_on = now();
         $order->save();
 

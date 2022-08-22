@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,14 +12,16 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('store_id')->constrained('stores');
-            $table->foreignId('seller_id')->constrained('users');
+            $table->foreignId('store_id')->nullable()->constrained('stores');
+            $table->foreignId('seller_id')->nullable()->constrained('users');
             $table->unsignedMediumInteger('items')->default(0);
             $table->decimal('total_price')->default(0);
-            $table->boolean('is_accepted')->default(false);
-            $table->timestamp('accepted_on')->nullable();
+
+            $table->unsignedTinyInteger('seller_status')->default(Order::SELLER_PENDING);
+            $table->timestamp('seller_accepted_on')->nullable();
+
             $table->string('payment_gateway_code')->nullable();
-            $table->boolean('is_paid')->default(false);
+            $table->unsignedTinyInteger('paid_status')->default(Order::PAYMENT_PENDING);
             $table->timestamp('paid_on')->nullable();
             $table->timestamps();
         });
