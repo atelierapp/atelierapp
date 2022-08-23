@@ -2,23 +2,13 @@
 
 namespace Tests\Feature\Order;
 
-use App\Models\Product;
 use App\Models\ShoppingCart;
 use App\Models\Variation;
 use App\Services\OrderService;
-use Database\Seeders\ProductSeeder;
-use Database\Seeders\StoreSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class OrderServiceTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_an_app_user_can_generate_a_general_order_with_a_order_for_every_seller()
     {
         $user = $this->createAuthenticatedUser();
