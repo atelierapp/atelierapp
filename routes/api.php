@@ -11,6 +11,7 @@ use App\Http\Controllers\ManufactureTypeController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MediaTypeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
@@ -85,6 +86,8 @@ Route::prefix('products/{product}')->group(function () {
 Route::apiResource('materials', MaterialController::class)->names('material');
 
 Route::apiResource('tags', TagController::class)->names('tag');
+
+Route::apiResource('orders', OrderController::class)->names('order')->only(['index']);
 
 Route::apiResource('qualities', QualityController::class)->names('quality')->except(['show']);
 

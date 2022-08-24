@@ -23,15 +23,17 @@ class Order extends Model
     public const PAYMENT_REJECT = 3;
 
     protected $fillable = [
+        'parent_id',
         'user_id',
         'store_id',
         'seller_id',
+        'unit_price',
         'items',
         'total_price',
-        'is_accepted',
-        'accepted_on',
+        'seller_status_id',
+        'seller_status_at',
         'payment_gateway_code',
-        'is_paid',
+        'paid_status_id',
         'paid_on',
     ];
 
@@ -45,7 +47,7 @@ class Order extends Model
         return $this->belongsTo(User::class, 'seller_id');
     }
 
-    public function sellerOrders(): HasMany
+    public function parent(): HasMany
     {
         return $this->hasMany(static::class, 'parent_id');
     }

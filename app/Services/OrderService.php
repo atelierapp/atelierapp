@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Exceptions\AtelierException;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Role;
 use App\Models\ShoppingCart;
+use Bouncer;
 
 class OrderService
 {
@@ -90,5 +92,18 @@ class OrderService
         }
 
         return $order;
+    }
+
+    public function getFilteredByAuthRole()
+    {
+        $query = Order::query();
+
+        if (Bouncer::is(auth()->user())->an(Role::SELLER)) {
+            $query->whereSellerId(auth()->id());
+        } elseif (Bouncer::is(auth()->user())->an(Role::USER)) {
+            $query->whereUserId(auth()->id());
+        }
+
+        return $query->with('user', 'seller')->get();
     }
 }
