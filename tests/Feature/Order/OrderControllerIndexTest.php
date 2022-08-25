@@ -19,7 +19,7 @@ class OrderControllerIndexTest extends TestCase
     {
         $user = $this->createAuthenticatedSeller();
         $store = Store::factory()->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
         Order::factory()
             ->count(5)
@@ -51,7 +51,7 @@ class OrderControllerIndexTest extends TestCase
                         'full_name',
                         'email',
                         'phone',
-                        'avatar'
+                        'avatar',
                     ],
                     'seller_id',
                     'seller' => [
@@ -61,7 +61,7 @@ class OrderControllerIndexTest extends TestCase
                         'full_name',
                         'email',
                         'phone',
-                        'avatar'
+                        'avatar',
                     ],
                     'items',
                     'total_price',
@@ -69,8 +69,63 @@ class OrderControllerIndexTest extends TestCase
                     'seller_accepted_on',
                     'paid_status',
                     'paid_on',
-                ]
-            ]
+                ],
+            ],
+        ]);
+    }
+
+    public function test_an_authenticated_app_user_user_can_list_orders()
+    {
+        $user = $this->createAuthenticatedUser();
+        Order::factory()
+            ->count(3)
+            ->sellerPending()
+            ->hasDetails(5)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+        Order::factory()
+            ->count(5)
+            ->sellerPending()
+            ->hasDetails(5)
+            ->create();
+
+        $response = $this->getJson(route('order.index'));
+
+        $response->assertOk();
+        $response->assertJsonCount(3, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'user_id',
+                    'user' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'full_name',
+                        'email',
+                        'phone',
+                        'avatar',
+                    ],
+                    'seller_id',
+                    'seller' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'full_name',
+                        'email',
+                        'phone',
+                        'avatar',
+                    ],
+                    'items',
+                    'total_price',
+                    'seller_status',
+                    'seller_accepted_on',
+                    'paid_status',
+                    'paid_on',
+                ],
+            ],
         ]);
     }
 }
