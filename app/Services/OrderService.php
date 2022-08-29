@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use App\Models\Role;
 use App\Models\ShoppingCart;
 use Bouncer;
+use Illuminate\Support\Collection;
 
 class OrderService
 {
@@ -47,14 +48,18 @@ class OrderService
             $order->items += $item->quantity;
             $order->total_price += $item->variation->product->price * $item->quantity;
 
-            OrderDetail::create([
+            $params = [
                 'order_id' => $order->id,
                 'product_id' => $item->variation->product_id,
                 'variation_id' => $item->variation_id,
                 'unit_price' => $item->variation->product->price,
                 'quantity' => $item->quantity,
                 'total_price' => $item->variation->product->price * $item->quantity,
-            ]);
+            ];
+
+            OrderDetail::create($params);
+            $params['order_id'] = $parentOrder->id;
+            OrderDetail::create($params);
         }
 
         return $parentOrder;
