@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperStoreUserQualify
+ * @mixin IdeHelperStoreUserRating
  */
 class StoreUserRating extends Model
 {
