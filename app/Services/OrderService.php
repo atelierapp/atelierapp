@@ -24,6 +24,11 @@ class OrderService
             : $query->firstOrNew();
     }
 
+    public function getDetails(int|string $orderId): Collection
+    {
+        return OrderDetail::whereOrderId($orderId)->with(['product', 'variation'])->get();
+    }
+
     public function createFromShoppingCart(int|string $userId): Order
     {
         $items = ShoppingCart::whereUserId($userId)->with('variation.product.store')->get();
