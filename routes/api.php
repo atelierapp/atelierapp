@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('orders', OrderController::class)->names('order')->only(['index']);
     Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
+    Route::patch('orders/{order}/details/{detail}', [OrderDetailController::class, 'update'])->name('order.details.update');
 
     Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
     Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');

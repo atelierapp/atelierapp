@@ -23,4 +23,13 @@ class OrderDetailFactory extends Factory
 
         return $values;
     }
+
+    public function sellerPending(): OrderDetailFactory
+    {
+        return $this->state(function () {
+            return [
+                'seller_status_id' => Order::SELLER_PENDING,
+            ];
+        });
+    }
 }
