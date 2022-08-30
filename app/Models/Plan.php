@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $description
  * @property string $stripe_plan_id
  * @property string $stripe_price_id
+ * @mixin IdeHelperPlan
  */
 class Plan extends Model
 {

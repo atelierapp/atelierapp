@@ -19,8 +19,17 @@ class OrderDetailFactory extends Factory
             'quantity' => $this->faker->numberBetween(1,5),
         ];
 
-        $values['total_price'] = $values['unit_price'] * $values['items'];
+        $values['total_price'] = $values['unit_price'] * $values['quantity'];
 
         return $values;
+    }
+
+    public function sellerPending(): OrderDetailFactory
+    {
+        return $this->state(function () {
+            return [
+                'seller_status_id' => Order::SELLER_PENDING,
+            ];
+        });
     }
 }

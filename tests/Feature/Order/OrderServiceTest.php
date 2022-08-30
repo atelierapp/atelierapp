@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Order;
 
+use App\Models\OrderDetail;
 use App\Models\ShoppingCart;
 use App\Models\Variation;
 use App\Services\OrderService;
@@ -22,6 +23,8 @@ class OrderServiceTest extends TestCase
         app(OrderService::class)->createFromShoppingCart($user->id);
 
         $this->assertDatabaseCount('orders', 4);
+        $this->assertDatabaseCount('order_details', 6);
+        $this->assertEquals(3, OrderDetail::groupBy('order_id')->count());
         // TODO : implement more assertions with price and user, seller
     }
 }

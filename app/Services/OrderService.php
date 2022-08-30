@@ -5,7 +5,10 @@ namespace App\Services;
 use App\Exceptions\AtelierException;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Role;
 use App\Models\ShoppingCart;
+use Bouncer;
+use Illuminate\Support\Collection;
 
 class OrderService
 {
@@ -20,6 +23,11 @@ class OrderService
         return $throwable
             ? $query->firstOrFail()
             : $query->firstOrNew();
+    }
+
+    public function getDetails(int|string $orderId): Collection
+    {
+        return OrderDetail::whereOrderId($orderId)->with(['product', 'variation'])->get();
     }
 
     public function createFromShoppingCart(int|string $userId): Order
@@ -40,14 +48,18 @@ class OrderService
             $order->items += $item->quantity;
             $order->total_price += $item->variation->product->price * $item->quantity;
 
-            OrderDetail::create([
+            $params = [
                 'order_id' => $order->id,
                 'product_id' => $item->variation->product_id,
                 'variation_id' => $item->variation_id,
                 'unit_price' => $item->variation->product->price,
                 'quantity' => $item->quantity,
                 'total_price' => $item->variation->product->price * $item->quantity,
-            ]);
+            ];
+
+            OrderDetail::create($params);
+            $params['order_id'] = $parentOrder->id;
+            OrderDetail::create($params);
         }
 
         return $parentOrder;
@@ -90,5 +102,18 @@ class OrderService
         }
 
         return $order;
+    }
+
+    public function getFilteredByAuthRole()
+    {
+        $query = Order::query();
+
+        if (Bouncer::is(auth()->user())->an(Role::SELLER)) {
+            $query->whereSellerId(auth()->id());
+        } elseif (Bouncer::is(auth()->user())->an(Role::USER)) {
+            $query->whereUserId(auth()->id());
+        }
+
+        return $query->with('user', 'seller')->get();
     }
 }

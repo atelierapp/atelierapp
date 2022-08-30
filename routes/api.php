@@ -11,6 +11,8 @@ use App\Http\Controllers\ManufactureTypeController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MediaTypeController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
@@ -60,6 +62,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
     Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
     Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
+
+    Route::apiResource('orders', OrderController::class)->names('order')->only(['index']);
+    Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
+    Route::patch('orders/{order}/details/{detail}', [OrderDetailController::class, 'update'])->name('order.details.update');
 
     Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
     Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
