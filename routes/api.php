@@ -63,6 +63,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
     Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
 
+    Route::apiResource('orders', OrderController::class)->names('order')->only(['index']);
+    Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
+
     Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
     Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 });
@@ -87,9 +90,6 @@ Route::prefix('products/{product}')->group(function () {
 Route::apiResource('materials', MaterialController::class)->names('material');
 
 Route::apiResource('tags', TagController::class)->names('tag');
-
-Route::apiResource('orders', OrderController::class)->names('order')->only(['index']);
-Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
 
 Route::apiResource('qualities', QualityController::class)->names('quality')->except(['show']);
 
