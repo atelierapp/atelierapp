@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Builders\OrderBuilder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,6 +39,11 @@ class Order extends Model
         'paid_on',
     ];
 
+    public function newEloquentBuilder($query): OrderBuilder
+    {
+        return New OrderBuilder($query);
+    }
+
     public function details(): HasMany
     {
         return $this->hasMany(OrderDetail::class);
@@ -60,5 +67,16 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function sellerStatus(): Attribute
+    {
+        $values = [
+            Order::SELLER_PENDING => 'Pending',
+            Order::SELLER_APPROVAL => 'Accepted',
+            Order::SELLER_REJECT => 'Reject',
+        ];
+
+        return Attribute::get(fn () => $values[$this->seller_status_id]);
     }
 }

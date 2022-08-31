@@ -5,9 +5,7 @@ namespace App\Services;
 use App\Exceptions\AtelierException;
 use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Models\Role;
 use App\Models\ShoppingCart;
-use Bouncer;
 use Illuminate\Support\Collection;
 
 class OrderService
@@ -43,7 +41,7 @@ class OrderService
                 'parent_id' => $parentOrder->id,
                 'user_id' => $userId,
                 'store_id' => $store->id,
-                'seller_id' => $store->user_id
+                'seller_id' => $store->user_id,
             ]);
             $order->items += $item->quantity;
             $order->total_price += $item->variation->product->price * $item->quantity;
@@ -76,7 +74,6 @@ class OrderService
         $order->save();
 
         return $order;
-
     }
 
     public function saleApproval(Order|string|int $orderId): Order
@@ -102,18 +99,5 @@ class OrderService
         }
 
         return $order;
-    }
-
-    public function getFilteredByAuthRole()
-    {
-        $query = Order::query();
-
-        if (Bouncer::is(auth()->user())->an(Role::SELLER)) {
-            $query->whereSellerId(auth()->id());
-        } elseif (Bouncer::is(auth()->user())->an(Role::USER)) {
-            $query->whereUserId(auth()->id());
-        }
-
-        return $query->with('user', 'seller')->get();
     }
 }

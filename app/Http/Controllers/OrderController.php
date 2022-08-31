@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderIndexRequest;
 use App\Http\Resources\OrderResource;
-use App\Services\OrderService;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function __construct(private OrderService $orderService)
+    public function __construct()
     {
         $this->middleware('auth:sanctum');
     }
 
-    public function index()
+    public function index(OrderIndexRequest $request)
     {
-        $orders = $this->orderService->getFilteredByAuthRole();
+        $orders = Order::applyFilters($request->validated())
+            ->filterByAuthenticatedRole()
+            ->with(['user', 'seller'])
+            ->get();
 
         return OrderResource::collection($orders);
     }
