@@ -29,7 +29,9 @@ class DashboardService
             ->sortBy('month')
             ->toArray();
 
-        return round((($result[1]['views'] / $result[0]['views']) - 1) * 100, 2);
+        return empty($result)
+            ? 0
+            : round((($result[1]['views'] / $result[0]['views']) - 1) * 100, 2);
     }
 
     public function productViewsHistory(int $lastDays = 15): array
