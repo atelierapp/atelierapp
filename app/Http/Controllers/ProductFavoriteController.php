@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductTrendingResource;
 use App\Services\FavoriteService;
 
 class ProductFavoriteController extends Controller
@@ -25,5 +26,12 @@ class ProductFavoriteController extends Controller
         }
 
         return response()->json(['message' => "Product was {$text} favorites list."], $code);
+    }
+
+    public function trending()
+    {
+        $trending = $this->favoriteService->trending();
+
+        return ProductTrendingResource::collection($trending);
     }
 }

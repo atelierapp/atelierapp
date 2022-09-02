@@ -75,6 +75,7 @@ Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 
 Route::apiResource('categories', CategoryController::class)->names('category');
 
+Route::get('products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
     Route::post('favorite', ProductFavoriteController::class)->name('product.favorite');

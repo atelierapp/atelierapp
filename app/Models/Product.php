@@ -65,20 +65,10 @@ class Product extends Model
         return new ProductBuilder($query);
     }
 
-    public function collections(): morphToMany
-    {
-        return $this->morphToMany(Collection::class, 'collectionable');
-    }
-
     public function authFavorite(): HasOne
     {
         return $this->hasOne(FavoriteProduct::class, 'product_id', 'id')
             ->where('user_id', '=', request()->user('sanctum')->id);
-    }
-
-    public function store(): BelongsTo
-    {
-        return $this->belongsTo(Store::class);
     }
 
     public function categories(): BelongsToMany
@@ -86,9 +76,29 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function collections(): morphToMany
+    {
+        return $this->morphToMany(Collection::class, 'collectionable');
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(FavoriteProduct::class, 'product_id');
+    }
+
     public function materials(): BelongsToMany
     {
         return $this->belongsToMany(Material::class);
+    }
+
+    public function orderDetails(): HasMany
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
     }
 
     public function style(): BelongsTo
