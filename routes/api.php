@@ -78,7 +78,7 @@ Route::apiResource('categories', CategoryController::class)->names('category');
 Route::get('products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
-    Route::post('favorite', ProductFavoriteController::class)->name('product.favorite');
+    Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
     Route::post('images', [ProductController::class, 'image'])->name('product.image');
     Route::prefix('variations')->group(function () {
         Route::get('/', [VariationController::class, 'index'])->name('variation.index');

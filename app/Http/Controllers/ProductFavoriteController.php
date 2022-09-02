@@ -13,7 +13,7 @@ class ProductFavoriteController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function __invoke($product)
+    public function user($product)
     {
         $result = $this->favoriteService->manageToProduct($product);
 
