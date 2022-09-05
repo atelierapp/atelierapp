@@ -24,10 +24,6 @@ class Order extends Model
     public const SELLER_APPROVAL = 2;
     public const SELLER_REJECT = 3;
 
-    public const PAYMENT_PENDING = 1;
-    public const PAYMENT_APPROVAL = 2;
-    public const PAYMENT_REJECT = 3;
-
     protected $fillable = [
         'parent_id',
         'user_id',
