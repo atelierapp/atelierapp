@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasOrderRelation;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class OrderDetail extends Model
 {
     use HasFactory;
+    use HasOrderRelation;
 
     protected $fillable = [
         'order_id',
@@ -25,11 +27,6 @@ class OrderDetail extends Model
         'seller_status_at',
         'seller_notes',
     ];
-
-    public function order(): BelongsTo
-    {
-        return $this->belongsTo(Order::class);
-    }
 
     public function product(): BelongsTo
     {
