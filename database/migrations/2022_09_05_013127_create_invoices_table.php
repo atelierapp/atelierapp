@@ -1,27 +1,25 @@
 <?php
 
-use App\Models\Order;
+use App\Models\Invoice;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersTable extends Migration
+class CreateInvoicesTable extends Migration
 {
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained('orders');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('store_id')->nullable()->constrained('stores');
             $table->foreignId('seller_id')->nullable()->constrained('users');
             $table->unsignedMediumInteger('items')->default(0);
             $table->decimal('total_price')->default(0);
 
-            $table->unsignedTinyInteger('seller_status')->default(Order::SELLER_PENDING);
-            $table->timestamp('seller_accepted_on')->nullable();
-
             $table->string('payment_gateway_code')->nullable();
-            $table->unsignedTinyInteger('paid_status')->default(\App\Models\Invoice::PAYMENT_PENDING);
+            $table->unsignedTinyInteger('paid_status_id')->default(Invoice::PAYMENT_PENDING);
             $table->timestamp('paid_on')->nullable();
             $table->timestamps();
         });
@@ -29,6 +27,6 @@ class CreateOrdersTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('invoices');
     }
 }

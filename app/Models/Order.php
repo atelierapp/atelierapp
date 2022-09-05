@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Builders\OrderBuilder;
+use App\Traits\Models\HasSellerRelation;
+use App\Traits\Models\HasUserRelation;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,14 +17,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     use HasFactory;
+    use HasSellerRelation;
+    use HasUserRelation;
 
     public const SELLER_PENDING = 1;
     public const SELLER_APPROVAL = 2;
     public const SELLER_REJECT = 3;
-
-    public const PAYMENT_PENDING = 1;
-    public const PAYMENT_APPROVAL = 2;
-    public const PAYMENT_REJECT = 3;
 
     protected $fillable = [
         'parent_id',
@@ -49,11 +49,6 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
-    public function seller(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'seller_id');
-    }
-
     public function parent(): HasMany
     {
         return $this->hasMany(static::class, 'parent_id');
@@ -62,11 +57,6 @@ class Order extends Model
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     protected function sellerStatus(): Attribute
