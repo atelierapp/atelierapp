@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\AtelierException;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\ShoppingCart;
@@ -80,7 +81,7 @@ class OrderService
     {
         $order = $this->getBy($orderId);
         // $order->payment_gateway_code = some value; TODO: view to add the value from payment gateway
-        $order->paid_status = Order::PAYMENT_APPROVAL;
+        $order->paid_status = Invoice::PAYMENT_APPROVAL;
         $order->paid_on = now();
         $order->save();
 
