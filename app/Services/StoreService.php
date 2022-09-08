@@ -109,4 +109,17 @@ class StoreService
             $store->load('medias');
         }
      }
+
+    public function impactStore(string|int|Store $store, array $params)
+    {
+        if (!$store instanceof Store) {
+            $store = $this->getById($store);
+        }
+
+        $syncQualities = [];
+        foreach ($params['qualities'] as $quality) {
+            $syncQualities[$quality] = ['is_impact' => true];
+        }
+        $store->qualities()->sync($syncQualities);
+    }
 }

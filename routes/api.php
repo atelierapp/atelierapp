@@ -24,6 +24,7 @@ use App\Http\Controllers\QualityController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\StoreImpactController;
 use App\Http\Controllers\StoreProductController;
 use App\Http\Controllers\StoreUserQualifyController;
 use App\Http\Controllers\SubscriptionController;
@@ -104,6 +105,7 @@ Route::apiResource('stores', StoreController::class)->names('store');
 Route::post('stores/{store}/image', [StoreController::class, 'image'])->name('store.image');
 Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
 Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
+Route::post('stores/{store}/impact', StoreImpactController::class)->name('store.impact');
 
 Route::apiResource('media-types', MediaTypeController::class)->names('media-type');
 
