@@ -37,7 +37,8 @@
         "silber/bouncer": "v1.0.0-rc.10",
         "socialiteproviders/apple": "^5.0",
         "spatie/enum": "^3.0",
-        "spatie/laravel-enum": "^2.0"
+        "spatie/laravel-enum": "^2.0",
+        "srmklive/paypal": "~3.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
