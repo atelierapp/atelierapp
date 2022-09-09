@@ -2,9 +2,11 @@
 
 namespace App\Builders;
 
+use App\Models\Order;
 use App\Models\Role;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class OrderBuilder extends Builder
 {
@@ -24,6 +26,14 @@ class OrderBuilder extends Builder
         } elseif (Bouncer::is(auth()->user())->an(Role::USER)) {
             $this->where('user_id', '=', auth()->id());
         }
+
+        return $this;
+    }
+
+    public function paidBetween($startDate, $endDate): static
+    {
+        $this->where('paid_status_id', Order::PAYMENT_APPROVAL)
+            ->whereBetween(DB::raw('date(paid_on)'), [$startDate, $endDate]);
 
         return $this;
     }
