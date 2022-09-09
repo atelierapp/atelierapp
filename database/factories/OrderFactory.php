@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Store;
 use App\Models\User;
@@ -18,14 +19,14 @@ class OrderFactory extends Factory
             'store_id' => Store::factory(),
             'seller_id' => User::factory(),
             'seller_status_id' => $this->faker->randomElement([Order::SELLER_PENDING, Order::SELLER_APPROVAL, Order::SELLER_REJECT]),
-            'paid_status_id' => $this->faker->randomElement([Order::PAYMENT_PENDING, Order::PAYMENT_APPROVAL, Order::PAYMENT_REJECT]),
+            'paid_status_id' => $this->faker->randomElement([Invoice::PAYMENT_PENDING, Invoice::PAYMENT_APPROVAL, Invoice::PAYMENT_REJECT]),
             'seller_status_at' => $this->faker->dateTimeBetween('-60 days'),
             'unit_price' => $this->faker->numberBetween(1000, 10000) / 100,
             'items' => $this->faker->numberBetween(1,5),
             'created_at' => $this->faker->dateTimeBetween('-60 days'),
         ];
 
-        if ($values['paid_status_id'] == Order::PAYMENT_APPROVAL) {
+        if ($values['paid_status_id'] == Invoice::PAYMENT_APPROVAL) {
             $values['paid_on'] = $this->faker->dateTimeBetween('-60 days'); // TODO: maybe validate with some date of created or seller status
         }
 

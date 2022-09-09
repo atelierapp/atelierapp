@@ -2,6 +2,7 @@
 
 namespace App\Builders;
 
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Role;
 use Bouncer;
@@ -32,7 +33,7 @@ class OrderBuilder extends Builder
 
     public function paidBetween($startDate, $endDate): static
     {
-        $this->where('paid_status_id', Order::PAYMENT_APPROVAL)
+        $this->where('paid_status_id', Invoice::PAYMENT_APPROVAL)
             ->whereBetween(DB::raw('date(paid_on)'), [$startDate, $endDate]);
 
         return $this;
