@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\Dashboard\NetIncomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManufactureProcessController;
 use App\Http\Controllers\ManufactureTypeController;
@@ -128,6 +129,7 @@ Route::prefix('dashboard')->group(function () {
     Route::get('statics', [DashboardController::class, 'statics'])->name('dashboard.statics');
     Route::get('orders', [DashboardController::class, 'orders'])->name('dashboard.orders');
     Route::get('top-product', [DashboardController::class, 'topProduct'])->name('dashboard.top-product');
+    Route::get('net-income', NetIncomeController::class)->name('dashboard.net-income');
     Route::get('quick-details', [DashboardController::class, 'quickDetails'])->name('dashboard.quick-details');
 });
 
