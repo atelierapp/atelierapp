@@ -11,10 +11,12 @@ class StoreImpactRequest extends FormRequest
 {
     public function rules(): array
     {
-        $qualities = Quality::all();
+        $qualities = Quality::select('id')->get();
 
         $rules = [
             'qualities' => ['required', 'array', Rule::in($qualities->pluck('id')->toArray())],
+            'files.*.quality_id' => ['nullable', Rule::in($qualities->pluck('id')->toArray())],
+            'files.*.file' => ['nullable', 'file'],
         ];
 
         foreach ($qualities as $quality) {
