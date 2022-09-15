@@ -6,22 +6,21 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\PaypalService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaypalController extends Controller
 {
-    public function __construct(private PaypalService $paypalService)
+    public function __construct(private PaypalService $paypalService, private PayPalClient $paypal)
     {
     }
 
     public function test()
     {
-        $order = Order::find(7);
+        $order = Order::find(8);
 
         return response()->json(['data' => $this->paypalService->createOrder($order)]);
-        // $this->paypalService->authorizePaymentOrder($order);
-
     }
 
     /**

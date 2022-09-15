@@ -75,4 +75,15 @@ class Order extends Model
 
         return Attribute::get(fn () => $values[$this->seller_status_id]);
     }
+
+    protected function paidStatus(): Attribute
+    {
+        $values = [
+            Invoice::PAYMENT_PENDING => 'Pending',
+            Invoice::PAYMENT_APPROVAL => 'Accepted',
+            Invoice::PAYMENT_REJECT => 'Reject',
+        ];
+
+        return Attribute::get(fn () => $values[$this->paid_status_id]);
+    }
 }

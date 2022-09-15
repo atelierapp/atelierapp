@@ -101,4 +101,29 @@ class OrderService
 
         return $order;
     }
+
+    // TODO refactor this implement to service o better architecture to manage gateways
+    public function updatePaymentGateway(Order $order, int $paymentGatewayId, string $code): Order
+    {
+        $order->update([
+            'payment_gateway_id' => $paymentGatewayId,
+            'payment_gateway_code' => $code,
+        ]);
+
+        return $order;
+    }
+
+    // TODO refactor this implement to service o better architecture to manage gateways
+    public function updateToPayedStatus(Order $order, array $metadata): Order
+    {
+        $order->update([
+            'paid_status_id' => Invoice::PAYMENT_APPROVAL,
+            'paid_on' => now(),
+            'payment_gateway_metadata' => [
+                'response_payment' => $metadata,
+            ],
+        ]);
+
+        return $order;
+    }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MediaTypeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
@@ -41,6 +42,11 @@ Route::post('/login-social', [AuthController::class, 'socialLogin']);
 Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
 Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
+Route::prefix('/paypal')->group(function () {
+    Route::any('/check-payment', [PaypalController::class, 'checkPayment'])->name('paypal.check-payment');
+    Route::get('/test', [PaypalController::class, 'test'])->name('paypal.test');
+    Route::any('/notify', [PaypalController::class, 'notify'])->name('paypal.notify');
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
