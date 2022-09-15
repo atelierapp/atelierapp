@@ -34,9 +34,15 @@ class Order extends Model
         'total_price',
         'seller_status_id',
         'seller_status_at',
+        'payment_gateway_id',
         'payment_gateway_code',
+        'payment_gateway_metadata',
         'paid_status_id',
         'paid_on',
+    ];
+
+    protected $casts = [
+        'payment_gateway_metadata' => 'json'
     ];
 
     public function newEloquentBuilder($query): OrderBuilder
