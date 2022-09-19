@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Jobs\ProductViewCount;
 use App\Models\Product;
 use App\Models\Quality;
-use App\Models\Role;
-use Bouncer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
@@ -24,7 +22,7 @@ class ProductService
         //
     }
 
-    public function list(): LengthAwarePaginator
+    public function list(array $filters = []): LengthAwarePaginator
     {
         $relations = ['style', 'medias', 'tags', 'store'];
         if (request()->user('sanctum')) {
@@ -33,7 +31,7 @@ class ProductService
 
         return Product::authUser()
             ->with($relations)
-            ->applyFiltersFrom(request()->all())
+            ->applyFiltersFrom($filters)
             ->paginate();
     }
 

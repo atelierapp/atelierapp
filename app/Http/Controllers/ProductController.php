@@ -9,6 +9,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
@@ -18,9 +19,9 @@ class ProductController extends Controller
         $this->middleware('auth:sanctum')->except('index');
     }
 
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $products = $this->productService->list();
+        $products = $this->productService->list($request->all());
 
         return ProductResource::collection($products);
     }
