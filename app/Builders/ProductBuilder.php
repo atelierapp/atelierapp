@@ -6,6 +6,7 @@ use App\Contracts\Builders\AuthUserContractBuilder;
 use App\Models\Role;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class ProductBuilder extends Builder implements AuthUserContractBuilder
 {
@@ -20,7 +21,7 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
 
     public function applyFiltersFrom(array $filters): static
     {
-        // maybe implement pipeline ...
+        // maybe implement a pipeline ...
         if (isset($filters['categories'])) {
             $this->filterByCategories($filters['categories']);
         }
@@ -31,6 +32,18 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
 
         if (isset($filters['collection'])) {
             $this->filterByCollection($filters['collection']);
+        }
+
+        if (isset($filters['store_id'])) {
+            $this->filterByStore($filters['store_id']);
+        }
+
+        if (isset($filters['price-min']) && isset($filters['price-max'])) {
+            $this->filterByPriceRange($filters['price-min'] * 100, $filters['price-max'] * 100);
+        }
+
+        if (isset($filters['price-order'])) {
+            $this->orderBy('price', $filters['price-order']);
         }
 
         return $this;
@@ -65,12 +78,25 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
         if (! empty($value)) {
             $this
                 ->where('title', 'like', "%{$value}%")
-                ->orWhereHas('style', function ($q) use ($value) {
-                    $q->where('name', 'like', "%{$value}%");
-                })
-                ->orWhereHas('categories', fn ($q) => $q->where('name', 'like', "%{$value}%"))
-            ;
+                ->orWhereHas('style', fn ($q) => $q->where('name', 'like', "%{$value}%"))
+                ->orWhereHas('categories', fn ($q) => $q->where('name', 'like', "%{$value}%"));
         }
+
+        return $this;
+    }
+
+    public function filterByStore(string|int $storeId): static
+    {
+        $this
+            ->where('store_id', $storeId)
+            ->with(['store' => fn ($query) => $query->where('id', $storeId)]);
+
+        return $this;
+    }
+
+    public function filterByPriceRange(int|string $min, int|string $max): static
+    {
+        $this->whereBetween('price', [$min, $max]);
 
         return $this;
     }
