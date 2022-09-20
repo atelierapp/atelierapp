@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Product;
 
-use    App\Models\Category;
+use App\Models\Category;
 use App\Models\Collection;
 use App\Models\FavoriteProduct;
 use App\Models\Product;
@@ -264,6 +264,76 @@ class ProductControllerIndexTest extends BaseTest
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_products_ascending_by_price()
+    {
+        $this->createAuthenticatedUser();
+
+        Product::factory()->count(10)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'price-order' => 'asc',
+        ]));
+
+        $response->assertOk();
+        $this->assertLessThanOrEqual($response->json('data.1.price'), $response->json('data.0.price'));
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_products_descending_by_price()
+    {
+        $this->createAuthenticatedUser();
+
+        Product::factory()->count(10)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'price-order' => 'desc',
+        ]));
+
+        $response->assertOk();
+        $this->assertGreaterThanOrEqual($response->json('data.1.price'), $response->json('data.0.price'));
         $response->assertJsonStructure([
             'data' => [
                 0 => $this->structure(),
