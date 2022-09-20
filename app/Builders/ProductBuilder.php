@@ -33,6 +33,10 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
             $this->filterByCollection($filters['collection']);
         }
 
+        if (isset($filters['store_id'])) {
+            $this->filterByStore($filters['store_id']);
+        }
+
         return $this;
     }
 
@@ -68,6 +72,15 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
                 ->orWhereHas('style', fn ($q) => $q->where('name', 'like', "%{$value}%"))
                 ->orWhereHas('categories', fn ($q) => $q->where('name', 'like', "%{$value}%"));
         }
+
+        return $this;
+    }
+
+    public function filterByStore(string|int $storeId): static
+    {
+        $this
+            ->where('store_id', $storeId)
+            ->with(['store' => fn ($query) => $query->where('id', $storeId)]);
 
         return $this;
     }

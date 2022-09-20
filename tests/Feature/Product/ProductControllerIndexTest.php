@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\FavoriteProduct;
 use App\Models\Product;
+use App\Models\Store;
 use JMac\Testing\Traits\AdditionalAssertions;
 
 class ProductControllerIndexTest extends BaseTest
@@ -188,6 +189,43 @@ class ProductControllerIndexTest extends BaseTest
 
         $response->assertOk();
         $response->assertJsonCount(1, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_products_filtered_by_store_id_param()
+    {
+        $this->createAuthenticatedUser();
+
+        $store = Store::factory()->create();
+        Product::factory()->count(3)->create(['store_id' => $store->id]);
+        Product::factory()->count(3)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'store_id' => $store->id,
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(3, 'data');
         $response->assertJsonStructure([
             'data' => [
                 0 => $this->structure(),
