@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Product;
 
-use App\Models\Category;
+use    App\Models\Category;
 use App\Models\Collection;
 use App\Models\FavoriteProduct;
 use App\Models\Product;
@@ -226,6 +226,44 @@ class ProductControllerIndexTest extends BaseTest
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_2_products_filtered_by_specified_price_range()
+    {
+        $this->createAuthenticatedUser();
+
+        Product::factory()->create(['price' => 20]);
+        Product::factory()->create(['price' => 90]);
+        Product::factory()->count(10)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'price-min' => 10,
+            'price-max' => 90,
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(2, 'data');
         $response->assertJsonStructure([
             'data' => [
                 0 => $this->structure(),

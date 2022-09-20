@@ -20,7 +20,7 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
 
     public function applyFiltersFrom(array $filters): static
     {
-        // maybe implement pipeline ...
+        // maybe implement a pipeline ...
         if (isset($filters['categories'])) {
             $this->filterByCategories($filters['categories']);
         }
@@ -35,6 +35,10 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
 
         if (isset($filters['store_id'])) {
             $this->filterByStore($filters['store_id']);
+        }
+
+        if (isset($filters['price-min']) && isset($filters['price-max'])) {
+            $this->filterByPriceRange($filters['price-min'], $filters['price-max']);
         }
 
         return $this;
@@ -81,6 +85,13 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
         $this
             ->where('store_id', $storeId)
             ->with(['store' => fn ($query) => $query->where('id', $storeId)]);
+
+        return $this;
+    }
+
+    public function filterByPriceRange(int|string $min, int|string $max): static
+    {
+        $this->whereBetween('price', [$min, $max]);
 
         return $this;
     }
