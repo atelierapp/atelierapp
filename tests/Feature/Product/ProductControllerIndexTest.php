@@ -253,8 +253,8 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        Product::factory()->create(['price' => 20]);
-        Product::factory()->create(['price' => 90]);
+        Product::factory()->create(['price' => 2000]);
+        Product::factory()->create(['price' => 9000]);
         Product::factory()->count(10)->create();
 
         $response = $this->getJson(route('product.index', [
@@ -294,7 +294,10 @@ class ProductControllerIndexTest extends BaseTest
         Product::factory()->count(10)->create();
 
         $response = $this->getJson(route('product.index', [
-            'price-order' => 'asc',
+            'sort' => [
+                'field' => 'price',
+                'dir' => 'asc'
+            ],
         ]));
 
         $response->assertOk();
@@ -329,11 +332,90 @@ class ProductControllerIndexTest extends BaseTest
         Product::factory()->count(10)->create();
 
         $response = $this->getJson(route('product.index', [
-            'price-order' => 'desc',
+            'sort' => [
+                'field' => 'price',
+                'dir' => 'desc'
+            ],
         ]));
 
         $response->assertOk();
         $this->assertGreaterThanOrEqual($response->json('data.1.price'), $response->json('data.0.price'));
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_products_ascending_by_title()
+    {
+        $this->createAuthenticatedUser();
+
+        Product::factory()->count(10)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'sort' => [
+                'field' => 'title',
+                'dir' => 'asc'
+            ],
+        ]));
+
+        $response->assertOk();
+        $this->assertLessThanOrEqual($response->json('data.1.title'), $response->json('data.0.title'));
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_products_descending_by_title()
+    {
+        $this->createAuthenticatedUser();
+
+        Product::factory()->count(10)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'sort' => [
+                'field' => 'title',
+                'dir' => 'desc'
+            ],
+        ]));
+
+        $response->assertOk();
+        $this->assertGreaterThanOrEqual($response->json('data.1.title'), $response->json('data.0.title'));
         $response->assertJsonStructure([
             'data' => [
                 0 => $this->structure(),

@@ -3,10 +3,10 @@
 namespace App\Builders;
 
 use App\Contracts\Builders\AuthUserContractBuilder;
+use App\Models\Product;
 use App\Models\Role;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class ProductBuilder extends Builder implements AuthUserContractBuilder
 {
@@ -42,8 +42,8 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
             $this->filterByPriceRange($filters['price-min'] * 100, $filters['price-max'] * 100);
         }
 
-        if (isset($filters['price-order'])) {
-            $this->orderBy('price', $filters['price-order']);
+        if (isset($filters['sort'])) {
+            $this->customSort($filters['sort']);
         }
 
         return $this;
@@ -97,6 +97,13 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
     public function filterByPriceRange(int|string $min, int|string $max): static
     {
         $this->whereBetween('price', [$min, $max]);
+
+        return $this;
+    }
+
+    public function customSort(array $sort): static
+    {
+        $this->orderBy($sort['field'], $sort['dir']);
 
         return $this;
     }
