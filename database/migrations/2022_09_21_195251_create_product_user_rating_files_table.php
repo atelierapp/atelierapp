@@ -8,9 +8,9 @@ class CreateProductUserRatingFilesTable extends Migration
 {
     public function up()
     {
-        Schema::create('product_ratings_files', function (Blueprint $table) {
+        Schema::create('product_qualifications_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_rating_id')->constrained('product_ratings');
+            $table->foreignId('product_qualification_id')->constrained('product_qualifications');
             $table->foreignId('type_id')->nullable()->constrained('media_types');
             $table->string('url');
             $table->timestamps();
@@ -19,6 +19,6 @@ class CreateProductUserRatingFilesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('product_ratings_files');
+        Schema::dropIfExists('product_qualifications_files');
     }
 }

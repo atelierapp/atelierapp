@@ -8,7 +8,7 @@ class CreateProductUserRatingTable extends Migration
 {
     public function up()
     {
-        Schema::create('product_ratings', function (Blueprint $table) {
+        Schema::create('product_qualifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('product_id')->references('id')->on('products');
@@ -20,6 +20,6 @@ class CreateProductUserRatingTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('product_ratings');
+        Schema::dropIfExists('product_qualifications');
     }
 }
