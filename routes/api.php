@@ -18,6 +18,7 @@ use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
+use App\Http\Controllers\ProductUserQualifyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileFavoriteController;
 use App\Http\Controllers\ProjectController;
@@ -88,6 +89,7 @@ Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
     Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
     Route::post('images', [ProductController::class, 'image'])->name('product.image');
+    Route::post('/qualify', ProductUserQualifyController::class)->name('product.qualify');
     Route::prefix('variations')->group(function () {
         Route::get('/', [VariationController::class, 'index'])->name('variation.index');
         Route::post('/', [VariationController::class, 'store'])->name('variation.store');
