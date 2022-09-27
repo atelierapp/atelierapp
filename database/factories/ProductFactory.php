@@ -30,6 +30,7 @@ class ProductFactory extends Factory
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date(),
             'description' => $this->faker->paragraph(),
+            'score' => $this->faker->numberBetween(1, 5),
             'price' => $this->faker->numberBetween(100, 90000),
             'store_id' => Store::factory(),
             'style_id' => Style::factory(),

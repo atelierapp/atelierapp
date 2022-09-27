@@ -439,6 +439,82 @@ class ProductControllerIndexTest extends BaseTest
         ]);
     }
 
+    public function test_authenticated_app_user_can_list_products_ascending_by_score()
+    {
+        $this->createAuthenticatedUser();
+
+        Product::factory()->count(10)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'sort' => [
+                'field' => 'score',
+                'dir' => 'asc'
+            ],
+        ]));
+
+        $response->assertOk();
+        $this->assertLessThanOrEqual($response->json('data.1.score'), $response->json('data.0.score'));
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
+    public function test_authenticated_app_user_can_list_products_descending_by_score()
+    {
+        $this->createAuthenticatedUser();
+
+        Product::factory()->count(10)->create();
+
+        $response = $this->getJson(route('product.index', [
+            'sort' => [
+                'field' => 'score',
+                'dir' => 'desc'
+            ],
+        ]));
+
+        $response->assertOk();
+        $this->assertGreaterThanOrEqual($response->json('data.1.score'), $response->json('data.0.score'));
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
     public function test_authenticated_admin_user_can_list_all_products()
     {
         $this->createAuthenticatedAdmin();
