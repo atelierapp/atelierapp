@@ -13,7 +13,14 @@ class ProductUserQualifyController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function __invoke(ProductUserQualifyRequest $request, $product)
+    public function index()
+    {
+        $qualifications = $this->qualifyService->productQualifications();
+
+        return ProductQualifyResource::collection($qualifications);
+    }
+
+    public function store(ProductUserQualifyRequest $request, $product)
     {
         $qualify = $this->qualifyService->qualifyAProduct($product, $request->validated());
 

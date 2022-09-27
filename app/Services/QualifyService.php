@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\ProductQualification;
 use App\Models\ProductQualificationFiles;
 use App\Models\StoreUserRating;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class QualifyService
@@ -40,5 +41,10 @@ class QualifyService
         $product->save();
 
         return $rating->loadMissing('files');
+    }
+
+    public function productQualifications(): Collection
+    {
+        return ProductQualification::whereHas('product', fn ($product) => $product->authUser())->get();
     }
 }

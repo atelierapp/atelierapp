@@ -3,6 +3,8 @@
 namespace Tests\Feature\Product;
 
 use App\Models\Product;
+use App\Models\ProductQualification;
+use App\Models\Store;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -102,7 +104,7 @@ class ProductUserQualifyController extends TestCase
                 UploadedFile::fake()->image('image2.png'),
             ]
         ];
-        $response = $this->postJson(route('product.qualify', $product->id), $data);
+        $response = $this->getJson(route('product.qualify', $product->id), $data);
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -116,5 +118,29 @@ class ProductUserQualifyController extends TestCase
         self::assertEquals($data['comment'], $response->json('data.comment'));
         self::assertDatabaseCount('product_qualifications', 1);
         self::assertDatabaseCount('product_qualifications_files', 2);
+    }
+
+    public function test_an_seller_user_can_list_only_his_qualifications_product()
+    {
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory()->create(['user_id' => $user->id]);
+        Product::factory()->count(5)->create();
+        ProductQualification::factory()->count(6)->create([
+            'product_id' => Product::factory()->create(['store_id' => $store->id])->id,
+        ]);
+
+        $response = $this->postJson(route('product.qualifications'));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'product_id',
+                    'score',
+                    'comment',
+                ],
+            ],
+        ]);
+        $response->assertJsonCount(6, 'data');
     }
 }
