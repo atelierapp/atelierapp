@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\MediaType;
 use App\Models\ProductQualification;
 use App\Models\ProductQualificationFiles;
 use App\Models\StoreUserRating;
@@ -36,6 +35,9 @@ class QualifyService
                 ]);
             }
         }
+
+        $product->score = $product->qualifications()->avg('score');
+        $product->save();
 
         return $rating->loadMissing('files');
     }

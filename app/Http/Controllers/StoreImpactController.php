@@ -12,7 +12,7 @@ class StoreImpactController extends Controller
     public function __construct(private StoreService $storeService)
     {
         $this->middleware('auth:sanctum');
-        $this->middleware('role:admin');
+        $this->middleware('role:seller');
     }
 
     public function __invoke(StoreImpactRequest $request, $store)
