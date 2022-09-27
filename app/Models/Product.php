@@ -32,6 +32,7 @@ class Product extends Model
     protected $fillable = [
         'title',
         'store_id',
+        'score',
         'manufacturer_process',
         'manufactured_at',
         'description',
@@ -94,6 +95,11 @@ class Product extends Model
     public function orderDetails(): HasMany
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function qualifications(): HasMany
+    {
+        return $this->hasMany(ProductQualification::class, 'product_id');
     }
 
     public function store(): BelongsTo

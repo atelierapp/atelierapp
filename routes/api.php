@@ -84,12 +84,13 @@ Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 
 Route::apiResource('categories', CategoryController::class)->names('category');
 
-Route::get('products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
+Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
+Route::get('/products/qualifications', [ProductUserQualifyController::class, 'index'])->name('product.qualifications');
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
     Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
     Route::post('images', [ProductController::class, 'image'])->name('product.image');
-    Route::post('/qualify', ProductUserQualifyController::class)->name('product.qualify');
+    Route::post('/qualify', [ProductUserQualifyController::class, 'store'])->name('product.qualify');
     Route::prefix('variations')->group(function () {
         Route::get('/', [VariationController::class, 'index'])->name('variation.index');
         Route::post('/', [VariationController::class, 'store'])->name('variation.store');
