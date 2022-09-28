@@ -65,6 +65,11 @@ class Order extends Model
         return $this->belongsTo(Store::class);
     }
 
+    public function subOrders(): HasMany
+    {
+        return $this->hasMany(static::class, 'parent_id');
+    }
+
     protected function sellerStatus(): Attribute
     {
         $values = [

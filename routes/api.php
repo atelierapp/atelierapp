@@ -71,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
     Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
     Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
+    Route::post('shopping-cart/order', [ShoppingCartController::class, 'order'])->name('shopping-cart.order');
 
     Route::apiResource('orders', OrderController::class)->names('order')->only(['index']);
     Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');

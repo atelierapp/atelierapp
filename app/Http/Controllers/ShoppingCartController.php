@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ShoppingCartResource;
 use App\Models\ShoppingCart;
+use App\Services\OrderService;
+use App\Services\PaypalService;
 use Illuminate\Http\Request;
 
 class ShoppingCartController extends Controller
 {
+    public function __construct(
+        private OrderService $orderService,
+        private PaypalService $paypalService
+    ) {
+    }
+
     public function index()
     {
         $variants = ShoppingCart::query()
@@ -58,5 +66,12 @@ class ShoppingCartController extends Controller
             ->delete();
 
         return $this->response([], 'Item removed from your cart.');
+    }
+
+    public function order()
+    {
+        $order = $this->orderService->createFromShoppingCart(auth()->id());
+
+        return $this->paypalService->createOrder($order);
     }
 }

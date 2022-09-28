@@ -35,7 +35,7 @@ class PaypalService
                 [
                     'amount' => [
                         'currency_code' => 'USD',
-                        'value' => 3000,
+                        'value' => $order->total_price,
                     ]
                 ]
             ],

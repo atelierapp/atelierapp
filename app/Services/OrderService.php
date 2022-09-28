@@ -33,6 +33,10 @@ class OrderService
     {
         $items = ShoppingCart::whereUserId($userId)->with('variation.product.store')->get();
 
+        if (count($items) == 0) {
+            throw new AtelierException('You do not have products in your shopping cart', 422);
+        }
+
         $parentOrder = Order::create([
             'user_id' => $items[0]->user_id,
         ]);
@@ -46,6 +50,7 @@ class OrderService
             ]);
             $order->items += $item->quantity;
             $order->total_price += $item->variation->product->price * $item->quantity;
+            $order->save();
 
             $params = [
                 'order_id' => $order->id,
@@ -60,6 +65,9 @@ class OrderService
             $params['order_id'] = $parentOrder->id;
             OrderDetail::create($params);
         }
+
+        $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
+        $parentOrder->items = $parentOrder->subOrders()->sum('items');
 
         return $parentOrder;
     }
