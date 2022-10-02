@@ -134,4 +134,12 @@ class OrderService
 
         return $order;
     }
+    public function updateToPendingApprovalStatus(Order $order): Order
+    {
+        $order->update([
+            'paid_status_id' => Invoice::PAYMENT_PENDING_APPROVAL,
+        ]);
+
+        return $order;
+    }
 }

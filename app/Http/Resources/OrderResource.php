@@ -10,9 +10,6 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'full_name' => $this->first_name . ' ' . $this->last_name,
             'user_id' => $this->user_id,
             'user' => UserSimpleResource::make($this->user),
             'seller_id' => $this->seller_id,
@@ -20,7 +17,7 @@ class OrderResource extends JsonResource
             'items' => $this->items,
             'total_price' => $this->total_price,
             'seller_status' => $this->seller_status,
-            'seller_accepted_on' => $this->seller_accepted_on,
+            'seller_status_at' => $this->seller_status_at,
             'paid_status' => $this->paid_status,
             'paid_on' => $this->paid_on,
         ];

@@ -55,9 +55,9 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
-    public function parent(): HasMany
+    public function parent(): BelongsTo
     {
-        return $this->hasMany(static::class, 'parent_id');
+        return $this->belongsTo(static::class, 'parent_id');
     }
 
     public function store(): BelongsTo
@@ -85,6 +85,7 @@ class Order extends Model
     {
         $values = [
             Invoice::PAYMENT_PENDING => 'Pending',
+            Invoice::PAYMENT_PENDING_APPROVAL => 'Pending Sellers Approval',
             Invoice::PAYMENT_APPROVAL => 'Accepted',
             Invoice::PAYMENT_REJECT => 'Reject',
         ];
