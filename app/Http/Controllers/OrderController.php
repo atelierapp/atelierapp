@@ -7,6 +7,7 @@ use App\Http\Requests\OrderIndexRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Role;
+use App\Services\PaypalService;
 
 class OrderController extends Controller
 {
@@ -37,6 +38,13 @@ class OrderController extends Controller
         $order->seller_status_id = Order::_SELLER_APPROVAL;
         $order->seller_status_at = now();
         $order->save();
+
+        $totalOrders = Order::where('parent_id', '=', $order->parent_id)->count();
+        $totalApprovalOrders = Order::where('parent_id', '=', $order->parent_id)->whereSellerStatusId(Order::_SELLER_APPROVAL)->count();
+
+        if ($totalOrders == $totalApprovalOrders) {
+            app(PaypalService::class)->capturePaymentOrder($order->parent);
+        }
 
         return OrderResource::make($order);
     }

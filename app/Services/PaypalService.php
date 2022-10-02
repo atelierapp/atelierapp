@@ -66,20 +66,28 @@ class PaypalService
     /**
      * @throws \Throwable
      */
-    public function capturePaymentOrder(string $token): Order
+    public function capturePaymentOrder(Order $order): Order
+    {
+        // TODO : implement by orderService
+        $capture = $this->provider->capturePaymentOrder($order->payment_gateway_code);
+        
+        if (isset($capture['error'])) {
+            throw new AtelierException($capture['error']['details'][0]['description']);
+        }
+
+        $this->orderService->updateToPayedStatus($order, $capture);
+
+        return $order;
+    }
+
+    public function updateToPendingApproval(mixed $token)
     {
         // TODO : implement by orderService
         $order = Order::where('payment_gateway_id', $this->paymentGatewayId)
             ->where('payment_gateway_code', $token)
             ->firstOrFail();
 
-        $capture = $this->provider->capturePaymentOrder($token);
-
-        if (isset($capture['error'])) {
-            throw new AtelierException($capture['error']['details'][0]['description']);
-        }
-
-        $this->orderService->updateToPayedStatus($order, $capture);
+        $this->orderService->updateToPendingApprovalStatus($order);
 
         return $order;
     }

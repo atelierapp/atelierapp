@@ -6,7 +6,6 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\PaypalService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -28,7 +27,7 @@ class PaypalController extends Controller
      */
     public function checkPayment(Request $request)
     {
-        $result = $this->paypalService->capturePaymentOrder($request->get('token'));
+        $result = $this->paypalService->updateToPendingApproval($request->get('token'));
 
         return OrderResource::make($result);
     }
