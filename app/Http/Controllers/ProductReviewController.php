@@ -6,7 +6,7 @@ use App\Http\Requests\ProductUserQualifyRequest;
 use App\Http\Resources\ProductQualifyResource;
 use App\Services\QualifyService;
 
-class ProductUserQualifyController extends Controller
+class ProductReviewController extends Controller
 {
     public function __construct(private QualifyService $qualifyService)
     {

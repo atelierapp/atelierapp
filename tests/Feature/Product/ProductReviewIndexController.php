@@ -9,11 +9,11 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class ProductUserQualifyController extends TestCase
+class ProductReviewController extends TestCase
 {
     public function test_a_guest_user_cannot_submit_any_product_qualification()
     {
-        $response = $this->postJson(route('product.qualify', 1));
+        $response = $this->postJson(route('product.review.store', 1));
 
         $response->assertUnauthorized();
     }
@@ -22,7 +22,7 @@ class ProductUserQualifyController extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('product.qualify', 1));
+        $response = $this->postJson(route('product.review.store', 1));
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -35,7 +35,7 @@ class ProductUserQualifyController extends TestCase
         $data = [
             'score' => $this->faker->word ,
         ];
-        $response = $this->postJson(route('product.qualify', 1), $data);
+        $response = $this->postJson(route('product.review.store', 1), $data);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -48,7 +48,7 @@ class ProductUserQualifyController extends TestCase
         $data = [
             'score' => 0,
         ];
-        $response = $this->postJson(route('product.qualify', 1), $data);
+        $response = $this->postJson(route('product.review.store', 1), $data);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -61,7 +61,7 @@ class ProductUserQualifyController extends TestCase
         $data = [
             'score' => 8,
         ];
-        $response = $this->postJson(route('product.qualify', 1), $data);
+        $response = $this->postJson(route('product.review.store', 1), $data);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -76,7 +76,7 @@ class ProductUserQualifyController extends TestCase
             'score' => 4,
             'comment' => $this->faker->paragraph
         ];
-        $response = $this->postJson(route('product.qualify', $product->id), $data);
+        $response = $this->postJson(route('product.review.store', $product->id), $data);
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -104,7 +104,7 @@ class ProductUserQualifyController extends TestCase
                 UploadedFile::fake()->image('image2.png'),
             ]
         ];
-        $response = $this->getJson(route('product.qualify', $product->id), $data);
+        $response = $this->postJson(route('product.review.store', $product->id), $data);
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -129,7 +129,7 @@ class ProductUserQualifyController extends TestCase
             'product_id' => Product::factory()->create(['store_id' => $store->id])->id,
         ]);
 
-        $response = $this->postJson(route('product.qualifications'));
+        $response = $this->getJson(route('product.review.index'));
 
         $response->assertOk();
         $response->assertJsonStructure([
