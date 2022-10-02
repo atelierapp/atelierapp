@@ -17,6 +17,10 @@ class OrderBuilder extends Builder
             $this->where('seller_status_id', '=', $filters['seller_status_id']);
         }
 
+        if (isset($filters['store_id'])) {
+            $this->where('store_id', '=', $filters['store_id']);
+        }
+
         return $this;
     }
 

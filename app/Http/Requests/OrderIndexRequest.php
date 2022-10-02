@@ -15,7 +15,8 @@ class OrderIndexRequest extends FormRequest
                 Order::_SELLER_PENDING,
                 Order::_SELLER_APPROVAL,
                 Order::_SELLER_REJECT,
-            ])]
+            ])],
+            'store_id' => ['nullable', 'exists:orders,id'],
         ];
     }
 

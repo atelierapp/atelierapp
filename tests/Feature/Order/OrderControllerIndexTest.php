@@ -182,4 +182,52 @@ class OrderControllerIndexTest extends TestCase
             ],
         ]);
     }
+
+    public function test_an_authenticated_app_user_user_can_list_all_orders_filtered_by_store()
+    {
+        $user = $this->createAuthenticatedUser();
+        $store = Store::factory()->create();
+        Order::factory()->count(3)->create(['user_id' => $user->id, 'store_id' => $store->id]);
+        Order::factory()->count(3)->create(['user_id' => $user->id]);
+
+        $response = $this->getJson(route('order.index', [
+            'store_id' => $store->id,
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonCount(3, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'user_id',
+                    'user' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'full_name',
+                        'email',
+                        'phone',
+                        'avatar',
+                    ],
+                    'seller_id',
+                    'seller' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'full_name',
+                        'email',
+                        'phone',
+                        'avatar',
+                    ],
+                    'items',
+                    'total_price',
+                    'seller_status',
+                    'seller_status_at',
+                    'paid_status',
+                    'paid_on',
+                ],
+            ],
+        ]);
+    }
 }
