@@ -71,7 +71,8 @@ class StoreImpactControllerTest extends TestCase
                 ]
             ],
         ];
-        $response = $this->postJson(route('store.impact', $store->id), $data);
+        $response = $this->postJson(route('store.impact-store', $store->id), $data);
+
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
@@ -95,5 +96,38 @@ class StoreImpactControllerTest extends TestCase
         $this->assertEquals(0, DB::table('qualityables')->where('is_impact', false)->count());
         $this->assertEquals(3, DB::table('qualityables')->where('is_impact', true)->count());
         $this->assertDatabaseCount('media', 2);
+    }
+
+    public function test_an_authenticated_seller_user_can_view_his_impact_qualify()
+    {
+        $this->seed(QualitySeeder::class);
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory()->create(['user_id' => $user->id]);
+        Quality::inRandomOrder()
+            ->take($this->faker->numberBetween(1, 3))
+            ->get()
+            ->each(fn ($quality) => DB::table('qualityables')->insert([
+                'quality_id' => $quality->id,
+                'qualityable_type' => Store::class,
+                'qualityable_id' => $store->id,
+                'is_impact' => true,
+            ]));
+
+
+        $response = $this->getJson(route('store.impact-index', $store->id));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'qualities' => [
+                    0 => [
+                        'id',
+                        'name',
+                    ],
+                ],
+            ],
+        ]);
+
     }
 }

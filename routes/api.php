@@ -117,7 +117,8 @@ Route::apiResource('stores', StoreController::class)->names('store');
 Route::post('stores/{store}/image', [StoreController::class, 'image'])->name('store.image');
 Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
 Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
-Route::post('stores/{store}/impact', StoreImpactController::class)->name('store.impact');
+Route::get('stores/{store}/impact', [StoreImpactController::class, 'index'])->name('store.impact-index');
+Route::post('stores/{store}/impact', [StoreImpactController::class, 'store'])->name('store.impact-store');
 
 Route::apiResource('media-types', MediaTypeController::class)->names('media-type');
 
