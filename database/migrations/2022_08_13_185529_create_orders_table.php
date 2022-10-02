@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedMediumInteger('items')->default(0);
             $table->decimal('total_price')->default(0);
 
-            $table->unsignedTinyInteger('seller_status')->default(Order::SELLER_PENDING);
+            $table->unsignedTinyInteger('seller_status')->default(Order::_SELLER_PENDING);
             $table->timestamp('seller_accepted_on')->nullable();
 
             $table->string('payment_gateway_code')->nullable();

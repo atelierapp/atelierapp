@@ -18,7 +18,7 @@ class OrderFactory extends Factory
             'user_id' => User::factory(),
             'store_id' => Store::factory(),
             'seller_id' => User::factory(),
-            'seller_status_id' => $this->faker->randomElement([Order::SELLER_PENDING, Order::SELLER_APPROVAL, Order::SELLER_REJECT]),
+            'seller_status_id' => $this->faker->randomElement([Order::_SELLER_PENDING, Order::_SELLER_APPROVAL, Order::_SELLER_REJECT]),
             'paid_status_id' => $this->faker->randomElement([Invoice::PAYMENT_PENDING, Invoice::PAYMENT_APPROVAL, Invoice::PAYMENT_REJECT]),
             'seller_status_at' => $this->faker->dateTimeBetween('-60 days'),
             'unit_price' => $this->faker->numberBetween(1000, 10000) / 100,
@@ -39,7 +39,7 @@ class OrderFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'seller_status_id' => Order::SELLER_PENDING,
+                'seller_status_id' => Order::_SELLER_PENDING,
             ];
         });
     }
@@ -48,7 +48,7 @@ class OrderFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'seller_status_id' => Order::SELLER_APPROVAL,
+                'seller_status_id' => Order::_SELLER_APPROVAL,
             ];
         });
     }

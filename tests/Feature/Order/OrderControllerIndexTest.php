@@ -88,7 +88,7 @@ class OrderControllerIndexTest extends TestCase
         Order::factory()->count(3)->sellerApproved()->create($params);
 
         $response = $this->getJson(route('order.index', [
-            'seller_status_id' => Order::SELLER_PENDING
+            'seller_status_id' => Order::_SELLER_PENDING
         ]));
 
         $response->assertOk();

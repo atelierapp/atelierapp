@@ -10,7 +10,7 @@ class AddSellerStatusIdToOrderDtailsTable extends Migration
     public function up()
     {
         Schema::table('order_details', function (Blueprint $table) {
-            $table->unsignedTinyInteger('seller_status_id')->default(Order::SELLER_PENDING)->after('total_price');
+            $table->unsignedTinyInteger('seller_status_id')->default(Order::_SELLER_PENDING)->after('total_price');
             $table->text('seller_notes')->nullable()->after('seller_status_id');
         });
     }

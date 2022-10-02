@@ -12,9 +12,9 @@ class OrderIndexRequest extends FormRequest
     {
         return [
             'seller_status_id' => ['nullable', Rule::in([
-                Order::SELLER_PENDING,
-                Order::SELLER_APPROVAL,
-                Order::SELLER_REJECT,
+                Order::_SELLER_PENDING,
+                Order::_SELLER_APPROVAL,
+                Order::_SELLER_REJECT,
             ])]
         ];
     }

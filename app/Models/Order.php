@@ -20,9 +20,9 @@ class Order extends Model
     use HasSellerRelation;
     use HasUserRelation;
 
-    public const SELLER_PENDING = 1;
-    public const SELLER_APPROVAL = 2;
-    public const SELLER_REJECT = 3;
+    public const _SELLER_PENDING = 1;
+    public const _SELLER_APPROVAL = 2;
+    public const _SELLER_REJECT = 3;
 
     protected $fillable = [
         'parent_id',
@@ -73,9 +73,9 @@ class Order extends Model
     protected function sellerStatus(): Attribute
     {
         $values = [
-            Order::SELLER_PENDING => 'Pending',
-            Order::SELLER_APPROVAL => 'Accepted',
-            Order::SELLER_REJECT => 'Reject',
+            Order::_SELLER_PENDING => 'Pending',
+            Order::_SELLER_APPROVAL => 'Accepted',
+            Order::_SELLER_REJECT => 'Reject',
         ];
 
         return Attribute::get(fn () => $values[$this->seller_status_id]);

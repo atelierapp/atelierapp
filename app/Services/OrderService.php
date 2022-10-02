@@ -78,7 +78,7 @@ class OrderService
     public function sellerApproval(Order|string|int $orderId): Order
     {
         $order = $this->validateIfTheOrderBelongsToTheAuthenticatedSeller($orderId);
-        $order->seller_status = Order::SELLER_APPROVAL;
+        $order->seller_status = Order::_SELLER_APPROVAL;
         $order->seller_accepted_on = now();
         $order->save();
 

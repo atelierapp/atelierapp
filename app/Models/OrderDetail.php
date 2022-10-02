@@ -41,9 +41,9 @@ class OrderDetail extends Model
     protected function sellerStatus(): Attribute
     {
         $values = [
-            Order::SELLER_PENDING => 'Pending',
-            Order::SELLER_APPROVAL => 'Accepted',
-            Order::SELLER_REJECT => 'Reject',
+            Order::_SELLER_PENDING => 'Pending',
+            Order::_SELLER_APPROVAL => 'Accepted',
+            Order::_SELLER_REJECT => 'Reject',
         ];
 
         return Attribute::get(fn () => $values[$this->seller_status_id]);

@@ -31,7 +31,7 @@ class OrderDetailControllerUpdateTest extends TestCase
         $detail = OrderDetail::factory()->sellerPending()->create();
 
         $data = [
-            'seller_status_id' => Order::SELLER_APPROVAL,
+            'seller_status_id' => Order::_SELLER_APPROVAL,
         ];
         $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data);
 
@@ -49,7 +49,7 @@ class OrderDetailControllerUpdateTest extends TestCase
                 'seller_status'
             ],
         ]);
-        self::assertEquals(Order::SELLER_APPROVAL, $response->json('data.seller_status_id'));
+        self::assertEquals(Order::_SELLER_APPROVAL, $response->json('data.seller_status_id'));
         self::assertNotNull($response->json('data.seller_status_at'));
         self::assertDatabaseHas('order_details', [
             'id' => $detail->id,
@@ -63,7 +63,7 @@ class OrderDetailControllerUpdateTest extends TestCase
         $detail = OrderDetail::factory()->sellerPending()->create(['seller_notes' => null]);
 
         $data = [
-            'seller_status_id' => Order::SELLER_APPROVAL,
+            'seller_status_id' => Order::_SELLER_APPROVAL,
             'seller_notes' => $this->faker->paragraph,
         ];
         $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data);
@@ -82,7 +82,7 @@ class OrderDetailControllerUpdateTest extends TestCase
                 'seller_status'
             ],
         ]);
-        self::assertEquals(Order::SELLER_APPROVAL, $response->json('data.seller_status_id'));
+        self::assertEquals(Order::_SELLER_APPROVAL, $response->json('data.seller_status_id'));
         self::assertEquals($data['seller_notes'], $response->json('data.seller_notes'));
         self::assertNotNull($response->json('data.seller_status_at'));
         self::assertNotNull($response->json('data.seller_notes'));
