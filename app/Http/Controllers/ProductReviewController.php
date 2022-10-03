@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductUserQualifyRequest;
 use App\Http\Resources\ProductQualifyResource;
+use App\Models\Product;
+use App\Models\ProductQualification;
 use App\Services\QualifyService;
 
-class ProductUserQualifyController extends Controller
+class ProductReviewController extends Controller
 {
     public function __construct(private QualifyService $qualifyService)
     {
@@ -25,5 +27,18 @@ class ProductUserQualifyController extends Controller
         $qualify = $this->qualifyService->qualifyAProduct($product, $request->validated());
 
         return ProductQualifyResource::make($qualify);
+    }
+
+    public function show($product)
+    {
+        $product = Product::authUser()->find($product);
+        $reviews = ProductQualification::whereProductId($product->id)
+            ->with([
+                'product.featured_media',
+                'user'
+            ])
+            ->get();
+
+        return ProductQualifyResource::collection($reviews);
     }
 }

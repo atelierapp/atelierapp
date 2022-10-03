@@ -18,7 +18,7 @@ use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
-use App\Http\Controllers\ProductUserQualifyController;
+use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileFavoriteController;
 use App\Http\Controllers\ProjectController;
@@ -87,12 +87,13 @@ Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 Route::apiResource('categories', CategoryController::class)->names('category');
 
 Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
-Route::get('/products/qualifications', [ProductUserQualifyController::class, 'index'])->name('product.qualifications');
+Route::get('/products/qualifications', [ProductReviewController::class, 'index'])->name('product.review.index');
 Route::apiResource('products', ProductController::class)->names('product');
 Route::prefix('products/{product}')->group(function () {
     Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
     Route::post('images', [ProductController::class, 'image'])->name('product.image');
-    Route::post('/qualify', [ProductUserQualifyController::class, 'store'])->name('product.qualify');
+    Route::post('/qualify', [ProductReviewController::class, 'store'])->name('product.review.store');
+    Route::get('/reviews', [ProductReviewController::class, 'show'])->name('product.review.show');
     Route::prefix('variations')->group(function () {
         Route::get('/', [VariationController::class, 'index'])->name('variation.index');
         Route::post('/', [VariationController::class, 'store'])->name('variation.store');
