@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreImpactRequest;
 use App\Http\Resources\StoreImpactScoreResource;
 use App\Services\StoreService;
-use Illuminate\Http\Request;
 
 class StoreImpactController extends Controller
 {
@@ -15,7 +14,16 @@ class StoreImpactController extends Controller
         $this->middleware('role:seller');
     }
 
-    public function __invoke(StoreImpactRequest $request, $store)
+    public function index($store)
+    {
+        $store = $this->storeService->getById($store);
+        $store->load('qualities');
+        $store->load(['medias' => fn ($media) => $media->where('orientation', 'impact_store')]);
+
+        return StoreImpactScoreResource::make($store);
+    }
+
+    public function store(StoreImpactRequest $request, $store)
     {
         $store = $this->storeService->processImpactQualities($store, $request->validated());
 
