@@ -3,11 +3,9 @@
 namespace Tests\Feature\Profile;
 
 use App\Models\Project;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class ProfileControllerProjectTest extends TestCase
+class ProfileProjectControllerTest extends TestCase
 {
     public function test_a_guess_cannot_list_projects(): void
     {
