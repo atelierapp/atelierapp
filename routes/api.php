@@ -20,8 +20,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProfileFavoriteController;
-use App\Http\Controllers\ProfileProjectController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
 use App\Http\Controllers\QualityController;
@@ -58,8 +56,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/image', [ProfileController::class, 'image'])->name('profile.image');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        Route::get('/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
-        Route::get('/projects', ProfileProjectController::class)->name('profile.projects');
+        Route::get('/favorite-products', \App\Http\Controllers\ProfileFavoriteController::class)->name('profile.favorites');
+        Route::get('/projects', \App\Http\Controllers\ProfileProjectController::class)->name('profile.projects');
+        Route::get('/orders', \App\Http\Controllers\ProfileOrderController::class)->name('profile.orders');
     });
 
     Route::apiResource('projects', ProjectController::class);
