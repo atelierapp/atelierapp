@@ -9,7 +9,8 @@ class ProductQualifyResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'product_id' => $this->product_id,
+            'user' => UserSimpleResource::make($this->user),
+            'product' => ProductBasicResource::make($this->product),
             'score' => $this->score,
             'comment' => $this->comment,
             'attaches' => ProductQualifyFileResource::collection($this->whenLoaded('files')),
