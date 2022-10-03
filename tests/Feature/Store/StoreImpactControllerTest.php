@@ -16,10 +16,10 @@ class StoreImpactControllerTest extends TestCase
     {
         $this->seed(QualitySeeder::class);
         $store = Store::factory()->create();
-        $this->createAuthenticatedAdmin();
+        $this->createAuthenticatedSeller();
 
         $data = [];
-        $response = $this->postJson(route('store.impact', $store->id), $data);
+        $response = $this->postJson(route('store.impact.store', $store->id), $data);
 
         $response->assertUnprocessable();
     }
@@ -27,13 +27,13 @@ class StoreImpactControllerTest extends TestCase
     public function test_an_authenticated_admin_can_qualify_impact_score_with_3_quality_params()
     {
         $this->seed(QualitySeeder::class);
-        $store = Store::factory()->create();
-        $this->createAuthenticatedAdmin();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory()->create(['user_id' => $user->id]);
 
         $data = [
             'qualities' => Quality::query()->inRandomOrder()->limit(3)->get()->pluck('id')->toArray(),
         ];
-        $response = $this->postJson(route('store.impact', $store->id), $data);
+        $response = $this->postJson(route('store.impact.store', $store->id), $data);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -55,8 +55,8 @@ class StoreImpactControllerTest extends TestCase
     {
         Storage::fake('s3');
         $this->seed(QualitySeeder::class);
-        $store = Store::factory()->create();
-        $this->createAuthenticatedAdmin();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory()->create(['user_id' => $user->id]);
 
         $data = [
             'qualities' => Quality::query()->inRandomOrder()->limit(3)->get()->pluck('id')->toArray(),
@@ -71,7 +71,7 @@ class StoreImpactControllerTest extends TestCase
                 ]
             ],
         ];
-        $response = $this->postJson(route('store.impact-store', $store->id), $data);
+        $response = $this->postJson(route('store.impact.store', $store->id), $data);
 
         $response->assertOk();
         $response->assertJsonStructure([

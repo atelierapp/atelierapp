@@ -12,15 +12,15 @@ class QualifyScoreProductTest extends TestCase
         $this->createAuthenticatedUser();
         $product = Product::factory()->create();
 
-        $this->postJson(route('product.qualify', $product->id), [
+        $this->postJson(route('product.review.store', $product->id), [
             'score' => 3,
             'comment' => $this->faker->paragraph,
         ]);
-        $this->postJson(route('product.qualify', $product->id), [
+        $this->postJson(route('product.review.store', $product->id), [
             'score' => 4,
             'comment' => $this->faker->paragraph,
         ]);
-        $this->postJson(route('product.qualify', $product->id), [
+        $this->postJson(route('product.review.store', $product->id), [
             'score' => 5,
             'comment' => $this->faker->paragraph,
         ]);

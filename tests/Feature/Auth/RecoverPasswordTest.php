@@ -83,16 +83,16 @@ class RecoverPasswordTest extends TestCase
             'token' => md5('token'),
         ]);
 
-        $response = $this->getJson(route('resetPassword'), [
+        $response = $this->get(route('resetPassword', [
             'token' => $forgotPassword->token,
             'email' => $forgotPassword->email,
             'password' => 'password',
             'password_confirmation' => 'password',
-        ]);
+        ]));
 
         $response->assertOk();
 
-        $response = $this->getJson(route('login'), [
+        $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => 'password'
         ]);
