@@ -114,7 +114,7 @@ class StoreImpactControllerTest extends TestCase
             ]));
 
 
-        $response = $this->getJson(route('store.impact-index', $store->id));
+        $response = $this->getJson(route('store.impact.index', $store->id));
 
         $response->assertOk();
         $response->assertJsonStructure([

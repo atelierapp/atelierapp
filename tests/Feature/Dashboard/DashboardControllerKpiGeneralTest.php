@@ -13,6 +13,7 @@ class DashboardControllerKpiGeneralTest extends Basetest
 
     public function test_an_seller_user_can_get_kpis()
     {
+        $this->markTestSkipped('sqlite not suppor month function');
         $this->createAuthenticatedSeller();
         $response = $this->getJson(route('dashboard.kpi-general'));
 
