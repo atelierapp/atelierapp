@@ -21,6 +21,7 @@ use App\Http\Controllers\ProductFavoriteController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileFavoriteController;
+use App\Http\Controllers\ProfileProjectController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectForkController;
 use App\Http\Controllers\QualityController;
@@ -46,16 +47,20 @@ Route::post('/validate-username', UsernameValidationController::class)->name('us
 Route::prefix('/paypal')->group(function () {
     Route::any('/check-payment', [PaypalController::class, 'checkPayment'])->name('paypal.check-payment');
     Route::get('/test', [PaypalController::class, 'test'])->name('paypal.test');
+    Route::get('/capture', [PaypalController::class, 'capture'])->name('paypal.test');
     Route::any('/notify', [PaypalController::class, 'notify'])->name('paypal.notify');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/profile', [ProfileController::class, 'show']);
-    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('profile/image', [ProfileController::class, 'image'])->name('profile.image');
-    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/profile/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/image', [ProfileController::class, 'image'])->name('profile.image');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
+        Route::get('/projects', ProfileProjectController::class)->name('profile.projects');
+    });
 
     Route::apiResource('projects', ProjectController::class);
     Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
