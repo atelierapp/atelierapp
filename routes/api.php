@@ -33,6 +33,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UnitSystemController;
+use App\Http\Controllers\User\ProfilePaymentController;
 use App\Http\Controllers\UsernameValidationController;
 use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/favorite-products', \App\Http\Controllers\ProfileFavoriteController::class)->name('profile.favorites');
         Route::get('/projects', \App\Http\Controllers\ProfileProjectController::class)->name('profile.projects');
         Route::get('/orders', \App\Http\Controllers\ProfileOrderController::class)->name('profile.orders');
+        Route::apiResource('/payment-gateways', ProfilePaymentController::class)->names('profile.payment-gateway')->only(['store']);
     });
 
     Route::apiResource('projects', ProjectController::class);
