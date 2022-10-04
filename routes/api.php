@@ -43,9 +43,8 @@ Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
 Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
 Route::prefix('/paypal')->group(function () {
+    Route::get('/generate-order/{order}', [PaypalController::class, 'generateOrder'])->name('paypal.test');
     Route::any('/check-payment', [PaypalController::class, 'checkPayment'])->name('paypal.check-payment');
-    Route::get('/test', [PaypalController::class, 'test'])->name('paypal.test');
-    Route::get('/capture', [PaypalController::class, 'capture'])->name('paypal.test');
     Route::any('/notify', [PaypalController::class, 'notify'])->name('paypal.notify');
 });
 

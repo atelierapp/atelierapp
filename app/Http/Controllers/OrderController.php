@@ -11,7 +11,7 @@ use App\Services\PaypalService;
 
 class OrderController extends Controller
 {
-    public function __construct()
+    public function __construct(private PaypalService $paypalService)
     {
         $this->middleware('auth:sanctum');
         $this->middleware('role:' . Role::SELLER)->only('accept');
@@ -22,6 +22,7 @@ class OrderController extends Controller
         $orders = Order::applyFilters($request->validated())
             ->filterByAuthenticatedRole()
             ->with(['user', 'seller'])
+            ->latest()
             ->get();
 
         return OrderResource::collection($orders);
@@ -35,16 +36,19 @@ class OrderController extends Controller
             throw new AtelierException('This document was aceppted', 409);
         }
 
+        $this->paypalService->capturePaymentOrder($order);
+
         $order->seller_status_id = Order::_SELLER_APPROVAL;
         $order->seller_status_at = now();
         $order->save();
 
-        $totalOrders = Order::where('parent_id', '=', $order->parent_id)->count();
-        $totalApprovalOrders = Order::where('parent_id', '=', $order->parent_id)->whereSellerStatusId(Order::_SELLER_APPROVAL)->count();
 
-        if ($totalOrders == $totalApprovalOrders) {
-            app(PaypalService::class)->capturePaymentOrder($order->parent);
-        }
+        // $totalOrders = Order::where('parent_id', '=', $order->parent_id)->count();
+        // $totalApprovalOrders = Order::where('parent_id', '=', $order->parent_id)->whereSellerStatusId(Order::_SELLER_APPROVAL)->count();
+        //
+        // if ($totalOrders == $totalApprovalOrders) {
+        //     app(PaypalService::class)->capturePaymentOrder($order->parent);
+        // }
 
         return OrderResource::make($order);
     }

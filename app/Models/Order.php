@@ -42,7 +42,8 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'payment_gateway_metadata' => 'json'
+        'payment_gateway_metadata' => 'json',
+        'paid_on' => 'datetime',
     ];
 
     public function newEloquentBuilder($query): OrderBuilder

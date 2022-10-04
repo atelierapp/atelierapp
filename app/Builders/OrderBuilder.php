@@ -42,4 +42,12 @@ class OrderBuilder extends Builder
 
         return $this;
     }
+
+    public function paymentGateway($paymentId, $paymentCode): static
+    {
+        $this->where('payment_gateway_id', $paymentId)
+            ->where('payment_gateway_code', $paymentCode);
+
+        return $this;
+    }
 }
