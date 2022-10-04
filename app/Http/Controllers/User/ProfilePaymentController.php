@@ -6,9 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\ProfilePaymentStoreRequest;
 use App\Http\Resources\User\PaymentGatewayUserResource;
 use App\Models\PaymentGatewayUser;
+use App\Models\Role;
 
 class ProfilePaymentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:' . Role::SELLER);
+    }
+
     public function store(ProfilePaymentStoreRequest $request)
     {
         $paymentGateway = PaymentGatewayUser::updateOrCreate([

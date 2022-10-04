@@ -72,4 +72,13 @@ class ProfilePaymentStoreController extends TestCase
             'properties->email' => $data['email']
         ]);
     }
+
+    public function test_an_authenticated_app_user_cannot_store_any_payment_gateway()
+    {
+        $this->createAuthenticatedUser();
+
+        $response = $this->postJson(route('profile.payment-gateway.store'));
+
+        $response->assertUnauthorized();
+    }
 }
