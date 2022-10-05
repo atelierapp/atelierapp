@@ -53,7 +53,7 @@ class PaypalService
         }
 
         $this->orderService->updatePaymentGateway($order, $this->paymentGatewayId, $response['id']);
-        $this->orderService->updateGatewayPaymentMetadata($order, 'order_created', $response);
+        $this->orderService->updatePaymentGatewayMetadata($order, 'order_created', $response);
         $response['order_id'] = $order->id;
 
         return [
@@ -107,7 +107,7 @@ class PaypalService
             ],
         ]);
 
-        $this->orderService->updateGatewayPaymentMetadata($order, 'payout_status', $result);
+        $this->orderService->updatePaymentGatewayMetadata($order, 'payout_status', $result);
 
         if (isset($capture['error'])) {
             throw new AtelierException(__('paypal.payment.payout-error'));
@@ -125,7 +125,7 @@ class PaypalService
 
         $response = $this->provider->authorizePaymentOrder($token);
         $this->orderService->updateToPendingApprovalStatus($order);
-        $this->orderService->updateGatewayPaymentMetadata($order, 'order_authorization', $response);
+        $this->orderService->updatePaymentGatewayMetadata($order, 'order_authorization', $response);
 
         return $order;
     }

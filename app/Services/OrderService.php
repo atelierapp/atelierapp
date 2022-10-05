@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\ShoppingCart;
 use Illuminate\Support\Collection;
+use phpDocumentor\Reflection\Types\InterfaceString;
 
 class OrderService
 {
@@ -18,6 +19,18 @@ class OrderService
         }
 
         $query = Order::where($field, '=', $order);
+
+        return $throwable
+            ? $query->firstOrFail()
+            : $query->firstOrNew();
+    }
+    public function getByAuthRole(Order|string|int $order, string $field = 'id', $throwable = true): Order
+    {
+        if ($order instanceof Order) {
+            return $order;
+        }
+
+        $query = Order::where($field, '=', $order)->filterByAuthenticatedRole();
 
         return $throwable
             ? $query->firstOrFail()
@@ -110,6 +123,16 @@ class OrderService
         return $order;
     }
 
+    public function updateSellerStatus(Int|string|Order $order, int|string $statusId): Order
+    {
+        $order = $this->getByAuthRole($order);
+        $order->seller_status_id = $statusId;
+        $order->seller_status_at = now();
+        $order->save();
+
+        return $order;
+    }
+
     // TODO refactor this implement to service o better architecture to manage gateways
     public function updatePaymentGateway(Order $order, int $paymentGatewayId, string $code): Order
     {
@@ -159,7 +182,7 @@ class OrderService
         return $order;
     }
 
-    public function updateGatewayPaymentMetadata(Order $order, string $node, array $params)
+    public function updatePaymentGatewayMetadata(Order $order, string $node, array $params)
     {
         $values = $order->payment_gateway_metadata;
         $values[$node] = $params;
