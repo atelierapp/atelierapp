@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AtelierException;
+use App\Http\Requests\Order\OrderUpdateRequest;
 use App\Http\Requests\OrderIndexRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Role;
+use App\Services\OrderService;
 use App\Services\PaypalService;
 
 class OrderController extends Controller
 {
-    public function __construct(private PaypalService $paypalService)
-    {
+    public function __construct(
+        private PaypalService $paypalService,
+        private OrderService $orderService
+    ) {
         $this->middleware('auth:sanctum');
-        $this->middleware('role:' . Role::SELLER)->only('accept');
+        $this->middleware('role:' . Role::SELLER)->only('accept', 'update');
     }
 
     public function index(OrderIndexRequest $request)
@@ -26,6 +30,13 @@ class OrderController extends Controller
             ->get();
 
         return OrderResource::collection($orders);
+    }
+
+    public function update(OrderUpdateRequest $request, $order)
+    {
+        $order = $this->orderService->updateSellerStatus($order, $request->get('seller_status_id'));
+
+        return OrderResource::make($order);
     }
 
     public function accept($order)
@@ -41,14 +52,6 @@ class OrderController extends Controller
         $order->seller_status_id = Order::_SELLER_APPROVAL;
         $order->seller_status_at = now();
         $order->save();
-
-
-        // $totalOrders = Order::where('parent_id', '=', $order->parent_id)->count();
-        // $totalApprovalOrders = Order::where('parent_id', '=', $order->parent_id)->whereSellerStatusId(Order::_SELLER_APPROVAL)->count();
-        //
-        // if ($totalOrders == $totalApprovalOrders) {
-        //     app(PaypalService::class)->capturePaymentOrder($order->parent);
-        // }
 
         return OrderResource::make($order);
     }
