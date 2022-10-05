@@ -24,7 +24,10 @@ class OrderResource extends JsonResource
             'shipping' => null
         ];
 
-        $metadata = $this->parent->payment_gateway_metadata;
+        $metadata = is_null($this->parent_id)
+            ? $this->payment_gateway_metadata
+            : $this->parent->payment_gateway_metadata;
+        
         if(isset($metadata['order_authorization'])) {
             $resource['shipping'] = Arr::get($metadata, 'order_authorization.purchase_units.0.shipping.address');
         }
