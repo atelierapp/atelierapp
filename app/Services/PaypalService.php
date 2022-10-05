@@ -25,7 +25,7 @@ class PaypalService
     public function createOrder(Order $order): array
     {
         $structure = [
-            'intent' => 'CAPTURE',
+            'intent' => 'AUTHORIZE',
             'application_context' => [
                 'brand_name' => config('app.name'),
                 'return_url' => route('paypal.check-payment'),
@@ -33,6 +33,7 @@ class PaypalService
             ],
             'purchase_units' => [
                 [
+                    // 'reference_id' => $order->id,
                     'amount' => [
                         'currency_code' => 'USD',
                         'value' => $order->total_price,
@@ -52,6 +53,7 @@ class PaypalService
         }
 
         $this->orderService->updatePaymentGateway($order, $this->paymentGatewayId, $response['id']);
+        $this->orderService->updateGatewayPaymentMetadata($order, 'order_created', $response);
         $response['order_id'] = $order->id;
 
         return [
@@ -69,10 +71,46 @@ class PaypalService
     public function capturePaymentOrder(Order $order): Order
     {
         // TODO : implement by orderService
-        $capture = $this->provider->capturePaymentOrder($order->payment_gateway_code);
-        
+        $diff = $order->paid_on->diffInDays(now());
+
+        if ($diff > 29) {
+            throw new AtelierException(__('paypal.payment.create-authorized-payment'), 409);
+        }
+
+        if ($diff > 3) {
+            $this->provider->reAuthorizeAuthorizedPayment($order->payment_gateway_code, $order->parent->total_price);
+        }
+
+        $metadata = $order->parent->payment_gateway_metadata;
+        $authorizationCode = Arr::get($metadata,  'order_authorization.purchase_units.0.payments.authorizations.0.id');
+
+        $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $order->total_price, 'note');
+
+        $checkoutId = now()->format('YmdHisv');
+        $result = $this->provider->createBatchPayout([
+            'sender_batch_header' => [
+                'sender_batch_id' => $checkoutId,
+                "recipient_type" => "EMAIL",
+                "email_subject" => "You have money!",
+                "email_message" => "You received a payment. Thanks for using our service!",
+            ],
+            'items' => [
+                [
+                    'amount' => [
+                        'value' => "{$order->total_price}",
+                        'currency' => 'USD'
+                    ],
+                    'sender_item_id' => $checkoutId . '001',
+                    'recipient_wallet' => 'PAYPAL',
+                    'receiver' => 'sb-a7bpl20773735@personal.example.com',
+                ]
+            ],
+        ]);
+
+        $this->orderService->updateGatewayPaymentMetadata($order, 'payout_status', $result);
+
         if (isset($capture['error'])) {
-            throw new AtelierException($capture['error']['details'][0]['description']);
+            throw new AtelierException(__('paypal.payment.payout-error'));
         }
 
         $this->orderService->updateToPayedStatus($order, $capture);
@@ -83,11 +121,11 @@ class PaypalService
     public function updateToPendingApproval(mixed $token)
     {
         // TODO : implement by orderService
-        $order = Order::where('payment_gateway_id', $this->paymentGatewayId)
-            ->where('payment_gateway_code', $token)
-            ->firstOrFail();
+        $order = Order::paymentGateway($this->paymentGatewayId, $token)->firstOrFail();
 
+        $response = $this->provider->authorizePaymentOrder($token);
         $this->orderService->updateToPendingApprovalStatus($order);
+        $this->orderService->updateGatewayPaymentMetadata($order, 'order_authorization', $response);
 
         return $order;
     }

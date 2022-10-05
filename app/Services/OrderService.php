@@ -116,7 +116,15 @@ class OrderService
         $order->update([
             'payment_gateway_id' => $paymentGatewayId,
             'payment_gateway_code' => $code,
+            'paid_status_id' => 1,
+            'paid_on' => null,
         ]);
+
+        Order::where('parent_id', '=', $order->id)
+            ->update([
+                'payment_gateway_id' => $paymentGatewayId,
+                'payment_gateway_code' => $code,
+            ]);
 
         return $order;
     }
@@ -134,12 +142,28 @@ class OrderService
 
         return $order;
     }
+
     public function updateToPendingApprovalStatus(Order $order): Order
     {
         $order->update([
             'paid_status_id' => Invoice::PAYMENT_PENDING_APPROVAL,
+            'paid_on' => now(),
         ]);
 
+        Order::where('parent_id', '=', $order->id)
+            ->update([
+                'paid_status_id' => Invoice::PAYMENT_PENDING_APPROVAL,
+                'paid_on' => now(),
+            ]);
+
         return $order;
+    }
+
+    public function updateGatewayPaymentMetadata(Order $order, string $node, array $params)
+    {
+        $values = $order->payment_gateway_metadata;
+        $values[$node] = $params;
+        $order->payment_gateway_metadata = $values;
+        $order->save();
     }
 }

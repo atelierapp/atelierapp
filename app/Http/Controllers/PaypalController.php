@@ -11,13 +11,14 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaypalController extends Controller
 {
-    public function __construct(private PaypalService $paypalService, private PayPalClient $paypal)
+    public function __construct(private PaypalService $paypalService)
     {
+        //
     }
 
-    public function test()
+    public function generateOrder($order)
     {
-        $order = Order::find(8);
+        $order = Order::find($order);
 
         return response()->json(['data' => $this->paypalService->createOrder($order)]);
     }
@@ -30,10 +31,5 @@ class PaypalController extends Controller
         $result = $this->paypalService->updateToPendingApproval($request->get('token'));
 
         return OrderResource::make($result);
-    }
-
-    public function notify(Request $request)
-    {
-        Log::info('paypal-notify', $request->all());
     }
 }
