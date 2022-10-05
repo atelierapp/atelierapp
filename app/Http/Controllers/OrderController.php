@@ -32,6 +32,14 @@ class OrderController extends Controller
         return OrderResource::collection($orders);
     }
 
+    public function show($order)
+    {
+        $order = $this->orderService->getByAuthRole($order);
+        $order->load('user', 'seller');
+
+        return OrderResource::make($order);
+    }
+
     public function update(OrderUpdateRequest $request, $order)
     {
         $order = $this->orderService->updateSellerStatus($order, $request->get('seller_status_id'));
