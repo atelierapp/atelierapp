@@ -80,6 +80,9 @@ class Order extends Model
             Order::_SELLER_PENDING => 'Pending',
             Order::_SELLER_APPROVAL => 'Accepted',
             Order::_SELLER_REJECT => 'Reject',
+            Order::_SELLER_SEND => 'Send',
+            Order::_SELLER_IN_TRANSIT => 'In Transit',
+            Order::_SELLER_DELIVERED => 'Delivered',
         ];
 
         return Attribute::get(fn () => $values[$this->seller_status_id]);
