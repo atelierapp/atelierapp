@@ -54,8 +54,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-        Route::post('/image', [ProfileController::class, 'image'])->name('profile.image');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/image', [ProfileController::class, 'image'])->name('profile.image');
+        Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
         Route::get('/favorite-products', \App\Http\Controllers\ProfileFavoriteController::class)->name('profile.favorites');
         Route::get('/projects', \App\Http\Controllers\ProfileProjectController::class)->name('profile.projects');
         Route::get('/orders', \App\Http\Controllers\ProfileOrderController::class)->name('profile.orders');
