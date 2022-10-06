@@ -20,11 +20,13 @@ class Collection extends Model
     protected $fillable = [
         'name',
         'is_active',
-        'user_id'
+        'user_id',
+        'is_featured',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     #[Pure]

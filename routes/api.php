@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\CollectionFeatureController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\Dashboard\NetIncomeController;
 use App\Http\Controllers\DashboardController;
@@ -85,6 +86,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('orders/{order}/details/{detail}', [OrderDetailController::class, 'update'])->name('order.details.update');
 
     Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
+    Route::get('/collections/featured', CollectionFeatureController::class)->name('collection.featured');
     Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 });
 

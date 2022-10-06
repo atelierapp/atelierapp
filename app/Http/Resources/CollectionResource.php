@@ -19,6 +19,7 @@ class CollectionResource extends JsonResource
             'name' => $this->name,
             'image' => $this->featured_media->url,
             'is_active' => $this->is_active,
+            'is_featured' => $this->is_featured,
         ];
     }
 }
