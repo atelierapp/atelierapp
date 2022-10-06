@@ -24,6 +24,7 @@ class CollectionFactory extends Factory
         return [
             'name' => $this->faker->word,
             'is_active' => $this->faker->boolean,
+            'is_featured' => $this->faker->boolean,
         ];
     }
 }
