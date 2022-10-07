@@ -15,7 +15,7 @@
             class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 transition ease-in-out delay-50 duration-300"
             aria-expanded="false"
         >
-          <span class="sr-only">Open menu</span>
+          <span class="sr-only">{{ __('nav.open-menu') }}</span>
           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
@@ -32,16 +32,16 @@
                   'text-medium' => \Request::route()->getName() !== 'about',
                 ])
             >
-              <span>About</span>
+              <span>{{ __('nav.about') }}</span>
             </button>
           </a>
         </div>
 
         <a href="https://medium.com/@atelierapp" target="_blank" class="text-base text-medium text-gray-800 hover:text-gray-900">
-          Blog
+          {{ __('nav.blog') }}
         </a>
         <a href="{{ route('open-your-shop') }}" class="text-base text-medium text-gray-800 hover:text-gray-900" aria-label="Open your shop!">
-          Open your Shop
+          {{ __('nav.open-your-shop') }}
         </a>
       </nav>
       <!-- RIGHT BUTTON -->
@@ -50,12 +50,12 @@
           <span
               @click="$store.showVendorLogin = ! $store.showVendorLogin"
               class="whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-pink-800 hover:bg-pink-900 transition ease-in-out delay-50 duration-300 cursor-pointer">
-            Sell on Atelier
+            {{ __('nav.sell-on-atelier') }}
           </span>
         @endif
         <a href="https://apps.apple.com/app/atelier/id1565516356"
            class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 transition ease-in-out delay-50 duration-300">
-          Download the app!
+          {{ __('nav.download-the-app') }}
         </a>
       </div>
     </div>
@@ -101,7 +101,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               <span class="ml-3 text-base font-medium text-gray-900">
-                About
+                {{ __('nav.about') }}
               </span>
             </a>
 
@@ -111,7 +111,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               <span class="ml-3 text-base font-medium text-gray-900">
-                Blog
+                {{ __('nav.blog') }}
               </span>
             </a>
 
@@ -121,14 +121,14 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
               <span class="ml-3 text-base font-medium text-gray-900">
-                Open your Shop!
+                {{ __('nav.open-your-shop') }}
               </span>
             </a>
 
             <div>
               <a href="https://apps.apple.com/app/atelier/id1565516356"
                  class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
-                Download the app!
+                {{ __('nav.download-the-app') }}
               </a>
             </div>
           </nav>

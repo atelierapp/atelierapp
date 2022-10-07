@@ -7,15 +7,15 @@
           x-intersect="$el.classList.add('slide-in-left')"
       >
         <p class="mt-3 text-lg text-gray-500 uppercase tracking-wider font-bold text-green-600">
-          What is atelier?
+          {{ __('features.what-is-atelier') }}
         </p>
         <h3 class="text-2xl font-medium text-gray-900 tracking-narrow sm:text-4xl mt-4">
-          Conscious &<br>quality design
+          {!! __('features.conscious-design') !!}
         </h3>
 
         <dl class="mt-6 space-y-10">
           <p class="tracking-wide leading-8 text-lg">
-            Atelier connects high-quality and planet-conscious makers to design-savvy users who want to create their own interior design projects and we do it all in an interactive design app and marketplace!
+            {{ __('features.atelier-connects') }}
           </p>
         </dl>
       </div>
