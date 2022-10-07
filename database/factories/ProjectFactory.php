@@ -9,18 +9,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Project::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition(): array
     {
         return [
@@ -30,6 +20,26 @@ class ProjectFactory extends Factory
             'forked_from_id' => $this->faker->randomElement([null, Project::factory()]),
             'published' => $this->faker->boolean,
             'public' => $this->faker->boolean,
+            'country' => $this->faker->randomElement(['us', 'pe']),
         ];
     }
+
+    public function us()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'us',
+            ];
+        });
+    }
+
+    public function pe()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'pe',
+            ];
+        });
+    }
+
 }
