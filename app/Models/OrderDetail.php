@@ -26,6 +26,7 @@ class OrderDetail extends Model
         'seller_status_id',
         'seller_status_at',
         'seller_notes',
+        'country',
     ];
 
     public function product(): BelongsTo

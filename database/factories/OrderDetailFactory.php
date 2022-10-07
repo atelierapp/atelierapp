@@ -12,6 +12,7 @@ class OrderDetailFactory extends Factory
     public function definition(): array
     {
         $values = [
+            'country' => $this->faker->randomElement(['us', 'pe']),
             'order_id' => Order::factory(),
             'product_id' => $product = Product::factory(),
             'variation_id' => Variation::factory(['product_id' => $product]),
@@ -32,6 +33,24 @@ class OrderDetailFactory extends Factory
         return $this->state(function () {
             return [
                 'seller_status_id' => Order::_SELLER_PENDING,
+            ];
+        });
+    }
+
+    public function us()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'us',
+            ];
+        });
+    }
+
+    public function pe()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'pe',
             ];
         });
     }
