@@ -26,6 +26,7 @@ class VariationFactory extends Factory
             'name' => $this->faker->word,
             'product_id' => Product::factory(),
             'is_duplicated' => $this->faker->boolean,
+            'country' => $this->faker->randomElement(['us', 'pe']),
         ];
     }
 }

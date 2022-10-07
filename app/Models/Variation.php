@@ -27,6 +27,7 @@ class Variation extends Model
         'product_id',
         'name',
         'is_duplicated',
+        'country',
     ];
 
     protected $casts = [
