@@ -134,7 +134,7 @@ class ProductSeeder extends Seeder
 
             ['sku' => 'SM0001', 'title' => 'Misty', 'category' => 'Sofa', 'store' => 'Sofamania', 'style' => 'Mid Century Modern ', 'width' => '32', 'depth' => '75', 'height' => '30', 'url' => 'https://shareasale.com/r.cfm?b=1070406&u=2039654&m=74543&urllink=www%2Esofamania%2Ecom%2Fcollections%2Fsofa%2Fproducts%2Fmisty%2Dmid%2Dcentury%2Dmodern%2Dtufted%2Dvelvet%2Dsofa%3Fvariant%3D32815643164777&afftrack=', 'price' => '479.99', 'front' => 'SM0001-F', 'side' => 'SM0001-S', 'pers' => 'SM0001-P'],]);
 
-        $stores = Store::all()->pluck('id', 'name');
+        $stores = Store::countryUs()->all()->pluck('id', 'name');
         $categories = Category::all();
         $styles = Style::all()->pluck('id', 'name');
 
@@ -143,6 +143,7 @@ class ProductSeeder extends Seeder
         foreach ($productsExcel as $productExcel){
             $product = Product::updateOrCreate([
                 'sku' => $productExcel['sku'],
+                'country' => 'us',
             ],[
                 'store_id' => $stores[$productExcel['store']],
                 'title' => $productExcel['title'],

@@ -45,6 +45,7 @@ class Product extends Model
         'url',
         'is_on_demand',
         'is_unique',
+        'country',
     ];
 
     protected $casts = [

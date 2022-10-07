@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Enums\ManufacturerProcessEnum;
-use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\Style;
@@ -11,18 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Product::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition(): array
     {
         return [
@@ -41,6 +30,25 @@ class ProductFactory extends Factory
             'url' => $this->faker->url,
             'is_on_demand' => $this->faker->boolean,
             'is_unique' => $this->faker->boolean,
+            'country' => $this->faker->randomElement(['us', 'pe']),
         ];
+    }
+
+    public function us()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'us',
+            ];
+        });
+    }
+
+    public function pe()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'pe',
+            ];
+        });
     }
 }
