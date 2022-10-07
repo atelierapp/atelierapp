@@ -10,7 +10,7 @@
       <div class="w-full flex justify-start md:justify-center">
         <div class="w-4/5 md:w-3/5">
           <h2 class="md:text-center text-2xl font-medium text-gray-900 tracking-narrow sm:text-4xl mt-4">
-            If you create/sell pieces that match one of these criteria, this platform if for you!
+            {{ __('open-your-store.the-right-platform-for-you') }}
           </h2>
         </div>
       </div>
@@ -18,11 +18,21 @@
   </div>
   <!-- DIVIDER -->
 
+  @if(\Illuminate\Support\Facades\Lang::locale() === 'en')
   <div class="hidden md:flex overflow-hidden w-full justify-center pt-10 pb-24" x-intersect="$el.classList.add('slide-in-bottom')">
-    <img src="{{ asset('images/atelier-benefits.png') }}"  class="max-w-5xl w-full" alt="Atelier benefits">
+    <img src="{{ asset('images/atelier-benefits.png') }}"  class="max-w-5xl w-full" alt="{{ __('open-your-store.atelier-benefits') }}">
   </div>
   <div class="md:hidden flex flex-col w-full space-y-2 py-10" x-intersect="$el.classList.add('slide-in-bottom')">
-    <img src="{{ asset('images/atelier-benefits-mobile-1.png') }}"  class="max-w-5xl w-full" alt="Atelier benefits">
-    <img src="{{ asset('images/atelier-benefits-mobile-2.png') }}"  class="max-w-5xl w-full" alt="Atelier benefits">
+    <img src="{{ asset('images/atelier-benefits-mobile-1.png') }}"  class="max-w-5xl w-full" alt="{{ __('open-your-store.atelier-benefits') }}">
+    <img src="{{ asset('images/atelier-benefits-mobile-2.png') }}"  class="max-w-5xl w-full" alt="{{ __('open-your-store.atelier-benefits') }}">
   </div>
+  @else
+    <div class="hidden md:flex overflow-hidden w-full justify-center pt-10 pb-24" x-intersect="$el.classList.add('slide-in-bottom')">
+      <img src="{{ asset('images/atelier-benefits-es.png') }}"  class="max-w-5xl w-full" alt="{{ __('open-your-store.atelier-benefits') }}">
+    </div>
+    <div class="md:hidden flex flex-col w-full space-y-2 py-10" x-intersect="$el.classList.add('slide-in-bottom')">
+      <img src="{{ asset('images/atelier-benefits-mobile-1-es.png') }}"  class="max-w-5xl w-full" alt="{{ __('open-your-store.atelier-benefits') }}">
+      <img src="{{ asset('images/atelier-benefits-mobile-2-es.png') }}"  class="max-w-5xl w-full" alt="{{ __('open-your-store.atelier-benefits') }}">
+    </div>
+  @endif
 </div>

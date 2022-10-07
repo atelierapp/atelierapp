@@ -3,5 +3,5 @@
     'rounded-lg' => ! ($roundedFull ?? false),
     'rounded-full' => ($roundedFull ?? true),
 ])>
-  {{ $title ?? 'Submit' }}
+  {{ $title ?? __('open-your-store.form.submit') }}
 </button>
