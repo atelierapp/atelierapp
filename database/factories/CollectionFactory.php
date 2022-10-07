@@ -25,6 +25,25 @@ class CollectionFactory extends Factory
             'name' => $this->faker->word,
             'is_active' => $this->faker->boolean,
             'is_featured' => $this->faker->boolean,
+            'country' => $this->faker->randomElement(['us', 'pe']),
         ];
+    }
+
+    public function us()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'us',
+            ];
+        });
+    }
+
+    public function pe()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'pe',
+            ];
+        });
     }
 }
