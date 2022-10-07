@@ -19,6 +19,7 @@ class UserFactory extends Factory
             'password' => 'password',
             'phone' => $this->faker->numerify('9########'),
             'birthday' => $this->faker->dateTimeBetween('-50 years', '-18 years'),
+            'country' => $this->faker->randomElement(['us', 'pe']),
         ];
     }
 
@@ -33,5 +34,23 @@ class UserFactory extends Factory
                 Bouncer::assign($roles)->to($user);
             }
         );
+    }
+
+    public function us()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'us',
+            ];
+        });
+    }
+
+    public function pe()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'country' => 'pe',
+            ];
+        });
     }
 }
