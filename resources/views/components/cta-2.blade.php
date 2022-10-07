@@ -8,7 +8,7 @@
         class="text-white"
         x-intersect="$el.classList.add('slide-in-bottom')"
     >
-      <span class="block text-lg font-medium tracking-wide md:text-xl">{{ __('cta.your-products-will-be-valued') }}</span>
+      <span class="block text-lg font-medium tracking-wide md:text-xl">{!! __('cta.your-products-will-be-valued') !!}</span>
     </h2>
     <x-elements.button title="{{ __('cta.open-your-shop') }}" :link="route('web-app')" x-intersect="$el.classList.add('slide-in-bottom')">
       <x-slot name="icon">
