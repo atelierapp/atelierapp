@@ -27,6 +27,7 @@ class ShoppingCart extends Pivot
         'user_id',
         'variation_id',
         'quantity',
+        'country',
     ];
 
     protected $casts = [
