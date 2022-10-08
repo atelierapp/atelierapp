@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\VariationBuilder;
 use App\Traits\Models\HasMediasRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +34,11 @@ class Variation extends Model
     protected $casts = [
         'is_duplicated' => 'boolean',
     ];
+
+    public function newEloquentBuilder($query): VariationBuilder
+    {
+        return new VariationBuilder($query);
+    }
 
     public function product(): BelongsTo
     {

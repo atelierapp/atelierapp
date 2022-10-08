@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\UserBuilder;
 use App\Traits\Models\HasMediasRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -49,7 +50,7 @@ class User extends Authenticatable
         'pm_last_four',
         'trial_ends_at',
         'country',
-        'locale'
+        'locale',
     ];
 
     protected $hidden = [
@@ -61,6 +62,11 @@ class User extends Authenticatable
         'birthday' => 'date',
         'is_active' => 'boolean',
     ];
+
+    public function newEloquentBuilder($query): UserBuilder
+    {
+        return new UserBuilder($query);
+    }
 
     public function socialAccounts(): HasMany
     {
