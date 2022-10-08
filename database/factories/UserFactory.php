@@ -3,11 +3,14 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Traits\Factories\CountryStateTrait;
 use Bouncer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
 {
+    use CountryStateTrait;
+
     protected $model = User::class;
 
     public function definition(): array
@@ -34,23 +37,5 @@ class UserFactory extends Factory
                 Bouncer::assign($roles)->to($user);
             }
         );
-    }
-
-    public function us()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'us',
-            ];
-        });
-    }
-
-    public function pe()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'pe',
-            ];
-        });
     }
 }

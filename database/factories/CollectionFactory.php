@@ -3,22 +3,15 @@
 namespace Database\Factories;
 
 use App\Models\Collection;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CollectionFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
+    use CountryStateTrait;
+
     protected $model = Collection::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition(): array
     {
         return [
@@ -27,23 +20,5 @@ class CollectionFactory extends Factory
             'is_featured' => $this->faker->boolean,
             'country' => $this->faker->randomElement(['us', 'pe']),
         ];
-    }
-
-    public function us()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'us',
-            ];
-        });
-    }
-
-    public function pe()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'pe',
-            ];
-        });
     }
 }

@@ -5,10 +5,13 @@ namespace Database\Factories;
 use App\Models\Project;
 use App\Models\Style;
 use App\Models\User;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory
 {
+    use CountryStateTrait;
+
     protected $model = Project::class;
 
     public function definition(): array
@@ -23,23 +26,4 @@ class ProjectFactory extends Factory
             'country' => $this->faker->randomElement(['us', 'pe']),
         ];
     }
-
-    public function us()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'us',
-            ];
-        });
-    }
-
-    public function pe()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'pe',
-            ];
-        });
-    }
-
 }

@@ -4,10 +4,13 @@ namespace Database\Factories;
 
 use App\Models\Store;
 use App\Models\User;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StoreFactory extends Factory
 {
+    use CountryStateTrait;
+
     protected $model = Store::class;
 
     public function definition(): array
@@ -28,23 +31,5 @@ class StoreFactory extends Factory
             'customer_rating' => rand(30, 50) / 10,
             'internal_rating' => rand(30, 50) / 10,
         ];
-    }
-
-    public function us()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'us',
-            ];
-        });
-    }
-
-    public function pe()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'pe',
-            ];
-        });
     }
 }

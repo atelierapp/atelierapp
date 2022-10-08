@@ -6,10 +6,13 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Store;
 use App\Models\User;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory
 {
+    use CountryStateTrait;
+
     protected $model = Order::class;
 
     public function definition(): array
@@ -19,11 +22,19 @@ class OrderFactory extends Factory
             'user_id' => User::factory(),
             'store_id' => Store::factory(),
             'seller_id' => User::factory(),
-            'seller_status_id' => $this->faker->randomElement([Order::_SELLER_PENDING, Order::_SELLER_APPROVAL, Order::_SELLER_REJECT]),
-            'paid_status_id' => $this->faker->randomElement([Invoice::PAYMENT_PENDING, Invoice::PAYMENT_APPROVAL, Invoice::PAYMENT_REJECT]),
+            'seller_status_id' => $this->faker->randomElement([
+                Order::_SELLER_PENDING,
+                Order::_SELLER_APPROVAL,
+                Order::_SELLER_REJECT,
+            ]),
+            'paid_status_id' => $this->faker->randomElement([
+                Invoice::PAYMENT_PENDING,
+                Invoice::PAYMENT_APPROVAL,
+                Invoice::PAYMENT_REJECT,
+            ]),
             'seller_status_at' => $this->faker->dateTimeBetween('-60 days'),
             'unit_price' => $this->faker->numberBetween(1000, 10000) / 100,
-            'items' => $this->faker->numberBetween(1,5),
+            'items' => $this->faker->numberBetween(1, 5),
             'created_at' => $this->faker->dateTimeBetween('-60 days'),
         ];
 
@@ -59,24 +70,6 @@ class OrderFactory extends Factory
         return $this->state(function () {
             return [
                 'parent_id' => Order::factory(),
-            ];
-        });
-    }
-
-    public function us()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'us',
-            ];
-        });
-    }
-
-    public function pe()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'pe',
             ];
         });
     }

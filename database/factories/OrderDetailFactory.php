@@ -5,10 +5,13 @@ namespace Database\Factories;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Variation;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderDetailFactory extends Factory
 {
+    use CountryStateTrait;
+
     public function definition(): array
     {
         $values = [
@@ -33,24 +36,6 @@ class OrderDetailFactory extends Factory
         return $this->state(function () {
             return [
                 'seller_status_id' => Order::_SELLER_PENDING,
-            ];
-        });
-    }
-
-    public function us()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'us',
-            ];
-        });
-    }
-
-    public function pe()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'pe',
             ];
         });
     }

@@ -6,10 +6,13 @@ use App\Enums\ManufacturerProcessEnum;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\Style;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
+    use CountryStateTrait;
+
     protected $model = Product::class;
 
     public function definition(): array
@@ -32,23 +35,5 @@ class ProductFactory extends Factory
             'is_unique' => $this->faker->boolean,
             'country' => $this->faker->randomElement(['us', 'pe']),
         ];
-    }
-
-    public function us()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'us',
-            ];
-        });
-    }
-
-    public function pe()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'country' => 'pe',
-            ];
-        });
     }
 }
