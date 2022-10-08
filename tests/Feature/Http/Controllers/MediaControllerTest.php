@@ -6,7 +6,7 @@ use App\Models\Media;
 use App\Models\MediaType;
 use App\Models\Product;
 use App\Models\Project;
-use Database\Seeders\ProductSeeder;
+use Database\Seeders\ProductUsSeeder;
 use Database\Seeders\ProjectSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
