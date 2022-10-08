@@ -221,7 +221,7 @@ class ProjectControllerTest extends TestCase
         $this->createAuthenticatedUser();
         $project = Project::factory()->create();
 
-        $data = ['name' => $this->faker->word];
+        $data = ['name' => $this->faker->paragraph];
 
         $response = $this->patchJson(route('projects.update', $project), $data);
 
