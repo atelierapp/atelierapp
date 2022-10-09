@@ -18,6 +18,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
+            'country' => $this->faker->randomElement(['us', 'pe']),
             'title' => $this->faker->text(100),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date(),
@@ -33,7 +34,6 @@ class ProductFactory extends Factory
             'url' => $this->faker->url,
             'is_on_demand' => $this->faker->boolean,
             'is_unique' => $this->faker->boolean,
-            'country' => $this->faker->randomElement(['us', 'pe']),
         ];
     }
 }

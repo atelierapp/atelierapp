@@ -10,7 +10,6 @@ use App\Traits\Models\HasQualitiesRelation;
 use App\Traits\Models\HasTagsRelation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @mixin IdeHelperProduct
  */
-class Product extends Model
+class Product extends BaseModelCountry
 {
     use HasFactory;
     use SoftDeletes;
