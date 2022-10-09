@@ -5,9 +5,8 @@ namespace Tests\Feature\Product;
 use App\Models\Product;
 use App\Models\ProductQualification;
 use App\Models\Store;
-use Tests\TestCase;
 
-class ProductReviewShowController extends TestCase
+class ProductReviewShowController extends BaseTest
 {
     public function test_an_seller_user_can_reviews_from_specified_product()
     {

@@ -5,9 +5,8 @@ namespace Tests\Feature\Product;
 use App\Models\Product;
 use App\Models\ProductQualification;
 use App\Models\Store;
-use Tests\TestCase;
 
-class ProductReviewIndexController extends TestCase
+class ProductReviewIndexController extends BaseTest
 {
     public function test_an_seller_user_can_list_only_his_qualifications_product()
     {

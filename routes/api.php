@@ -90,26 +90,28 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
 });
 
+Route::middleware(['locale'])->group(function () {
+    Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
+    Route::get('/products/qualifications', [ProductReviewController::class, 'index'])->name('product.review.index');
+    Route::apiResource('products', ProductController::class)->names('product');
+    Route::prefix('products/{product}')->group(function () {
+        Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
+        Route::post('images', [ProductController::class, 'image'])->name('product.image');
+        Route::post('/qualify', [ProductReviewController::class, 'store'])->name('product.review.store');
+        Route::get('/reviews', [ProductReviewController::class, 'show'])->name('product.review.show');
+        Route::prefix('variations')->group(function () {
+            Route::get('/', [VariationController::class, 'index'])->name('variation.index');
+            Route::post('/', [VariationController::class, 'store'])->name('variation.store');
+            Route::patch('{variation}', [VariationController::class, 'update'])->name('variation.update');
+            Route::post('{variation}/images', [VariationController::class, 'image'])->name('variation.image');
+            Route::delete('{variation}', [VariationController::class, 'destroy'])->name('variation.destroy');
+        });
+    });
+});
+
 Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
 
 Route::apiResource('categories', CategoryController::class)->names('category');
-
-Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
-Route::get('/products/qualifications', [ProductReviewController::class, 'index'])->name('product.review.index');
-Route::apiResource('products', ProductController::class)->names('product');
-Route::prefix('products/{product}')->group(function () {
-    Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
-    Route::post('images', [ProductController::class, 'image'])->name('product.image');
-    Route::post('/qualify', [ProductReviewController::class, 'store'])->name('product.review.store');
-    Route::get('/reviews', [ProductReviewController::class, 'show'])->name('product.review.show');
-    Route::prefix('variations')->group(function () {
-        Route::get('/', [VariationController::class, 'index'])->name('variation.index');
-        Route::post('/', [VariationController::class, 'store'])->name('variation.store');
-        Route::patch('{variation}', [VariationController::class, 'update'])->name('variation.update');
-        Route::post('{variation}/images', [VariationController::class, 'image'])->name('variation.image');
-        Route::delete('{variation}', [VariationController::class, 'destroy'])->name('variation.destroy');
-    });
-});
 
 Route::apiResource('materials', MaterialController::class)->names('material');
 

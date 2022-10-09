@@ -42,7 +42,7 @@ class ProductControllerImageTest extends BaseTest
                 ['orientation' => 'invalid_orientation', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('product.image', $product->id), $data);
+        $response = $this->postJson(route('product.image', $product->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -60,7 +60,7 @@ class ProductControllerImageTest extends BaseTest
                 ['orientation' => 'plan', 'file' => 'invalid_image'],
             ],
         ];
-        $response = $this->postJson(route('product.image', $product->id), $data);
+        $response = $this->postJson(route('product.image', $product->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -82,7 +82,7 @@ class ProductControllerImageTest extends BaseTest
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
         ];
-        $response = $this->postJson(route('product.image', $product->id), $data);
+        $response = $this->postJson(route('product.image', $product->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(
