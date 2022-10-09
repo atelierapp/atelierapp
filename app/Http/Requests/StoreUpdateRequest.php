@@ -17,6 +17,7 @@ class StoreUpdateRequest extends FormRequest
             'team' => ['nullable', 'image'],
             'cover' => ['nullable', 'image'],
             'qualities' => ['nullable', 'array', Rule::exists('qualities', 'id')],
+            'website' => ['nullable', 'string'],
         ];
     }
 

@@ -50,6 +50,7 @@ class Store extends Model
         'stripe_connect_id',
         'customer_rating',
         'internal_rating',
+        'website',
     ];
 
     protected $casts = [
