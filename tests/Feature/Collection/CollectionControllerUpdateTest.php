@@ -9,7 +9,7 @@ class CollectionControllerUpdateTest extends TestCase
 {
     public function test_a_guess_cannot_update_any_collection()
     {
-        $response = $this->patchJson(route('collection.update', 1), []);
+        $response = $this->patchJson(route('collection.update', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -18,7 +18,7 @@ class CollectionControllerUpdateTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->patchJson(route('collection.update', 1), []);
+        $response = $this->patchJson(route('collection.update', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -26,12 +26,12 @@ class CollectionControllerUpdateTest extends TestCase
     public function test_an_authenticated_seller_can_update_any_collection()
     {
         $user = $this->createAuthenticatedSeller();
-        $collection = Collection::factory()->create(['user_id' => $user->id]);
+        $collection = Collection::factory()->pe()->create(['user_id' => $user->id]);
 
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->patchJson(route('collection.update', $collection->id), $data);
+        $response = $this->patchJson(route('collection.update', $collection->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -47,12 +47,12 @@ class CollectionControllerUpdateTest extends TestCase
     public function test_an_authenticated_admin_can_update_any_collection()
     {
         $user = $this->createAuthenticatedSeller();
-        $collection = Collection::factory()->create(['user_id' => $user->id]);
+        $collection = Collection::factory()->pe()->create(['user_id' => $user->id]);
 
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->patchJson(route('collection.update', $collection->id), $data);
+        $response = $this->patchJson(route('collection.update', $collection->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -68,13 +68,13 @@ class CollectionControllerUpdateTest extends TestCase
     public function test_an_authenticated_admin_can_update_to_inactive_any_collection()
     {
         $user = $this->createAuthenticatedSeller();
-        $collection = Collection::factory()->create(['user_id' => $user->id, 'is_active' => true]);
+        $collection = Collection::factory()->pe()->create(['user_id' => $user->id, 'is_active' => true]);
 
         $data = [
             'name' => $this->faker->name,
             'is_active' => false,
         ];
-        $response = $this->patchJson(route('collection.update', $collection->id), $data);
+        $response = $this->patchJson(route('collection.update', $collection->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

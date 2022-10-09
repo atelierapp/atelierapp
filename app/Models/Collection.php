@@ -12,7 +12,7 @@ use JetBrains\PhpStorm\Pure;
 /**
  * @mixin IdeHelperCollection
  */
-class Collection extends Model
+class Collection extends BaseModelCountry
 {
     use HasFactory;
     use HasMediasRelation;

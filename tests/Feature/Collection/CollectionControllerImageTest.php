@@ -14,7 +14,7 @@ class CollectionControllerImageTest extends TestCase
 
     public function test_a_guess_cannot_upload_any_image_to_any_collection()
     {
-        $response = $this->postJson(route('collection.image', 1), []);
+        $response = $this->postJson(route('collection.image', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -23,7 +23,7 @@ class CollectionControllerImageTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('collection.image', 1), []);
+        $response = $this->postJson(route('collection.image', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -41,12 +41,12 @@ class CollectionControllerImageTest extends TestCase
     {
         Storage::fake('s3');
         $user = $this->createAuthenticatedSeller();
-        $collection = Collection::factory(['user_id' => $user->id])->create();
+        $collection = Collection::factory(['user_id' => $user->id])->pe()->create();
 
         $data = [
             'image' => UploadedFile::fake()->image('image.png'),
         ];
-        $response = $this->postJson(route('collection.image', $collection->id), $data);
+        $response = $this->postJson(route('collection.image', $collection->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -70,7 +70,7 @@ class CollectionControllerImageTest extends TestCase
         $data = [
             'image' => UploadedFile::fake()->image('image.png'),
         ];
-        $response = $this->postJson(route('collection.image', $collection->id), $data);
+        $response = $this->postJson(route('collection.image', $collection->id), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
