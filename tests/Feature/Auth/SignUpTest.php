@@ -29,6 +29,8 @@ class SignUpTest extends TestCase
             'email' => $this->faker->safeEmail,
             'phone' => $this->faker->numerify('9########'),
             'password' => 'P4as.sword',
+            'locale' => 'es',
+            'country' => 'pe'
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -52,6 +54,11 @@ class SignUpTest extends TestCase
                     'access_token',
                 ],
             ]);
+        $this->assertDatabaseHas('users', [
+            'email' => $data['email'],
+            'country' => $data['country'],
+            'locale' => $data['locale'],
+        ]);
     }
 
     /**
@@ -68,6 +75,8 @@ class SignUpTest extends TestCase
             'phone' => $this->faker->numerify('9########'),
             'password' => 'P4as.sword',
             'role' => 'seller',
+            'locale' => 'es',
+            'country' => 'pe'
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -108,6 +117,8 @@ class SignUpTest extends TestCase
             'password' => 'P4ss,W0rd',
             'social_driver' => 'facebook',
             'social_id' => 'a-social-id',
+            'locale' => 'es',
+            'country' => 'pe'
         ];
 
         $response = $this->postJson(route('signUp'), $data);
@@ -361,6 +372,112 @@ class SignUpTest extends TestCase
             'message',
             'errors' => [
                 'phone',
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     * @title Invalid registration
+     * @description An account can't be create without country.
+     */
+    public function an_account_cannot_be_create_without_country(): void
+    {
+        $data = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->safeEmail,
+            'phone' => $this->faker->numerify('##################'),
+            'password' => 'P4as.sword',
+        ];
+
+        $response = $this->postJson(route('signUp'), $data);
+
+        $response->assertStatus(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'country',
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     * @title Invalid registration
+     * @description An account can't be create with invalid country.
+     */
+    public function an_account_cannot_be_create_with_invalid_country(): void
+    {
+        $data = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->safeEmail,
+            'phone' => $this->faker->numerify('##################'),
+            'password' => 'P4as.sword',
+            'country' => 'invalid'
+        ];
+
+        $response = $this->postJson(route('signUp'), $data);
+
+        $response->assertStatus(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'country',
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     * @title Invalid registration
+     * @description An account can't be create without locale.
+     */
+    public function an_account_cannot_be_create_without_locale(): void
+    {
+        $data = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->safeEmail,
+            'phone' => $this->faker->numerify('##################'),
+            'password' => 'P4as.sword',
+        ];
+
+        $response = $this->postJson(route('signUp'), $data);
+
+        $response->assertStatus(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'locale',
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     * @title Invalid registration
+     * @description An account can't be create with invalid locale.
+     */
+    public function an_account_cannot_be_create_with_invalid_locale(): void
+    {
+        $data = [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->safeEmail,
+            'phone' => $this->faker->numerify('##################'),
+            'password' => 'P4as.sword',
+            'locale' => 'invalid'
+        ];
+
+        $response = $this->postJson(route('signUp'), $data);
+
+        $response->assertStatus(JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'locale',
             ],
         ]);
     }

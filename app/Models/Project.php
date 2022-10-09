@@ -30,6 +30,7 @@ class Project extends Model
         'public',
         'settings',
         'image',
+        'country',
     ];
 
     protected $casts = [

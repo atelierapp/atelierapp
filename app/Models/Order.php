@@ -42,6 +42,7 @@ class Order extends Model
         'payment_gateway_metadata',
         'paid_status_id',
         'paid_on',
+        'country'
     ];
 
     protected $casts = [

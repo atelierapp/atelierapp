@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StyleSeeder::class);
         $this->call(StoreSeeder::class);
         $this->call(CategorySeeder::class);
-        $this->call(ProductSeeder::class);
+        $this->call(ProductUsSeeder::class);
         $this->call(QualitySeeder::class);
 
         // if (app()->environment(['local', 'staging'])) {

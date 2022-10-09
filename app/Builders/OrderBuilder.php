@@ -3,14 +3,16 @@
 namespace App\Builders;
 
 use App\Models\Invoice;
-use App\Models\Order;
 use App\Models\Role;
+use App\Traits\Builders\CountryBuilderTrait;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class OrderBuilder extends Builder
 {
+    use CountryBuilderTrait;
+
     public function applyFilters(array $filters): static
     {
         if (isset($filters['seller_status_id'])) {

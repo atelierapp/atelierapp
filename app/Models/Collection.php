@@ -22,6 +22,7 @@ class Collection extends Model
         'is_active',
         'user_id',
         'is_featured',
+        'country',
     ];
 
     protected $casts = [

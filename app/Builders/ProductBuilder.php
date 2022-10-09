@@ -3,13 +3,15 @@
 namespace App\Builders;
 
 use App\Contracts\Builders\AuthUserContractBuilder;
-use App\Models\Product;
 use App\Models\Role;
+use App\Traits\Builders\CountryBuilderTrait;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProductBuilder extends Builder implements AuthUserContractBuilder
 {
+    use CountryBuilderTrait;
+
     public function authUser(): static
     {
         if (auth()->check() && Bouncer::is(auth()->user())->an(Role::SELLER)) {

@@ -5,13 +5,17 @@ namespace Database\Factories;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Variation;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderDetailFactory extends Factory
 {
+    use CountryStateTrait;
+
     public function definition(): array
     {
         $values = [
+            'country' => $this->faker->randomElement(['us', 'pe']),
             'order_id' => Order::factory(),
             'product_id' => $product = Product::factory(),
             'variation_id' => Variation::factory(['product_id' => $product]),

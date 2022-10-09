@@ -2,10 +2,13 @@
 
 namespace App\Builders;
 
+use App\Traits\Builders\CountryBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProjectBuilder extends Builder
 {
+    use CountryBuilderTrait;
+
     public function authUser(int $userId = null): static
     {
         $this->where('author_id', '=', $userId ?: auth()->id());

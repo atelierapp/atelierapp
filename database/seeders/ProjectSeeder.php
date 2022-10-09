@@ -3,17 +3,16 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run(): void
     {
-        Project::factory()->count(5)->create();
+        Project::factory()->state(new Sequence(
+            ['country' => 'us'],
+            ['country' => 'pe'],
+        ))->count(10)->create();
     }
 }

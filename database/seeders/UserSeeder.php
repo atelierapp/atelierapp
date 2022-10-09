@@ -34,6 +34,24 @@ class UserSeeder extends Seeder
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
 
+        $user = User::updateOrCreate(['email' => 'seller@atelier.com',], [
+            'first_name' => 'Seller',
+            'last_name' => 'Atelier',
+            'password' => 'password',
+            'phone' => '987654321',
+            'birthday' => '1990-01-01',
+        ]);
+        Bouncer::assign(Role::SELLER)->to($user);
+
+        $user = User::updateOrCreate(['email' => 'user@atelier.com',], [
+            'first_name' => 'AppUser',
+            'last_name' => 'Atelier',
+            'password' => 'password',
+            'phone' => '987654321',
+            'birthday' => '1990-01-01',
+        ]);
+        Bouncer::assign(Role::USER)->to($user);
+
         User::updateOrCreate(['email' => 'john@doe.com',], [
             'first_name' => 'John',
             'last_name' => 'Doe',

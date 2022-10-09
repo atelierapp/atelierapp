@@ -51,6 +51,7 @@ class Store extends Model
         'customer_rating',
         'internal_rating',
         'website',
+        'country',
     ];
 
     protected $casts = [
