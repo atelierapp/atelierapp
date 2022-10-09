@@ -6,7 +6,6 @@ use App\Builders\VariationBuilder;
 use App\Traits\Models\HasMediasRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Product $product
  * @mixin IdeHelperVariation
  */
-class Variation extends Model
+class Variation extends BaseModelCountry
 {
     use HasFactory;
     use HasMediasRelation;
