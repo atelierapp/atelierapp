@@ -15,20 +15,20 @@
           x-intersect="$el.classList.add('slide-in-left')"
       >
         <p class="mt-3 text-lg text-gray-500 uppercase tracking-wider font-bold text-green-600">
-          Join Atelier!
+          {{ __('features.join-atelier') }}
         </p>
         <h3 class="text-2xl font-medium text-gray-900 tracking-narrow sm:text-4xl mt-4">
-          Have a brand?
+          {{ __('features.do-you-have-a-brand') }}
         </h3>
 
         <dl class="mt-6 space-y-10">
           <p class="tracking-wide leading-8 text-lg">
-            If you are a talented maker who would like to use our platform to sell your products, you’ve come to the right place! We can’t wait to see what you have in store.
+            {{ __('features.also-for-indie-makers') }}
           </p>
         </dl>
 
         <dl class="mt-6 space-y-10">
-          <x-elements.button :link="route('open-your-shop')" title="See more +">
+          <x-elements.button :link="route('open-your-shop')" title="{{ __('features.see-more') }}">
             <x-slot name="icon"></x-slot>
           </x-elements.button>
         </dl>

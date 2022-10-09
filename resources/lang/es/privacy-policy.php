@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'privacy-policy' => 'Política de privacidad',
+    'personal-data-of-job-applicants' => 'Datos personales de los solicitantes de empleo',
+    'if-you-apply-for-a-job' => 'Si solicita un trabajo, procesamos sus datos personales para facilitar todo el procedimiento de solicitud de empleo sobre la base de nuestros intereses legítimos de contratación. Los siguientes datos personales pueden ser tratados para el procedimiento de solicitud de empleo:',
+    'any-cover-letter' => 'Cualquier dato personal que proporcione a través de nuestro formulario de solicitud de empleo, incluidos, entre otros: nombre completo, dirección de correo electrónico, número de teléfono, imagen, carta de presentación, currículum, perfil de LinkedIn, perfil de Indeed y qué trabajo ha solicitado.',
+    'statuses-notes' => 'Estados, notas y planificación relacionados con tu solicitud de empleo',
+    'email-communications' => 'Comunicaciones por correo electrónico',
+    'under-eu-data-protection' => 'Según la ley europea de protección de datos, estamos obligados a informarle que ocultar datos personales en su solicitud de empleo puede generarle una desventaja en comparación con otros candidatos que solicitan el mismo puesto.',
+    'personal-data-of-all-visitors' => 'Datos personales de todos los visitantes de nuestro sitio web de empleos',
+    'we-use-personal-data-for' => 'Utilizamos sus datos personales para:',
+    'learning-more-about-behaviours' => 'Aprender más sobre los comportamientos de los visitantes de nuestro sitio web de empleos para mejorar nuestro proceso de contratación y este sitio web; mejorar y monitorear el desempeño de este sitio web; y generar datos anónimos que compartimos con nuestros socios.',
+    'all-processing-of-personal-data' => 'Todo el procesamiento de datos personales de los visitantes del sitio web de empleos se basa en nuestro interés legítimo para facilitar la contratación.',
+    'we-process-the-following-personal-data' => 'Procesamos los siguientes datos personales de los visitantes del sitio web de empleos:',
+    'devices-and-browsers' => 'Dispositivo y navegador',
+    'ip-address' => 'Dirección IP',
+    'requests-and-responses' => 'Solicitudes y respuestas enviadas desde y hacia su dispositivo',
+    'source-website' => 'Sitio web de origen (utilizamos una cookie para rastrear esto)',
+    'behaviour-on-our-website' => 'Comportamiento en nuestro sitio web',
+    'requests-or-questions' => 'Solicitudes o preguntas',
+    'feel-free-to-contact-us' => 'No dude en ponerse en contacto con nosotros si tiene alguna pregunta sobre sus datos personales. También puede contactarnos con solicitudes para ejercer sus derechos bajo la ley europea de protección de datos. Tales derechos incluyen los derechos de acceso, rectificación, supresión, limitación del tratamiento, portabilidad de los datos y objeto.',
+    'details-of-the-controller' => 'Detalles del controlador',
+    'atelier-will-be-the-controller' => 'Atelier será el responsable del tratamiento de sus datos personales de acuerdo con las leyes y reglamentos.',
+    'complaints' => 'Quejas',
+    'we-advise-you-to-contact-us-at' => 'Le recomendamos que se ponga en contacto con nosotros primero si tiene alguna queja con respecto al procesamiento de sus datos personales. Puede contactarnos por correo electrónico a ',
+    'if-you-have-unresolved-concerns' => 'Si tiene inquietudes sin resolver, tiene derecho a presentar una queja ante una autoridad de protección de datos de la UE donde vive o trabaja, o donde cree que se puede haber producido una infracción.',
+];
