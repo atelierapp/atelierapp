@@ -3,10 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\Banner;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BannerFactory extends Factory
 {
+    use CountryStateTrait;
+
     protected $model = Banner::class;
 
     public function definition(): array
