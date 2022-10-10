@@ -13,7 +13,7 @@ class OrderServiceTest extends TestCase
     public function test_an_app_user_can_generate_a_general_order_with_a_order_for_every_seller()
     {
         $user = $this->createAuthenticatedUser();
-        $variations = Variation::factory()->count(3)->create();
+        $variations = Variation::factory()->pe()->count(3)->create();
         $variations->each(fn ($variation) => ShoppingCart::create([
             'user_id' => $user->id,
             'variation_id' => $variation->id,

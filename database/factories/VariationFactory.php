@@ -17,7 +17,7 @@ class VariationFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'product_id' => Product::factory(),
+            'product_id' => Product::factory()->country(),
             'is_duplicated' => $this->faker->boolean,
             'country' => $this->faker->randomElement(['us', 'pe']),
         ];

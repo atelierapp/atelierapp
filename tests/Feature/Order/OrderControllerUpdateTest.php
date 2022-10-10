@@ -9,7 +9,7 @@ class OrderControllerUpdateTest extends TestCase
 {
     public function test_an_guess_user_cannot_update_any_order()
     {
-        $response = $this->patchJson(route('order.update', 1));
+        $response = $this->patchJson(route('order.update', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -18,7 +18,7 @@ class OrderControllerUpdateTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->patchJson(route('order.update', 1));
+        $response = $this->patchJson(route('order.update', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -26,9 +26,9 @@ class OrderControllerUpdateTest extends TestCase
     public function test_an_seller_user_cannot_update_his_order_without_params()
     {
         $user = $this->createAuthenticatedSeller();
-        $order = Order::factory()->create(['seller_id' => $user->id]);
+        $order = Order::factory()->pe()->create(['seller_id' => $user->id]);
 
-        $response = $this->patchJson(route('order.update', $order->id));
+        $response = $this->patchJson(route('order.update', $order->id),[], $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -39,10 +39,10 @@ class OrderControllerUpdateTest extends TestCase
     public function test_an_seller_user_cannot_update_any_order_that_not_yours()
     {
         $this->createAuthenticatedSeller();
-        $order = Order::factory()->create();
+        $order = Order::factory()->pe()->create();
 
         $data = ['seller_status_id' => 2];
-        $response = $this->patchJson(route('order.update', $order->id), $data);
+        $response = $this->patchJson(route('order.update', $order->id), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -50,10 +50,10 @@ class OrderControllerUpdateTest extends TestCase
     public function test_an_seller_user_can_update_his_order_with_valid_params()
     {
         $user = $this->createAuthenticatedSeller();
-        $order = Order::factory()->create(['seller_id' => $user->id]);
+        $order = Order::factory()->pe()->create(['seller_id' => $user->id]);
 
         $data = ['seller_status_id' => 2];
-        $response = $this->patchJson(route('order.update', $order->id), $data);
+        $response = $this->patchJson(route('order.update', $order->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

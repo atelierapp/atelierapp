@@ -19,7 +19,7 @@ class OrderDetailControllerIndexTest extends TestCase
         $user = $this->createAuthenticatedUser();
         $order = Order::factory()->sellerPending()->hasDetails(5)->create(['user_id' => $user->id]);
 
-        $response = $this->getJson(route('order.details', $order->id));
+        $response = $this->getJson(route('order.details', $order->id), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(5, 'data');

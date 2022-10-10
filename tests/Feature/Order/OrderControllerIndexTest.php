@@ -18,11 +18,12 @@ class OrderControllerIndexTest extends TestCase
     public function test_an_authenticated_seller_user_can_list_all_orders()
     {
         $user = $this->createAuthenticatedSeller();
-        $store = Store::factory()->create([
+        $store = Store::factory()->pe()->create([
             'user_id' => $user->id,
         ]);
         Order::factory()
             ->count(5)
+            ->pe()
             ->sellerPending()
             ->hasDetails(5)
             ->create([
@@ -31,11 +32,12 @@ class OrderControllerIndexTest extends TestCase
             ]);
         Order::factory()
             ->count(5)
+            ->pe()
             ->sellerPending()
             ->hasDetails(5)
             ->create();
 
-        $response = $this->getJson(route('order.index'));
+        $response = $this->getJson(route('order.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(5, 'data');
@@ -77,19 +79,19 @@ class OrderControllerIndexTest extends TestCase
     public function test_an_authenticated_seller_user_can_list_inbound_or_pending_orders()
     {
         $user = $this->createAuthenticatedSeller();
-        $store = Store::factory()->create([
+        $store = Store::factory()->pe()->create([
             'user_id' => $user->id,
         ]);
         $params = [
             'store_id' => $store->id,
             'seller_id' => $user->id,
         ];
-        Order::factory()->count(3)->sellerPending()->create($params);
-        Order::factory()->count(3)->sellerApproved()->create($params);
+        Order::factory()->count(3)->pe()->sellerPending()->create($params);
+        Order::factory()->count(3)->pe()->sellerApproved()->create($params);
 
         $response = $this->getJson(route('order.index', [
             'seller_status_id' => Order::_SELLER_PENDING
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
@@ -133,6 +135,7 @@ class OrderControllerIndexTest extends TestCase
         $user = $this->createAuthenticatedUser();
         Order::factory()
             ->count(3)
+            ->pe()
             ->sellerPending()
             ->hasDetails(5)
             ->create([
@@ -140,11 +143,12 @@ class OrderControllerIndexTest extends TestCase
             ]);
         Order::factory()
             ->count(5)
+            ->pe()
             ->sellerPending()
             ->hasDetails(5)
             ->create();
 
-        $response = $this->getJson(route('order.index'));
+        $response = $this->getJson(route('order.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
@@ -186,13 +190,13 @@ class OrderControllerIndexTest extends TestCase
     public function test_an_authenticated_app_user_user_can_list_all_orders_filtered_by_store()
     {
         $user = $this->createAuthenticatedUser();
-        $store = Store::factory()->create();
-        Order::factory()->count(3)->create(['user_id' => $user->id, 'store_id' => $store->id]);
-        Order::factory()->count(3)->create(['user_id' => $user->id]);
+        $store = Store::factory()->pe()->create();
+        Order::factory()->count(3)->pe()->create(['user_id' => $user->id, 'store_id' => $store->id]);
+        Order::factory()->count(3)->pe()->create(['user_id' => $user->id]);
 
         $response = $this->getJson(route('order.index', [
             'store_id' => $store->id,
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
