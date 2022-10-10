@@ -5,9 +5,8 @@ namespace Tests\Feature\Product;
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
-class ProductReviewStoreController extends TestCase
+class ProductReviewStoreController extends BaseTest
 {
     public function test_a_guest_user_cannot_submit_any_product_qualification()
     {

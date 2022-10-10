@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Builders\UserBuilder;
+use App\Models\Scopes\CountryScope;
 use App\Traits\Models\HasMediasRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,6 +50,8 @@ class User extends Authenticatable
         'pm_type',
         'pm_last_four',
         'trial_ends_at',
+        'country',
+        'locale',
     ];
 
     protected $hidden = [
@@ -59,6 +63,31 @@ class User extends Authenticatable
         'birthday' => 'date',
         'is_active' => 'boolean',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (empty($model->country)) {
+                $model->country = config('app.country');
+            }
+        });
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new CountryScope());
+        static::updated(function ($customer) {
+            if ($customer->hasStripeId()) {
+                $customer->syncStripeCustomerDetails();
+            }
+        });
+    }
+
+    public function newEloquentBuilder($query): UserBuilder
+    {
+        return new UserBuilder($query);
+    }
 
     public function socialAccounts(): HasMany
     {
@@ -93,15 +122,6 @@ class User extends Authenticatable
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
-    }
-
-    protected static function booted()
-    {
-        static::updated(function ($customer) {
-            if ($customer->hasStripeId()) {
-                $customer->syncStripeCustomerDetails();
-            }
-        });
     }
 
     public function stripeName(): ?string

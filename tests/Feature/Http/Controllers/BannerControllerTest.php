@@ -37,7 +37,7 @@ class BannerControllerTest extends TestCase
     {
         Banner::factory()->count(3)->create();
 
-        $response = $this->get(route('banner.index'));
+        $response = $this->get(route('banner.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -74,7 +74,7 @@ class BannerControllerTest extends TestCase
             'type' => $this->faker->randomElement([Banner::TYPE_POPUP, Banner::TYPE_CAROUSEL]),
         ];
 
-        $response = $this->postJson(route('banner.store'), $data);
+        $response = $this->postJson(route('banner.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -90,7 +90,7 @@ class BannerControllerTest extends TestCase
     {
         $banner = Banner::factory()->create();
 
-        $response = $this->get(route('banner.show', $banner));
+        $response = $this->get(route('banner.show', $banner), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -124,7 +124,7 @@ class BannerControllerTest extends TestCase
             'type' => $this->faker->randomElement([Banner::TYPE_POPUP, Banner::TYPE_CAROUSEL]),
         ];
 
-        $response = $this->putJson(route('banner.update', $banner), $data);
+        $response = $this->putJson(route('banner.update', $banner), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -138,6 +138,7 @@ class BannerControllerTest extends TestCase
                 'order' => $data['order'],
                 'segment' => $data['segment'],
                 'type' => $data['type'],
+                'country' => 'pe',
             ]
         );
     }
@@ -154,7 +155,7 @@ class BannerControllerTest extends TestCase
         $data = [
             'image' => UploadedFile::fake()->image('imagen.jpg'),
         ];
-        $response = $this->postJson(route('banner.image', $project), $data);
+        $response = $this->postJson(route('banner.image', $project), $data, $this->customHeaders());
 
         $response->assertOk();
         $this->assertEquals(1, count(Storage::disk('s3')->allFiles('banners')));
@@ -167,7 +168,7 @@ class BannerControllerTest extends TestCase
     {
         $banner = Banner::factory()->create();
 
-        $response = $this->delete(route('banner.destroy', $banner));
+        $response = $this->delete(route('banner.destroy', $banner), headers: $this->customHeaders());
 
         $response->assertNoContent();
 

@@ -17,7 +17,7 @@ class ProductControllerIndexTest extends BaseTest
     {
         Product::factory()->count(5)->create();
 
-        $response = $this->getJson(route('product.index'));
+        $response = $this->getJson(route('product.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => [0 => $this->structure()]]);
@@ -28,7 +28,7 @@ class ProductControllerIndexTest extends BaseTest
         $this->createAuthenticatedUser();
         Product::factory()->count(8)->create();
 
-        $response = $this->getJson(route('product.index'));
+        $response = $this->getJson(route('product.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(8, 'data');
@@ -61,7 +61,7 @@ class ProductControllerIndexTest extends BaseTest
         Product::factory()->count(8)->create();
         FavoriteProduct::query()->create(['user_id' => $user->id, 'product_id' => 2]);
 
-        $response = $this->getJson(route('product.index'));
+        $response = $this->getJson(route('product.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(8, 'data');
@@ -104,7 +104,7 @@ class ProductControllerIndexTest extends BaseTest
 
         $response = $this->getJson(route('product.index', [
             'search' => 'jaime',
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
@@ -149,7 +149,7 @@ class ProductControllerIndexTest extends BaseTest
             'categories' => [
                 $category1->id,
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(4, 'data');
@@ -185,7 +185,7 @@ class ProductControllerIndexTest extends BaseTest
 
         $response = $this->getJson(route('product.index', [
             'search' => $category->name,
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(1, 'data');
@@ -218,11 +218,13 @@ class ProductControllerIndexTest extends BaseTest
 
         $store = Store::factory()->create();
         Product::factory()->count(3)->create(['store_id' => $store->id]);
+        Product::factory()->count(3)->us()->create(['store_id' => $store->id]);
         Product::factory()->count(3)->create();
+        Product::factory()->count(3)->us()->create();
 
         $response = $this->getJson(route('product.index', [
             'store_id' => $store->id,
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
@@ -256,11 +258,12 @@ class ProductControllerIndexTest extends BaseTest
         Product::factory()->create(['price' => 2000]);
         Product::factory()->create(['price' => 9000]);
         Product::factory()->count(10)->create();
+        Product::factory()->us()->count(10)->create();
 
         $response = $this->getJson(route('product.index', [
             'price-min' => 10,
             'price-max' => 90,
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
@@ -298,7 +301,7 @@ class ProductControllerIndexTest extends BaseTest
                 'field' => 'price',
                 'dir' => 'asc'
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $this->assertLessThanOrEqual($response->json('data.1.price'), $response->json('data.0.price'));
@@ -336,7 +339,7 @@ class ProductControllerIndexTest extends BaseTest
                 'field' => 'price',
                 'dir' => 'desc'
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $this->assertGreaterThanOrEqual($response->json('data.1.price'), $response->json('data.0.price'));
@@ -374,7 +377,7 @@ class ProductControllerIndexTest extends BaseTest
                 'field' => 'title',
                 'dir' => 'asc'
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $this->assertLessThanOrEqual($response->json('data.1.title'), $response->json('data.0.title'));
@@ -412,7 +415,7 @@ class ProductControllerIndexTest extends BaseTest
                 'field' => 'title',
                 'dir' => 'desc'
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $this->assertGreaterThanOrEqual($response->json('data.1.title'), $response->json('data.0.title'));
@@ -450,7 +453,7 @@ class ProductControllerIndexTest extends BaseTest
                 'field' => 'score',
                 'dir' => 'asc'
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $this->assertLessThanOrEqual($response->json('data.1.score'), $response->json('data.0.score'));
@@ -488,7 +491,7 @@ class ProductControllerIndexTest extends BaseTest
                 'field' => 'score',
                 'dir' => 'desc'
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $this->assertGreaterThanOrEqual($response->json('data.1.score'), $response->json('data.0.score'));
@@ -520,7 +523,7 @@ class ProductControllerIndexTest extends BaseTest
         $this->createAuthenticatedAdmin();
         Product::factory()->count(8)->create();
 
-        $response = $this->getJson(route('product.index'));
+        $response = $this->getJson(route('product.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(8, 'data');
@@ -556,7 +559,7 @@ class ProductControllerIndexTest extends BaseTest
 
         $response = $this->getJson(route('product.index', [
             'search' => 'jaime',
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
@@ -601,7 +604,7 @@ class ProductControllerIndexTest extends BaseTest
             'categories' => [
                 $category1->id,
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(4, 'data');
@@ -635,7 +638,7 @@ class ProductControllerIndexTest extends BaseTest
         $store = $this->createStore($user);
         Product::factory(['store_id' => $store->id])->count(4)->create();
 
-        $response = $this->getJson(route('product.index'));
+        $response = $this->getJson(route('product.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(4, 'data');
@@ -673,7 +676,7 @@ class ProductControllerIndexTest extends BaseTest
 
         $response = $this->getJson(route('product.index', [
             'search' => 'jaime',
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(1, 'data');
@@ -721,7 +724,7 @@ class ProductControllerIndexTest extends BaseTest
             'categories' => [
                 $category1->id,
             ],
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
@@ -766,7 +769,7 @@ class ProductControllerIndexTest extends BaseTest
 
         $response = $this->getJson(route('product.index', [
             'collection' => $collection1->id,
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');

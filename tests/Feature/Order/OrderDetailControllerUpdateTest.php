@@ -10,7 +10,7 @@ class OrderDetailControllerUpdateTest extends TestCase
 {
     public function test_an_guess_user_can_not_update_a_detail_of_any_order()
     {
-        $response = $this->patchJson(route('order.details.update', [1, 1]));
+        $response = $this->patchJson(route('order.details.update', [1, 1]),[], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -20,7 +20,7 @@ class OrderDetailControllerUpdateTest extends TestCase
         $this->createAuthenticatedUser();
 
         $data = [];
-        $response = $this->patchJson(route('order.details.update', [1, 1]), $data);
+        $response = $this->patchJson(route('order.details.update', [1, 1]), $data, $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -33,7 +33,7 @@ class OrderDetailControllerUpdateTest extends TestCase
         $data = [
             'seller_status_id' => Order::_SELLER_APPROVAL,
         ];
-        $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data);
+        $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -66,7 +66,7 @@ class OrderDetailControllerUpdateTest extends TestCase
             'seller_status_id' => Order::_SELLER_APPROVAL,
             'seller_notes' => $this->faker->paragraph,
         ];
-        $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data);
+        $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

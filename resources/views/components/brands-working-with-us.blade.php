@@ -5,7 +5,7 @@
   <div class="relative max-w-7xl flex items-center flex-col" x-intersect="$el.classList.add('slide-in-bottom')">
     <div class="text-center flex flex-col space-y-4 w-4/5">
       <h2 class="md:text-center text-2xl font-medium text-gray-900 tracking-wide sm:text-4xl mt-4">
-        Some of the brands we work with
+        {{ __('about.some-of-the-brands-that-work-with-us') }}
       </h2>
       <div class="mx-auto py-6">
         <div class="h-1 bg-gray-500 w-20"></div>

@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'open-your-store' => 'ABRE UNA TIENDA EN ATELIER',
+    'space-for-beautiful-products' => 'Este es un espacio para productos preciosos como los tuyos, hechos con cariño y ecológicamente',
+    'space-for-people-to-find-your-unique-products' => 'Atelier es un marketplace donde el publico general puede encontrar tus productos directamente. Ellos(ellas/elles) podran diseñar directamente en el visualizador con tus piezas, asi sabran desde un inicio que tu producto (lo que estan anadiendo a su diseño) es exactamente lo que estan buscando.',
+    'atelier-contributes-to-the-world' => 'Atelier está haciendo mella en el mundo al permitir solo productos hechos conscientemente en nuestra plataforma y al brindarles a los fabricantes como usted acceso directo a los clientes en su área. ¡Estamos creando un mundo mejor y ayudando a nuestras comunidades!',
+    'the-right-platform-for-you' => 'Si creas/vendes piezas que coinciden con uno de estos criterios, ¡esta plataforma es para ti!',
+    'atelier-benefits' => 'Beneficios Atelier',
+    'what-we-offer' => 'Qué ofrecemos',
+    'benefit-1' => '1. Un escaparate donde los clientes pueden interactuar contigo directamente y conocer la historia de tu marca',
+    'benefit-2' => '2. Una plataforma 3D donde los usuarios de Atelier pueden interactuar con sus productos como lo harían en las plataformas de las grandes tiendas y ver que lo que hace es exactamente lo que quieren para su hogar.',
+    'benefit-3' => '3. Colocación localizada y competitiva de sus productos para que nunca compita con productos de baja calidad de proveedores con grandes presupuestos.',
+    'benefit-4' => '4. Un lugar para administrar su inventario, los próximos pedidos y el tiempo de fabricación sin necesidad de tener docenas o cientos de productos disponibles en stock en todo momento.',
+    'benefit-5' => '5. Fácil seguimiento y manejo de envíos',
+    'benefit-6' => '6. Dos formas diferentes de utilizar nuestros servicios: a comisión o tarifa fija. Esto le dará la flexibilidad que necesita para hacer crecer su negocio',
+    'tell-us-about-you' => 'Cuéntanos sobre ti',
+    'form' => [
+        'first-name' => 'Nombre(s)',
+        'last-name' => 'Apellidos',
+        'email' => 'Email',
+        'phone' => 'Celular',
+        'address' => 'Dirección',
+        'company' => 'Compañía',
+        'position' => 'Posición',
+        'tell-us-about-your-business' => 'Cuéntanos sobre tu negocio',
+        'web-address' => 'Página web',
+        'success-message' => 'Genial! Estaremos en contacto cuanto antes :)',
+        'submit' => 'Enviar',
+    ],
+];

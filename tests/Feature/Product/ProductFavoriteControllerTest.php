@@ -7,9 +7,8 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Support\Facades\DB;
-use Tests\TestCase;
 
-class ProductFavoriteControllerTest extends TestCase
+class ProductFavoriteControllerTest extends BaseTest
 {
     public function test_a_guess_cannot_create_any_product()
     {
@@ -23,7 +22,7 @@ class ProductFavoriteControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
         $product = Product::factory()->create();
 
-        $response = $this->postJson(route('product.favorite', $product->id), []);
+        $response = $this->postJson(route('product.favorite', $product->id), [], $this->customHeaders());
 
         $response->assertCreated();
         $this->assertDatabaseHas('favorite_products', [
@@ -38,7 +37,7 @@ class ProductFavoriteControllerTest extends TestCase
         $product = Product::factory()->create();
         DB::table('favorite_products')->insert(['user_id' => $user->id, 'product_id' => $product->id]);
 
-        $response = $this->postJson(route('product.favorite', $product->id), []);
+        $response = $this->postJson(route('product.favorite', $product->id), [], $this->customHeaders());
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('favorite_products', [
@@ -57,8 +56,8 @@ class ProductFavoriteControllerTest extends TestCase
             OrderDetail::factory()->count($this->faker->numberBetween(1, 5))->create(['product_id' => $product->id]);
         });
 
-        $response = $this->getJson(route('product.trending'));
-        
+        $response = $this->getJson(route('product.trending'), $this->customHeaders());
+
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [

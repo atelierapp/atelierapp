@@ -10,7 +10,7 @@ class DashboardNetIncomeTest extends TestCase
 {
     public function test_an_guess_user_cannot_get_net_income()
     {
-        $response = $this->getJson(route('dashboard.net-income'));
+        $response = $this->getJson(route('dashboard.net-income'), $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -19,7 +19,7 @@ class DashboardNetIncomeTest extends TestCase
     {
         $this->createAuthenticatedSeller();
 
-        $response = $this->getJson(route('dashboard.net-income'));
+        $response = $this->getJson(route('dashboard.net-income'), $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -41,7 +41,7 @@ class DashboardNetIncomeTest extends TestCase
             'start_date' => '2022-01-01',
             'end_date' => '2022-11-11',
         ];
-        $response = $this->getJson(route('dashboard.net-income', $data));
+        $response = $this->getJson(route('dashboard.net-income', $data), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

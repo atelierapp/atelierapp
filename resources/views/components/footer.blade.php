@@ -1,5 +1,5 @@
 <footer class="bg-green-500" aria-labelledby="footerHeading" x-data>
-  <h2 id="footerHeading" class="sr-only">Footer</h2>
+  <h2 id="footerHeading" class="sr-only">{{ __('footer.footer') }}</h2>
   <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
     <div class="xl:grid xl:grid-cols-3 xl:gap-8">
       <div class="mt-12 md:grid md:grid-cols-3 gap-8 xl:mt-0 xl:col-span-2">
@@ -8,18 +8,18 @@
             x-intersect="$el.classList.add('slide-in-bottom')"
         >
           <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
-            Resources
+            {{ __('footer.resources') }}
           </h3>
           <ul class="mt-4 space-y-4">
             <li>
               <a href="https://www.atelier-app.com/design-principles-ebook" class="text-base text-gray-500 hover:text-gray-900">
-                Design Principles Guide
+                {{ __('footer.design-principles-guide') }}
               </a>
             </li>
 
             <li>
               <a href="https://www.amazon.com/Atelier-Home-Design-App/dp/B07D7JFC3B/ref=sr_1_1?crid=3G59NWF[…]igital-skills&sprefix=atelier+app%2Calexa-skills%2C103&sr=1-1" class="text-base text-gray-500 hover:text-gray-900">
-                Alexa Skill
+                {{ __('footer.alexa-skill') }}
               </a>
             </li>
           </ul>
@@ -29,18 +29,18 @@
             x-intersect="$el.classList.add('slide-in-bottom')"
         >
           <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
-            Legal
+            {{ __('footer.legal') }}
           </h3>
           <ul class="mt-4 space-y-4">
             <li>
               <a href="{{ route('privacy-policy') }}" class="text-base text-gray-500 hover:text-gray-900">
-                Privacy Policy
+                {{ __('privacy-policy.privacy-policy') }}
               </a>
             </li>
 
             <li>
               <a href="https://www.iubenda.com/terms-and-conditions/40005283" class="text-base text-gray-500 hover:text-gray-900">
-                Terms & Conditions
+                {{ __('footer.terms-and-conditions') }}
               </a>
             </li>
           </ul>
@@ -50,18 +50,18 @@
             x-intersect="$el.classList.add('slide-in-bottom')"
         >
           <h3 class="text-sm font-semibold text-white opacity-50 tracking-wider uppercase">
-            Others
+            {{ __('footer.others') }}
           </h3>
           <ul class="mt-4 space-y-4">
             <li>
               <a href="https://www.atelier-app.com/investor-contact" class="text-base text-gray-500 hover:text-gray-900">
-                Information for Investors
+                {{ __('footer.information-for-investors') }}
               </a>
             </li>
 
             <li>
               <a href="mailto:info@0110atelier.com" class="text-base text-gray-500 hover:text-gray-900">
-                Email us
+                {{ __('footer.email-us') }}
               </a>
             </li>
           </ul>
@@ -98,7 +98,7 @@
           </g>
         </svg>
         <p class="text-gray-500 text-base">
-          Follow us
+          {{ __('footer.follow-us') }}
         </p>
         <div class="flex space-x-6">
           <a href="https://www.facebook.com/atelierhomeapp" class="text-white opacity-50 hover:opacity-100 transition ease-in-out delay-50 duration-300">
@@ -131,7 +131,7 @@
     </div>
     <div class="mt-12 pt-8">
       <p class="text-base text-white opacity-50 xl:text-center">
-        &copy; {{ date('Y') }} Atelier App, inc. All rights reserved.
+        &copy; {{ date('Y') }} Atelier App, inc. {{ __('footer.all-rights-reserved') }}.
       </p>
     </div>
   </div>

@@ -5,7 +5,7 @@
           class="hidden md:block w-full"
           x-intersect="$el.classList.add('slide-in-left')"
           src="{{ asset('images/atelier-about.png') }}"
-          alt="Atelier Home Design - About us"
+          alt="Atelier Home Design - {{ __('about.about-us') }}"
       >
       <div class="md:absolute md:bottom-0 md:right-0">
         <div class="pb-16 max-w-lg">
@@ -13,16 +13,16 @@
               class="pt-4 md:pt-0 text-3xl tracking-narrower font-medium text-green-600 sm:text-6xl xl:text-4xl pb-4"
               x-intersect="$el.classList.add('slide-in-right')"
           >
-            <span>What we do</span>
+            <span>{{ __('about.what-we-do') }}</span>
           </h1>
           <p
               class="tracking-wide leading-6 text-md"
               x-intersect="$el.classList.add('slide-in-right')"
           >
-            Atelier connects high-quality and planet-conscious makers to design-savvy users who want to create their own interior design projects and we do it all in an interactive design app and marketplace!
+            {{ __('features.atelier-connects') }}
           </p>
           <div x-intersect="$el.classList.add('slide-in-bottom')">
-            <x-elements.button title="Download" link="https://apps.apple.com/app/atelier/id1565516356">
+            <x-elements.button title="{{ __('home.download') }}" link="https://apps.apple.com/app/atelier/id1565516356">
               <x-slot name="icon">
                 <svg class="w-4 fill-current hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.1 16.43">
                   <defs/>

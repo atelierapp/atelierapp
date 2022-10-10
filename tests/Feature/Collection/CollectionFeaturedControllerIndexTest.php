@@ -9,7 +9,7 @@ class CollectionFeaturedControllerIndexTest extends TestCase
 {
     public function test_a_guess_user_cannot_list_any_collection()
     {
-        $response = $this->getJson(route('collection.featured'));
+        $response = $this->getJson(route('collection.featured'), $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -20,7 +20,7 @@ class CollectionFeaturedControllerIndexTest extends TestCase
         Collection::factory()->count(10)->create(['is_featured' => true]);
         Collection::factory()->count(10)->create(['is_featured' => false]);
 
-        $response = $this->getJson(route('collection.featured'));
+        $response = $this->getJson(route('collection.featured'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(10, 'data');

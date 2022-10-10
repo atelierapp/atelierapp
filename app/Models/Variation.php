@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Builders\VariationBuilder;
 use App\Traits\Models\HasMediasRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Product $product
  * @mixin IdeHelperVariation
  */
-class Variation extends Model
+class Variation extends BaseModelCountry
 {
     use HasFactory;
     use HasMediasRelation;
@@ -27,11 +27,17 @@ class Variation extends Model
         'product_id',
         'name',
         'is_duplicated',
+        'country',
     ];
 
     protected $casts = [
         'is_duplicated' => 'boolean',
     ];
+
+    public function newEloquentBuilder($query): VariationBuilder
+    {
+        return new VariationBuilder($query);
+    }
 
     public function product(): BelongsTo
     {

@@ -3,29 +3,22 @@
 namespace Database\Factories;
 
 use App\Enums\ManufacturerProcessEnum;
-use App\Enums\ManufacturerTypeEnum;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\Style;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
+    use CountryStateTrait;
+
     protected $model = Product::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition(): array
     {
         return [
+            'country' => config('app.country'),
             'title' => $this->faker->text(100),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date(),

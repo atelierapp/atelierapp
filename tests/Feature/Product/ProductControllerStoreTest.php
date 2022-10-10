@@ -44,7 +44,7 @@ class ProductControllerStoreTest extends BaseTest
     {
         $this->createAuthenticatedSeller();
 
-        $response = $this->postJson(route('product.store'), []);
+        $response = $this->postJson(route('product.store'), [], $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -82,7 +82,7 @@ class ProductControllerStoreTest extends BaseTest
             'manufacturer_type' => 'invalid_param',
             'manufacturer_process' => 'invalid_param',
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -103,7 +103,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
             ],
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -123,7 +123,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'invalid_orientation', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -168,7 +168,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['name' => $this->faker->name],
             ],
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(
@@ -215,7 +215,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['name' => $this->faker->name],
             ],
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(
@@ -238,6 +238,10 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertDatabaseCount('materials', 5);
         $this->assertDatabaseCount('material_product', 5);
         $this->assertDatabaseCount('qualityables', 2);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+        ]);
     }
 
     public function test_authenticated_seller_can_store_a_product_with_only_required_info_and_images_and_duplicated_as_variation()
@@ -276,7 +280,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['name' => $this->faker->name],
             ],
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -324,6 +328,10 @@ class ProductControllerStoreTest extends BaseTest
             ]
         );
         $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+        ]);
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('media', 8);
         $this->assertEquals(1, Media::featured()->model(Product::class)->count());
@@ -381,7 +389,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['name' => $this->faker->word],
             ],
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -398,6 +406,10 @@ class ProductControllerStoreTest extends BaseTest
             ]
         );
         $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+        ]);
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('media', 8);
         $this->assertEquals(2, Media::featured()->count());
@@ -454,7 +466,7 @@ class ProductControllerStoreTest extends BaseTest
                 ]
             ]
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -502,6 +514,10 @@ class ProductControllerStoreTest extends BaseTest
             ]
         );
         $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+        ]);
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('tags', 3);
         $this->assertDatabaseCount('taggables', 3);
@@ -540,16 +556,16 @@ class ProductControllerStoreTest extends BaseTest
             'price' => $this->faker->numberBetween(100, 10000),
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
             ],
             'materials' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
             ],
             'variations' => [
                 [
@@ -572,7 +588,7 @@ class ProductControllerStoreTest extends BaseTest
                 ],
             ]
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -620,6 +636,10 @@ class ProductControllerStoreTest extends BaseTest
             ]
         );
         $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+        ]);
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('tags', 3);
         $this->assertDatabaseCount('taggables', 3);
@@ -666,7 +686,7 @@ class ProductControllerStoreTest extends BaseTest
             'is_on_demand' => $this->faker->boolean,
             'is_unique' => $this->faker->boolean,
         ];
-        $response = $this->postJson(route('product.store'), $data);
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(
@@ -677,6 +697,10 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertEquals($data['is_on_demand'], $response->json('data.is_on_demand'));
         $this->assertEquals($data['is_unique'], $response->json('data.is_unique'));
         $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+        ]);
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('media', 8);
         $this->assertEquals(2, Media::featured()->count());

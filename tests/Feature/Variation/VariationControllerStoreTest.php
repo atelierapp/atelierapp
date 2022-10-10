@@ -10,7 +10,7 @@ class VariationControllerStoreTest extends BaseTest
 {
     public function test_a_guess_cannot_create_any_variation_of_any_product()
     {
-        $response = $this->postJson(route('variation.store', 1), []);
+        $response = $this->postJson(route('variation.store', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -19,7 +19,7 @@ class VariationControllerStoreTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('variation.store', 1), []);
+        $response = $this->postJson(route('variation.store', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -28,7 +28,7 @@ class VariationControllerStoreTest extends BaseTest
     {
         $this->createAuthenticatedSeller();
 
-        $response = $this->postJson(route('variation.store', 1), []);
+        $response = $this->postJson(route('variation.store', 1), [], $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -48,7 +48,7 @@ class VariationControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
             ],
         ];
-        $response = $this->postJson(route('variation.store', 1), $data);
+        $response = $this->postJson(route('variation.store', 1), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -68,7 +68,7 @@ class VariationControllerStoreTest extends BaseTest
                 ['orientation' => 'invalid_orientation', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('variation.store', 1), $data);
+        $response = $this->postJson(route('variation.store', 1), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -90,7 +90,7 @@ class VariationControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('variation.store', 123), $data);
+        $response = $this->postJson(route('variation.store', 123), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -109,7 +109,7 @@ class VariationControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('variation.store', $product->id), $data);
+        $response = $this->postJson(route('variation.store', $product->id), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -128,7 +128,7 @@ class VariationControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('variation.store', $product->id), $data);
+        $response = $this->postJson(route('variation.store', $product->id), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([

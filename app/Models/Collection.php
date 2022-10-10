@@ -12,7 +12,7 @@ use JetBrains\PhpStorm\Pure;
 /**
  * @mixin IdeHelperCollection
  */
-class Collection extends Model
+class Collection extends BaseModelCountry
 {
     use HasFactory;
     use HasMediasRelation;
@@ -22,6 +22,7 @@ class Collection extends Model
         'is_active',
         'user_id',
         'is_featured',
+        'country',
     ];
 
     protected $casts = [

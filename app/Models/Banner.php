@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Builders\BannerBuilder;
 use App\Traits\Models\HasMediasRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin IdeHelperBanner
  */
-class Banner extends Model
+class Banner extends BaseModelCountry
 {
     use HasFactory;
     use HasMediasRelation;
@@ -22,6 +22,7 @@ class Banner extends Model
         'order',
         'segment',
         'type',
+        'country',
     ];
 
     protected $casts = [
@@ -31,5 +32,10 @@ class Banner extends Model
         'segment' => 'string',
         'type' => 'string',
     ];
+
+    public function newEloquentBuilder($query): BannerBuilder
+    {
+        return new BannerBuilder($query);
+    }
 
 }

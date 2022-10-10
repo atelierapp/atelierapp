@@ -8,7 +8,7 @@ class CollectionControllerCreateTest extends TestCase
 {
     public function test_a_guess_cannot_create_any_collection()
     {
-        $response = $this->postJson(route('collection.store'), []);
+        $response = $this->postJson(route('collection.store'), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -17,7 +17,7 @@ class CollectionControllerCreateTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('collection.store'), []);
+        $response = $this->postJson(route('collection.store'), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -29,7 +29,7 @@ class CollectionControllerCreateTest extends TestCase
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->postJson(route('collection.store'), $data);
+        $response = $this->postJson(route('collection.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -50,7 +50,7 @@ class CollectionControllerCreateTest extends TestCase
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->postJson(route('collection.store'), $data);
+        $response = $this->postJson(route('collection.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([

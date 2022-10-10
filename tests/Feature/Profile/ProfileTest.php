@@ -19,7 +19,7 @@ class ProfileTest extends TestCase
         // Given an authenticated user
         $this->createAuthenticatedUser();
         // When the request is made
-        $response = $this->getJson('/api/profile');
+        $response = $this->getJson('/api/profile', $this->customHeaders());
         // Then the expected data is returned
         $response->assertOk();
     }

@@ -23,6 +23,7 @@ class OrderControllerIndexTest extends TestCase
         ]);
         Order::factory()
             ->count(5)
+
             ->sellerPending()
             ->hasDetails(5)
             ->create([
@@ -31,11 +32,12 @@ class OrderControllerIndexTest extends TestCase
             ]);
         Order::factory()
             ->count(5)
+
             ->sellerPending()
             ->hasDetails(5)
             ->create();
 
-        $response = $this->getJson(route('order.index'));
+        $response = $this->getJson(route('order.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(5, 'data');
@@ -89,7 +91,7 @@ class OrderControllerIndexTest extends TestCase
 
         $response = $this->getJson(route('order.index', [
             'seller_status_id' => Order::_SELLER_PENDING
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
@@ -133,6 +135,7 @@ class OrderControllerIndexTest extends TestCase
         $user = $this->createAuthenticatedUser();
         Order::factory()
             ->count(3)
+
             ->sellerPending()
             ->hasDetails(5)
             ->create([
@@ -140,11 +143,12 @@ class OrderControllerIndexTest extends TestCase
             ]);
         Order::factory()
             ->count(5)
+
             ->sellerPending()
             ->hasDetails(5)
             ->create();
 
-        $response = $this->getJson(route('order.index'));
+        $response = $this->getJson(route('order.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
@@ -192,7 +196,7 @@ class OrderControllerIndexTest extends TestCase
 
         $response = $this->getJson(route('order.index', [
             'store_id' => $store->id,
-        ]));
+        ]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');

@@ -40,7 +40,7 @@ class StoreControllerTest extends TestCase
     {
         Store::factory()->count(3)->create();
 
-        $response = $this->getJson(route('store.index'));
+        $response = $this->getJson(route('store.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -79,7 +79,7 @@ class StoreControllerTest extends TestCase
             'search' => 'testabc'
         ];
 
-        $response = $this->getJson(route('store.index', $params));
+        $response = $this->getJson(route('store.index', $params), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -138,7 +138,7 @@ class StoreControllerTest extends TestCase
     {
         $store = Store::factory()->create();
 
-        $response = $this->delete(route('store.destroy', $store));
+        $response = $this->delete(route('store.destroy', $store), [], $this->customHeaders());
 
         $response->assertNoContent();
 

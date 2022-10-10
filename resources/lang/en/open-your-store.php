@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'open-your-store' => 'Open an Atelier store!',
+    'space-for-beautiful-products' => 'This is a space for beautiful products like yours, made consciously and sustainably',
+    'space-for-people-to-find-your-unique-products' => 'Atelier is a marketplace where consumers can find your unique pieces directly. They are able to interact with your products in a visualizer platform, so they’ll always know your piece is exactly what they are looking for.',
+    'atelier-contributes-to-the-world' => 'Atelier is making a dent in the world by only allowing consciously-made products in our platform and by giving makers like you direct access to customers in your area. We are creating a better world and helping our communities!',
+    'the-right-platform-for-you' => 'If you create/sell pieces that match one of these criteria, this platform if for you!',
+    'atelier-benefits' => 'Atelier benefits',
+    'what-we-offer' => 'What we offer',
+    'benefit-1' => '1. A storefront where customers can interact with you directly and learn about the story of your brand',
+    'benefit-2' => '2. A 3D platform where the Atelier users can interact with your products like they would in big box store platforms and see that what you make is exactly what they want for their home',
+    'benefit-3' => '3. Localized and competitive placement of your products so you are never competing with low-quality products from vendors with big budgets',
+    'benefit-4' => '4. A place to manage your inventory, upcoming orders, and manufacturing timing without needing to have dozens or hundreds of products available in stock at all times',
+    'benefit-5' => '5. Easy tracking and handling of shipments',
+    'benefit-6' => '6. Two different ways of using our services: either commission-based or a fix rate. This will give you the flexibility you need to grow your business',
+    'tell-us-about-you' => 'Tell us about you',
+    'form' => [
+        'first-name' => 'First Name',
+        'last-name' => 'Last Name',
+        'email' => 'Email',
+        'phone' => 'Phone',
+        'address' => 'Address',
+        'company' => 'Company',
+        'position' => 'Position',
+        'tell-us-about-your-business' => 'Tell us about your business',
+        'web-address' => 'Web Address',
+        'success-message' => 'Great! We\'ll be in touch in no time :)',
+        'submit' => 'Submit',
+    ],
+];

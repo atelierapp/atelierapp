@@ -19,6 +19,13 @@ abstract class TestCase extends BaseTestCase
     use EnlightenSetup;
     use WithFaker;
 
+    public function customHeaders($value = 'es-pe'): array
+    {
+        return [
+            'x-locale' => $value
+        ];
+    }
+
     public function createAuthenticatedAdmin($data = [])
     {
         $user = $this->createUser($data, [Role::ADMIN]);
@@ -50,6 +57,8 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['app.country' => 'pe']);
+        config(['app.locale' => 'es']);
 
         $this->setUpEnlighten();
     }

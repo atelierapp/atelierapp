@@ -37,7 +37,7 @@ class ColorControllerTest extends TestCase
     {
         $this->seed(ColorSeeder::class);
 
-        $response = $this->getJson(route('colors.index'));
+        $response = $this->getJson(route('colors.index'), $this->customHeaders());
 
         $response
             ->assertOk()

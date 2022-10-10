@@ -4,18 +4,18 @@
       <!-- LEFT COLUMN -->
       <div class="relative" x-intersect="$el.classList.add('slide-in-left')">
         <p class="mt-3 text-lg text-gray-500 uppercase tracking-wider font-bold text-green-600">
-          Open an Atelier store!
+          {{ __('open-your-store.open-your-store') }}
         </p>
         <h3 class="text-2xl font-medium text-gray-900 tracking-narrow sm:text-4xl mt-4">
-          This is a space for beautiful products like yours, made consciously and sustainably
+          {{ __('open-your-store.space-for-beautiful-products') }}
         </h3>
 
         <div class="mt-6 space-y-10">
           <p class="tracking-wide leading-6 text-sm">
-            Atelier is a marketplace where consumers can find your unique pieces directly. They are able to interact with your products in a visualizer platform, so they’ll always know your piece is exactly what they are looking for.
+            {{ __('open-your-store.space-for-people-to-find-your-unique-products') }}
           </p>
           <p class="tracking-wide leading-6 text-sm">
-            Atelier is making a dent in the world by only allowing consciously-made products in our platform and by giving makers like you direct access to customers in your area. We are creating a better world and helping our communities!
+            {{ __('open-your-store.atelier-contributes-to-the-world') }}
           </p>
         </div>
       </div>

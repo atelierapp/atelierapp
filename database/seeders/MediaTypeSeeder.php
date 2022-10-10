@@ -14,10 +14,10 @@ class MediaTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        MediaType::create([
+        MediaType::updateOrCreate([
             'name' => MediaType::IMAGE,
         ]);
-        MediaType::create([
+        MediaType::updateOrCreate([
             'name' => MediaType::VIDEO,
         ]);
     }

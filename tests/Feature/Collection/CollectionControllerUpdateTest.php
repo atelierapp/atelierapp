@@ -9,7 +9,7 @@ class CollectionControllerUpdateTest extends TestCase
 {
     public function test_a_guess_cannot_update_any_collection()
     {
-        $response = $this->patchJson(route('collection.update', 1), []);
+        $response = $this->patchJson(route('collection.update', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -18,7 +18,7 @@ class CollectionControllerUpdateTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->patchJson(route('collection.update', 1), []);
+        $response = $this->patchJson(route('collection.update', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -31,7 +31,7 @@ class CollectionControllerUpdateTest extends TestCase
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->patchJson(route('collection.update', $collection->id), $data);
+        $response = $this->patchJson(route('collection.update', $collection->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -52,7 +52,7 @@ class CollectionControllerUpdateTest extends TestCase
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->patchJson(route('collection.update', $collection->id), $data);
+        $response = $this->patchJson(route('collection.update', $collection->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -74,7 +74,7 @@ class CollectionControllerUpdateTest extends TestCase
             'name' => $this->faker->name,
             'is_active' => false,
         ];
-        $response = $this->patchJson(route('collection.update', $collection->id), $data);
+        $response = $this->patchJson(route('collection.update', $collection->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

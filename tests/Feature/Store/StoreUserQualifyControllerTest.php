@@ -18,7 +18,7 @@ class StoreUserQualifyControllerTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('store.qualify', 1));
+        $response = $this->postJson(route('store.qualify', 1), [], $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -31,7 +31,7 @@ class StoreUserQualifyControllerTest extends TestCase
         $data = [
             'score' => $this->faker->word ,
         ];
-        $response = $this->postJson(route('store.qualify', 1), $data);
+        $response = $this->postJson(route('store.qualify', 1), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -44,7 +44,7 @@ class StoreUserQualifyControllerTest extends TestCase
         $data = [
             'score' => 0,
         ];
-        $response = $this->postJson(route('store.qualify', 1), $data);
+        $response = $this->postJson(route('store.qualify', 1), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -57,7 +57,7 @@ class StoreUserQualifyControllerTest extends TestCase
         $data = [
             'score' => 8,
         ];
-        $response = $this->postJson(route('store.qualify', 1), $data);
+        $response = $this->postJson(route('store.qualify', 1), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['score']);
@@ -72,7 +72,7 @@ class StoreUserQualifyControllerTest extends TestCase
             'score' => 4,
             'comment' => $this->faker->paragraph
         ];
-        $response = $this->postJson(route('store.qualify', $store->id), $data);
+        $response = $this->postJson(route('store.qualify', $store->id), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
