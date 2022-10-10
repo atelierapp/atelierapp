@@ -32,7 +32,7 @@ class ProjectControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
         Project::factory()->times(5)->create(['author_id' => $user->id, 'forked_from_id' => null]);
 
-        $response = $this->getJson(route('projects.index'));
+        $response = $this->getJson(route('projects.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(5, 'data');
@@ -82,7 +82,7 @@ class ProjectControllerTest extends TestCase
         Project::factory()->times(5)->create(['author_id' => $user->id, 'forked_from_id' => null]);
         Project::factory()->create(['name' => $params['search'], 'forked_from_id' => null]);
 
-        $response = $this->getJson(route('projects.index', $params));
+        $response = $this->getJson(route('projects.index', $params), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(1, 'data');
@@ -132,7 +132,7 @@ class ProjectControllerTest extends TestCase
         $data = [
             'image' => UploadedFile::fake()->image('imagen.jpg'),
         ];
-        $response = $this->postJson(route('projects.image', $project), $data);
+        $response = $this->postJson(route('projects.image', $project), $data, $this->customHeaders());
 
         $response->assertOk();
         $this->assertEquals(1, count(Storage::disk('s3')->allFiles('projects')));
@@ -147,7 +147,7 @@ class ProjectControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
         $project = Project::factory()->create(['author_id' => $user->id]);
 
-        $response = $this->getJson(route('projects.show', $project));
+        $response = $this->getJson(route('projects.show', $project), $this->customHeaders());
 
         $response
             ->assertOk()
@@ -191,7 +191,7 @@ class ProjectControllerTest extends TestCase
 
         $data = ['name' => $this->faker->firstName];
 
-        $response = $this->patchJson(route('projects.update', $project), $data);
+        $response = $this->patchJson(route('projects.update', $project), $data, $this->customHeaders());
 
         $response
             ->assertOk()
@@ -223,7 +223,7 @@ class ProjectControllerTest extends TestCase
 
         $data = ['name' => $this->faker->paragraph];
 
-        $response = $this->patchJson(route('projects.update', $project), $data);
+        $response = $this->patchJson(route('projects.update', $project), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -238,7 +238,7 @@ class ProjectControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
         $project = Project::factory()->create(['author_id' => $user->id]);
 
-        $response = $this->deleteJson(route('projects.destroy', $project));
+        $response = $this->deleteJson(route('projects.destroy', $project),[], $this->customHeaders());
 
         $response->assertNoContent();
         $this->assertSoftDeleted($project);
@@ -254,7 +254,7 @@ class ProjectControllerTest extends TestCase
         $project = Project::factory()->create();
         $project->delete();
 
-        $response = $this->deleteJson(route('projects.destroy', $project));
+        $response = $this->deleteJson(route('projects.destroy', $project),[], $this->customHeaders());
 
         $response->assertStatus(JsonResponse::HTTP_NOT_FOUND);
     }
