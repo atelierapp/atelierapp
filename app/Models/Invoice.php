@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @mixin IdeHelperInvoice
  */
-class Invoice extends Model
+class Invoice extends BaseModelCountry
 {
     use HasFactory;
     use HasOrderRelation;

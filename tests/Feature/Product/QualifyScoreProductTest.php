@@ -9,7 +9,7 @@ class QualifyScoreProductTest extends BaseTest
     public function test_when_product_has_many_qualifies()
     {
         $this->createAuthenticatedUser();
-        $product = Product::factory()->pe()->create();
+        $product = Product::factory()->create();
 
         $this->postJson(route('product.review.store', $product->id), [
             'score' => 3,

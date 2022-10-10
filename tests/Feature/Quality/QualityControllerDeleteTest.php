@@ -9,7 +9,7 @@ class QualityControllerDeleteTest extends TestCase
 {
     public function test_a_guess_cannot_delete_any_quality()
     {
-        $response = $this->deleteJson(route('quality.destroy', 1));
+        $response = $this->deleteJson(route('quality.destroy', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -18,7 +18,7 @@ class QualityControllerDeleteTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->deleteJson(route('quality.destroy', 1));
+        $response = $this->deleteJson(route('quality.destroy', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -28,7 +28,7 @@ class QualityControllerDeleteTest extends TestCase
         $this->createAuthenticatedAdmin();
         $quality = Quality::factory()->create();
 
-        $response = $this->deleteJson(route('quality.destroy', $quality->id));
+        $response = $this->deleteJson(route('quality.destroy', $quality->id), [], $this->customHeaders());
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('qualities', ['id' => $quality->id]);

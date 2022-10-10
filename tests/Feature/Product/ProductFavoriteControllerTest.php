@@ -20,7 +20,7 @@ class ProductFavoriteControllerTest extends BaseTest
     public function test_a_authenticated_user_can_add_some_product_to_his_favorites()
     {
         $user = $this->createAuthenticatedUser();
-        $product = Product::factory()->pe()->create();
+        $product = Product::factory()->create();
 
         $response = $this->postJson(route('product.favorite', $product->id), [], $this->customHeaders());
 
@@ -34,7 +34,7 @@ class ProductFavoriteControllerTest extends BaseTest
     public function test_a_authenticated_user_can_remove_an_product_from_his_favorites()
     {
         $user = $this->createAuthenticatedUser();
-        $product = Product::factory()->pe()->create();
+        $product = Product::factory()->create();
         DB::table('favorite_products')->insert(['user_id' => $user->id, 'product_id' => $product->id]);
 
         $response = $this->postJson(route('product.favorite', $product->id), [], $this->customHeaders());
@@ -50,8 +50,8 @@ class ProductFavoriteControllerTest extends BaseTest
     {
         $user = $this->createAuthenticatedSeller();
         $store = Store::factory()->create(['user_id' => $user->id]);
-        Product::factory()->pe()->count(5)->create();
-        Product::factory()->pe()->count(15)->create(['store_id' => $store->id])->each(function ($product) {
+        Product::factory()->count(5)->create();
+        Product::factory()->count(15)->create(['store_id' => $store->id])->each(function ($product) {
             FavoriteProduct::factory()->count($this->faker->numberBetween(1, 5))->create(['product_id' => $product->id]);
             OrderDetail::factory()->count($this->faker->numberBetween(1, 5))->create(['product_id' => $product->id]);
         });

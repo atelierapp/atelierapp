@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'password' => 'password',
             'phone' => $this->faker->numerify('9########'),
             'birthday' => $this->faker->dateTimeBetween('-50 years', '-18 years'),
-            'country' => $this->faker->randomElement(['us', 'pe']),
+            'country' => config('app.country'),
             'locale' => $this->faker->randomElement(config('app.available_locales')),
         ];
     }

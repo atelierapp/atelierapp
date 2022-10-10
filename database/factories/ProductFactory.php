@@ -18,7 +18,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'country' => $this->faker->randomElement(['us', 'pe']),
+            'country' => config('app.country'),
             'title' => $this->faker->text(100),
             'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
             'manufactured_at' => $this->faker->date(),

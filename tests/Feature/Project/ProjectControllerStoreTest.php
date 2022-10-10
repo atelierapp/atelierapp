@@ -34,7 +34,7 @@ class ProjectControllerStoreTest extends BaseTest
             'style_id' => Style::factory()->create()->id,
             'author_id' => $user->id,
         ];
-        $response = $this->postJson(route('projects.store'), $data);
+        $response = $this->postJson(route('projects.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -67,7 +67,7 @@ class ProjectControllerStoreTest extends BaseTest
             ]
         ];
 
-        $response = $this->postJson(route('projects.store'), $data);
+        $response = $this->postJson(route('projects.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonFragment([

@@ -30,7 +30,7 @@ class ProjectForkControllerTest extends BaseTest
             'public' => true
         ]);
 
-        $response = $this->postJson(route('projects.fork', $project->id));
+        $response = $this->postJson(route('projects.fork', $project->id), [], $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -63,7 +63,7 @@ class ProjectForkControllerTest extends BaseTest
             'forked_from_id' => null,
         ]);
 
-        $response = $this->postJson(route('projects.fork', $project->id));
+        $response = $this->postJson(route('projects.fork', $project->id), [], $this->customHeaders());
 
         $response->assertStatus(403);
         $this->assertDatabaseCount('projects', 1);
@@ -80,7 +80,7 @@ class ProjectForkControllerTest extends BaseTest
         $data = [
             'name' => $this->faker()->name
         ];
-        $response = $this->postJson(route('projects.fork', $project->id), $data);
+        $response = $this->postJson(route('projects.fork', $project->id), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -116,7 +116,7 @@ class ProjectForkControllerTest extends BaseTest
         $data = [
             'name' => $this->faker()->name
         ];
-        $response = $this->postJson(route('projects.fork', $project->id), $data);
+        $response = $this->postJson(route('projects.fork', $project->id), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([

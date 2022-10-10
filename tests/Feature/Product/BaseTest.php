@@ -13,14 +13,14 @@ abstract class BaseTest extends TestCase
 
     protected function createStore($user): Store
     {
-        return Store::factory()->pe()->create([
+        return Store::factory()->create([
             'user_id' => $user->id,
         ]);
     }
 
     protected function createProduct($store): Product
     {
-        return Product::factory()->pe()->create([
+        return Product::factory()->create([
             'store_id' => $store->id,
         ]);
     }

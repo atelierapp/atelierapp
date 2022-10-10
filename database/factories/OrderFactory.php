@@ -18,7 +18,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         $values = [
-            'country' => $this->faker->randomElement(['us', 'pe']),
+            'country' => config('app.country'),
             'user_id' => User::factory(),
             'store_id' => Store::factory(),
             'seller_id' => User::factory(),

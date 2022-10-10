@@ -23,7 +23,7 @@ class ProjectFactory extends Factory
             'forked_from_id' => $this->faker->randomElement([null, Project::factory()]),
             'published' => $this->faker->boolean,
             'public' => $this->faker->boolean,
-            'country' => $this->faker->randomElement(['us', 'pe']),
+            'country' => config('app.country'),
         ];
     }
 }

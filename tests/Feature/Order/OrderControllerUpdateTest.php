@@ -26,7 +26,7 @@ class OrderControllerUpdateTest extends TestCase
     public function test_an_seller_user_cannot_update_his_order_without_params()
     {
         $user = $this->createAuthenticatedSeller();
-        $order = Order::factory()->pe()->create(['seller_id' => $user->id]);
+        $order = Order::factory()->create(['seller_id' => $user->id]);
 
         $response = $this->patchJson(route('order.update', $order->id),[], $this->customHeaders());
 
@@ -39,7 +39,7 @@ class OrderControllerUpdateTest extends TestCase
     public function test_an_seller_user_cannot_update_any_order_that_not_yours()
     {
         $this->createAuthenticatedSeller();
-        $order = Order::factory()->pe()->create();
+        $order = Order::factory()->create();
 
         $data = ['seller_status_id' => 2];
         $response = $this->patchJson(route('order.update', $order->id), $data, $this->customHeaders());
@@ -50,7 +50,7 @@ class OrderControllerUpdateTest extends TestCase
     public function test_an_seller_user_can_update_his_order_with_valid_params()
     {
         $user = $this->createAuthenticatedSeller();
-        $order = Order::factory()->pe()->create(['seller_id' => $user->id]);
+        $order = Order::factory()->create(['seller_id' => $user->id]);
 
         $data = ['seller_status_id' => 2];
         $response = $this->patchJson(route('order.update', $order->id), $data, $this->customHeaders());

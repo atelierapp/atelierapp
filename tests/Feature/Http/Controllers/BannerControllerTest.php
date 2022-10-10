@@ -35,7 +35,7 @@ class BannerControllerTest extends TestCase
      */
     public function index_behaves_as_expected(): void
     {
-        Banner::factory()->pe()->count(3)->create();
+        Banner::factory()->count(3)->create();
 
         $response = $this->get(route('banner.index'), $this->customHeaders());
 
@@ -88,7 +88,7 @@ class BannerControllerTest extends TestCase
      */
     public function show_behaves_as_expected(): void
     {
-        $banner = Banner::factory()->pe()->create();
+        $banner = Banner::factory()->create();
 
         $response = $this->get(route('banner.show', $banner), $this->customHeaders());
 
@@ -116,7 +116,7 @@ class BannerControllerTest extends TestCase
      */
     public function update_behaves_as_expected(): void
     {
-        $banner = Banner::factory()->pe()->create();
+        $banner = Banner::factory()->create();
         $data = [
             'name' => $this->faker->word,
             'order' => $this->faker->numberBetween(0, 50),
@@ -150,7 +150,7 @@ class BannerControllerTest extends TestCase
     public function user_can_upload_a_image_to_exists_banner()
     {
         Storage::fake('s3');
-        $project = Banner::factory()->pe()->create();
+        $project = Banner::factory()->create();
 
         $data = [
             'image' => UploadedFile::fake()->image('imagen.jpg'),
@@ -166,7 +166,7 @@ class BannerControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with(): void
     {
-        $banner = Banner::factory()->pe()->create();
+        $banner = Banner::factory()->create();
 
         $response = $this->delete(route('banner.destroy', $banner), headers: $this->customHeaders());
 

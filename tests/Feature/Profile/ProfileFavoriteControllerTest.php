@@ -22,7 +22,7 @@ class ProfileFavoriteControllerTest extends TestCase
         $products = Product::inRandomOrder()->limit(4)->get();
         $products->each(fn ($prd) => FavoriteProduct::create(['user_id' => $user->id, 'product_id' => $prd->id]));
 
-        $response = $this->getJson(route('profile.favorites'));
+        $response = $this->getJson(route('profile.favorites'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(4, 'data');
@@ -57,7 +57,7 @@ class ProfileFavoriteControllerTest extends TestCase
         $products = Product::inRandomOrder()->limit(4)->get();
         $products->each(fn ($prd) => FavoriteProduct::create(['user_id' => $user->id, 'product_id' => $prd->id]));
 
-        $response = $this->getJson(route('profile.favorites'));
+        $response = $this->getJson(route('profile.favorites'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(4, 'data');

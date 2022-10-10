@@ -15,6 +15,7 @@ class BannerFactory extends Factory
     public function definition(): array
     {
         return [
+            'country' => config('app.country'),
             'name' => $this->faker->name,
             'order' => $this->faker->numberBetween(1, 100),
             'segment' => $this->faker->country,

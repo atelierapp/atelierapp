@@ -33,7 +33,7 @@ class StoreImpactControllerTest extends TestCase
         $data = [
             'qualities' => Quality::query()->inRandomOrder()->limit(3)->get()->pluck('id')->toArray(),
         ];
-        $response = $this->postJson(route('store.impact.store', $store->id), $data);
+        $response = $this->postJson(route('store.impact.store', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -71,7 +71,7 @@ class StoreImpactControllerTest extends TestCase
                 ]
             ],
         ];
-        $response = $this->postJson(route('store.impact.store', $store->id), $data);
+        $response = $this->postJson(route('store.impact.store', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -114,7 +114,7 @@ class StoreImpactControllerTest extends TestCase
             ]));
 
 
-        $response = $this->getJson(route('store.impact.index', $store->id));
+        $response = $this->getJson(route('store.impact.index', $store->id), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

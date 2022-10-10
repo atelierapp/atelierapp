@@ -13,6 +13,7 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
+            'country' => config('app.country'),
             'order_id' => Order::factory(),
             'user_id' => User::factory(),
             'store_id' => Store::factory(),

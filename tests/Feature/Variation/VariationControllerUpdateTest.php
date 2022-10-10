@@ -99,7 +99,7 @@ class VariationControllerUpdateTest extends BaseTest
     public function test_authenticated_seller_cannot_product_a_variation_when_product_id_is_not_him_or_invalid()
     {
         $this->createAuthenticatedSeller();
-        $product = Product::factory()->pe()->create();
+        $product = Product::factory()->create();
 
         $data = [
             'name' => $this->faker->name,
@@ -119,7 +119,7 @@ class VariationControllerUpdateTest extends BaseTest
     public function test_authenticated_seller_can_update_a_variation_with_valid_name_data_product_id_and_variation_id()
     {
         $product = $this->createProductForSellerUser();
-        $variation = Variation::factory()->pe()->create(['product_id' => $product->id]);
+        $variation = Variation::factory()->create(['product_id' => $product->id]);
 
         $data = [
             'name' => $this->faker->name,
@@ -143,7 +143,7 @@ class VariationControllerUpdateTest extends BaseTest
     {
         Storage::fake('s3');
         $product = $this->createProductForSellerUser();
-        $variation = Variation::factory()->pe()->create(['product_id' => $product->id]);
+        $variation = Variation::factory()->create(['product_id' => $product->id]);
 
         $data = [
             'name' => $this->faker->name,

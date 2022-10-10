@@ -22,7 +22,7 @@ class StoreControllerUpdateTest extends BaseTest
 
     public function test_a_guess_user_cannot_update_any_store()
     {
-        $response = $this->patchJson(route('store.update', 1));
+        $response = $this->patchJson(route('store.update', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -31,7 +31,7 @@ class StoreControllerUpdateTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->patchJson(route('store.update', 1));
+        $response = $this->patchJson(route('store.update', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -54,7 +54,7 @@ class StoreControllerUpdateTest extends BaseTest
             'name' => $this->faker->name,
             'story' => $this->faker->sentences(1, true),
         ];
-        $response = $this->patchJson(route('store.update', $store->id), $data);
+        $response = $this->patchJson(route('store.update', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -76,7 +76,7 @@ class StoreControllerUpdateTest extends BaseTest
             'story' => $this->faker->sentences(1, true),
             'logo' => UploadedFile::fake()->image('logo.png'),
         ];
-        $response = $this->patchJson(route('store.update', $store->id), $data);
+        $response = $this->patchJson(route('store.update', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -102,7 +102,7 @@ class StoreControllerUpdateTest extends BaseTest
             'story' => $this->faker->sentences(1, true),
             'cover' => UploadedFile::fake()->image('cover.png'),
         ];
-        $response = $this->patchJson(route('store.update', $store->id), $data);
+        $response = $this->patchJson(route('store.update', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -128,7 +128,7 @@ class StoreControllerUpdateTest extends BaseTest
             'story' => $this->faker->sentences(1, true),
             'team' => UploadedFile::fake()->image('team.png'),
         ];
-        $response = $this->patchJson(route('store.update', $store->id), $data);
+        $response = $this->patchJson(route('store.update', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -158,7 +158,7 @@ class StoreControllerUpdateTest extends BaseTest
             'team' => UploadedFile::fake()->image('team.png'),
             'qualities' => Quality::query()->inRandomOrder()->limit(2)->get()->pluck('id')->toArray(),
         ];
-        $response = $this->patchJson(route('store.update', $store->id), $data);
+        $response = $this->patchJson(route('store.update', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);

@@ -15,7 +15,7 @@ class OrderDetailFactory extends Factory
     public function definition(): array
     {
         $values = [
-            'country' => $this->faker->randomElement(['us', 'pe']),
+            'country' => config('app.country'),
             'order_id' => Order::factory(),
             'product_id' => $product = Product::factory(),
             'variation_id' => Variation::factory(['product_id' => $product]),

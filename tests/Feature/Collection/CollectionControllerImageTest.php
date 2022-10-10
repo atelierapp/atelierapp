@@ -41,7 +41,7 @@ class CollectionControllerImageTest extends TestCase
     {
         Storage::fake('s3');
         $user = $this->createAuthenticatedSeller();
-        $collection = Collection::factory(['user_id' => $user->id])->pe()->create();
+        $collection = Collection::factory(['user_id' => $user->id])->create();
 
         $data = [
             'image' => UploadedFile::fake()->image('image.png'),

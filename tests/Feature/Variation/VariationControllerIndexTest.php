@@ -16,7 +16,7 @@ class VariationControllerIndexTest extends BaseTest
     public function test_an_authenticated_seller_can_list_variation_from_specified_product()
     {
         $product = $this->createProductForSellerUser();
-        Variation::factory()->count(3)->pe()->create(['product_id' => $product->id]);
+        Variation::factory()->count(3)->create(['product_id' => $product->id]);
 
         $response = $this->getJson(route('variation.index', $product->id), $this->customHeaders());
 

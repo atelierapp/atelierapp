@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @mixin IdeHelperTag
  */
-class Tag extends Model
+class Tag extends BaseModelCountry
 {
     use HasFactory;
     use SoftDeletes;

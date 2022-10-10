@@ -15,11 +15,9 @@ class StoreFactory extends Factory
 
     public function definition(): array
     {
-        $user = User::factory()->create();
-
         return [
-            'country' => $user->country,
-            'user_id' => $user->id,
+            'country' => config('app.country'),
+            'user_id' => User::factory(),
             'name' => $this->faker->company,
             // 'legal_name' => sprintf("%s %s", $this->faker->company, $this->faker->companySuffix),
             // 'legal_id' => $this->faker->regexify('[A-Za-z0-9]{20}'),

@@ -17,7 +17,7 @@ class TagFactory extends Factory
         return [
             'name' => $this->faker->word,
             'active' => $this->faker->boolean,
-            'country' => $this->faker->randomElement(['us', 'pe']),
+            'country' => config('app.country'),
         ];
     }
 }

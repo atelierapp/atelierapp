@@ -19,7 +19,7 @@ class ProfileProjectControllerTest extends TestCase
         $user = $this->createAuthenticatedUser();
         Project::factory()->count(3)->create(['author_id' => $user->id]);
 
-        $response = $this->getJson(route('profile.projects'));
+        $response = $this->getJson(route('profile.projects'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

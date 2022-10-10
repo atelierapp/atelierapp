@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @mixin IdeHelperProject
  */
-class Project extends Model
+class Project extends BaseModelCountry
 {
     use HasFactory;
     use SoftDeletes;

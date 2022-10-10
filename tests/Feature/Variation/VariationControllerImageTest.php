@@ -98,7 +98,7 @@ class VariationControllerImageTest extends BaseTest
     {
         Storage::fake('s3');
         $product = $this->createProductForSellerUser();
-        $variation = Variation::factory()->pe()->create(['product_id' => $product->id]);
+        $variation = Variation::factory()->create(['product_id' => $product->id]);
 
         $data = [
             'images' => [
@@ -130,7 +130,7 @@ class VariationControllerImageTest extends BaseTest
     {
         Storage::fake('s3');
         $product = $this->createProductForSellerUser();
-        $variation = Variation::factory()->pe()->create(['product_id' => $product->id]);
+        $variation = Variation::factory()->create(['product_id' => $product->id]);
         Media::factory()->model($variation)->create(['orientation' => 'front', 'path' => $this->faker->word]);
         Media::factory()->model($variation)->create(['orientation' => 'side', 'path' => $this->faker->word]);
         Media::factory()->model($variation)->create(['orientation' => 'plan', 'path' => $this->faker->word]);

@@ -29,7 +29,7 @@ use JetBrains\PhpStorm\Pure;
  * @property bool has_active_store
  * @mixin IdeHelperStore
  */
-class Store extends Model
+class Store extends BaseModelCountry
 {
     use HasFactory;
     use HasMediasRelation;

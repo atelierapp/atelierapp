@@ -8,7 +8,7 @@ class ProfileControllerPasswordTest extends TestCase
 {
     public function test_an_guess_user_cannot_change_password()
     {
-        $response = $this->postJson(route('profile.change-password'));
+        $response = $this->postJson(route('profile.change-password'), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -17,7 +17,7 @@ class ProfileControllerPasswordTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('profile.change-password'));
+        $response = $this->postJson(route('profile.change-password'), [], $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -35,7 +35,7 @@ class ProfileControllerPasswordTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
         ];
-        $response = $this->postJson(route('profile.change-password'), $data);
+        $response = $this->postJson(route('profile.change-password'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonStructure([
@@ -54,7 +54,7 @@ class ProfileControllerPasswordTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password1',
         ];
-        $response = $this->postJson(route('profile.change-password'), $data);
+        $response = $this->postJson(route('profile.change-password'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -71,7 +71,7 @@ class ProfileControllerPasswordTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
         ];
-        $response = $this->postJson(route('profile.change-password'), $data);
+        $response = $this->postJson(route('profile.change-password'), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

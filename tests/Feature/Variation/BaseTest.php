@@ -10,8 +10,8 @@ abstract class BaseTest extends TestCase
 {
     protected function createProductForSellerUser(): Product
     {
-        return Product::factory()->pe()->create([
-            'store_id' => Store::factory()->pe()->create([
+        return Product::factory()->create([
+            'store_id' => Store::factory()->create([
                 'user_id' => $this->createAuthenticatedSeller(['country' => 'pe'])->id
             ])->id,
         ]);
