@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::updateOrCreate(['email' => 'kenny@qbklabs.com',], [
+        $user = User::withoutGlobalScopes()->updateOrCreate(['email' => 'kenny@qbklabs.com',], [
             'country' => 'us',
             'locale' => 'en',
             'first_name' => 'Kenny',
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
 
-        $user = User::updateOrCreate(['email' => 'jaime.virruetaf@gmail.com',], [
+        $user = User::withoutGlobalScopes()->updateOrCreate(['email' => 'jaime.virruetaf@gmail.com',], [
             'country' => 'us',
             'locale' => 'en',
             'first_name' => 'Jaime',
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
 
-        $user = User::updateOrCreate(['email' => 'seller@atelier.com',], [
+        $user = User::withoutGlobalScopes()->updateOrCreate(['email' => 'seller@atelier.com',], [
             'country' => 'us',
             'locale' => 'en',
             'first_name' => 'Seller',
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
         ]);
         Bouncer::assign(Role::SELLER)->to($user);
 
-        $user = User::updateOrCreate(['email' => 'user@atelier.com',], [
+        $user = User::withoutGlobalScopes()->updateOrCreate(['email' => 'user@atelier.com',], [
             'country' => 'us',
             'locale' => 'en',
             'first_name' => 'AppUser',
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
         ]);
         Bouncer::assign(Role::USER)->to($user);
 
-        User::updateOrCreate(['email' => 'john@doe.com',], [
+        User::withoutGlobalScopes()->updateOrCreate(['email' => 'john@doe.com',], [
             'country' => 'us',
             'locale' => 'en',
             'first_name' => 'John',

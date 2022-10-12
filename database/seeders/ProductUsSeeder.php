@@ -143,7 +143,7 @@ class ProductUsSeeder extends Seeder
         $variationService = app(VariationService::class);
 
         foreach ($productsExcel as $productExcel){
-            $product = Product::updateOrCreate([
+            $product = Product::withoutGlobalScopes()->updateOrCreate([
                 'sku' => $productExcel['sku'],
             ],[
                 'country' => 'us',

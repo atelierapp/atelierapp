@@ -16,7 +16,7 @@ class UserPeSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::updateOrCreate(['email' => 'admin-pe@atelier.com'], [
+        $user = User::withoutGlobalScopes()->updateOrCreate(['email' => 'admin-pe@atelier.com'], [
             'first_name' => 'Admin',
             'last_name' => 'Atelier',
             'password' => 'password',
@@ -27,7 +27,7 @@ class UserPeSeeder extends Seeder
         ]);
         Bouncer::assign(Role::ADMIN)->to($user);
 
-        $user = User::updateOrCreate(['email' => 'seller-pe@atelier.com'], [
+        $user = User::withoutGlobalScopes()->updateOrCreate(['email' => 'seller-pe@atelier.com'], [
             'first_name' => 'Seller',
             'last_name' => 'Atelier',
             'password' => 'password',
@@ -38,7 +38,7 @@ class UserPeSeeder extends Seeder
         ]);
         Bouncer::assign(Role::SELLER)->to($user);
 
-        $user = User::updateOrCreate(['email' => 'user-pe@atelier.com'], [
+        $user = User::withoutGlobalScopes()->updateOrCreate(['email' => 'user-pe@atelier.com'], [
             'first_name' => 'AppUser',
             'last_name' => 'Atelier',
             'password' => 'password',
