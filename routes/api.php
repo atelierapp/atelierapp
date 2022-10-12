@@ -42,11 +42,13 @@ use App\Http\Controllers\UsernameValidationController;
 use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login-social', [AuthController::class, 'socialLogin']);
-Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
-Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
-Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
+Route::middleware(['locale'])->group(function () {
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login-social', [AuthController::class, 'socialLogin']);
+    Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
+});
 Route::prefix('/paypal')->group(function () {
     Route::get('/generate-order/{order}', [PaypalController::class, 'generateOrder'])->name('paypal.test');
     Route::any('/check-payment', [PaypalController::class, 'checkPayment'])->name('paypal.check-payment');
@@ -141,7 +143,7 @@ Route::middleware(['locale'])->group(function () {
     // Banners
     Route::apiResource('banners', BannerController::class)->names('banner');
     Route::post('banners/{banner}/image', [BannerController::class, 'image'])->name('banner.image');
-    
+
     Route::apiResource('qualities', QualityController::class)->names('quality')->except(['show']);
 
     Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
