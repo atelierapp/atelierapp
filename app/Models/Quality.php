@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * @mixin IdeHelperQuality
@@ -12,8 +13,13 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Quality extends Model
 {
     use HasFactory;
+    use HasTranslations;
 
     protected $fillable = [
+        'name',
+    ];
+
+    protected $translatable = [
         'name',
     ];
 

@@ -38,6 +38,9 @@ class QualityControllerCreateTest extends TestCase
                 'name',
             ],
         ]);
-        $this->assertDatabaseHas('qualities', $data);
+        $this->assertDatabaseHas('qualities', [
+            'id' => $response->json('data.id'),
+            'name->es' => $data['name'],
+        ]);
     }
 }

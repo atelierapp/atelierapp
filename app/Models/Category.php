@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * @mixin IdeHelperCategory
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use HasFactory;
+    use HasTranslations;
     use SoftDeletes;
 
     protected $fillable = [
@@ -22,6 +24,10 @@ class Category extends Model
         'image',
         'parent_id',
         'active',
+    ];
+
+    protected $translatable = [
+        'name',
     ];
 
     protected $casts = [

@@ -21,6 +21,9 @@ class ProductUsSeeder extends Seeder
      */
     public function run(): void
     {
+        $location = config('app.locale');
+        config(['app.locale' => 'us']);
+
         $productsExcel = collect([
             ['sku' => 'BSE0001', 'title' => 'Madeline Poster', 'category' => 'Bed', 'store' => 'Blue Sky Environments Interior Decor', 'style' => 'Shabby Chic', 'width' => '82.5', 'depth' => '90.75', 'height' => '92', 'url' => 'https://shrsl.com/31f2o', 'price' => '3746', 'front' => 'BSE0001-F', 'side' => '-', 'pers' => 'BSE0001-P'],
             ['sku' => 'BSE0002', 'title' => 'Florida Chair ', 'category' => 'Chair', 'store' => 'Blue Sky Environments Interior Decor', 'style' => 'Mediterranean', 'width' => '29.92', 'depth' => '29.92', 'height' => '33.86', 'url' => 'https://shrsl.com/31f2p', 'price' => '338', 'front' => '-', 'side' => 'BSE0002-S', 'pers' => 'BSE0002-P'],
@@ -134,17 +137,16 @@ class ProductUsSeeder extends Seeder
 
             ['sku' => 'SM0001', 'title' => 'Misty', 'category' => 'Sofa', 'store' => 'Sofamania', 'style' => 'Mid Century Modern', 'width' => '32', 'depth' => '75', 'height' => '30', 'url' => 'https://shareasale.com/r.cfm?b=1070406&u=2039654&m=74543&urllink=www%2Esofamania%2Ecom%2Fcollections%2Fsofa%2Fproducts%2Fmisty%2Dmid%2Dcentury%2Dmodern%2Dtufted%2Dvelvet%2Dsofa%3Fvariant%3D32815643164777&afftrack=', 'price' => '479.99', 'front' => 'SM0001-F', 'side' => 'SM0001-S', 'pers' => 'SM0001-P'],]);
 
-        $stores = Store::countryUs()->get()->pluck('id', 'name');
+        $stores = Store::country('us')->get()->pluck('id', 'name');
         $categories = Category::all();
         $styles = Style::all()->pluck('id', 'name');
-
         $variationService = app(VariationService::class);
 
         foreach ($productsExcel as $productExcel){
-            $product = Product::updateOrCreate([
+            $product = Product::withoutGlobalScopes()->updateOrCreate([
                 'sku' => $productExcel['sku'],
-                'country' => 'us',
             ],[
+                'country' => 'us',
                 'store_id' => $stores[$productExcel['store']],
                 'title' => $productExcel['title'],
                 'style_id' => $styles[$productExcel['style']],
@@ -173,6 +175,8 @@ class ProductUsSeeder extends Seeder
             $this->media($variation, $productExcel['side']);
             $this->media($variation, $productExcel['pers']);
         }
+
+        config(['app.locale' => $location]);
     }
 
     private function media(Product|Variation $model, string $view)

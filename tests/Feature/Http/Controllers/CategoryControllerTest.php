@@ -96,8 +96,11 @@ class CategoryControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => $this->structure()
         ]);
-
-        $this->assertDatabaseHas('categories', collect($data)->except(['image'])->toArray());
+        $this->assertEquals(1, Category::where('name->es', $data['name'])->count());
+        $this->assertDatabaseHas('categories', [
+            'id' => $response->json('data.id'),
+            'name->es' => $data['name'],
+        ]);
     }
 
 
@@ -149,10 +152,10 @@ class CategoryControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => $this->structure()
         ]);
-
-        $params = collect($data)->except(['image'])->toArray();
-        $params['id'] = $category->id;
-        $this->assertDatabaseHas('categories', $params);
+        $this->assertDatabaseHas('categories', [
+            'id' => $response->json('data.id'),
+            'name->es' => $data['name'],
+        ]);
     }
 
 
