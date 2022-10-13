@@ -42,85 +42,20 @@ use App\Http\Controllers\UsernameValidationController;
 use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['locale'])->group(function () {
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login-social', [AuthController::class, 'socialLogin']);
-    Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
-    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
-    Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
-});
 Route::prefix('/paypal')->group(function () {
     Route::get('/generate-order/{order}', [PaypalController::class, 'generateOrder'])->name('paypal.test');
     Route::any('/check-payment', [PaypalController::class, 'checkPayment'])->name('paypal.check-payment');
     Route::any('/notify', [PaypalController::class, 'notify'])->name('paypal.notify');
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+Route::middleware('locale')->group(function () {
 
-    Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
-
-    Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
-    Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
-    Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
-    Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
-    Route::post('shopping-cart/create-order', [ShoppingCartController::class, 'order'])->name('shopping-cart.order');
-
-    Route::middleware(['locale'])->group(function () {
-        //Profile
-        Route::prefix('/profile')->group(function () {
-            Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
-            Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-            Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
-            Route::post('/image', [ProfileController::class, 'image'])->name('profile.image');
-            Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
-            Route::get('/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
-            Route::get('/projects', ProfileProjectController::class)->name('profile.projects');
-            Route::get('/orders', ProfileOrderController::class)->name('profile.orders');
-            Route::apiResource('/payment-gateways', ProfilePaymentController::class)->names('profile.payment-gateway')->only(['store']);
-        });
-
-        // Collections
-        Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
-        Route::get('/collections/featured', CollectionFeatureController::class)->name('collection.featured');
-        Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
-
-        // Projects
-        Route::apiResource('projects', ProjectController::class);
-        Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
-        Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
-        Route::get('projects-temp', [ProjectController::class, 'index']);
-        Route::post('projects-temp', [ProjectController::class, 'store']);
-        Route::put('projects-temp/{project}', [ProjectController::class, 'update']);
-
-        // Orders
-        Route::apiResource('orders', OrderController::class)->names('order')->only(['index', 'update', 'show']);
-        Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
-        Route::post('orders/{order}/accept', [OrderController::class, 'accept'])->name('order.accept');
-        Route::patch('orders/{order}/details/{detail}', [OrderDetailController::class, 'update'])->name('order.details.update');
-
-        // Dashboard
-        Route::prefix('dashboard')->group(function () {
-            Route::get('kpi', [DashboardController::class, 'kpi'])->name('dashboard.kpi-general');
-            Route::get('kpi-products', [DashboardController::class, 'kpiProducts'])->name('dashboard.kpi-products');
-            Route::get('statics', [DashboardController::class, 'statics'])->name('dashboard.statics');
-            Route::get('orders', [DashboardController::class, 'orders'])->name('dashboard.orders');
-            Route::get('top-product', [DashboardController::class, 'topProduct'])->name('dashboard.top-product');
-            Route::get('net-income', NetIncomeController::class)->name('dashboard.net-income');
-            Route::get('quick-details', [DashboardController::class, 'quickDetails'])->name('dashboard.quick-details');
-        });
-    });
-});
-
-Route::middleware(['locale'])->group(function () {
-    // Stores
-    Route::get('stores/my-store', [StoreController::class, 'myStore'])->name('store.my-store');
-    Route::apiResource('stores', StoreController::class)->names('store');
-    Route::post('stores/{store}/image', [StoreController::class, 'image'])->name('store.image');
-    Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
-    Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
-    Route::get('stores/{store}/impact', [StoreImpactController::class, 'index'])->name('store.impact.index');
-    Route::post('stores/{store}/impact', [StoreImpactController::class, 'store'])->name('store.impact.store');
+    // auth
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login-social', [AuthController::class, 'socialLogin']);
+    Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
 
     // Products
     Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
@@ -164,7 +99,74 @@ Route::middleware(['locale'])->group(function () {
         Route::get('manufacture-type', ManufactureTypeController::class)->name('resources.manufacture-type');
         Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
     });
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        // Auth
+        Route::post('/logout', [AuthController::class, 'logout']);
+
+        // Profile
+        Route::prefix('/profile')->group(function () {
+            Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
+            Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+            Route::post('/image', [ProfileController::class, 'image'])->name('profile.image');
+            Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+            Route::get('/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
+            Route::get('/projects', ProfileProjectController::class)->name('profile.projects');
+            Route::get('/orders', ProfileOrderController::class)->name('profile.orders');
+            Route::apiResource('/payment-gateways', ProfilePaymentController::class)->names('profile.payment-gateway')->only(['store']);
+        });
+
+        // Shopping Cart
+        Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
+        Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
+        Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
+        Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
+        Route::post('shopping-cart/create-order', [ShoppingCartController::class, 'order'])->name('shopping-cart.order');
+
+        // Collections
+        Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
+        Route::get('/collections/featured', CollectionFeatureController::class)->name('collection.featured');
+        Route::post('collections/{collection}/image', [CollectionController::class, 'image'])->name('collection.image');
+
+        // Stores
+        Route::get('stores/my-store', [StoreController::class, 'myStore'])->name('store.my-store');
+        Route::apiResource('stores', StoreController::class)->names('store');
+        Route::post('stores/{store}/image', [StoreController::class, 'image'])->name('store.image');
+        Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
+        Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
+        Route::get('stores/{store}/impact', [StoreImpactController::class, 'index'])->name('store.impact.index');
+        Route::post('stores/{store}/impact', [StoreImpactController::class, 'store'])->name('store.impact.store');
+
+        // Projects
+        Route::apiResource('projects', ProjectController::class);
+        Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
+        Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
+        Route::get('projects-temp', [ProjectController::class, 'index']);
+        Route::post('projects-temp', [ProjectController::class, 'store']);
+        Route::put('projects-temp/{project}', [ProjectController::class, 'update']);
+
+        // Orders
+        Route::apiResource('orders', OrderController::class)->names('order')->only(['index', 'update', 'show']);
+        Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
+        Route::post('orders/{order}/accept', [OrderController::class, 'accept'])->name('order.accept');
+        Route::patch('orders/{order}/details/{detail}', [OrderDetailController::class, 'update'])->name('order.details.update');
+
+        // Dashboard
+        Route::prefix('dashboard')->group(function () {
+            Route::get('kpi', [DashboardController::class, 'kpi'])->name('dashboard.kpi-general');
+            Route::get('kpi-products', [DashboardController::class, 'kpiProducts'])->name('dashboard.kpi-products');
+            Route::get('statics', [DashboardController::class, 'statics'])->name('dashboard.statics');
+            Route::get('orders', [DashboardController::class, 'orders'])->name('dashboard.orders');
+            Route::get('top-product', [DashboardController::class, 'topProduct'])->name('dashboard.top-product');
+            Route::get('net-income', NetIncomeController::class)->name('dashboard.net-income');
+            Route::get('quick-details', [DashboardController::class, 'quickDetails'])->name('dashboard.quick-details');
+        });
+    });
 });
+
+Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
 
 Route::apiResource('media', MediaController::class)
     ->names('media')

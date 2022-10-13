@@ -18,11 +18,13 @@ class Locale
      */
     public function handle(Request $request, Closure $next)
     {
-        // TODO :  this shit 🤣 work for first intent, but this will be optimize to in a provider
-        [$locale, $country] = $this->getLocaleAndCountry($request->header('x-locale'));
+        if ($request->hasHeader('x-locale')) {
+            // TODO :  this shit 🤣 work for first intent, but this will be optimize to in a provider
+            [$locale, $country] = $this->getLocaleAndCountry($request->header('x-locale'));
 
-        config(['app.country' => $country]);
-        config(['app.locale' => $locale]);
+            config(['app.country' => $country]);
+            config(['app.locale' => $locale]);
+        }
 
         return $next($request);
     }
