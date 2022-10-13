@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use App\Exceptions\AtelierException;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class Locale
 {
@@ -19,11 +22,10 @@ class Locale
     public function handle(Request $request, Closure $next)
     {
         if ($request->hasHeader('x-locale')) {
-            // TODO :  this shit 🤣 work for first intent, but this will be optimize to in a provider
             [$locale, $country] = $this->getLocaleAndCountry($request->header('x-locale'));
 
             config(['app.country' => $country]);
-            config(['app.locale' => $locale]);
+            App::setLocale($locale);
         }
 
         return $next($request);
@@ -32,14 +34,10 @@ class Locale
     /**
      * @throws \App\Exceptions\AtelierException
      */
-    private function getLocaleAndCountry(array|string|null $header)
+    private function getLocaleAndCountry(array|string|null $header): array
     {
-        if (is_null($header)) {
-            throw new AtelierException('Missing "x-locale" header', 422);
-        }
-
         if (!in_array(strtolower($header), ['en-us', 'es-pe'])) {
-            throw new AtelierException('Invalid "x-locale" header', 422);
+            throw new AtelierException('Invalid "X-Locale" header', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return explode('-', $header);
