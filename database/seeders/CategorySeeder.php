@@ -34,9 +34,13 @@ class CategorySeeder extends Seeder
             ['id' => 17, 'name' => ['en' => 'Drapery', 'es' => 'Pañería']],
             ['id' => 18, 'name' => ['en' => 'Rugs', 'es' => 'Alfombras']],
             ['id' => 19, 'name' => ['en' => 'Decor', 'es' => 'Decoración']],
+            ['id' => 20, 'name' => ['en' => 'Others', 'es' => 'Otros']],
+            ['id' => 21, 'name' => ['en' => 'Accesories', 'es' => 'Accesorios']],
+            ['id' => 22, 'name' => ['en' => 'Plumbing fixtures', 'es' => 'Accesorios de plomeria']],
         ])->each(function ($element) {
             $category = Category::query()->where('id', $element['id'])->firstOrNew();
             $category->name = $element['name'];
+            $category->image = $element['name']['en'];
             $category->active = true;
             $category->save();
         });
