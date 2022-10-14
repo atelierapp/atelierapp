@@ -52,6 +52,7 @@ class User extends Authenticatable
         'trial_ends_at',
         'country',
         'locale',
+        'is_accepted_terms',
     ];
 
     protected $hidden = [
@@ -62,6 +63,7 @@ class User extends Authenticatable
     protected $casts = [
         'birthday' => 'date',
         'is_active' => 'boolean',
+        'is_accepted_terms' => 'boolean',
     ];
 
     public static function boot()
