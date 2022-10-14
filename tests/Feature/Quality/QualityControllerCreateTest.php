@@ -8,7 +8,7 @@ class QualityControllerCreateTest extends TestCase
 {
     public function test_a_guess_cannot_create_any_quality()
     {
-        $response = $this->postJson(route('quality.store'), []);
+        $response = $this->postJson(route('quality.store'), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -17,7 +17,7 @@ class QualityControllerCreateTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('quality.store'), []);
+        $response = $this->postJson(route('quality.store'), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -29,7 +29,7 @@ class QualityControllerCreateTest extends TestCase
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->postJson(route('quality.store'), $data);
+        $response = $this->postJson(route('quality.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -38,6 +38,9 @@ class QualityControllerCreateTest extends TestCase
                 'name',
             ],
         ]);
-        $this->assertDatabaseHas('qualities', $data);
+        $this->assertDatabaseHas('qualities', [
+            'id' => $response->json('data.id'),
+            'name->es' => $data['name'],
+        ]);
     }
 }

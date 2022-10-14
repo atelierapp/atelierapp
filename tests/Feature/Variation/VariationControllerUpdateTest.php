@@ -11,7 +11,10 @@ class VariationControllerUpdateTest extends BaseTest
 {
     public function test_a_guess_cannot_update_any_variation_of_any_product()
     {
-        $response = $this->patchJson(route('variation.update', ['product' => 1, 'variation' => 1]), []);
+        $response = $this->patchJson(route('variation.update', [
+            'product' => 1,
+            'variation' => 1,
+        ]), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -20,7 +23,10 @@ class VariationControllerUpdateTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->patchJson(route('variation.update', ['product' => 1, 'variation' => 1]), []);
+        $response = $this->patchJson(route('variation.update', [
+            'product' => 1,
+            'variation' => 1,
+        ]), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -29,7 +35,8 @@ class VariationControllerUpdateTest extends BaseTest
     {
         $this->createAuthenticatedSeller();
 
-        $response = $this->patchJson(route('variation.update', ['product' => 1, 'variation' => 1]), []);
+        $params = ['product' => 1, 'variation' => 1];
+        $response = $this->patchJson(route('variation.update', $params), [], $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -47,7 +54,8 @@ class VariationControllerUpdateTest extends BaseTest
                 ['orientation' => 'invalid_orientation', 'file' => UploadedFile::fake()->image('plan.png')], // 1
             ],
         ];
-        $response = $this->patchJson(route('variation.update', ['product' => 1, 'variation' => 1]), $data);
+        $params = ['product' => 1, 'variation' => 1];
+        $response = $this->patchJson(route('variation.update', $params), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -66,7 +74,8 @@ class VariationControllerUpdateTest extends BaseTest
                 ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')], // 0
             ],
         ];
-        $response = $this->patchJson(route('variation.update', ['product' => 999, 'variation' => 1]), $data);
+        $params = ['product' => 999, 'variation' => 1];
+        $response = $this->patchJson(route('variation.update', $params), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -81,7 +90,8 @@ class VariationControllerUpdateTest extends BaseTest
                 ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')], // 0
             ],
         ];
-        $response = $this->patchJson(route('variation.update', ['product' => $product->id, 'variation' => 123]), $data);
+        $params = ['product' => $product->id, 'variation' => 123];
+        $response = $this->patchJson(route('variation.update', $params), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -100,7 +110,8 @@ class VariationControllerUpdateTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->patchJson(route('variation.update', ['product' => $product->id, 'variation' => 123]), $data);
+        $params = ['product' => $product->id, 'variation' => 123];
+        $response = $this->patchJson(route('variation.update', $params), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -113,13 +124,14 @@ class VariationControllerUpdateTest extends BaseTest
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->patchJson(route('variation.update', ['product' => $product->id, 'variation' => $variation->id]), $data);
+        $params = ['product' => $product->id, $variation->id];
+        $response = $this->patchJson(route('variation.update', $params), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
                 'name',
-            ]
+            ],
         ]);
         $this->assertDatabaseHas('variations', [
             'id' => $variation->id,
@@ -142,7 +154,8 @@ class VariationControllerUpdateTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->patchJson(route('variation.update', ['product' => $product->id, 'variation' => $variation->id]), $data);
+        $params = ['product' => $product->id, $variation->id];
+        $response = $this->patchJson(route('variation.update', $params), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -153,9 +166,9 @@ class VariationControllerUpdateTest extends BaseTest
                         'id',
                         'orientation',
                         'url',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
         $this->assertDatabaseHas('variations', [
             'id' => $variation->id,

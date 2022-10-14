@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\FavoriteProduct;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class FavoriteService
 {
@@ -30,5 +31,22 @@ class FavoriteService
         }
 
         return $favorite->exists;
+    }
+
+    public function trending()
+    {
+        $trending = FavoriteProduct::whereHas('product.store', fn ($has) => $has->where('user_id', auth()->id()))
+            ->addSelect([
+                'product_id',
+                DB::raw('count(1) as favorites'),
+            ])
+            ->groupBy('product_id')
+            ->get()
+            ->sortByDesc('favorites')
+            ->loadMissing('product.featured_media');
+
+        // TODO : implement map when product is used in projects in projects
+
+        return $trending;
     }
 }

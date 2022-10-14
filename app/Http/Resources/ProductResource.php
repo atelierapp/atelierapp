@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Enums\ManufacturerProcessEnum;
-use App\Enums\ManufacturerTypeEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -17,6 +16,7 @@ class ProductResource extends JsonResource
             'manufacturer_process' => ManufacturerProcessEnum::MAP_VALUE[$this->manufacturer_process],
             'manufactured_at' => optional($this->manufactured_at)->toDateString(),
             'description' => $this->description,
+            'score' => $this->score,
             'price' => $this->price / 100,
             'style_id' => $this->style_id,
             'style' => $this->style->name,

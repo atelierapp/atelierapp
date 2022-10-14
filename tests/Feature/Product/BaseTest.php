@@ -33,6 +33,7 @@ abstract class BaseTest extends TestCase
             'manufacturer_process',
             'manufactured_at',
             'description',
+            'score',
             'price',
             'style_id',
             'style',

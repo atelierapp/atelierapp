@@ -30,7 +30,7 @@ class StoreControllerStoreTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('store.store'));
+        $response = $this->postJson(route('store.store'), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -52,7 +52,7 @@ class StoreControllerStoreTest extends BaseTest
             'name' => $this->faker->name,
             'story' => $this->faker->sentences(1, true),
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['logo']);
@@ -68,7 +68,7 @@ class StoreControllerStoreTest extends BaseTest
             'story' => $this->faker->sentences(1, true),
             'logo' => $this->faker->word,
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['logo']);
@@ -85,7 +85,7 @@ class StoreControllerStoreTest extends BaseTest
             'story' => $this->faker->sentences(1, true),
             'logo' => UploadedFile::fake()->image('logo.png'),
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -110,7 +110,7 @@ class StoreControllerStoreTest extends BaseTest
             'story' => $this->faker->sentences(1, true),
             'logo' => UploadedFile::fake()->image('logo.png'),
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -135,7 +135,7 @@ class StoreControllerStoreTest extends BaseTest
             'logo' => UploadedFile::fake()->image('logo.png'),
             'cover' => $this->faker->name,
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['cover']);
@@ -153,7 +153,7 @@ class StoreControllerStoreTest extends BaseTest
             'logo' => UploadedFile::fake()->image('logo.png'),
             'cover' => UploadedFile::fake()->image('cover.png'),
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -179,7 +179,7 @@ class StoreControllerStoreTest extends BaseTest
             'cover' => UploadedFile::fake()->image('cover.png'),
             'team' => $this->faker->name,
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['team']);
@@ -199,7 +199,7 @@ class StoreControllerStoreTest extends BaseTest
             'cover' => UploadedFile::fake()->image('cover.png'),
             'team' => UploadedFile::fake()->image('team.png'),
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -227,7 +227,7 @@ class StoreControllerStoreTest extends BaseTest
             'logo' => UploadedFile::fake()->image('logo.png'),
             'qualities' => Quality::query()->inRandomOrder()->limit(2)->get()->pluck('id')->toArray(),
         ];
-        $response = $this->postJson(route('store.store'), $data);
+        $response = $this->postJson(route('store.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure(['data' => $this->structure()]);

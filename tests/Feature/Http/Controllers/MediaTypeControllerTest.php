@@ -33,7 +33,7 @@ class MediaTypeControllerTest extends TestCase
     {
         MediaType::factory()->count(3)->create();
 
-        $response = $this->get(route('media-type.index'));
+        $response = $this->get(route('media-type.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -54,11 +54,10 @@ class MediaTypeControllerTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
-
 
     /**
      * @test
@@ -81,16 +80,15 @@ class MediaTypeControllerTest extends TestCase
 
         $response = $this->post(route('media-type.store'), [
             'name' => $name,
-        ]);
+        ], $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([]);
 
         $this->assertDatabaseHas('media_types', [
-            'name' => $name
+            'name' => $name,
         ]);
     }
-
 
     /**
      * @test
@@ -99,12 +97,11 @@ class MediaTypeControllerTest extends TestCase
     {
         $mediaType = MediaType::factory()->create();
 
-        $response = $this->get(route('media-type.show', $mediaType));
+        $response = $this->get(route('media-type.show', $mediaType), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([]);
     }
-
 
     /**
      * @test
@@ -128,14 +125,13 @@ class MediaTypeControllerTest extends TestCase
 
         $response = $this->putJson(route('media-type.update', $mediaType), [
             'name' => $name,
-        ]);
+        ], $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([]);
 
         $this->assertEquals($name, $name);
     }
-
 
     /**
      * @test
@@ -144,7 +140,7 @@ class MediaTypeControllerTest extends TestCase
     {
         $mediaType = MediaType::factory()->create();
 
-        $response = $this->delete(route('media-type.destroy', $mediaType));
+        $response = $this->delete(route('media-type.destroy', $mediaType), [], $this->customHeaders());
 
         $response->assertNoContent();
 

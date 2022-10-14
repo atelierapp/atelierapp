@@ -26,7 +26,7 @@ class UpdateProfileTest extends TestCase
             'phone' => $this->faker->numerify('#########'),
             'birthday' => $this->faker->date(),
         ];
-        $response = $this->patchJson(route('profile.update'), $data);
+        $response = $this->patchJson(route('profile.update'), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => [

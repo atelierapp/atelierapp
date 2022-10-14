@@ -5,22 +5,15 @@ namespace Database\Factories;
 use App\Models\Project;
 use App\Models\Style;
 use App\Models\User;
+use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
+    use CountryStateTrait;
+
     protected $model = Project::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition(): array
     {
         return [
@@ -30,6 +23,7 @@ class ProjectFactory extends Factory
             'forked_from_id' => $this->faker->randomElement([null, Project::factory()]),
             'published' => $this->faker->boolean,
             'public' => $this->faker->boolean,
+            'country' => config('app.country'),
         ];
     }
 }

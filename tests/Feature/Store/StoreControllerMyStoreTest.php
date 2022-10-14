@@ -23,7 +23,7 @@ class StoreControllerMyStoreTest extends BaseTest
         $user = $this->createAuthenticatedSeller();
         $store = Store::factory(['user_id' => $user->id])->create();
 
-        $response = $this->getJson(route('store.my-store'));
+        $response = $this->getJson(route('store.my-store'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -34,7 +34,7 @@ class StoreControllerMyStoreTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->getJson(route('store.my-store'));
+        $response = $this->getJson(route('store.my-store'), $this->customHeaders());
 
         $response->assertStatus(403);
     }

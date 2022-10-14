@@ -20,7 +20,7 @@ class StoreControllerImageTest extends BaseTest
 
     public function test_a_guess_user_cannot_upload_any_image_to_store()
     {
-        $response = $this->postJson(route('store.image', 1));
+        $response = $this->postJson(route('store.image', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -29,7 +29,7 @@ class StoreControllerImageTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('store.image', 1));
+        $response = $this->postJson(route('store.image', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -52,7 +52,7 @@ class StoreControllerImageTest extends BaseTest
         $data = [
             'logo' => UploadedFile::fake()->image('logo.png'),
         ];
-        $response = $this->postJson(route('store.image', $store->id), $data);
+        $response = $this->postJson(route('store.image', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -71,7 +71,7 @@ class StoreControllerImageTest extends BaseTest
         $data = [
             'team' => UploadedFile::fake()->image('team.png'),
         ];
-        $response = $this->postJson(route('store.image', $store->id), $data);
+        $response = $this->postJson(route('store.image', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -92,7 +92,7 @@ class StoreControllerImageTest extends BaseTest
             'team' => UploadedFile::fake()->image('team.png'),
             'cover' => UploadedFile::fake()->image('cover.png'),
         ];
-        $response = $this->postJson(route('store.image', $store->id), $data);
+        $response = $this->postJson(route('store.image', $store->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);

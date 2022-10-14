@@ -10,7 +10,7 @@ class CollectionControllerIndexTest extends TestCase
 {
     public function test_a_guess_user_cannot_list_any_collection()
     {
-        $response = $this->getJson(route('collection.index'));
+        $response = $this->getJson(route('collection.index'), $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -22,7 +22,7 @@ class CollectionControllerIndexTest extends TestCase
             ['is_active' => true], ['is_active' => false]
         ))->create(['user_id' => $user->id]);
 
-        $response = $this->getJson(route('collection.index'));
+        $response = $this->getJson(route('collection.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -42,7 +42,7 @@ class CollectionControllerIndexTest extends TestCase
         $user = $this->createAuthenticatedUser();
         Collection::factory()->count(10)->create(['user_id' => $user->id]);
 
-        $response = $this->getJson(route('collection.index', ['with_all' => true]));
+        $response = $this->getJson(route('collection.index', ['with_all' => true]), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

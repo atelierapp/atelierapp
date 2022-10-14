@@ -3,11 +3,14 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Traits\Factories\CountryStateTrait;
 use Bouncer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
 {
+    use CountryStateTrait;
+
     protected $model = User::class;
 
     public function definition(): array
@@ -19,6 +22,8 @@ class UserFactory extends Factory
             'password' => 'password',
             'phone' => $this->faker->numerify('9########'),
             'birthday' => $this->faker->dateTimeBetween('-50 years', '-18 years'),
+            'country' => config('app.country'),
+            'locale' => $this->faker->randomElement(config('app.available_locales')),
         ];
     }
 

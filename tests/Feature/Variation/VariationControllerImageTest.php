@@ -12,7 +12,7 @@ class VariationControllerImageTest extends BaseTest
 {
     public function test_a_guess_cannot_upload_image_of_any_variation_of_any_product()
     {
-        $response = $this->postJson(route('variation.image', ['product' => 1, 'variation' => 1]), []);
+        $response = $this->postJson(route('variation.image', ['product' => 1, 'variation' => 1]), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -21,7 +21,7 @@ class VariationControllerImageTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->postJson(route('variation.image', ['product' => 1, 'variation' => 1]), []);
+        $response = $this->postJson(route('variation.image', ['product' => 1, 'variation' => 1]), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -36,7 +36,7 @@ class VariationControllerImageTest extends BaseTest
                 ['orientation' => 'invalid_orientation', 'file' => UploadedFile::fake()->image('plan.png')], // 1
             ],
         ];
-        $response = $this->postJson(route('variation.image', ['product' => 1, 'variation' => 1]), $data);
+        $response = $this->postJson(route('variation.image', ['product' => 1, 'variation' => 1]), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -55,7 +55,7 @@ class VariationControllerImageTest extends BaseTest
                 ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')], // 0
             ],
         ];
-        $response = $this->postJson(route('variation.image', ['product' => 999, 'variation' => 1]), $data);
+        $response = $this->postJson(route('variation.image', ['product' => 999, 'variation' => 1]), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -70,7 +70,7 @@ class VariationControllerImageTest extends BaseTest
                 ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')], // 0
             ],
         ];
-        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => 123]), $data);
+        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => 123]), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -89,7 +89,7 @@ class VariationControllerImageTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => 123]), $data);
+        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => 123]), $data, $this->customHeaders());
 
         $response->assertNotFound();
     }
@@ -108,7 +108,7 @@ class VariationControllerImageTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => $variation->id]), $data);
+        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => $variation->id]), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -144,7 +144,7 @@ class VariationControllerImageTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('plan.png')], // 3
             ],
         ];
-        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => $variation->id]), $data);
+        $response = $this->postJson(route('variation.image', ['product' => $product->id, 'variation' => $variation->id]), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

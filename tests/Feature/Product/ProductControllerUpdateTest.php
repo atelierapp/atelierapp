@@ -40,7 +40,7 @@ class ProductControllerUpdateTest extends BaseTest
         $this->createAuthenticatedSeller();
         $product = Product::factory()->create();
 
-        $response = $this->patchJson(route('product.update', $product->id), []);
+        $response = $this->patchJson(route('product.update', $product->id), [], $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -74,7 +74,7 @@ class ProductControllerUpdateTest extends BaseTest
             'manufacturer_type' => 'invalid_param',
             'manufacturer_process' => 'invalid_param',
         ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -104,19 +104,19 @@ class ProductControllerUpdateTest extends BaseTest
             'price' => $this->faker->numberBetween(100, 10000),
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
             ],
             'materials' => [
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
             ],
         ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -183,25 +183,25 @@ class ProductControllerUpdateTest extends BaseTest
             'price' => $this->faker->numberBetween(100, 10000),
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
             ],
             'materials' => [
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
-                ['name' => $this->faker->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
             ],
 
             'collections' => [
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
-                ['name' => $this->faker->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
             ],
         ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -269,7 +269,7 @@ class ProductControllerUpdateTest extends BaseTest
                 ['name' => $this->faker->name],
             ],
         ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -311,7 +311,7 @@ class ProductControllerUpdateTest extends BaseTest
             'is_on_demand' => $this->faker->boolean,
             'is_unique' => $this->faker->boolean,
         ];
-        $response = $this->patchJson(route('product.update', $product->id), $data);
+        $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);

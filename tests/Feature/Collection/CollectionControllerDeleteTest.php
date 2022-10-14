@@ -9,7 +9,7 @@ class CollectionControllerDeleteTest extends TestCase
 {
     public function test_a_guess_cannot_delete_any_collection()
     {
-        $response = $this->deleteJson(route('collection.destroy', 1));
+        $response = $this->deleteJson(route('collection.destroy', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -18,7 +18,7 @@ class CollectionControllerDeleteTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->deleteJson(route('collection.destroy', 1));
+        $response = $this->deleteJson(route('collection.destroy', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -28,7 +28,7 @@ class CollectionControllerDeleteTest extends TestCase
         $this->createAuthenticatedAdmin();
         $quality = Collection::factory()->create();
 
-        $response = $this->deleteJson(route('collection.destroy', $quality->id));
+        $response = $this->deleteJson(route('collection.destroy', $quality->id), [], $this->customHeaders());
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('collections', ['id' => $quality->id]);
@@ -39,7 +39,7 @@ class CollectionControllerDeleteTest extends TestCase
         $user = $this->createAuthenticatedSeller();
         $quality = Collection::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->deleteJson(route('collection.destroy', $quality->id));
+        $response = $this->deleteJson(route('collection.destroy', $quality->id), [], $this->customHeaders());
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('collections', ['id' => $quality->id]);
@@ -50,7 +50,7 @@ class CollectionControllerDeleteTest extends TestCase
         $this->createAuthenticatedSeller();
         $quality = Collection::factory()->create();
 
-        $response = $this->deleteJson(route('collection.destroy', $quality->id));
+        $response = $this->deleteJson(route('collection.destroy', $quality->id), [], $this->customHeaders());
 
         $response->assertNotFound();
     }

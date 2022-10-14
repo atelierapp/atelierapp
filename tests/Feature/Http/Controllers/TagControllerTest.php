@@ -35,7 +35,7 @@ class TagControllerTest extends TestCase
     {
         Tag::factory()->count(3)->create();
 
-        $response = $this->get(route('tag.index'));
+        $response = $this->get(route('tag.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(
@@ -84,7 +84,7 @@ class TagControllerTest extends TestCase
     {
         $tag = Tag::factory()->create();
 
-        $response = $this->get(route('tag.show', $tag));
+        $response = $this->get(route('tag.show', $tag), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -120,7 +120,7 @@ class TagControllerTest extends TestCase
             [
                 'name' => $name,
                 'active' => $active,
-            ]
+            ], $this->customHeaders()
         );
 
         $tag->refresh();
@@ -143,7 +143,7 @@ class TagControllerTest extends TestCase
     {
         $tag = Tag::factory()->create();
 
-        $response = $this->delete(route('tag.destroy', $tag));
+        $response = $this->delete(route('tag.destroy', $tag), [], $this->customHeaders());
 
         $response->assertNoContent();
 

@@ -4,11 +4,9 @@ namespace Tests;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
 use Styde\Enlighten\Tests\EnlightenSetup;
 use Tests\Traits\RegisterRolesAndPermissions;
@@ -20,6 +18,13 @@ abstract class TestCase extends BaseTestCase
     use RegisterRolesAndPermissions;
     use EnlightenSetup;
     use WithFaker;
+
+    public function customHeaders($value = 'es-pe'): array
+    {
+        return [
+            'x-locale' => $value
+        ];
+    }
 
     public function createAuthenticatedAdmin($data = [])
     {
@@ -52,6 +57,8 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['app.country' => 'pe']);
+        config(['app.locale' => 'es']);
 
         $this->setUpEnlighten();
     }

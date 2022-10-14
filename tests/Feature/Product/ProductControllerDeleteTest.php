@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Product;
 
+use App\Models\Product;
+use App\Models\Store;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -26,7 +28,7 @@ class ProductControllerDeleteTest extends BaseTest
         $store = $this->createStore($this->createAuthenticatedSeller());
         $product = $this->createProduct($store);
 
-        $response = $this->deleteJson(route('product.destroy', $product));
+        $response = $this->deleteJson(route('product.destroy', $product), headers: $this->customHeaders());
 
         $response->assertNoContent();
         $this->assertSoftDeleted($product);

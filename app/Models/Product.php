@@ -10,7 +10,6 @@ use App\Traits\Models\HasQualitiesRelation;
 use App\Traits\Models\HasTagsRelation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @mixin IdeHelperProduct
  */
-class Product extends Model
+class Product extends BaseModelCountry
 {
     use HasFactory;
     use SoftDeletes;
@@ -32,6 +31,7 @@ class Product extends Model
     protected $fillable = [
         'title',
         'store_id',
+        'score',
         'manufacturer_process',
         'manufactured_at',
         'description',
@@ -44,6 +44,7 @@ class Product extends Model
         'url',
         'is_on_demand',
         'is_unique',
+        'country',
     ];
 
     protected $casts = [
@@ -65,20 +66,10 @@ class Product extends Model
         return new ProductBuilder($query);
     }
 
-    public function collections(): morphToMany
-    {
-        return $this->morphToMany(Collection::class, 'collectionable');
-    }
-
     public function authFavorite(): HasOne
     {
         return $this->hasOne(FavoriteProduct::class, 'product_id', 'id')
             ->where('user_id', '=', request()->user('sanctum')->id);
-    }
-
-    public function store(): BelongsTo
-    {
-        return $this->belongsTo(Store::class);
     }
 
     public function categories(): BelongsToMany
@@ -86,9 +77,34 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function collections(): morphToMany
+    {
+        return $this->morphToMany(Collection::class, 'collectionable');
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(FavoriteProduct::class, 'product_id');
+    }
+
     public function materials(): BelongsToMany
     {
         return $this->belongsToMany(Material::class);
+    }
+
+    public function orderDetails(): HasMany
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
+    public function qualifications(): HasMany
+    {
+        return $this->hasMany(ProductQualification::class, 'product_id');
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
     }
 
     public function style(): BelongsTo

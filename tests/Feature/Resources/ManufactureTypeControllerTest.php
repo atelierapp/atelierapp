@@ -8,7 +8,7 @@ class ManufactureTypeControllerTest extends TestCase
 {
     public function test_a_guess_user_cannot_list_manufacture_types()
     {
-        $response = $this->getJson(route('resources.manufacture-type'));
+        $response = $this->getJson(route('resources.manufacture-type'), $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -17,7 +17,7 @@ class ManufactureTypeControllerTest extends TestCase
     {
         $this->createAuthenticatedAdmin();
 
-        $response = $this->getJson(route('resources.manufacture-type'));
+        $response = $this->getJson(route('resources.manufacture-type'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');

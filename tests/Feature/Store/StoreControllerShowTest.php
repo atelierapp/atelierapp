@@ -23,7 +23,7 @@ class StoreControllerShowTest extends BaseTest
         $store = Store::factory()->create();
         $this->createAuthenticatedAdmin();
 
-        $response = $this->getJson(route('store.show', $store));
+        $response = $this->getJson(route('store.show', $store), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -34,7 +34,7 @@ class StoreControllerShowTest extends BaseTest
         $user = $this->createAuthenticatedSeller();
         $store = Store::factory(['user_id' => $user->id])->create();
 
-        $response = $this->getJson(route('store.show', $store->id));
+        $response = $this->getJson(route('store.show', $store->id), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => $this->structure()]);
@@ -45,7 +45,7 @@ class StoreControllerShowTest extends BaseTest
         $user = $this->createAuthenticatedSeller();
         $store = Store::factory()->create();
 
-        $response = $this->getJson(route('store.show', $store->id));
+        $response = $this->getJson(route('store.show', $store->id), $this->customHeaders());
 
         $response->assertNotFound();
     }

@@ -22,7 +22,7 @@ class DeleteProfileTest extends TestCase
         $email = $user->email;
         $this->generateTokens($user);
 
-        $response = $this->deleteJson(route('profile.destroy'));
+        $response = $this->deleteJson(route('profile.destroy'), [], $this->customHeaders());
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('personal_access_tokens', ['user_id' => $user->id]);

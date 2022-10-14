@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'birthday' => $this->birthday ? $this->birthday->format('m/d/Y') : null,
             'avatar' => $this->avatar,
             'is_active' => $this->is_active,
+            'is_accepted_terms' => $this->is_accepted_terms,
             'created_at' => $this->created_at->format('m/d/Y H:i:s'),
             'updated_at' => $this->updated_at->format('m/d/Y H:i:s'),
         ];

@@ -34,7 +34,7 @@ class UnitSystemControllerTest extends TestCase
     {
         UnitSystem::factory()->count(3)->create();
 
-        $response = $this->get(route('unit-system.index'));
+        $response = $this->get(route('unit-system.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -85,7 +85,7 @@ class UnitSystemControllerTest extends TestCase
             route('unit-system.store'),
             [
                 'name' => $name,
-            ]
+            ], $this->customHeaders()
         );
 
         $response->assertCreated();
@@ -112,7 +112,7 @@ class UnitSystemControllerTest extends TestCase
     {
         $unitSystem = UnitSystem::factory()->create();
 
-        $response = $this->get(route('unit-system.show', $unitSystem));
+        $response = $this->get(route('unit-system.show', $unitSystem), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([]);
@@ -142,7 +142,7 @@ class UnitSystemControllerTest extends TestCase
 
         $response = $this->put(route('unit-system.update', $unitSystem), [
             'name' => $name,
-        ]);
+        ], $this->customHeaders());
 
         $unitSystem->refresh();
 
@@ -163,7 +163,7 @@ class UnitSystemControllerTest extends TestCase
     {
         $unitSystem = UnitSystem::factory()->create();
 
-        $response = $this->delete(route('unit-system.destroy', $unitSystem));
+        $response = $this->delete(route('unit-system.destroy', $unitSystem), [], $this->customHeaders());
 
         $response->assertNoContent();
 

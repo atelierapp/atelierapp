@@ -25,7 +25,7 @@ class ImageProfileTest extends TestCase
         $data = [
             'avatar' => UploadedFile::fake()->image('avatar.png'),
         ];
-        $response = $this->postJson(route('profile.image'), $data);
+        $response = $this->postJson(route('profile.image'), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure(['data' => [

@@ -36,7 +36,7 @@ class MaterialControllerTest extends TestCase
     {
         Material::factory()->count(3)->create();
 
-        $response = $this->get(route('material.index'));
+        $response = $this->get(route('material.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -88,7 +88,7 @@ class MaterialControllerTest extends TestCase
             [
                 'name' => $name,
                 'active' => $active,
-            ]
+            ], $this->customHeaders()
         );
 
         $response->assertCreated();
@@ -106,7 +106,7 @@ class MaterialControllerTest extends TestCase
     {
         $material = Material::factory()->create();
 
-        $response = $this->get(route('material.show', $material));
+        $response = $this->get(route('material.show', $material), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -141,7 +141,7 @@ class MaterialControllerTest extends TestCase
             [
                 'name' => $name,
                 'active' => $active,
-            ]
+            ], $this->customHeaders()
         );
 
         $material->refresh();
@@ -163,7 +163,7 @@ class MaterialControllerTest extends TestCase
     {
         $material = Material::factory()->create();
 
-        $response = $this->delete(route('material.destroy', $material));
+        $response = $this->delete(route('material.destroy', $material), [], $this->customHeaders());
 
         $response->assertNoContent();
 

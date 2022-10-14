@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Store;
 use Bouncer;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 use Laravel\Cashier\Cashier;
 
 class StoreService
@@ -109,4 +110,34 @@ class StoreService
             $store->load('medias');
         }
      }
+
+    public function processImpactQualities(string|int|Store $store, array $params)
+    {
+        // i belive that this will be need a refactor to individual functions, but at the moment this works .....
+        if (!$store instanceof Store) {
+            $store = $this->getById($store);
+        }
+
+        $syncQualities = [];
+        foreach ($params['qualities'] as $quality) {
+            $syncQualities[$quality] = ['is_impact' => true];
+        }
+        $store->qualities()->sync($syncQualities);
+        $store->load('qualities');
+
+        if (isset($params['files'])) {
+            $this->mediaService->model($store)->path('impact_score');
+            foreach ($params['files'] as $file) {
+                $this->mediaService->save($file['file'], [
+                    'orientation' => 'impact_score',
+                    'extra' => [
+                        'quality_id' => $file['quality_id'],
+                    ],
+                ]);
+            }
+            $store->load(['medias' => fn ($media) => $media->where('orientation', 'impact_score')]);
+        }
+
+        return $store;
+    }
 }

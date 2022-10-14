@@ -8,7 +8,7 @@ class ManufactureProcessControllerTest extends TestCase
 {
     public function test_a_guess_user_cannot_list_manufacture_process()
     {
-        $response = $this->getJson(route('resources.manufacture-process'));
+        $response = $this->getJson(route('resources.manufacture-process'), $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -17,7 +17,7 @@ class ManufactureProcessControllerTest extends TestCase
     {
         $this->createAuthenticatedAdmin();
 
-        $response = $this->getJson(route('resources.manufacture-process'));
+        $response = $this->getJson(route('resources.manufacture-process'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonCount(5, 'data');

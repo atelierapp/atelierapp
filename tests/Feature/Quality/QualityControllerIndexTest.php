@@ -15,7 +15,7 @@ class QualityControllerIndexTest extends TestCase
 
     public function test_a_guess_user_can_list_all_qualities()
     {
-        $response = $this->getJson(route('quality.index'));
+        $response = $this->getJson(route('quality.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

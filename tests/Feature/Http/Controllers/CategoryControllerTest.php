@@ -40,7 +40,7 @@ class CategoryControllerTest extends TestCase
     {
         Category::factory()->count(3)->create();
 
-        $response = $this->get(route('category.index'));
+        $response = $this->get(route('category.index'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -90,14 +90,17 @@ class CategoryControllerTest extends TestCase
             'active' => $this->faker->boolean,
         ];
 
-        $response = $this->postJson(route('category.store'), $data);
+        $response = $this->postJson(route('category.store'), $data, $this->customHeaders());
 
         $response->assertCreated();
         $response->assertJsonStructure([
             'data' => $this->structure()
         ]);
-
-        $this->assertDatabaseHas('categories', collect($data)->except(['image'])->toArray());
+        $this->assertEquals(1, Category::where('name->es', $data['name'])->count());
+        $this->assertDatabaseHas('categories', [
+            'id' => $response->json('data.id'),
+            'name->es' => $data['name'],
+        ]);
     }
 
 
@@ -109,7 +112,7 @@ class CategoryControllerTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $response = $this->getJson(route('category.show', $category));
+        $response = $this->getJson(route('category.show', $category), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -143,16 +146,16 @@ class CategoryControllerTest extends TestCase
             'active' => $this->faker->boolean,
         ];
 
-        $response = $this->putJson(route('category.update', $category), $data);
+        $response = $this->putJson(route('category.update', $category), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => $this->structure()
         ]);
-
-        $params = collect($data)->except(['image'])->toArray();
-        $params['id'] = $category->id;
-        $this->assertDatabaseHas('categories', $params);
+        $this->assertDatabaseHas('categories', [
+            'id' => $response->json('data.id'),
+            'name->es' => $data['name'],
+        ]);
     }
 
 
@@ -164,7 +167,7 @@ class CategoryControllerTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        $response = $this->delete(route('category.destroy', $category));
+        $response = $this->delete(route('category.destroy', $category), [], $this->customHeaders());
 
         $response->assertNoContent();
 

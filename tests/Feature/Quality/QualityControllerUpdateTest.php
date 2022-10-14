@@ -9,7 +9,7 @@ class QualityControllerUpdateTest extends TestCase
 {
     public function test_a_guess_cannot_update_any_quality()
     {
-        $response = $this->patchJson(route('quality.update', 1), []);
+        $response = $this->patchJson(route('quality.update', 1), [], $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -18,7 +18,7 @@ class QualityControllerUpdateTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        $response = $this->patchJson(route('quality.update', 1), []);
+        $response = $this->patchJson(route('quality.update', 1), [], $this->customHeaders());
 
         $response->assertStatus(403);
     }
@@ -31,7 +31,7 @@ class QualityControllerUpdateTest extends TestCase
         $data = [
             'name' => $this->faker->name,
         ];
-        $response = $this->patchJson(route('quality.update', $quality->id), $data);
+        $response = $this->patchJson(route('quality.update', $quality->id), $data, $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -40,6 +40,9 @@ class QualityControllerUpdateTest extends TestCase
                 'name',
             ],
         ]);
-        $this->assertDatabaseHas('qualities', $data);
+        $this->assertDatabaseHas('qualities', [
+            'id' => $response->json('data.id'),
+            'name->es' => $data['name'],
+        ]);
     }
 }

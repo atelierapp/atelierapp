@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\TagBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @mixin IdeHelperTag
  */
-class Tag extends Model
+class Tag extends BaseModelCountry
 {
     use HasFactory;
     use SoftDeletes;
@@ -23,6 +24,11 @@ class Tag extends Model
         'id' => 'integer',
         'active' => 'boolean',
     ];
+
+    public function newEloquentBuilder($query): TagBuilder
+    {
+        return new TagBuilder($query);
+    }
 
     public function products(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {

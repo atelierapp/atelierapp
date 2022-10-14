@@ -8,7 +8,7 @@ class DashboardControllerOrdersTest extends BaseTest
 {
     public function test_an_guess_user_cannot_get_orders()
     {
-        $response = $this->getJson(route('dashboard.orders'));
+        $response = $this->getJson(route('dashboard.orders'), $this->customHeaders());
 
         $response->assertUnauthorized();
     }
@@ -17,7 +17,7 @@ class DashboardControllerOrdersTest extends BaseTest
     {
         $this->createAuthenticatedSeller();
         Product::factory()->count(10)->create();
-        $response = $this->getJson(route('dashboard.orders'));
+        $response = $this->getJson(route('dashboard.orders'), $this->customHeaders());
 
         $response->assertOk();
         $response->assertJsonStructure([

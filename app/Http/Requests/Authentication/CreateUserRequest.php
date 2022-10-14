@@ -22,7 +22,9 @@ class CreateUserRequest extends FormRequest
             'avatar' => ['url'],
             'social_id' => ['required_with:social_driver'],
             'social_driver' => ['required_with:social_id', 'in:' . \Config::get('social.active_drivers')],
-            'role' => ['nullable', Rule::in([Role::SELLER])]
+            'role' => ['nullable', Rule::in([Role::SELLER])],
+            'locale' => ['required', Rule::in(['en', 'es'])],
+            'country' => ['required', Rule::in(['us', 'pe'])],
         ];
     }
 

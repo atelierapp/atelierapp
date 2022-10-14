@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
+use App\Jobs\ProductViewCount;
 use App\Models\Product;
 use App\Models\Quality;
-use App\Models\Role;
-use Bouncer;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
@@ -23,7 +22,7 @@ class ProductService
         //
     }
 
-    public function list(): LengthAwarePaginator
+    public function list(array $filters = []): LengthAwarePaginator
     {
         $relations = ['style', 'medias', 'tags', 'store'];
         if (request()->user('sanctum')) {
@@ -32,7 +31,7 @@ class ProductService
 
         return Product::authUser()
             ->with($relations)
-            ->applyFiltersFrom(request()->all())
+            ->applyFiltersFrom($filters)
             ->paginate();
     }
 
@@ -51,7 +50,7 @@ class ProductService
         ];
 
         $product = Product::create($data);
-        $this->processQualities($product, Arr::get($params, 'qualities'));
+        $this->processQualities($product, Arr::get($params, 'qualities', []));
         $this->processImages($product, $data['images']);
         $this->variationService->duplicateFromProduct($product, $data['images']);
         $this->processCategories($product, [$data['category_id']]);
@@ -239,6 +238,11 @@ class ProductService
         if (auth()->check()) {
             $product->load('authFavorite');
         }
+    }
+
+    public function processViewCount(Product $product)
+    {
+        ProductViewCount::dispatch($product, auth()->id());
     }
 
 }
