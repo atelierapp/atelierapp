@@ -7,9 +7,12 @@ use App\Http\Requests\Authentication\ChangePasswordRequest;
 use App\Http\Requests\ProfileImageRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Role;
 use App\Services\MediaService;
 use App\Services\UserService;
+use Bouncer;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -47,6 +50,20 @@ class ProfileController extends Controller
         $user->fill([
             'avatar' => $media->url,
         ]);
+        $user->save();
+
+        return UserResource::make($user);
+    }
+
+    public function terms()
+    {
+        $user = auth()->user();
+
+        if (!Bouncer::is($user)->a(Role::SELLER)) {
+            throw new AtelierException(__('errors.profile.terms'), Response::HTTP_UNAUTHORIZED);
+        }
+
+        $user->is_accepted_terms = true;
         $user->save();
 
         return UserResource::make($user);

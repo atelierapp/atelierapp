@@ -111,6 +111,7 @@ Route::middleware('locale')->group(function () {
             Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
             Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
             Route::post('/image', [ProfileController::class, 'image'])->name('profile.image');
+            Route::post('/terms', [ProfileController::class, 'terms'])->name('profile.terms');
             Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
             Route::get('/favorite-products', ProfileFavoriteController::class)->name('profile.favorites');
             Route::get('/projects', ProfileProjectController::class)->name('profile.projects');
