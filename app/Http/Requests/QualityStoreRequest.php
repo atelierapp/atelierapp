@@ -11,7 +11,8 @@ class QualityStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', Rule::unique('qualities', 'name')]
+            'name' => ['required', Rule::unique('qualities', 'name')],
+            'score' => ['required', 'integer', 'between:1,5'],
         ];
     }
 
