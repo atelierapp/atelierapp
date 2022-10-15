@@ -39,6 +39,7 @@ class CategorySeeder extends Seeder
             ['id' => 22, 'name' => ['en' => 'Plumbing fixtures', 'es' => 'Accesorios de plomeria']],
         ])->each(function ($element) {
             $category = Category::query()->where('id', $element['id'])->firstOrNew();
+            $category->id = $element['id'];
             $category->name = $element['name'];
             $category->image = $element['name']['en'];
             $category->active = true;
