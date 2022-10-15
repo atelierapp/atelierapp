@@ -28,6 +28,7 @@ class QualityControllerCreateTest extends TestCase
 
         $data = [
             'name' => $this->faker->name,
+            'score' => $this->faker->numberBetween(1, 5),
         ];
         $response = $this->postJson(route('quality.store'), $data, $this->customHeaders());
 
@@ -36,6 +37,7 @@ class QualityControllerCreateTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'score',
             ],
         ]);
         $this->assertDatabaseHas('qualities', [

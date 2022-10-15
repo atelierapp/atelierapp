@@ -11,7 +11,8 @@ class QualityUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', Rule::unique('qualities', 'name')->ignore($this->quality)]
+            'name' => ['required', Rule::unique('qualities', 'name')->ignore($this->quality)],
+            'score' => ['required', 'integer', 'between:1,5'],
         ];
     }
 

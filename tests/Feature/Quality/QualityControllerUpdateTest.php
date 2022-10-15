@@ -30,6 +30,7 @@ class QualityControllerUpdateTest extends TestCase
 
         $data = [
             'name' => $this->faker->name,
+            'score' => $this->faker->numberBetween(1, 5),
         ];
         $response = $this->patchJson(route('quality.update', $quality->id), $data, $this->customHeaders());
 
@@ -38,11 +39,13 @@ class QualityControllerUpdateTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'score',
             ],
         ]);
         $this->assertDatabaseHas('qualities', [
             'id' => $response->json('data.id'),
             'name->es' => $data['name'],
+            'score' => $data['score'],
         ]);
     }
 }
