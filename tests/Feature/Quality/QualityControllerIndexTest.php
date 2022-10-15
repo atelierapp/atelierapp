@@ -23,6 +23,7 @@ class QualityControllerIndexTest extends TestCase
                 0 => [
                     'id',
                     'name',
+                    'score',
                 ],
             ],
         ]);

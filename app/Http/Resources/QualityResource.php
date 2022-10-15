@@ -11,6 +11,7 @@ class QualityResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'score' => $this->score,
         ];
     }
 }

@@ -17,6 +17,7 @@ class OrderResource extends JsonResource
             'seller' => UserSimpleResource::make($this->seller),
             'items' => $this->items,
             'total_price' => $this->total_price,
+            'seller_status_id' => $this->seller_status_id,
             'seller_status' => $this->seller_status,
             'seller_status_at' => $this->seller_status_at,
             'paid_status' => $this->paid_status,
@@ -27,7 +28,7 @@ class OrderResource extends JsonResource
         $metadata = is_null($this->parent_id)
             ? $this->payment_gateway_metadata
             : $this->parent->payment_gateway_metadata;
-        
+
         if(isset($metadata['order_authorization'])) {
             $resource['shipping'] = Arr::get($metadata, 'order_authorization.purchase_units.0.shipping.address');
         }

@@ -17,6 +17,7 @@ class Quality extends Model
 
     protected $fillable = [
         'name',
+        'score',
     ];
 
     protected $translatable = [
