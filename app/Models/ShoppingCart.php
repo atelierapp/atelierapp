@@ -21,6 +21,7 @@ class ShoppingCart extends Pivot
     use HasFactory;
 
     protected $table = 'shopping_cart';
+
     public $timestamps = false;
 
     protected $fillable = [

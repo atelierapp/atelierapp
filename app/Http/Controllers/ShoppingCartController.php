@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ShoppingCartResource;
 use App\Models\ShoppingCart;
+use App\Models\Variation;
 use App\Services\OrderService;
 use App\Services\PaypalService;
 use Illuminate\Http\Request;
@@ -26,11 +27,10 @@ class ShoppingCartController extends Controller
         return ShoppingCartResource::collection($variants);
     }
 
-    public function increase(Request $request, $variationId)
+    public function increase($variationId)
     {
-        /** @var ShoppingCart $item */
         $item = ShoppingCart::firstOrNew([
-            'variation_id' => $variationId,
+            'variation_id' => Variation::where('id', $variationId)->firstOrFail()->id,
             'user_id' => auth()->id(),
         ]);
         $item->quantity = ($item->quantity ?? 0) + request('quantity', 1);
