@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers;
+namespace Tests\Feature\Category;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,8 +16,6 @@ use Tests\TestCase;
 class CategoryControllerTest extends TestCase
 {
     use AdditionalAssertions;
-    use RefreshDatabase;
-    use WithFaker;
 
     private function structure(): array
     {
@@ -103,7 +101,6 @@ class CategoryControllerTest extends TestCase
         ]);
     }
 
-
     /**
      * @test
      * @title Show category
@@ -119,7 +116,6 @@ class CategoryControllerTest extends TestCase
             'data' => $this->structure()
         ]);
     }
-
 
     /**
      * @test
@@ -157,7 +153,6 @@ class CategoryControllerTest extends TestCase
             'name->es' => $data['name'],
         ]);
     }
-
 
     /**
      * @test

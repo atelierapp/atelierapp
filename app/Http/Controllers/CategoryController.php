@@ -23,6 +23,7 @@ class CategoryController extends Controller
     {
         $params = $this->processRequest($request);
         $category = Category::create($params);
+        $category->fresh();
 
         return CategoryResource::make($category);
     }
