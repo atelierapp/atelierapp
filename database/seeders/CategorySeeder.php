@@ -7,11 +7,6 @@ use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run(): void
     {
         collect([
@@ -21,7 +16,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Bed',
                     'es' => 'Cama',
                 ],
-                'image' => 'categories/cat-bed.png',
+                'image' => 'categories/bed.png',
             ],
             [
                 'id' => 2,
@@ -37,7 +32,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Coffee Table',
                     'es' => 'Mesa de centro',
                 ],
-                'image' => 'categories/cat-cofee-table.png',
+                'image' => 'categories/coffee_table.png',
             ],
             [
                 'id' => 4,
@@ -45,7 +40,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Console',
                     'es' => 'Consola',
                 ],
-                'image' => null,
+                'image' => 'categories/console.png',
             ],
             [
                 'id' => 5,
@@ -53,7 +48,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Desk',
                     'es' => 'Escritorio',
                 ],
-                'image' => 'categories/cat-desk.png',
+                'image' => 'categories/desk.png',
             ],
             [
                 'id' => 6,
@@ -61,7 +56,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Dining Chair',
                     'es' => 'Silla del comedor',
                 ],
-                'image' => 'categories/cat-dining-chair.png',
+                'image' => 'categories/dinner_chair.png',
             ],
             [
                 'id' => 7,
@@ -69,7 +64,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Dining Table',
                     'es' => 'Comedor',
                 ],
-                'image' => 'categories/cat-dningin-table.png',
+                'image' => 'categories/dinner_table.png',
             ],
             [
                 'id' => 8,
@@ -77,7 +72,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Dresser',
                     'es' => 'Vestidor',
                 ],
-                'image' => null,
+                'image' => 'categories/dresser.png',
             ],
             [
                 'id' => 9,
@@ -85,7 +80,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Nightstand',
                     'es' => 'Mesita de noche',
                 ],
-                'image' => 'categories/cat-nightstand.png',
+                'image' => 'categories/nightstand.png',
             ],
             [
                 'id' => 10,
@@ -93,15 +88,15 @@ class CategorySeeder extends Seeder
                     'en' => 'Ottoman',
                     'es' => 'Otomano',
                 ],
-                'image' => 'categories/cat-ottoman.png',
+                'image' => 'categories/ottoman.png',
             ],
             [
                 'id' => 11,
                 'name' => [
                     'en' => 'Shelf',
-                    'es' => 'Estante',
+                    'es' => 'Repisas',
                 ],
-                'image' => 'categories/cat-shelf.png',
+                'image' => 'categories/shelf.png',
             ],
             [
                 'id' => 12,
@@ -109,7 +104,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Side Table',
                     'es' => 'Mesa auxiliar',
                 ],
-                'image' => null,
+                'image' => 'categories/side_table.png',
             ],
             [
                 'id' => 13,
@@ -117,7 +112,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Sofa',
                     'es' => 'Sofá',
                 ],
-                'image' => 'categories/cat-sofa.png',
+                'image' => 'categories/sofa.png',
             ],
             [
                 'id' => 14,
@@ -125,7 +120,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Lighting',
                     'es' => 'Encendiendo',
                 ],
-                'image' => 'categories/cat-lighting.png',
+                'image' => 'categories/lighting.png',
             ],
             [
                 'id' => 15,
@@ -133,7 +128,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Vegetation',
                     'es' => 'Vegetación',
                 ],
-                'image' => 'categories/cat-vegetation.png',
+                'image' => 'categories/vegetation.png',
             ],
             [
                 'id' => 16,
@@ -141,7 +136,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Art',
                     'es' => 'Arte',
                 ],
-                'image' => 'categories/cat-art.png',
+                'image' => 'categories/art.png',
             ],
             [
                 'id' => 17,
@@ -149,7 +144,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Drapery',
                     'es' => 'Pañería',
                 ],
-                'image' => 'null',
+                'image' => 'categories/drapery.png',
             ],
             [
                 'id' => 18,
@@ -157,7 +152,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Rugs',
                     'es' => 'Alfombras',
                 ],
-                'image' => 'null',
+                'image' => 'categories/accesories.png',
             ],
             [
                 'id' => 19,
@@ -165,7 +160,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Decor',
                     'es' => 'Decoración',
                 ],
-                'image' => 'null',
+                'image' => 'categories/decor.png',
             ],
             [
                 'id' => 20,
@@ -173,7 +168,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Others',
                     'es' => 'Otros',
                 ],
-                'image' => 'null',
+                'image' => 'categories/other.png',
             ],
             [
                 'id' => 21,
@@ -181,7 +176,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Accesories',
                     'es' => 'Accesorios',
                 ],
-                'image' => 'null',
+                'image' => 'categories/accesories.png',
             ],
             [
                 'id' => 22,
@@ -189,7 +184,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Plumbing fixtures',
                     'es' => 'Accesorios de plomeria',
                 ],
-                'image' => 'categories/cat-plumbing-fixtures.png',
+                'image' => 'categories/plumbing_fixtures.png',
             ],
         ])->each(function ($element) {
             $category = Category::query()->where('id', $element['id'])->firstOrNew();
