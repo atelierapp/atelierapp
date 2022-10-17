@@ -37,13 +37,15 @@ class StoreService
         return $store;
     }
 
-    public function getById(int $id): Store
+    public function getById(int|string $id): Store
     {
+        $query = Store::whereId($id);
+
         if (Bouncer::is(auth()->user())->a(Role::SELLER)) {
-            return Store::authUser()->where('id', '=', $id)->firstOrFail();
+            $query->authUser();
         }
 
-        return Store::where('id', '=', $id)->firstOrFail();
+        return $query->firstOrFail();
     }
 
     /**
