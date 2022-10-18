@@ -170,6 +170,7 @@ class ProductUsSeeder extends Seeder
                 'product_id' => $product->id,
                 'name' => $product->title,
                 'is_duplicated' => true,
+                'country' => $product->country,
             ]);
             $this->media($variation, $productExcel['front']);
             $this->media($variation, $productExcel['side']);

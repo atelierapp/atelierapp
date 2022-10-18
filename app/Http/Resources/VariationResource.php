@@ -13,6 +13,7 @@ class VariationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'country' => $this->country,
             'medias' => MediaResource::collection($this->whenLoaded('medias')),
             'product' => ProductResource::make($this->whenLoaded('product')),
         ];

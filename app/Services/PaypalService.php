@@ -97,7 +97,7 @@ class PaypalService
             'items' => [
                 [
                     'amount' => [
-                        'value' => "{$order->total_price}",
+                        'value' => '"' . $order->total_price * 0.75 . '"',
                         'currency' => 'USD'
                     ],
                     'sender_item_id' => $checkoutId . '001',

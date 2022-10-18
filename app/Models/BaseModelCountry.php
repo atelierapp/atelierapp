@@ -6,7 +6,7 @@ use App\Models\Scopes\CountryScope;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperAbility
+ * @mixin IdeHelperBaseModelCountry
  */
 class BaseModelCountry extends Model
 {

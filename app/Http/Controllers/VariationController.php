@@ -13,7 +13,7 @@ class VariationController extends Controller
 {
     public function __construct(private VariationService $variationService)
     {
-        $this->middleware('auth:sanctum');
+        //
     }
 
     public function index($product)
