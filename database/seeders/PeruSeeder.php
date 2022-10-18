@@ -48,15 +48,15 @@ class PeruSeeder extends Seeder
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/ambito_prod1_front.jpg',
+                                'path' => 'stores/ambito_prod1_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/ambito_prod1_side.jpg',
+                                'path' => 'stores/ambito_prod1_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/ambito_prod1_perspective.jpg',
+                                'path' => 'stores/ambito_prod1_perspective.jpg',
                             ],
                         ],
                     ],
@@ -75,15 +75,15 @@ class PeruSeeder extends Seeder
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/ambito_prod2_front.jpg',
+                                'path' => 'stores/ambito_prod2_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/ambito_prod2_side.jpg',
+                                'path' => 'stores/ambito_prod2_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/ambito_prod2_perspective.jpg',
+                                'path' => 'stores/ambito_prod2_perspective.jpg',
                             ],
                         ],
                     ],
@@ -101,15 +101,15 @@ class PeruSeeder extends Seeder
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/ambito_prod3_front.jpg',
+                                'path' => 'stores/ambito_prod3_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/ambito_prod3_side.jpg',
+                                'path' => 'stores/ambito_prod3_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/ambito_prod3_perspective.jpg',
+                                'path' => 'stores/ambito_prod3_perspective.jpg',
                             ],
                         ],
                     ],
@@ -144,15 +144,15 @@ En Atemporal D&H podrás encontrar todo lo que necesites para tu hogar en un amb
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/atemporal_prod1_front.png',
+                                'path' => 'stores/atemporal_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/atemporal_prod1_side.png',
+                                'path' => 'stores/atemporal_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/atemporal_prod1_perspective.png',
+                                'path' => 'stores/atemporal_prod1_perspective.png',
                             ],
                         ],
                     ],
@@ -171,15 +171,15 @@ En Atemporal D&H podrás encontrar todo lo que necesites para tu hogar en un amb
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/atemporal_prod2_front.png',
+                                'path' => 'stores/atemporal_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/atemporal_prod2_side.png',
+                                'path' => 'stores/atemporal_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/atemporal_prod2_perspective.png',
+                                'path' => 'stores/atemporal_prod2_perspective.png',
                             ],
                         ],
                     ],
@@ -198,15 +198,15 @@ En Atemporal D&H podrás encontrar todo lo que necesites para tu hogar en un amb
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/atemporal_prod3_front.png',
+                                'path' => 'stores/atemporal_prod3_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/atemporal_prod3_side.png',
+                                'path' => 'stores/atemporal_prod3_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/atemporal_prod3_perspective.png',
+                                'path' => 'stores/atemporal_prod3_perspective.png',
                             ],
                         ],
                     ],
@@ -241,15 +241,15 @@ Por último, también decidimos incluir piezas de artes plásticas y fotografía
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/moli_prod1_front.png',
+                                'path' => 'stores/moli_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/moli_prod1_side.png',
+                                'path' => 'stores/moli_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/moli_prod1_perspective.png',
+                                'path' => 'stores/moli_prod1_perspective.png',
                             ],
                         ],
                     ],
@@ -268,15 +268,15 @@ Por último, también decidimos incluir piezas de artes plásticas y fotografía
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/moli_prod2_front.png',
+                                'path' => 'stores/moli_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/moli_prod2_side.png',
+                                'path' => 'stores/moli_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/moli_prod2_perspective.png',
+                                'path' => 'stores/moli_prod2_perspective.png',
                             ],
                         ],
                     ],
@@ -295,15 +295,15 @@ Por último, también decidimos incluir piezas de artes plásticas y fotografía
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/moli_prod3_front.png',
+                                'path' => 'stores/moli_prod3_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/moli_prod3_side.png',
+                                'path' => 'stores/moli_prod3_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/moli_prod3_perspective.png',
+                                'path' => 'stores/moli_prod3_perspective.png',
                             ],
                         ],
                     ],
@@ -343,15 +343,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/pratelli_prod1_front.jpg',
+                                'path' => 'stores/pratelli_prod1_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/pratelli_prod1_side.jpg',
+                                'path' => 'stores/pratelli_prod1_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/pratelli_prod1_perspective.jpg',
+                                'path' => 'stores/pratelli_prod1_perspective.jpg',
                             ],
                         ],
                     ],
@@ -370,15 +370,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/pratelli_prod2_front.jpg',
+                                'path' => 'stores/pratelli_prod2_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/pratelli_prod2_side.jpg',
+                                'path' => 'stores/pratelli_prod2_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/pratelli_prod2_perspective.jpg',
+                                'path' => 'stores/pratelli_prod2_perspective.jpg',
                             ],
                         ],
                     ],
@@ -397,15 +397,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/pratelli_prod3_front.jpg',
+                                'path' => 'stores/pratelli_prod3_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/pratelli_prod3_side.jpg',
+                                'path' => 'stores/pratelli_prod3_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/pratelli_prod3_perspective.jpg',
+                                'path' => 'stores/pratelli_prod3_perspective.jpg',
                             ],
                         ],
                     ],
@@ -438,15 +438,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/furniture_prod1_front.jpeg',
+                                'path' => 'stores/furniture_prod1_front.jpeg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/furniture_prod1_side.jpeg',
+                                'path' => 'stores/furniture_prod1_side.jpeg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/furniture_prod1_perspective.jpeg',
+                                'path' => 'stores/furniture_prod1_perspective.jpeg',
                             ],
                         ],
                     ],
@@ -464,15 +464,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/furniture_prod2_front.jpeg',
+                                'path' => 'stores/furniture_prod2_front.jpeg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/furniture_prod2_side.jpeg',
+                                'path' => 'stores/furniture_prod2_side.jpeg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/furniture_prod2_perspective.jpeg',
+                                'path' => 'stores/furniture_prod2_perspective.jpeg',
                             ],
                         ],
                     ],
@@ -490,15 +490,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/furniture_prod3_front.jpeg',
+                                'path' => 'stores/furniture_prod3_front.jpeg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/furniture_prod3_side.jpeg',
+                                'path' => 'stores/furniture_prod3_side.jpeg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/furniture_prod3_perspective.jpeg',
+                                'path' => 'stores/furniture_prod3_perspective.jpeg',
                             ],
                         ],
                     ],
@@ -531,15 +531,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/casa_prod1_front.jpg',
+                                'path' => 'stores/casa_prod1_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/casa_prod1_side.jpg',
+                                'path' => 'stores/casa_prod1_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/casa_prod1_perspective.jpg',
+                                'path' => 'stores/casa_prod1_perspective.jpg',
                             ],
                         ],
                     ],
@@ -557,15 +557,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/casa_prod2_front.jpg',
+                                'path' => 'stores/casa_prod2_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/casa_prod2_side.jpg',
+                                'path' => 'stores/casa_prod2_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/casa_prod2_perspective.jpg',
+                                'path' => 'stores/casa_prod2_perspective.jpg',
                             ],
                         ],
                     ],
@@ -584,15 +584,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/casa_prod3_front.jpg',
+                                'path' => 'stores/casa_prod3_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/casa_prod3_side.jpg',
+                                'path' => 'stores/casa_prod3_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/casa_prod3_perspective.jpg',
+                                'path' => 'stores/casa_prod3_perspective.jpg',
                             ],
                         ],
                     ],
@@ -893,9 +893,6 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                 'store' => 'VYE',
                 'website' => 'http://www.ventanasyestilos.com',
                 'story' => 'Somos una empresa con más de 12 años liderando el mercado peruano, Ventanas y Estilos pone a tu disposicion lo mas avanzado en ventaneria hermetica, sistemas de proteccion solar y soluciones innovadoraspara edificios, viviendas y oficinas.',
-                'avatar' => null,
-                'logo' => null,
-                'cover' => null,
             ],
             [
                 'email' => 'dcaceres@rollux.pe',
@@ -905,9 +902,6 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                 'store' => 'ROLLUX',
                 'website' => 'www.rollux.pe',
                 'story' => 'Con más de 15 años en el mercado internacional, Rollux® se ha consolidado como un referente en la fabricación y comercialización de cortinas, toldos arquitectónicos y persianas, gracias a una visión de excelencia en servicio y una apuesta al desarrollo de productos funcionales, innovadores y vanguardistas que marcan tendencia con los más altos estándares de calidad. Rollux® es un gran equipo humano. Un equipo experimentado y comprometido con el desarrollo de productos que entreguen múltiples propuestas de estilo, diseño y funcionalidad que cumplan con las expectativas y necesidades tanto del mercado residencial como el de oficinas. Nuestros clientes son nuestra prioridad, por lo que estamos en constante búsqueda de nuevos desafíos que nos lleven a ser aún mejores tanto en servicio como en nuestra oferta de productos y soluciones.',
-                'avatar' => null,
-                'logo' => null,
-                'cover' => null,
             ],
             [
                 'email' => 'Andre@numi.pe',
@@ -917,9 +911,6 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                 'store' => 'NUMI',
                 'website' => 'https://numi.pe',
                 'story' => null,
-                'avatar' => null,
-                'logo' => null,
-                'cover' => null,
             ],
             [
                 'email' => 'mcotillo@rivelsa.com.pe',
@@ -929,9 +920,6 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                 'store' => 'RIVELSA',
                 'website' => 'https://www.rivelsa.com.pe',
                 'story' => 'Rivelsa es una empresa que ofrece marcas de acabados de prestigio mundial como la marca Kohler',
-                'avatar' => null,
-                'logo' => null,
-                'cover' => null,
             ],
             [
                 'email' => 'j_ugaz@arqtelier.com',
@@ -939,11 +927,6 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                 'last_name' => 'Ugaz',
                 'phone' => '930159392',
                 'store' => 'ARQTELIER',
-                'website' => null,
-                'story' => null,
-                'avatar' => null,
-                'logo' => null,
-                'cover' => null,
             ],
             [
                 'email' => 'jruiz@nathanalfombras.com',
@@ -952,10 +935,6 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                 'phone' => '934954251',
                 'store' => 'NATHAN',
                 'website' => 'https://www.nathanalfombras.com',
-                'story' => null,
-                'avatar' => null,
-                'logo' => null,
-                'cover' => null,
             ],
             [
                 'email' => 'msantaya@meglio.com.pe',
@@ -992,15 +971,15 @@ Brindamos un acompañamiento integral en la asesoría de materiales, formatos y 
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/euro_prod1_front.jpg',
+                                'path' => 'stores/euro_prod1_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/euro_prod1_side.jpg',
+                                'path' => 'stores/euro_prod1_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/euro_prod1_perspective.jpg',
+                                'path' => 'stores/euro_prod1_perspective.jpg',
                             ],
                         ],
                         'qualities' => [5],
@@ -1019,15 +998,15 @@ Brindamos un acompañamiento integral en la asesoría de materiales, formatos y 
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/euro_prod2_front.png',
+                                'path' => 'stores/euro_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/euro_prod2_side.jpg',
+                                'path' => 'stores/euro_prod2_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/euro_prod2_perspective.jpg',
+                                'path' => 'stores/euro_prod2_perspective.jpg',
                             ],
                         ],
                     ],
@@ -1046,15 +1025,15 @@ Brindamos un acompañamiento integral en la asesoría de materiales, formatos y 
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/euro_prod3_front.jpg',
+                                'path' => 'stores/euro_prod3_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/euro_prod3_side.jpg',
+                                'path' => 'stores/euro_prod3_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/euro_prod3_perspective.jpg',
+                                'path' => 'stores/euro_prod3_perspective.jpg',
                             ],
                         ],
                     ],
@@ -1070,7 +1049,6 @@ Brindamos un acompañamiento integral en la asesoría de materiales, formatos y 
                 'story' => 'Inició su taller hace 40 años y Hoy es uno de los mejores artistas en diseño y fabricación de muebles de rattan. Roberto de Rivero es una mezcla de curiosidad e inquietud. La necesidad imperiosa por mantenerse ocupado apareció en él apenas tuvo uso de razón. Dibujaba, pintaba, intervenía, creaba. Siempre se sintió el rey de las manualidades. Por ejemplo, una tarde en los setenta, cuando apenas sobrepasaba los 10 años, cayó en la cuenta de que en su jardín crecían pequeñas cañitas. Las arrancó entonces para darles forma y ponerle cargas de tinta. Al cabo de un rato ya tenía un lapicero listo para llevar al colegio. Otra tarde cogió un palo de escoba y comenzó a tallar con un cuchillo una serie de figuras en la madera. Uno, dos, diez. Sin proponérselo comenzó a vender varios de ellos. Tiempo después, recién conocería que lo que estaba fabricando ya existía y tenía el nombre de tikis, como las estatuas con gran tamaño de la Polinesia.
 
 Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, menos la vitalidad. Sus manos tampoco han dejado de crear y, al contrario, han evolucionado. El hombre de la sonrisa grande y cabellos desgobernados ha logrado formar y consolidar Rattan, un estudio-taller dedicado al arte de diseñar muebles con fibras naturales, como el propio rattan, un material noble traído de Asia. Han sido cuatro décadas de esfuerzos y pasos firmes que lo han llevado desde las lejanías de la selva peruana hasta recónditos pueblos de las Filipinas. Todo por la búsqueda de las mejores fibras naturales, siempre tratando de mejorar.',
-                'avatar' => null,
                 'logo' => 'stores/roberto_logo.jpg',
                 'cover' => 'stores/roberto_cover.jpeg',
                 'qualities' => [5],
@@ -1089,15 +1067,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/roberto_prod1_front.jpg',
+                                'path' => 'stores/roberto_prod1_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/roberto_prod1_side.jpg',
+                                'path' => 'stores/roberto_prod1_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/roberto_prod1_perspective.jpg',
+                                'path' => 'stores/roberto_prod1_perspective.jpg',
                             ],
                         ],
                         'qualities' => [5],
@@ -1116,15 +1094,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/roberto_prod2_front.jpg',
+                                'path' => 'stores/roberto_prod2_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/roberto_prod2_side.jpg',
+                                'path' => 'stores/roberto_prod2_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/roberto_prod2_perspective.jpg',
+                                'path' => 'stores/roberto_prod2_perspective.jpg',
                             ],
                         ],
                     ],
@@ -1143,15 +1121,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/roberto_prod3_front.png',
+                                'path' => 'stores/roberto_prod3_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/roberto_prod3_side.jpg',
+                                'path' => 'stores/roberto_prod3_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/roberto_prod3_perspective.png',
+                                'path' => 'stores/roberto_prod3_perspective.png',
                             ],
                         ],
                     ],
@@ -1165,7 +1143,6 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                 'store' => 'C&P DESIGN GROUP',
                 'website' => 'https://www.sierramuebles.pe',
                 'story' => 'Sierra Moveis nace hace más de 30 años en Gramado, Brasil. Hace 7 años, Sierra muebles Perú tiene la representación de la marca en Lima. Importamos sus muebles y también elementos decorativos de diferentes partes del mundo. La marca tiene gran variedad de productos los cuales pueden personalizarse según tonos de madera, tipos de tela y medidas. Comenzamos en el 2015 con un pequeño showroom en una casa en san isidro y al año se abrió una segunda tienda en la av. Primavera con mucho éxito. Y al ver la necesidad de seguir creciendo (convencionalmente) nos mudamos de la casa a una tienda de poco más de 800 metros en san isidro. Nuestro producto es súper versátil, ya que pueden encontrar muebles que se ven súper elegantes (mesas de vidrio), así como muebles súper rústicos (mesas de madera, que parecen “un árbol cortado en dos”).',
-                'avatar' => null,
                 'logo' => 'stores/cp_logo.jpg',
                 'cover' => 'stores/cp_cover.jpg',
                 'qualities' => [5],
@@ -1184,15 +1161,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/cp_prod1_front.jpeg',
+                                'path' => 'stores/cp_prod1_front.jpeg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/cp_prod1_side.jpeg',
+                                'path' => 'stores/cp_prod1_side.jpeg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/cp_prod1_perspective.jpeg',
+                                'path' => 'stores/cp_prod1_perspective.jpeg',
                             ],
                         ],
                         'qualities' => [3],
@@ -1211,15 +1188,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/cp_prod2_front.jpeg',
+                                'path' => 'stores/cp_prod2_front.jpeg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/cp_prod2_side.jpeg',
+                                'path' => 'stores/cp_prod2_side.jpeg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/cp_prod2_perspective.jpeg',
+                                'path' => 'stores/cp_prod2_perspective.jpeg',
                             ],
                         ],
                         'qualities' => [3],
@@ -1239,15 +1216,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/cp_prod3_front.jpeg',
+                                'path' => 'stores/cp_prod3_front.jpeg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/cp_prod3_side.jpeg',
+                                'path' => 'stores/cp_prod3_side.jpeg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/cp_prod3_perspective.jpeg',
+                                'path' => 'stores/cp_prod3_perspective.jpeg',
                             ],
                         ],
                     ],
@@ -1280,15 +1257,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/casa100_prod1_front.jpg',
+                                'path' => 'stores/casa100_prod1_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/casa100_prod1_side.jpg',
+                                'path' => 'stores/casa100_prod1_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/casa100_prod1_perspective.jpg',
+                                'path' => 'stores/casa100_prod1_perspective.jpg',
                             ],
                         ],
                         'qualities' => [5],
@@ -1307,15 +1284,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/casa100_prod2_front.jpg',
+                                'path' => 'stores/casa100_prod2_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/casa100_prod2_side.jpg',
+                                'path' => 'stores/casa100_prod2_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/casa100_prod2_perspective.jpg',
+                                'path' => 'stores/casa100_prod2_perspective.jpg',
                             ],
                         ],
                         'qualities' => [5],
@@ -1335,15 +1312,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'products/casa100_prod3_front.jpg',
+                                'path' => 'stores/casa100_prod3_front.jpg',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'products/casa100_prod3_side.jpg',
+                                'path' => 'stores/casa100_prod3_side.jpg',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'products/casa100_prod3_perspective.jpg',
+                                'path' => 'stores/casa100_prod3_perspective.jpg',
                             ],
                         ],
                     ],
@@ -1354,9 +1331,9 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
         foreach ($items as $item) {
             $user = $this->processUser($item);
             $store = $this->processStore($user, $item);
-            $store->qualities()->sync(Quality::whereIn('id', Arr::get($item, 'qualities'))->get());
+            $store->qualities()->sync(Quality::whereIn('id', Arr::get($item, 'qualities', []))->get());
 
-            foreach ($item['products'] as $product) {
+            foreach (Arr::get($item, 'products', []) as $product) {
                 $prod = $this->processProduct($store, $product);
                 $variation = $this->processVariation($prod);
                 foreach ($product['images'] as $image) {
@@ -1379,6 +1356,7 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
             'last_name' => Str::title($item['last_name']),
             'phone' => Str::title($item['phone']),
             'password' => $item['email'],
+            'avatar' => Arr::get($item, 'avatar'),
         ]);
     }
 
