@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'open-menu' => 'Abrir menu',
+    'open-menu' => 'Abrir menú',
     'about' => 'Nosotros',
     'blog' => 'Blog',
     'open-your-shop' => 'Abre tu tienda',

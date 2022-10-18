@@ -122,10 +122,10 @@
             </div>
           </div>
         </div>
-        <a href="https://apps.apple.com/app/atelier/id1565516356"
-           class="ml-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 transition ease-in-out delay-50 duration-300">
-          {{ __('nav.download-the-app') }}
-        </a>
+{{--        <a href="https://apps.apple.com/app/atelier/id1565516356"--}}
+{{--           class="ml-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 transition ease-in-out delay-50 duration-300">--}}
+{{--          {{ __('nav.download-the-app') }}--}}
+{{--        </a>--}}
       </div>
     </div>
   </div>
@@ -243,12 +243,12 @@
               </div>
             </div>
 
-            <div>
-              <a href="https://apps.apple.com/app/atelier/id1565516356"
-                 class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">
-                {{ __('nav.download-the-app') }}
-              </a>
-            </div>
+{{--            <div>--}}
+{{--              <a href="https://apps.apple.com/app/atelier/id1565516356"--}}
+{{--                 class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700">--}}
+{{--                {{ __('nav.download-the-app') }}--}}
+{{--              </a>--}}
+{{--            </div>--}}
           </nav>
         </div>
       </div>
