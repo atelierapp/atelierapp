@@ -4,9 +4,8 @@ namespace Tests\Feature\Order;
 
 use App\Models\Order;
 use App\Models\Store;
-use Tests\TestCase;
 
-class OrderControllerIndexTest extends TestCase
+class OrderControllerIndexTest extends BaseTest
 {
     public function test_an_guess_user_can_not_list_orders()
     {

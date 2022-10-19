@@ -3,9 +3,8 @@
 namespace Tests\Feature\Order;
 
 use App\Models\Order;
-use Tests\TestCase;
 
-class OrderDetailControllerIndexTest extends TestCase
+class OrderDetailControllerIndexTest extends BaseTest
 {
     public function test_an_guess_user_can_not_list_details_of_any_order()
     {

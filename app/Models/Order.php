@@ -59,6 +59,11 @@ class Order extends BaseModelCountry
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function seller_status(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, 'seller_status_id');
+    }
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(static::class, 'parent_id');
@@ -72,20 +77,6 @@ class Order extends BaseModelCountry
     public function subOrders(): HasMany
     {
         return $this->hasMany(static::class, 'parent_id');
-    }
-
-    protected function sellerStatus(): Attribute
-    {
-        $values = [
-            Order::_SELLER_PENDING => 'Pending',
-            Order::_SELLER_APPROVAL => 'Accepted',
-            Order::_SELLER_REJECT => 'Reject',
-            Order::_SELLER_SEND => 'Send',
-            Order::_SELLER_IN_TRANSIT => 'In Transit',
-            Order::_SELLER_DELIVERED => 'Delivered',
-        ];
-
-        return Attribute::get(fn () => $values[$this->seller_status_id]);
     }
 
     protected function paidStatus(): Attribute

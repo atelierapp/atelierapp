@@ -25,7 +25,7 @@ class OrderController extends Controller
     {
         $orders = Order::applyFilters($request->validated())
             ->filterByAuthenticatedRole()
-            ->with(['user', 'seller'])
+            ->with(['user', 'seller', 'seller_status'])
             ->latest()
             ->get();
 

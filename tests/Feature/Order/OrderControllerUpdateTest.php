@@ -3,9 +3,8 @@
 namespace Tests\Feature\Order;
 
 use App\Models\Order;
-use Tests\TestCase;
 
-class OrderControllerUpdateTest extends TestCase
+class OrderControllerUpdateTest extends BaseTest
 {
     public function test_an_guess_user_cannot_update_any_order()
     {
