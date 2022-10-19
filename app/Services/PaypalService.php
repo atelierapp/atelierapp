@@ -121,7 +121,7 @@ class PaypalService
     public function updateToPendingApproval(mixed $token)
     {
         // TODO : implement by orderService
-        $order = Order::paymentGateway($this->paymentGatewayId, $token)->firstOrFail();
+        $order = Order::withoutGlobalScopes()->paymentGateway($this->paymentGatewayId, $token)->firstOrFail();
 
         $response = $this->provider->authorizePaymentOrder($token);
         $this->orderService->updateToPendingApprovalStatus($order);
