@@ -9,7 +9,7 @@ return [
     'terms-and-conditions' => 'Términos y condiciones',
     'others' => 'Otros',
     'information-for-investors' => 'Información para inversores',
-    'email-us' => 'Contáctenos',
+    'email-us' => 'Contáctanos',
     'follow-us' => 'Síguenos',
     'all-rights-reserved' => 'Todos los derechos reservados',
 ];

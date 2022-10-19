@@ -22,7 +22,8 @@
             {{ __('features.atelier-connects') }}
           </p>
           <div x-intersect="$el.classList.add('slide-in-bottom')">
-            <x-elements.button title="{{ __('home.download') }}" link="https://apps.apple.com/app/atelier/id1565516356">
+{{--            <x-elements.button title="{{ __('home.download') }}" link="https://apps.apple.com/app/atelier/id1565516356">--}}
+            <x-elements.button title="{{ __('home.download') }}">
               <x-slot name="icon">
                 <svg class="w-4 fill-current hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.1 16.43">
                   <defs/>
