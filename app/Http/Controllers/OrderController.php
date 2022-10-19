@@ -7,6 +7,7 @@ use App\Http\Requests\Order\OrderIndexRequest;
 use App\Http\Requests\Order\OrderUpdateRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\Role;
 use App\Services\OrderService;
 use App\Services\PaypalService;
@@ -25,7 +26,7 @@ class OrderController extends Controller
     {
         $orders = Order::applyFilters($request->validated())
             ->filterByAuthenticatedRole()
-            ->with(['user', 'seller', 'seller_status'])
+            ->with(['user', 'seller', 'seller_status', 'paidStatus'])
             ->latest()
             ->get();
 
@@ -51,13 +52,13 @@ class OrderController extends Controller
     {
         $order = Order::where('id', '=', $order)->filterByAuthenticatedRole()->first();
 
-        if ($order->seller_status_id == Order::_SELLER_APPROVAL){
+        if ($order->seller_status_id == OrderStatus::_SELLER_APPROVAL){
             throw new AtelierException('This document was aceppted', 409);
         }
 
         $this->paypalService->capturePaymentOrder($order);
 
-        $order->seller_status_id = Order::_SELLER_APPROVAL;
+        $order->seller_status_id = OrderStatus::_SELLER_APPROVAL;
         $order->seller_status_at = now();
         $order->save();
 

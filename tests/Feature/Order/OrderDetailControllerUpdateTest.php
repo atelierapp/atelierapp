@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Order;
 
-use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OrderStatus;
 
 class OrderDetailControllerUpdateTest extends BaseTest
 {
@@ -30,7 +30,7 @@ class OrderDetailControllerUpdateTest extends BaseTest
         $detail = OrderDetail::factory()->sellerPending()->create();
 
         $data = [
-            'seller_status_id' => Order::_SELLER_APPROVAL,
+            'seller_status_id' => OrderStatus::_SELLER_APPROVAL,
         ];
         $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data, $this->customHeaders());
 
@@ -48,7 +48,7 @@ class OrderDetailControllerUpdateTest extends BaseTest
                 'seller_status'
             ],
         ]);
-        self::assertEquals(Order::_SELLER_APPROVAL, $response->json('data.seller_status_id'));
+        self::assertEquals(OrderStatus::_SELLER_APPROVAL, $response->json('data.seller_status_id'));
         self::assertNotNull($response->json('data.seller_status_at'));
         self::assertDatabaseHas('order_details', [
             'id' => $detail->id,
@@ -62,7 +62,7 @@ class OrderDetailControllerUpdateTest extends BaseTest
         $detail = OrderDetail::factory()->sellerPending()->create(['seller_notes' => null]);
 
         $data = [
-            'seller_status_id' => Order::_SELLER_APPROVAL,
+            'seller_status_id' => OrderStatus::_SELLER_APPROVAL,
             'seller_notes' => $this->faker->paragraph,
         ];
         $response = $this->patchJson(route('order.details.update', [$detail->order_id, $detail->id]), $data, $this->customHeaders());
@@ -81,7 +81,7 @@ class OrderDetailControllerUpdateTest extends BaseTest
                 'seller_status'
             ],
         ]);
-        self::assertEquals(Order::_SELLER_APPROVAL, $response->json('data.seller_status_id'));
+        self::assertEquals(OrderStatus::_SELLER_APPROVAL, $response->json('data.seller_status_id'));
         self::assertEquals($data['seller_notes'], $response->json('data.seller_notes'));
         self::assertNotNull($response->json('data.seller_status_at'));
         self::assertNotNull($response->json('data.seller_notes'));

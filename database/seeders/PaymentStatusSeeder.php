@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\OrderStatus;
+use App\Models\PaymentStatus;
 use Illuminate\Database\Seeder;
 
-class OrderStatusSeeder extends Seeder
+class PaymentStatusSeeder extends Seeder
 {
     public function run()
     {
@@ -20,8 +21,8 @@ class OrderStatusSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => [
-                    'es' => 'Aceptado',
-                    'en' => 'Acepted',
+                    'es' => 'Pending sellers approval',
+                    'en' => 'Pendiente aprobación de vendedor',
                 ],
             ],
             [
@@ -34,26 +35,12 @@ class OrderStatusSeeder extends Seeder
             [
                 'id' => 4,
                 'name' => [
-                    'es' => 'Enviado',
-                    'en' => 'Send',
-                ],
-            ],
-            [
-                'id' => 5,
-                'name' => [
-                    'es' => 'En tránsito',
-                    'en' => 'In Transit',
-                ],
-            ],
-            [
-                'id' => 6,
-                'name' => [
-                    'es' => 'Entregado',
-                    'en' => 'Delivered',
+                    'es' => 'Aceptado',
+                    'en' => 'Accepted',
                 ],
             ],
         ])->each(function ($status) {
-            $status = OrderStatus::updateOrCreate([
+            PaymentStatus::updateOrCreate([
                 'id' => $status['id']
             ], [
                 'id' => $status['id'],

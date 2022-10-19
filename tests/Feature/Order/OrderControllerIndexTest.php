@@ -3,6 +3,7 @@
 namespace Tests\Feature\Order;
 
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\Store;
 
 class OrderControllerIndexTest extends BaseTest
@@ -89,7 +90,7 @@ class OrderControllerIndexTest extends BaseTest
         Order::factory()->count(3)->sellerApproved()->create($params);
 
         $response = $this->getJson(route('order.index', [
-            'seller_status_id' => Order::_SELLER_PENDING
+            'seller_status_id' => OrderStatus::_SELLER_PENDING
         ]), $this->customHeaders());
 
         $response->assertOk();

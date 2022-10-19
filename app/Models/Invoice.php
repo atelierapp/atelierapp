@@ -19,11 +19,6 @@ class Invoice extends BaseModelCountry
     use HasSellerRelation;
     use HasUserRelation;
 
-    public const PAYMENT_PENDING = 1;
-    public const PAYMENT_APPROVAL = 2;
-    public const PAYMENT_REJECT = 3;
-    public const PAYMENT_PENDING_APPROVAL = 4;
-
     protected $fillable = [
         'order_id',
         'user_id',

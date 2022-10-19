@@ -20,7 +20,7 @@ class OrderDetailResource extends JsonResource
             'total_price' => $this->total_price,
             'seller_status_id' => $this->seller_status_id,
             'seller_status_at' => $this->seller_status_at,
-            'seller_status' => $this->seller_status,
+            'seller_status' => $this->sellerStatus->name,
             'seller_notes' => $this->seller_notes,
         ];
     }
