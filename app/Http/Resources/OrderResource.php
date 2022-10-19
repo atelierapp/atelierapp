@@ -22,7 +22,8 @@ class OrderResource extends JsonResource
             'seller_status_at' => $this->seller_status_at,
             'paid_status' => $this->paid_status,
             'paid_on' => $this->paid_on,
-            'shipping' => null
+            'shipping' => null,
+            'created_at' => $this->created_at,
         ];
 
         $metadata = is_null($this->parent_id)
