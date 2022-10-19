@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AtelierException;
+use App\Http\Requests\Order\OrderIndexRequest;
 use App\Http\Requests\Order\OrderUpdateRequest;
-use App\Http\Requests\OrderIndexRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Role;

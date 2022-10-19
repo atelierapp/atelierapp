@@ -23,6 +23,10 @@ class OrderBuilder extends Builder
             $this->where('store_id', '=', $filters['store_id']);
         }
 
+        if (isset($filters['start_date'])) {
+            $this->whereDatBetween('created_at', $filters['start_date'], $filters['end_date']);
+        }
+
         return $this;
     }
 
@@ -31,8 +35,7 @@ class OrderBuilder extends Builder
         if (Bouncer::is(auth()->user())->an(Role::SELLER)) {
             $this->where('seller_id', '=', auth()->id());
         } elseif (Bouncer::is(auth()->user())->an(Role::USER)) {
-            $this->where('user_id', '=', auth()->id())
-                ->whereNotNull('parent_id');
+            $this->where('user_id', '=', auth()->id())->whereNull('parent_id');
         }
 
         return $this;
@@ -42,6 +45,13 @@ class OrderBuilder extends Builder
     {
         $this->where('paid_status_id', Invoice::PAYMENT_APPROVAL)
             ->whereBetween(DB::raw('date(paid_on)'), [$startDate, $endDate]);
+
+        return $this;
+    }
+
+    public function whereDatBetween($field, $startDate, $endDate): static
+    {
+        $this->whereBetween(DB::raw('date(' . $field . ')'), [$startDate, $endDate]);
 
         return $this;
     }

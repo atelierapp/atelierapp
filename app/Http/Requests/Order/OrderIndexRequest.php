@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Order;
 
 use App\Models\Order;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,6 +20,8 @@ class OrderIndexRequest extends FormRequest
                 Order::_SELLER_DELIVERED,
             ])],
             'store_id' => ['nullable', 'exists:orders,id'],
+            'start_date' => ['nullable', 'date', 'required_with:end_date', 'before_or_equal:end_date'],
+            'end_date' => ['nullable', 'date', 'required_with:start_date', 'after_or_equal:start_date'],
         ];
     }
 
