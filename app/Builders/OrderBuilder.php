@@ -31,7 +31,8 @@ class OrderBuilder extends Builder
         if (Bouncer::is(auth()->user())->an(Role::SELLER)) {
             $this->where('seller_id', '=', auth()->id());
         } elseif (Bouncer::is(auth()->user())->an(Role::USER)) {
-            $this->where('user_id', '=', auth()->id());
+            $this->where('user_id', '=', auth()->id())
+                ->whereNotNull('parent_id');
         }
 
         return $this;

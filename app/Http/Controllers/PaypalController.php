@@ -18,7 +18,7 @@ class PaypalController extends Controller
 
     public function generateOrder($order)
     {
-        $order = Order::find($order);
+        $order = Order::withoutGlobalScopes()->whereId($order)->firstOrFail();
 
         return response()->json(['data' => $this->paypalService->createOrder($order)]);
     }
