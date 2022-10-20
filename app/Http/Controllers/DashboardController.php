@@ -31,7 +31,7 @@ class DashboardController extends Controller
                     'history' => $this->dashboardService->productProductsSoldHistory(),
                 ],
                 'earnings' => [
-                    'value' => 0,
+                    'value' => $this->dashboardService->totalEarnings(),
                     'percent' => 0,
                     'history' => $this->prepareHistory(),
                 ],

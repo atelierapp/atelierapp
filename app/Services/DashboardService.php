@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\PaymentStatus;
@@ -11,6 +12,11 @@ use Illuminate\Support\Arr;
 
 class DashboardService
 {
+    public function __construct()
+    {
+        $this->products = Product::select('id')->authUser()->get()->pluck('id')->toArray();
+    }
+
     public function productViews(): int
     {
         return Product::authUser()->sum('view_count');
@@ -53,8 +59,7 @@ class DashboardService
 
     public function productsSold()
     {
-        $products = Product::select('id')->authUser()->get();
-        $orders = OrderDetail::whereIn('product_id', $products->pluck('id'))
+        $orders = OrderDetail::whereIn('product_id', $this->products)
             ->whereHas('order', fn ($order) => $order->sellerStatus([
                 OrderStatus::_SELLER_APPROVAL,
                 OrderStatus::_SELLER_SEND,
@@ -71,13 +76,12 @@ class DashboardService
 
     public function percentProductsSoldHistory(): float
     {
-        $products = Product::select('id')->authUser()->get();
         $currentMonthBegin = now()->firstOfMonth()->toDateString();
         $currentMonthEnd = now()->toDateString();
         $lastMonthBegin = now()->subMonth()->firstOfMonth()->toDateString();
         $lastMonthEnd = now()->subMonth()->toDateString();
 
-        $result = OrderDetail::whereIn('product_id', $products->pluck('id'))
+        $result = OrderDetail::whereIn('product_id', $this->products)
             ->selectRaw('month(created_at) as month')
             ->selectRaw('count(1) as sales')
             ->whereRawDateBetween('created_at', [$lastMonthBegin, $lastMonthEnd])
@@ -103,9 +107,7 @@ class DashboardService
 
     public function productProductsSoldHistory(int $lastDays = 15): array
     {
-        $products = Product::select('id')->authUser()->get();
-
-        return OrderDetail::whereIn('product_id', $products->pluck('id'))
+        return OrderDetail::whereIn('product_id', $this->products)
             ->selectRaw('date(created_at) as date')
             ->selectRaw('sum(quantity) as sales')
             ->whereDate('created_at', '>=', now()->subDays($lastDays)->toDateString())
@@ -114,5 +116,22 @@ class DashboardService
             ->sortBy('date')
             ->pluck('sales', 'date')
             ->toArray();
+    }
+
+    public function totalEarnings()
+    {
+        $query = Order::where('seller_id', auth()->id())
+            ->select('total_price')
+            ->sellerStatus([
+            OrderStatus::_SELLER_APPROVAL,
+            OrderStatus::_SELLER_SEND,
+            OrderStatus::_SELLER_IN_TRANSIT,
+            OrderStatus::_SELLER_DELIVERED,
+        ])->paidStatus([
+            PaymentStatus::PAYMENT_APPROVAL,
+            PaymentStatus::PAYMENT_PENDING_APPROVAL,
+        ]);
+
+        return $query->sum('total_price');
     }
 }
