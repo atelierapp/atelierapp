@@ -83,6 +83,8 @@ class OrderService
         $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
         $parentOrder->items = $parentOrder->subOrders()->sum('items');
 
+        ShoppingCart::withoutGlobalScopes()->whereUserId($userId)->delete();
+
         return $parentOrder;
     }
 
