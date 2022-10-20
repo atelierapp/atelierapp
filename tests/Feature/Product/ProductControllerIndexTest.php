@@ -255,8 +255,8 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        Product::factory()->create(['price' => 2000]);
-        Product::factory()->create(['price' => 9000]);
+        Product::factory()->create(['price' => 20]);
+        Product::factory()->create(['price' => 90]);
         Product::factory()->count(10)->create();
         Product::factory()->us()->count(10)->create();
 
@@ -264,7 +264,7 @@ class ProductControllerIndexTest extends BaseTest
             'price-min' => 10,
             'price-max' => 90,
         ]), $this->customHeaders());
-
+        
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
         $response->assertJsonStructure([

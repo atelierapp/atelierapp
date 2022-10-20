@@ -74,7 +74,7 @@ class ProductControllerStoreTest extends BaseTest
             'depth' => $this->faker->numberBetween(100, 200),
             'height' => $this->faker->numberBetween(100, 200),
             'width' => $this->faker->numberBetween(100, 200),
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
 
             'store_id' => 'invalid_param',
@@ -153,7 +153,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->word],
@@ -200,7 +200,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->word],
@@ -265,7 +265,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->word],
@@ -368,7 +368,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->word],
@@ -440,7 +440,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->name],
@@ -553,7 +553,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->unique()->word],
@@ -675,7 +675,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(100, 10000),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->word],
