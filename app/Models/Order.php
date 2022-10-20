@@ -19,13 +19,6 @@ class Order extends BaseModelCountry
     use HasSellerRelation;
     use HasUserRelation;
 
-    public const _SELLER_PENDING = 1;
-    public const _SELLER_APPROVAL = 2;
-    public const _SELLER_REJECT = 3;
-    public const _SELLER_SEND = 4;
-    public const _SELLER_IN_TRANSIT = 5;
-    public const _SELLER_DELIVERED = 6;
-
     protected $fillable = [
         'parent_id',
         'user_id',
@@ -59,6 +52,16 @@ class Order extends BaseModelCountry
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function seller_status(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, 'seller_status_id');
+    }
+
+    public function paidStatus(): BelongsTo
+    {
+        return $this->belongsTo(PaymentStatus::class, 'paid_status_id');
+    }
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(static::class, 'parent_id');
@@ -72,31 +75,5 @@ class Order extends BaseModelCountry
     public function subOrders(): HasMany
     {
         return $this->hasMany(static::class, 'parent_id');
-    }
-
-    protected function sellerStatus(): Attribute
-    {
-        $values = [
-            Order::_SELLER_PENDING => 'Pending',
-            Order::_SELLER_APPROVAL => 'Accepted',
-            Order::_SELLER_REJECT => 'Reject',
-            Order::_SELLER_SEND => 'Send',
-            Order::_SELLER_IN_TRANSIT => 'In Transit',
-            Order::_SELLER_DELIVERED => 'Delivered',
-        ];
-
-        return Attribute::get(fn () => $values[$this->seller_status_id]);
-    }
-
-    protected function paidStatus(): Attribute
-    {
-        $values = [
-            Invoice::PAYMENT_PENDING => 'Pending',
-            Invoice::PAYMENT_PENDING_APPROVAL => 'Pending Sellers Approval',
-            Invoice::PAYMENT_APPROVAL => 'Accepted',
-            Invoice::PAYMENT_REJECT => 'Reject',
-        ];
-
-        return Attribute::get(fn () => $values[$this->paid_status_id]);
     }
 }

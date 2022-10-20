@@ -18,11 +18,12 @@ class OrderResource extends JsonResource
             'items' => $this->items,
             'total_price' => $this->total_price,
             'seller_status_id' => $this->seller_status_id,
-            'seller_status' => $this->seller_status,
+            'seller_status' => $this->seller_status->name,
             'seller_status_at' => $this->seller_status_at,
-            'paid_status' => $this->paid_status,
+            'paid_status' => $this->paidStatus->name,
             'paid_on' => $this->paid_on,
-            'shipping' => null
+            'shipping' => null,
+            'created_at' => $this->created_at,
         ];
 
         $metadata = is_null($this->parent_id)

@@ -6,9 +6,8 @@ use App\Models\OrderDetail;
 use App\Models\ShoppingCart;
 use App\Models\Variation;
 use App\Services\OrderService;
-use Tests\TestCase;
 
-class OrderServiceTest extends TestCase
+class OrderServiceTest extends BaseTest
 {
     public function test_an_app_user_can_generate_a_general_order_with_a_order_for_every_seller()
     {

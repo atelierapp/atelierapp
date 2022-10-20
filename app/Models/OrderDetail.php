@@ -39,19 +39,13 @@ class OrderDetail extends BaseModelCountry
         return $this->belongsTo(Product::class);
     }
 
+    public function sellerStatus(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, 'seller_status_id');
+    }
+
     public function variation(): BelongsTo
     {
         return $this->belongsTo(Variation::class);
-    }
-
-    protected function sellerStatus(): Attribute
-    {
-        $values = [
-            Order::_SELLER_PENDING => 'Pending',
-            Order::_SELLER_APPROVAL => 'Accepted',
-            Order::_SELLER_REJECT => 'Reject',
-        ];
-
-        return Attribute::get(fn () => $values[$this->seller_status_id]);
     }
 }

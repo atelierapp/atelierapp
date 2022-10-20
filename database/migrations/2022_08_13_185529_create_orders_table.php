@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,11 +16,11 @@ class CreateOrdersTable extends Migration
             $table->unsignedMediumInteger('items')->default(0);
             $table->decimal('total_price')->default(0);
 
-            $table->unsignedTinyInteger('seller_status')->default(Order::_SELLER_PENDING);
+            $table->unsignedTinyInteger('seller_status')->default(\App\Models\OrderStatus::_SELLER_PENDING);
             $table->timestamp('seller_accepted_on')->nullable();
 
             $table->string('payment_gateway_code')->nullable();
-            $table->unsignedTinyInteger('paid_status')->default(\App\Models\Invoice::PAYMENT_PENDING);
+            $table->unsignedTinyInteger('paid_status')->default(\App\Models\PaymentStatus::PAYMENT_PENDING);
             $table->timestamp('paid_on')->nullable();
             $table->timestamps();
         });

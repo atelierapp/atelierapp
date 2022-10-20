@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Invoice;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('total_price')->default(0);
 
             $table->string('payment_gateway_code')->nullable();
-            $table->unsignedTinyInteger('paid_status_id')->default(Invoice::PAYMENT_PENDING);
+            $table->unsignedTinyInteger('paid_status_id')->default(\App\Models\PaymentStatus::PAYMENT_PENDING);
             $table->timestamp('paid_on')->nullable();
             $table->timestamps();
         });

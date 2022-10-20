@@ -3,10 +3,10 @@
 namespace Tests\Feature\Order;
 
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\Store;
-use Tests\TestCase;
 
-class OrderControllerIndexTest extends TestCase
+class OrderControllerIndexTest extends BaseTest
 {
     public function test_an_guess_user_can_not_list_orders()
     {
@@ -90,7 +90,7 @@ class OrderControllerIndexTest extends TestCase
         Order::factory()->count(3)->sellerApproved()->create($params);
 
         $response = $this->getJson(route('order.index', [
-            'seller_status_id' => Order::_SELLER_PENDING
+            'seller_status_id' => OrderStatus::_SELLER_PENDING
         ]), $this->customHeaders());
 
         $response->assertOk();
@@ -133,20 +133,8 @@ class OrderControllerIndexTest extends TestCase
     public function test_an_authenticated_app_user_user_can_list_all_orders()
     {
         $user = $this->createAuthenticatedUser();
-        Order::factory()
-            ->count(3)
-
-            ->sellerPending()
-            ->hasDetails(5)
-            ->create([
-                'user_id' => $user->id,
-            ]);
-        Order::factory()
-            ->count(5)
-
-            ->sellerPending()
-            ->hasDetails(5)
-            ->create();
+        Order::factory()->count(3)->sellerPending()->hasDetails(5)->create(['user_id' => $user->id]);
+        Order::factory()->count(5)->sellerPending()->hasDetails(5)->create();
 
         $response = $this->getJson(route('order.index'), $this->customHeaders());
 
@@ -233,5 +221,55 @@ class OrderControllerIndexTest extends TestCase
                 ],
             ],
         ]);
+    }
+
+    public function test_an_authenticated_app_user_user_can_list_all_orders_filtered_by_range_date()
+    {
+        $user = $this->createAuthenticatedUser();
+        Order::factory()->create(['user_id' => $user->id, 'created_at' => '2022-10-18']);
+        Order::factory()->create(['user_id' => $user->id, 'created_at' => '2022-10-19']);
+        Order::factory()->count(3)->create(['user_id' => $user->id]);
+
+        $response = $this->getJson(route('order.index', [
+            'start_date' => '2022-10-18',
+            'end_date' => '2022-10-19',
+        ]), $this->customHeaders());
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'user_id',
+                    'user' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'full_name',
+                        'email',
+                        'phone',
+                        'avatar',
+                    ],
+                    'seller_id',
+                    'seller' => [
+                        'id',
+                        'first_name',
+                        'last_name',
+                        'full_name',
+                        'email',
+                        'phone',
+                        'avatar',
+                    ],
+                    'items',
+                    'total_price',
+                    'seller_status',
+                    'seller_status_at',
+                    'paid_status',
+                    'paid_on',
+                ],
+            ],
+        ]);
+        $this->assertGreaterThanOrEqual(2, count($response->json('data')));
+        $this->assertLessThan(5, count($response->json('data')));
     }
 }

@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Exceptions\AtelierException;
-use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OrderStatus;
+use App\Models\PaymentStatus;
 use App\Models\ShoppingCart;
 use Illuminate\Support\Collection;
-use phpDocumentor\Reflection\Types\InterfaceString;
 
 class OrderService
 {
@@ -24,6 +24,7 @@ class OrderService
             ? $query->firstOrFail()
             : $query->firstOrNew();
     }
+
     public function getByAuthRole(Order|string|int $order, string $field = 'id', $throwable = true): Order
     {
         if ($order instanceof Order) {
@@ -82,6 +83,8 @@ class OrderService
         $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
         $parentOrder->items = $parentOrder->subOrders()->sum('items');
 
+        ShoppingCart::withoutGlobalScopes()->whereUserId($userId)->delete();
+
         return $parentOrder;
     }
 
@@ -91,7 +94,7 @@ class OrderService
     public function sellerApproval(Order|string|int $orderId): Order
     {
         $order = $this->validateIfTheOrderBelongsToTheAuthenticatedSeller($orderId);
-        $order->seller_status = Order::_SELLER_APPROVAL;
+        $order->seller_status_id = OrderStatus::_SELLER_APPROVAL;
         $order->seller_accepted_on = now();
         $order->save();
 
@@ -102,7 +105,7 @@ class OrderService
     {
         $order = $this->getBy($orderId);
         // $order->payment_gateway_code = some value; TODO: view to add the value from payment gateway
-        $order->paid_status = Invoice::PAYMENT_APPROVAL;
+        $order->paid_status = PaymentStatus::PAYMENT_APPROVAL;
         $order->paid_on = now();
         $order->save();
 
@@ -156,7 +159,7 @@ class OrderService
     public function updateToPayedStatus(Order $order, array $metadata): Order
     {
         $order->update([
-            'paid_status_id' => Invoice::PAYMENT_APPROVAL,
+            'paid_status_id' => PaymentStatus::PAYMENT_APPROVAL,
             'paid_on' => now(),
             'payment_gateway_metadata' => [
                 'response_payment' => $metadata,
@@ -169,13 +172,13 @@ class OrderService
     public function updateToPendingApprovalStatus(Order $order): Order
     {
         $order->update([
-            'paid_status_id' => Invoice::PAYMENT_PENDING_APPROVAL,
+            'paid_status_id' => PaymentStatus::PAYMENT_PENDING_APPROVAL,
             'paid_on' => now(),
         ]);
 
         Order::where('parent_id', '=', $order->id)
             ->update([
-                'paid_status_id' => Invoice::PAYMENT_PENDING_APPROVAL,
+                'paid_status_id' => PaymentStatus::PAYMENT_PENDING_APPROVAL,
                 'paid_on' => now(),
             ]);
 

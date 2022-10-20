@@ -136,9 +136,10 @@ class StoreControllerTest extends TestCase
      */
     public function destroy_deletes_and_responds_with(): void
     {
-        $store = Store::factory()->create();
+        $user = $this->createAuthenticatedSeller();
+        $store = Store::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->delete(route('store.destroy', $store), [], $this->customHeaders());
+        $response = $this->deleteJson(route('store.destroy', $store), [], $this->customHeaders());
 
         $response->assertNoContent();
 

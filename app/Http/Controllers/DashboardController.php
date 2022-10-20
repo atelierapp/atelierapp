@@ -26,12 +26,12 @@ class DashboardController extends Controller
                     'history' => $this->dashboardService->productViewsHistory(),
                 ],
                 'products' => [
-                    'value' => 0,
-                    'percent' => 0,
-                    'history' => $this->prepareHistory(),
+                    'value' => $this->dashboardService->productsSold(),
+                    'percent' => $this->dashboardService->percentProductsSoldHistory(),
+                    'history' => $this->dashboardService->productProductsSoldHistory(),
                 ],
                 'earnings' => [
-                    'value' => 0,
+                    'value' => $this->dashboardService->totalEarnings(),
                     'percent' => 0,
                     'history' => $this->prepareHistory(),
                 ],

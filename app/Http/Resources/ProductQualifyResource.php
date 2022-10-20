@@ -14,6 +14,7 @@ class ProductQualifyResource extends JsonResource
             'score' => $this->score,
             'comment' => $this->comment,
             'attaches' => ProductQualifyFileResource::collection($this->whenLoaded('files')),
+            'created_at' => $this->created_at,
         ];
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\PaymentStatus;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,9 +21,9 @@ class InvoiceFactory extends Factory
             'items' => $this->faker->numberBetween(1,5),
             'total_price' => $this->faker->numberBetween(10000, 50000) / 100,
             'paid_status_id' => $this->faker->randomElement([
-                Invoice::PAYMENT_PENDING,
-                Invoice::PAYMENT_APPROVAL,
-                Invoice::PAYMENT_REJECT,
+                PaymentStatus::PAYMENT_PENDING,
+                PaymentStatus::PAYMENT_APPROVAL,
+                PaymentStatus::PAYMENT_REJECT,
             ])
         ];
     }

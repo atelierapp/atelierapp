@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
             StyleSeeder::class,
             CategorySeeder::class,
             QualitySeeder::class,
+            OrderStatusSeeder::class,
+            PaymentStatusSeeder::class,
 
             BouncerSeeder::class,
             RoleSeeder::class,

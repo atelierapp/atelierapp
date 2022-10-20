@@ -2,11 +2,7 @@
 
 namespace Tests\Feature\Order;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-
-class OrderControllerShowTest extends TestCase
+class OrderControllerShowTest extends BaseTest
 {
     /**
      * A basic feature test example.

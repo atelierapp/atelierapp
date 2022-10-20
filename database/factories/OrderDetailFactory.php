@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\Variation;
 use App\Traits\Factories\CountryStateTrait;
@@ -21,7 +22,7 @@ class OrderDetailFactory extends Factory
             'variation_id' => Variation::factory(['product_id' => $product]),
             'unit_price' => $this->faker->numberBetween(1000, 10000) / 100,
             'quantity' => $this->faker->numberBetween(1,5),
-            'seller_status_id' => $this->faker->randomElement([Order::_SELLER_PENDING, Order::_SELLER_APPROVAL, Order::_SELLER_REJECT]),
+            'seller_status_id' => $this->faker->randomElement([OrderStatus::_SELLER_PENDING, OrderStatus::_SELLER_APPROVAL, OrderStatus::_SELLER_REJECT]),
             'seller_status_at' => $this->faker->dateTimeBetween('-30 days'),
             'seller_notes' => $this->faker->randomElement([null, $this->faker->paragraph]),
         ];
@@ -35,7 +36,7 @@ class OrderDetailFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'seller_status_id' => Order::_SELLER_PENDING,
+                'seller_status_id' => OrderStatus::_SELLER_PENDING,
             ];
         });
     }
