@@ -24,6 +24,7 @@ class OrderService
             ? $query->firstOrFail()
             : $query->firstOrNew();
     }
+
     public function getByAuthRole(Order|string|int $order, string $field = 'id', $throwable = true): Order
     {
         if ($order instanceof Order) {

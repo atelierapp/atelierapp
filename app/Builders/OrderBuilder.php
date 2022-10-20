@@ -2,7 +2,6 @@
 
 namespace App\Builders;
 
-use App\Models\Invoice;
 use App\Models\PaymentStatus;
 use App\Models\Role;
 use App\Traits\Builders\CountryBuilderTrait;
@@ -61,6 +60,28 @@ class OrderBuilder extends Builder
     {
         $this->where('payment_gateway_id', $paymentId)
             ->where('payment_gateway_code', $paymentCode);
+
+        return $this;
+    }
+
+    public function sellerStatus(int|array $statusId): static
+    {
+        if (is_array($statusId)) {
+            $this->whereIn('seller_status_id', $statusId);
+        } else {
+            $this->where('seller_status_id', $statusId);
+        }
+
+        return $this;
+    }
+
+    public function paidStatus(int|array $statusId): static
+    {
+        if (is_array($statusId)) {
+            $this->whereIn('paid_status_id', $statusId);
+        } else {
+            $this->where('paid_status_id', $statusId);
+        }
 
         return $this;
     }
