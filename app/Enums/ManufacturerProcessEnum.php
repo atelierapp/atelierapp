@@ -20,4 +20,12 @@ final class ManufacturerProcessEnum extends Enum
         'artisan_made' => 'Artisan Made',
         'vintage' => 'Vintage',
     ];
+
+    public const MAP_VALUE_ES = [
+        'handmade' => 'Hecho a mano',
+        'single_production' => 'Producción única',
+        'community_made' => 'Hecho por la comunidad',
+        'artisan_made' => 'Hecho artesanalmente',
+        'vintage' => 'Antiguo',
+    ];
 }

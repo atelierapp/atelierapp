@@ -13,7 +13,7 @@ class ManufactureProcessController extends Controller
 
     public function __invoke()
     {
-        $rows = collect(ManufacturerProcessEnum::MAP_VALUE);
+        $rows = config('app.locale') == 'es' ? collect(ManufacturerProcessEnum::MAP_VALUE_ES) : collect(ManufacturerProcessEnum::MAP_VALUE);
         $result = [];
 
         $rows->each( function ($index, $value) use (&$result) {
