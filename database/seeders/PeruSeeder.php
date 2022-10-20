@@ -1381,7 +1381,7 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
             'title' => Str::title($product['name']),
         ], [
             'title' => Str::title($product['name']),
-            'price' => $product['price'],
+            'price' => $product['price'] * 100,
             'properties' => $product['properties'],
         ]);
     }
