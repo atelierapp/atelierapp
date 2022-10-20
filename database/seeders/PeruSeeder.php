@@ -1272,7 +1272,7 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                     ],
                     [
                         'name' => 'MESA ORBITA',
-                        'categories' => [6],
+                        'categories' => [7],
                         'price' => 4300,
                         'properties' => [
                             'dimensions' => [
