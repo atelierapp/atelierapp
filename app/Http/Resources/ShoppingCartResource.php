@@ -12,6 +12,7 @@ class ShoppingCartResource extends JsonResource
     {
         return [
             'user_id' => $this->user_id,
+            'store_name' => $this->variation->product->store->name,
             'variation_id' => $this->variation_id,
             'quantity' => $this->quantity,
             'variation' => VariationResource::make($this->whenLoaded('variation')),
