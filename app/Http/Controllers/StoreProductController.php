@@ -12,7 +12,7 @@ class StoreProductController extends Controller
     {
         $products = Product::query()
             ->where('store_id', $store)
-            ->with(['style', 'medias', 'tags'])
+            ->with(['style', 'medias', 'tags', 'categories'])
             ->applyFiltersFrom(request()->all())
             ->paginate(request('pageSize') ?? 10);
 
