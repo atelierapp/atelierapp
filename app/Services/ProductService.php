@@ -24,7 +24,7 @@ class ProductService
 
     public function list(array $filters = []): LengthAwarePaginator
     {
-        $relations = ['style', 'medias', 'tags', 'store'];
+        $relations = ['style', 'medias', 'tags', 'store', 'categories'];
         if (request()->user('sanctum')) {
             $relations[] = 'authFavorite';
         }
