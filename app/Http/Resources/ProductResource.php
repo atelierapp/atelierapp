@@ -17,7 +17,7 @@ class ProductResource extends JsonResource
             'manufactured_at' => optional($this->manufactured_at)->toDateString(),
             'description' => $this->description,
             'score' => $this->score,
-            'price' => $this->price / 100,
+            'price' => (double) $this->price,
             'style_id' => $this->style_id,
             'style' => $this->style->name,
             'quantity' => $this->quantity,

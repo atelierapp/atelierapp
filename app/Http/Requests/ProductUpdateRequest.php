@@ -21,7 +21,7 @@ class ProductUpdateRequest extends FormRequest
             'category_id' => ['required', Rule::exists('categories', 'id')],
             'collections.*.name' => ['nullable', 'string'],
             'description' => ['required', 'string', 'max:1000'],
-            'price' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],
             'quantity' => ['integer'],
             'is_on_demand' => ['nullable', 'boolean'],
             'is_unique' => ['nullable', 'boolean'],

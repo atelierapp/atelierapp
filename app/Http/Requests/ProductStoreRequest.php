@@ -23,7 +23,7 @@ class ProductStoreRequest extends FormRequest
             'category_id' => ['required', Rule::exists('categories', 'id')],
             'collections.*.name' => ['nullable', 'string'],
             'description' => ['required', 'string', 'max:1000'],
-            'price' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],
             'quantity' => ['required', 'integer'],
             'is_on_demand' => ['nullable', 'boolean'],
             'is_unique' => ['nullable', 'boolean'],
@@ -51,6 +51,6 @@ class ProductStoreRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return Bouncer::is($this->user())->a(Role::SELLER, Role::ADMIN);
+        return true;
     }
 }

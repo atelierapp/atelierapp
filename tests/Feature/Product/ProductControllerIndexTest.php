@@ -255,8 +255,8 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        Product::factory()->create(['price' => 2000]);
-        Product::factory()->create(['price' => 9000]);
+        Product::factory()->create(['price' => 20]);
+        Product::factory()->create(['price' => 90]);
         Product::factory()->count(10)->create();
         Product::factory()->us()->count(10)->create();
 
