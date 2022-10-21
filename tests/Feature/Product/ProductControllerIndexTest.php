@@ -264,7 +264,7 @@ class ProductControllerIndexTest extends BaseTest
             'price-min' => 10,
             'price-max' => 90,
         ]), $this->customHeaders());
-        
+
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
         $response->assertJsonStructure([

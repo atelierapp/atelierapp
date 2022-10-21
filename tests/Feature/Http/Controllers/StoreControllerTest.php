@@ -38,6 +38,8 @@ class StoreControllerTest extends TestCase
      */
     public function index_behaves_as_expected_and_paginated(): void
     {
+        $this->createAuthenticatedUser();
+
         Store::factory()->count(3)->create();
 
         $response = $this->getJson(route('store.index'), $this->customHeaders());
@@ -73,6 +75,8 @@ class StoreControllerTest extends TestCase
      */
     public function index_accepts_filters_and_response_return_paginated()
     {
+        $this->createAuthenticatedUser();
+
         Store::factory()->count(3)->create();
         Store::factory()->create(['name' => 'testabc']);
         $params = [
