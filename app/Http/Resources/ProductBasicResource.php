@@ -13,7 +13,7 @@ class ProductBasicResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'score' => $this->score,
-            'price' => $this->price / 100,
+            'price' => (double) $this->price,
             'sku' => $this->sku,
             'active' => (boolean) $this->active,
             'featured_media' => $this->featured_media->url,
