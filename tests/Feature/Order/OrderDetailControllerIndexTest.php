@@ -28,7 +28,9 @@ class OrderDetailControllerIndexTest extends BaseTest
                     'id',
                     'order_id',
                     'product_id',
-                    'product',
+                    'product' => [
+                        'store'
+                    ],
                     'variation_id',
                     'variation',
                 ]

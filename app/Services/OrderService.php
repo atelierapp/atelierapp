@@ -40,7 +40,7 @@ class OrderService
 
     public function getDetails(int|string $orderId): Collection
     {
-        return OrderDetail::whereOrderId($orderId)->with(['product', 'variation'])->get();
+        return OrderDetail::whereOrderId($orderId)->with(['product.store', 'variation'])->get();
     }
 
     public function createFromShoppingCart(int|string $userId): Order
