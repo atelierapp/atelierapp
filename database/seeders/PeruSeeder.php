@@ -5,9 +5,11 @@ namespace Database\Seeders;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Quality;
+use App\Models\Role;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\Variation;
+use Bouncer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -1348,7 +1350,7 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
 
     public function processUser(array $item): User
     {
-        return User::updateOrCreate([
+        $user = User::updateOrCreate([
             'email' => $item['email'],
         ], [
             'country' => 'pe',
@@ -1358,6 +1360,9 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
             'password' => $item['email'],
             'avatar' => Arr::get($item, 'avatar'),
         ]);
+        Bouncer::assign(Role::SELLER)->to($user);
+
+        return $user;
     }
 
     public function processStore(User $user, array $item): Store
