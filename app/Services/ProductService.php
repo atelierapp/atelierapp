@@ -44,9 +44,11 @@ class ProductService
     {
         $data = $params;
         $data['properties'] = [
-            'depth' => $params['depth'],
-            'height' => $params['height'],
-            'width' => $params['width'],
+            'dimensions' => [
+                'depth' => $params['depth'],
+                'height' => $params['height'],
+                'width' => $params['width'],
+            ],
         ];
 
         $product = Product::create($data);
@@ -193,13 +195,13 @@ class ProductService
 
         $params['properties'] = [];
         if (isset($params['depth'])) {
-            $params['properties']['depth'] = $params['depth'];
+            $params['properties']['dimensions']['depth'] = $params['depth'];
         }
         if (isset($params['height'])) {
-            $params['properties']['height'] = $params['height'];
+            $params['properties']['dimensions']['height'] = $params['height'];
         }
         if (isset($params['width'])) {
-            $params['properties']['width'] = $params['width'];
+            $params['properties']['dimensions']['width'] = $params['width'];
         }
 
         $product->fill($params);
