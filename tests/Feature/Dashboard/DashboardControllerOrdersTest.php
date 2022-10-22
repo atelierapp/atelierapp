@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Dashboard;
 
+use App\Models\Order;
 use App\Models\Product;
 
 class DashboardControllerOrdersTest extends BaseTest
@@ -15,8 +16,9 @@ class DashboardControllerOrdersTest extends BaseTest
 
     public function test_an_seller_user_can_get_orders()
     {
-        $this->createAuthenticatedSeller();
-        Product::factory()->count(10)->create();
+        $user = $this->createAuthenticatedSeller();
+        Order::factory()->count(10)->create(['seller_id' => $user->id]);
+
         $response = $this->getJson(route('dashboard.orders'), $this->customHeaders());
 
         $response->assertOk();

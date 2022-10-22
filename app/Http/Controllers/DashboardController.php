@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Services\DashboardService;
@@ -111,14 +112,11 @@ class DashboardController extends Controller
     {
         return response()->json([
             'data' => [
-                // 'customers' => rand(50, 150),
-                // 'awaiting_orders' => rand(150, 300),
-                // 'on_hold_orders' => rand(50, 150),
+                'customers' => Order::filterByRole()->groupBy('user_id')->distinct()->count('user_id'),
+                'awaiting_orders' => Order::filterByRole()->whereSellerStatusId(OrderStatus::_SELLER_PENDING)->select('id')->count('id'),
+                'on_hold_orders' => 0,
                 // 'low_stock_orders' => rand(25, 75),
                 // 'out_stock_orders' => rand(0, 25),
-                'customers' => 0,
-                'awaiting_orders' => 0,
-                'on_hold_orders' => 0,
                 'low_stock_orders' => 0,
                 'out_stock_orders' => 0,
             ],
