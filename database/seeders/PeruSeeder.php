@@ -31,7 +31,7 @@ class PeruSeeder extends Seeder
                 'website' => 'https://www.ambitohome.com',
                 'story' => 'Ambito Perú  empezó hacer 30 años con productos para exterior, con productos para el hogar, hoteles y restaurantes, pero además grandes coberturas como minas y fábricas. Desde el 2019 ampliamos nuestra oferta, con productos como alfombras, cojinería y mantas, tanto para terraza como para interior. Además tenemos una línea de muebles importados y una línea de muebles hechos por nosotros',
                 'avatar' => 'stores/ambito_profile.jpg',
-                'logo' => '',
+                'logo' => 'stores/ambito_logo.png',
                 'cover' => 'stores/ambito_cover.jpg',
                 'qualities' => [5],
                 'products' => [
