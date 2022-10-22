@@ -24,7 +24,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Chair',
                     'es' => 'Silla',
                 ],
-                'image' => 'categories/cat-chair.png',
+                'image' => 'categories/chair.png',
             ],
             [
                 'id' => 3,
@@ -118,7 +118,7 @@ class CategorySeeder extends Seeder
                 'id' => 14,
                 'name' => [
                     'en' => 'Lighting',
-                    'es' => 'Encendiendo',
+                    'es' => 'Luminarias',
                 ],
                 'image' => 'categories/lighting.png',
             ],

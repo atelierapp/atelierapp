@@ -45,9 +45,9 @@ class ProductService
         $data = $params;
         $data['properties'] = [
             'dimensions' => [
-                'depth' => $params['depth'],
-                'height' => $params['height'],
-                'width' => $params['width'],
+                'depth' => (double) $params['depth'],
+                'height' => (double) $params['height'],
+                'width' => (double) $params['width'],
             ],
         ];
 
@@ -195,13 +195,13 @@ class ProductService
 
         $params['properties'] = [];
         if (isset($params['depth'])) {
-            $params['properties']['dimensions']['depth'] = $params['depth'];
+            $params['properties']['dimensions']['depth'] = (double) $params['depth'];
         }
         if (isset($params['height'])) {
-            $params['properties']['dimensions']['height'] = $params['height'];
+            $params['properties']['dimensions']['height'] = (double) $params['height'];
         }
         if (isset($params['width'])) {
-            $params['properties']['dimensions']['width'] = $params['width'];
+            $params['properties']['dimensions']['width'] = (double) $params['width'];
         }
 
         $product->fill($params);
