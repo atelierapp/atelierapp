@@ -12,12 +12,12 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-16 pt-8 px-6 md:px-12">
-      @for ($i = 1; $i <= 12; $i++)
-        <div x-intersect="$el.classList.add('slide-in-bottom')">
-          <img src="{{ asset(sprintf('images/brands/brand_%d.png', $i)) }}" alt="">
+    <div class="grid grid-cols-2 md:grid-cols-5 content-around gap-8 md:gap-16 pt-8 px-6 md:px-12">
+      @foreach($brands as $brand)
+        <div class="flex items-center justify-center" x-intersect="$el.classList.add('slide-in-bottom')">
+          <img src="{{ $brand }}" alt="">
         </div>
-      @endfor
+      @endforeach
     </div>
   </div>
 </div>
