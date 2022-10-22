@@ -31,7 +31,7 @@ class OrderService
             return $order;
         }
 
-        $query = Order::where($field, '=', $order)->filterByAuthenticatedRole();
+        $query = Order::where($field, '=', $order)->filterByRole();
 
         return $throwable
             ? $query->firstOrFail()

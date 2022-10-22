@@ -30,7 +30,7 @@ class OrderBuilder extends Builder
         return $this;
     }
 
-    public function filterByAuthenticatedRole(): static
+    public function filterByRole(): static
     {
         if (Bouncer::is(auth()->user())->an(Role::SELLER)) {
             $this->where('seller_id', '=', auth()->id());

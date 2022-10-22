@@ -13,7 +13,7 @@ class OrderDetailBuilder extends Builder
 
     public function filterByRole(): static
     {
-        $this->whereHas('order', fn ($order) => $order->filterByAuthenticatedRole());
+        $this->whereHas('order', fn ($order) => $order->filterByRole());
 
         return $this;
     }

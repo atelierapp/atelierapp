@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function index(OrderIndexRequest $request)
     {
         $orders = Order::applyFilters($request->validated())
-            ->filterByAuthenticatedRole()
+            ->filterByRole()
             ->with(['user', 'seller', 'seller_status', 'paidStatus'])
             ->latest()
             ->get();
