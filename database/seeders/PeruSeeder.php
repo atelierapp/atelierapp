@@ -58,7 +58,7 @@ class PeruSeeder extends Seeder
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/ambito_prod1_perspective.jpg',
+                                'path' => 'stores/ambito_prod1_perspective.png',
                             ],
                         ],
                     ],
@@ -325,9 +325,9 @@ Nos dedicamos a satisfacer las demandas de nuestros clientes y además crear un 
 Jorge Cardenal fundo esta empresa en el año 1996 comenzando vendiendo solo alfombras persas pero con el pasar de los años vio un potencial en mercado decorativo y comenzó a compra artículos decorativos como esculturas de resina, cristalería y muebles. Siempre estuvo a la moda en aspectos decorativos y fue innovando sus productos en los años posteriores posesionándose como una empresa reconocida en el sector decoración.
 
 Actualmente contamos con una gran variedad de productos que traemos de alrededor del mundo enfocándonos mayormente en el mercado brasileño el cual a sido nuestro mayor proveedor en los últimos años. Tenemos una nueva categoría de productos: cuadros decorativos."',
-                'avatar' => 'stores/pratelli-avatar.jpg',
-                'logo' => 'stores/pratelli-logo.jpeg',
-                'cover' => 'stores/pratelli-cover.jpeg',
+                'avatar' => 'stores/pratelli-avatar.png',
+                'logo' => 'stores/pratelli-logo.png',
+                'cover' => 'stores/pratelli-cover.png',
                 'qualities' => [],
                 'products' => [
                     [
@@ -345,15 +345,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/pratelli_prod1_front.jpg',
+                                'path' => 'stores/pratelli_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/pratelli_prod1_side.jpg',
+                                'path' => 'stores/pratelli_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/pratelli_prod1_perspective.jpg',
+                                'path' => 'stores/pratelli_prod1_perspective.png',
                             ],
                         ],
                     ],
@@ -533,15 +533,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/casa_prod1_front.jpg',
+                                'path' => 'stores/casa_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/casa_prod1_side.jpg',
+                                'path' => 'stores/casa_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/casa_prod1_perspective.jpg',
+                                'path' => 'stores/casa_prod1_perspective.png',
                             ],
                         ],
                     ],
@@ -559,15 +559,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/casa_prod2_front.jpg',
+                                'path' => 'stores/casa_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/casa_prod2_side.jpg',
+                                'path' => 'stores/casa_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/casa_prod2_perspective.jpg',
+                                'path' => 'stores/casa_prod2_perspective.png',
                             ],
                         ],
                     ],
@@ -586,15 +586,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/casa_prod3_front.jpg',
+                                'path' => 'stores/casa_prod3_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/casa_prod3_side.jpg',
+                                'path' => 'stores/casa_prod3_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/casa_prod3_perspective.jpg',
+                                'path' => 'stores/casa_prod3_perspective.png',
                             ],
                         ],
                     ],
@@ -653,15 +653,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/ideas_prod2_front.jpg',
+                                'path' => 'stores/ideas_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/ideas_prod2_side.jpeg',
+                                'path' => 'stores/ideas_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/ideas_prod2_perspective.jpeg',
+                                'path' => 'stores/ideas_prod2_perspective.png',
                             ],
                         ],
                     ],
@@ -679,15 +679,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/ideas_prod3_front.jpg',
+                                'path' => 'stores/ideas_prod3_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/ideas_prod3_side.jpg',
+                                'path' => 'stores/ideas_prod3_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/ideas_prod3_perspective.jpg',
+                                'path' => 'stores/ideas_prod3_perspective.png',
                             ],
                         ],
                     ],
@@ -846,7 +846,7 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/pieza_prod2_front.jpg',
+                                'path' => 'stores/pieza_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
@@ -1069,15 +1069,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/roberto_prod1_front.jpg',
+                                'path' => 'stores/roberto_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/roberto_prod1_side.jpg',
+                                'path' => 'stores/roberto_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/roberto_prod1_perspective.jpg',
+                                'path' => 'stores/roberto_prod1_perspective.png',
                             ],
                         ],
                         'qualities' => [5],
@@ -1096,15 +1096,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/roberto_prod2_front.jpg',
+                                'path' => 'stores/roberto_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/roberto_prod2_side.jpg',
+                                'path' => 'stores/roberto_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/roberto_prod2_perspective.jpg',
+                                'path' => 'stores/roberto_prod2_perspective.png',
                             ],
                         ],
                     ],
@@ -1163,15 +1163,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/cp_prod1_front.jpeg',
+                                'path' => 'stores/cp_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/cp_prod1_side.jpeg',
+                                'path' => 'stores/cp_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/cp_prod1_perspective.jpeg',
+                                'path' => 'stores/cp_prod1_perspective.png',
                             ],
                         ],
                         'qualities' => [3],
@@ -1190,15 +1190,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/cp_prod2_front.jpeg',
+                                'path' => 'stores/cp_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/cp_prod2_side.jpeg',
+                                'path' => 'stores/cp_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/cp_prod2_perspective.jpeg',
+                                'path' => 'stores/cp_prod2_perspective.png',
                             ],
                         ],
                         'qualities' => [3],
@@ -1218,15 +1218,15 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/cp_prod3_front.jpeg',
+                                'path' => 'stores/cp_prod3_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/cp_prod3_side.jpeg',
+                                'path' => 'stores/cp_prod3_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/cp_prod3_perspective.jpeg',
+                                'path' => 'stores/cp_prod3_perspective.png',
                             ],
                         ],
                     ],
