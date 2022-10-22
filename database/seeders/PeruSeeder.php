@@ -440,15 +440,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/furniture_prod1_front.jpeg',
+                                'path' => 'stores/furniture_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/furniture_prod1_side.jpeg',
+                                'path' => 'stores/furniture_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/furniture_prod1_perspective.jpeg',
+                                'path' => 'stores/furniture_prod1_perspective.png',
                             ],
                         ],
                     ],
@@ -466,15 +466,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/furniture_prod2_front.jpeg',
+                                'path' => 'stores/furniture_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/furniture_prod2_side.jpeg',
+                                'path' => 'stores/furniture_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/furniture_prod2_perspective.jpeg',
+                                'path' => 'stores/furniture_prod2_perspective.png',
                             ],
                         ],
                     ],
@@ -720,15 +720,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/maison_prod1_front.jpg',
+                                'path' => 'stores/maison_prod1_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/maison_prod1_side.jpg',
+                                'path' => 'stores/maison_prod1_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/maison_prod1_perspective.jpg',
+                                'path' => 'stores/maison_prod1_perspective.png',
                             ],
                         ],
                     ],
@@ -747,15 +747,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/maison_prod2_front.jpg',
+                                'path' => 'stores/maison_prod2_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/maison_prod2_side.jpg',
+                                'path' => 'stores/maison_prod2_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/maison_prod2_perspective.jpg',
+                                'path' => 'stores/maison_prod2_perspective.png',
                             ],
                         ],
                     ],
@@ -774,15 +774,15 @@ Actualmente contamos con una gran variedad de productos que traemos de alrededor
                         'images' => [
                             [
                                 'orientation' => 'front',
-                                'path' => 'stores/maison_prod3_front.jpg',
+                                'path' => 'stores/maison_prod3_front.png',
                             ],
                             [
                                 'orientation' => 'side',
-                                'path' => 'stores/maison_prod3_side.jpg',
+                                'path' => 'stores/maison_prod3_side.png',
                             ],
                             [
                                 'orientation' => 'perspective',
-                                'path' => 'stores/maison_prod3_perspective.jpg',
+                                'path' => 'stores/maison_prod3_perspective.png',
                             ],
                         ],
                     ],
