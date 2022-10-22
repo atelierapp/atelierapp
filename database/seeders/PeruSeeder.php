@@ -1367,7 +1367,7 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
 
     public function processStore(User $user, array $item): Store
     {
-        return Store::updateOrCreate([
+        $store = Store::updateOrCreate([
             'user_id' => $user->id,
         ], [
             'country' => 'pe',
@@ -1377,6 +1377,14 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
             'logo' => Arr::get($item, 'logo'),
             'cover' => Arr::get($item, 'cover'),
         ]);
+        if (!is_null(Arr::get($item, 'logo'))) {
+            $this->processMedia($store, ['orientation' => 'logo', 'path' => $item['logo']]);
+        }
+        if (!is_null(Arr::get($item, 'cover'))) {
+            $this->processMedia($store, ['orientation' => 'cover', 'path' => $item['cover']]);
+        }
+
+        return $store;
     }
 
     public function processProduct(Store $store, array $product): Product
@@ -1402,7 +1410,7 @@ Ahora, ya con 65 años, Roberto no ha perdido ni una pizca de esa curiosidad, me
         ]);
     }
 
-    public function processMedia(Product|Variation $model, array $image)
+    public function processMedia(Product|Variation|Store $model, array $image)
     {
         Media::updateOrCreate([
             'mediable_type' => get_class($model),
