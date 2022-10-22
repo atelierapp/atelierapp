@@ -29,6 +29,10 @@ class OrderDetail extends BaseModelCountry
         'country',
     ];
 
+    protected $casts = [
+        'total_price' => 'double'
+    ];
+
     public function newEloquentBuilder($query): OrderDetailBuilder
     {
         return new OrderDetailBuilder($query);

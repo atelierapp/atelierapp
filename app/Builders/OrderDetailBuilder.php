@@ -10,4 +10,11 @@ class OrderDetailBuilder extends Builder
 {
     use CountryBuilderTrait;
     use WhereRawDateBetweenTrait;
+
+    public function filterByRole(): static
+    {
+        $this->whereHas('order', fn ($order) => $order->filterByAuthenticatedRole());
+
+        return $this;
+    }
 }

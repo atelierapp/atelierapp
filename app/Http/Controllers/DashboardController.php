@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\ProductView;
-use App\Models\User;
+use App\Models\OrderDetail;
+use App\Models\OrderStatus;
 use App\Services\DashboardService;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -37,16 +34,6 @@ class DashboardController extends Controller
                 ],
             ],
         ];
-    }
-
-    private function prepareHistory(): array
-    {
-        $values = [];
-        for ($i = 0; $i < 13; $i++) {
-            $values[] = 0;
-        }
-
-        return $values;
     }
 
     public function kpiProducts()
@@ -79,19 +66,20 @@ class DashboardController extends Controller
 
     public function orders()
     {
-        // $products = Product::query()->inRandomOrder()->take(10)->get();
+        $positions = OrderDetail::filterByRole()->with('product')->get();
+        $positions->loadMissing('order.user');
         $data = [];
 
-        // foreach ($products as $product) {
-        //     $tmp = [
-        //         'product' => $product->title,
-        //         'price' => $product->price,
-        //         'is_accepted' => (boolean) rand(0, 1),
-        //         'email' => User::query()->inRandomOrder()->first()->email,
-        //         'delivery_notes' => 'lorem ipsum',
-        //     ];
-        //     $data[] = $tmp;
-        // }
+        foreach ($positions as $position) {
+            $tmp = [
+                'product' => $position->product->title,
+                'price' => $position->total_price,
+                'is_accepted' => $position->order->seller_status_id == OrderStatus::_SELLER_APPROVAL,
+                'email' => $position->order->user->email,
+                'delivery_notes' => $position->seller_notes,
+            ];
+            $data[] = $tmp;
+        }
 
         return response()->json(['data' => $data]);
     }
@@ -116,18 +104,20 @@ class DashboardController extends Controller
 
     public function quickDetails()
     {
-        return response()->json(['data' => [
-            // 'customers' => rand(50, 150),
-            // 'awaiting_orders' => rand(150, 300),
-            // 'on_hold_orders' => rand(50, 150),
-            // 'low_stock_orders' => rand(25, 75),
-            // 'out_stock_orders' => rand(0, 25),
-            'customers' => 0,
-            'awaiting_orders' => 0,
-            'on_hold_orders' => 0,
-            'low_stock_orders' => 0,
-            'out_stock_orders' => 0,
-        ]]);
+        return response()->json([
+            'data' => [
+                // 'customers' => rand(50, 150),
+                // 'awaiting_orders' => rand(150, 300),
+                // 'on_hold_orders' => rand(50, 150),
+                // 'low_stock_orders' => rand(25, 75),
+                // 'out_stock_orders' => rand(0, 25),
+                'customers' => 0,
+                'awaiting_orders' => 0,
+                'on_hold_orders' => 0,
+                'low_stock_orders' => 0,
+                'out_stock_orders' => 0,
+            ],
+        ]);
     }
 
 }
