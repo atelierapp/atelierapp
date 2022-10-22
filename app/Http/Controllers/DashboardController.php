@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
     public function orders()
     {
-        $positions = OrderDetail::filterByRole()->with('product')->get();
+        $positions = OrderDetail::filterByRole()->with('product:id,title')->get();
         $positions->loadMissing('order.user');
         $data = [];
 
@@ -86,18 +86,23 @@ class DashboardController extends Controller
 
     public function topProduct()
     {
-        // $products = Product::query()->inRandomOrder()->take(5)->get();
+        $positions = OrderDetail::filterByRole()
+            ->selectRaw('sum(total_price) as total_price')
+            ->addSelect(['product_id'])
+            ->groupBy('product_id')
+            ->get()
+            ->sortByDesc('total_price');
+        $positions->loadMissing('product:id,title', 'product.featured_media:mediable_id,mediable_type,url');
         $data = [];
 
-        // foreach ($products as $product) {
-        //     $tmp = [
-        //         'image' => $product->featured_media->url,
-        //         'name' => $product->title,
-        //         'availability' => rand(0, 150),
-        //         'sales' => rand(10000, 30000),
-        //     ];
-        //     $data[] = $tmp;
-        // }
+        foreach ($positions as $position) {
+            $data[] = [
+                'name' => $position->product->title,
+                'image' => $position->product->featured_media->url,
+                'availability' => 0,
+                'sales' => $position->total_price,
+            ];
+        }
 
         return response()->json(['data' => $data]);
     }
