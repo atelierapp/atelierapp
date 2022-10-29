@@ -24,6 +24,7 @@ class ProjectResource extends JsonResource
             'forkedFrom' => self::make($this->whenLoaded('forkedFrom')),
             'tags' => $this->whenLoaded('tags', TagResource::collection($this->tags)),
             'settings' => $this->settings,
+            'products' => $this->whenLoaded('products', ProductProjectResource::collection($this->products)),
         ];
     }
 }

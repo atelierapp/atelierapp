@@ -54,7 +54,12 @@ class VariationService
         return $variation;
     }
 
-    public function getBy(int $productId, int $variation, string $field = 'id'): Variation
+    public function getBy(int|string $variation, string $field = 'id'): Variation
+    {
+        return Variation::where($field, '=', $variation)->firstOrFail();
+    }
+
+    public function getByProduct(int $productId, int $variation, string $field = 'id'): Variation
     {
         return Variation::where('product_id', '=', $productId)
             ->where($field, '=', $variation)
@@ -132,7 +137,7 @@ class VariationService
             $product = app(ProductService::class)->getBy($product);
         }
 
-        $variation = $this->getBy($product->id, $variation);
+        $variation = $this->getByProduct($product->id, $variation);
         $variation->fill($params);
         $variation->save();
 
@@ -156,7 +161,7 @@ class VariationService
             $product = app(ProductService::class)->getBy($product);
         }
 
-        $variation = $this->getBy($product->id, $variation);
+        $variation = $this->getByProduct($product->id, $variation);
 
         $this->processImages($variation, $params['images']);
         $variation->load('medias');
@@ -170,7 +175,7 @@ class VariationService
             throw new AtelierException('User not authorized', Response::HTTP_FORBIDDEN);
         }
 
-        $variation = $this->getBy($product, $variation);
+        $variation = $this->getByProduct($product, $variation);
         $variation->delete();
     }
 }

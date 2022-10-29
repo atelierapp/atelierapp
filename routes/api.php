@@ -17,6 +17,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\Process\ProductProjectController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
 use App\Http\Controllers\ProductReviewController;
@@ -142,8 +143,11 @@ Route::middleware('locale')->group(function () {
 
         // Projects
         Route::apiResource('projects', ProjectController::class);
-        Route::post('projects/{project}/fork', ProjectForkController::class)->name('projects.fork');
-        Route::post('projects/{project}/image', [ProjectController::class, 'image'])->name('projects.image');
+        Route::prefix('projects/{project}')->group(function () {
+            Route::post('/fork', ProjectForkController::class)->name('project.fork');
+            Route::post('/image', [ProjectController::class, 'image'])->name('project.image');
+            Route::post('/product', [ProductProjectController::class, 'store'])->name('project.product.store');
+        });
         Route::get('projects-temp', [ProjectController::class, 'index']);
         Route::post('projects-temp', [ProjectController::class, 'store']);
         Route::put('projects-temp/{project}', [ProjectController::class, 'update']);

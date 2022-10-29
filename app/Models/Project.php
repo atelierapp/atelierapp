@@ -6,7 +6,6 @@ use App\Builders\ProjectBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasTagsRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,16 +47,6 @@ class Project extends BaseModelCountry
         return new ProjectBuilder($query);
     }
 
-    public function rooms(): HasMany
-    {
-        return $this->hasMany(Room::class);
-    }
-
-    public function style(): BelongsTo
-    {
-        return $this->belongsTo(Style::class);
-    }
-
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -66,5 +55,20 @@ class Project extends BaseModelCountry
     public function forkedFrom(): BelongsTo
     {
         return $this->belongsTo(Project::class, 'forked_from_id');
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(ProductProject::class, 'project_id');
+    }
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function style(): BelongsTo
+    {
+        return $this->belongsTo(Style::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\AtelierException;
+use App\Models\ProductProject;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
@@ -11,7 +12,8 @@ class ProjectService
 {
     public function __construct(
         private TagService $tagService,
-        private MediaService $mediaService
+        private MediaService $mediaService,
+        private VariationService $variationService
     ) {
         //
     }
@@ -38,6 +40,34 @@ class ProjectService
         return $project;
     }
 
+    public function getBy(int|string $projectId, string $field = 'id', bool $throwable = true): Project
+    {
+        $query = Project::query()->where($field, $projectId);
+
+        return $throwable
+            ? $query->firstOrFail()
+            : $query->firstOrNew();
+    }
+
+    public function getByAuth(int|string $projectId, string $field = 'id', bool $throwable = true): Project
+    {
+        $query = Project::authUser()->where($field, $projectId);
+
+        return $throwable
+            ? $query->firstOrFail()
+            : $query->firstOrNew();
+    }
+
+    public function update(int|string $project, array $params): Project
+    {
+        $project = $this->getByAuth($project);
+        $project->fill($params);
+        $project->save();
+        $this->loadRelations($project);
+
+        return $project;
+    }
+
     private function processTags(Project &$project, array $tags): void
     {
         if (count($tags)) {
@@ -49,6 +79,11 @@ class ProjectService
             $project->tags()->saveMany($projectTags);
             $project->load('tags');
         }
+    }
+
+    public function loadRelations(Project &$project): void
+    {
+        $project->load('style', 'author', 'forkedFrom', 'products.variation', 'products.product');
     }
 
     public function fork(int|string $project, array $params): Project
@@ -77,35 +112,6 @@ class ProjectService
         return $forkedProject;
     }
 
-    private function loadRelations(Project &$project): void
-    {
-        $project->load('style', 'author', 'forkedFrom');
-    }
-
-    public function getBy(int|string $projectId, string $field = 'id', bool $throwable = true): Project
-    {
-        $query = Project::query()->where($field, $projectId);
-
-        return $throwable
-            ? $query->firstOrFail()
-            : $query->firstOrNew();
-    }
-
-    public function update($project, array $params)
-    {
-        $project = $this->getBy($project);
-
-        if ($project->author_id != auth()->id()) {
-            throw new ModelNotFoundException();
-        }
-
-        $project->fill($params);
-        $project->save();
-        $this->loadRelations($project);
-
-        return $project;
-    }
-
     private function validateIsForkeable(Project $project): bool
     {
         if ($project->author_id == auth()->id()) {
@@ -117,5 +123,19 @@ class ProjectService
         }
 
         return false;
+    }
+
+    public function attachProduct(Project $project, array $request)
+    {
+        $variation = $this->variationService->getBy($request['variation_id']);
+        $productProject = ProductProject::updateOrCreate([
+            'project_id' => $project->id,
+            'variation_id' => $variation->id,
+            'product_id' => $variation->product_id,
+        ], [
+            'quantity' => $request['quantity'],
+        ]);
+
+        return $productProject;
     }
 }
