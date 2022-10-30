@@ -13,7 +13,8 @@ class ShoppingCartResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'customer_id' => $this->user_id,
+            'customer_id' => $this->resource->customer_id,
+            'has_user' => $this->resource->customer_type === User::class,
             'store_name' => $this->variation->product->store->name,
             'variation_id' => $this->variation_id,
             'quantity' => $this->quantity,

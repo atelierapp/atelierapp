@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @mixin \Eloquent
+ */
 class Device extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'device_name',
-        'device_uuid',
+        'name',
+        'uuid',
         'user_id',
     ];
 
