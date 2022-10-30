@@ -115,6 +115,29 @@ class ShoppingCartController extends Controller
         return $this->response([], 'Item removed from your cart.');
     }
 
+    public function transferFromDeviceToUser(Request $request)
+    {
+        $userId = auth()->id();
+        $deviceId = $request->get('uuid');
+
+        // First, let's clear any previous user shopping cart
+        ShoppingCart::query()
+            ->where('customer_type', User::class)
+            ->where('customer_id', $userId)
+            ->delete();
+
+        // Then, let's transfer the device's shopping-cart to the user
+        ShoppingCart::query()
+            ->where('customer_type', Device::class)
+            ->where('customer_id', $deviceId)
+            ->update([
+                'customer_type' => User::class,
+                'customer_id' => $userId,
+            ]);
+
+        return $this->response([], __('shopping-cart.shopping-cart-transferred-to-user'));
+    }
+
     public function order()
     {
         $order = $this->orderService->createFromShoppingCart(auth()->id());
