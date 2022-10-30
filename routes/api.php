@@ -58,6 +58,9 @@ Route::middleware('locale')->group(function () {
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
     Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
 
+    // Stores
+    Route::apiResource('stores', StoreController::class)->names('store')->only(['index']);
+
     // Products
     Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
     Route::get('/products/qualifications', [ProductReviewController::class, 'index'])->name('product.review.index');
@@ -134,7 +137,7 @@ Route::middleware('locale')->group(function () {
 
         // Stores
         Route::get('stores/my-store', [StoreController::class, 'myStore'])->name('store.my-store');
-        Route::apiResource('stores', StoreController::class)->names('store');
+        Route::apiResource('stores', StoreController::class)->names('store')->except(['index']);
         Route::post('stores/{store}/image', [StoreController::class, 'image'])->name('store.image');
         Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
         Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
