@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\PaymentStatus;
 use App\Models\ShoppingCart;
+use App\Models\User;
 use Illuminate\Support\Collection;
 
 class OrderService
@@ -45,7 +46,11 @@ class OrderService
 
     public function createFromShoppingCart(int|string $userId): Order
     {
-        $items = ShoppingCart::whereUserId($userId)->with('variation.product.store')->get();
+        $items = ShoppingCart::query()
+            ->where('customer_type', User::class)
+            ->where('customer_id', $userId)
+            ->with('variation.product.store')
+            ->get();
 
         if (count($items) == 0) {
             throw new AtelierException('You do not have products in your shopping cart', 422);
@@ -83,7 +88,10 @@ class OrderService
         $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
         $parentOrder->items = $parentOrder->subOrders()->sum('items');
 
-        ShoppingCart::withoutGlobalScopes()->whereUserId($userId)->delete();
+        ShoppingCart::withoutGlobalScopes()
+            ->where('customer_type', User::class)
+            ->where('customer_id', $userId)
+            ->delete();
 
         return $parentOrder;
     }
