@@ -104,6 +104,14 @@ Route::middleware('locale')->group(function () {
         Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
     });
 
+    Route::group(['middleware' => 'optional.sanctum'], function () {
+        // Shopping Cart
+        Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
+        Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
+        Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
+        Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
+    });
+
     Route::middleware('auth:sanctum')->group(function () {
 
         // Auth
@@ -122,13 +130,6 @@ Route::middleware('locale')->group(function () {
             Route::get('/orders', ProfileOrderController::class)->name('profile.orders');
             Route::apiResource('/payment-gateways', ProfilePaymentController::class)->names('profile.payment-gateway')->only(['store']);
         });
-
-        // Shopping Cart
-        Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
-        Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
-        Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
-        Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
-        Route::post('shopping-cart/create-order', [ShoppingCartController::class, 'order'])->name('shopping-cart.order');
 
         // Collections
         Route::apiResource('collections', CollectionController::class)->names('collection')->except(['show']);
@@ -155,7 +156,11 @@ Route::middleware('locale')->group(function () {
         Route::post('projects-temp', [ProjectController::class, 'store']);
         Route::put('projects-temp/{project}', [ProjectController::class, 'update']);
 
+        // Shopping-cart
+        Route::post('shopping-cart/transfer-to-user', [ShoppingCartController::class, 'transferFromDeviceToUser'])->name('shopping-cart.transfer');
+
         // Orders
+        Route::post('shopping-cart/create-order', [ShoppingCartController::class, 'order'])->name('shopping-cart.order');
         Route::apiResource('orders', OrderController::class)->names('order')->only(['index', 'update', 'show']);
         Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
         Route::post('orders/{order}/accept', [OrderController::class, 'accept'])->name('order.accept');

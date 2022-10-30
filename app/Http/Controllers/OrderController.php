@@ -16,7 +16,7 @@ class OrderController extends Controller
 {
     public function __construct(
         private PaypalService $paypalService,
-        private OrderService $orderService
+        private OrderService $orderService,
     ) {
         $this->middleware('auth:sanctum');
         $this->middleware('role:' . Role::SELLER)->only('accept', 'update');
@@ -52,8 +52,8 @@ class OrderController extends Controller
     {
         $order = Order::where('id', '=', $order)->filterByAuthenticatedRole()->first();
 
-        if ($order->seller_status_id == OrderStatus::_SELLER_APPROVAL){
-            throw new AtelierException('This document was aceppted', 409);
+        if ($order->seller_status_id == OrderStatus::_SELLER_APPROVAL) {
+            throw new AtelierException('This document was accepted', 409);
         }
 
         $this->paypalService->capturePaymentOrder($order);

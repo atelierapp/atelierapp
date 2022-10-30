@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use App\Http\Middleware\BouncerRoleMiddleware;
-use App\Http\Middleware\Locale;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -22,7 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        Locale::class,
+        \App\Http\Middleware\Locale::class,
     ];
 
     /**
@@ -67,6 +66,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => BouncerRoleMiddleware::class,
-        'locale' => Locale::class,
+        'locale' => \App\Http\Middleware\Locale::class,
+        'optional.sanctum' => \App\Http\Middleware\OptionalAuthSanctum::class,
     ];
 }
