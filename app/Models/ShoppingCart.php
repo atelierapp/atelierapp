@@ -5,7 +5,8 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Relations\MorphPivot;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @mixin Eloquent
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $quantity
  * @mixin IdeHelperShoppingCart
  */
-class ShoppingCart extends Pivot
+class ShoppingCart extends MorphPivot
 {
     use HasFactory;
 
@@ -25,7 +26,8 @@ class ShoppingCart extends Pivot
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id',
+        'customer_type',
+        'customer_id',
         'variation_id',
         'quantity',
         'country',
@@ -35,9 +37,9 @@ class ShoppingCart extends Pivot
         'quantity' => 'integer',
     ];
 
-    public function user(): BelongsTo
+    public function customer(): MorphTo
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 
     public function variation(): BelongsTo

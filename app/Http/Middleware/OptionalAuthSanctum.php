@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OptionalAuthSanctum
 {
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next)
     {
         if ($request->bearerToken()) {
             if (Auth::guard('sanctum')->user()) {

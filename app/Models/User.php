@@ -108,7 +108,12 @@ class User extends Authenticatable
 
     public function shopping_cart(): BelongsToMany
     {
-        return $this->belongsToMany(Variation::class, 'shopping_cart')->with('product')->using(ShoppingCart::class);
+        return $this->morphToMany(Variation::class, 'customer')->with('product')->using(ShoppingCart::class);
+    }
+
+    public function devices(): HasMany
+    {
+        return $this->hasMany(Device::class);
     }
 
     public function scopeFirstByEmail(Builder $query, $value): Model|Builder|null
