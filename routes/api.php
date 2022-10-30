@@ -101,6 +101,10 @@ Route::middleware('locale')->group(function () {
         Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
     });
 
+    Route::group(['middleware' => 'optional.sanctum'], function () {
+
+    });
+
     Route::middleware('auth:sanctum')->group(function () {
 
         // Auth
