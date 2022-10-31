@@ -5,13 +5,26 @@ namespace App\Models;
 use App\Builders\OrderBuilder;
 use App\Traits\Models\HasSellerRelation;
 use App\Traits\Models\HasUserRelation;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @mixin IdeHelperOrder
+ * @mixin Eloquent
+ * @mixin OrderBuilder
+ * @property int $id
+ * @property int $seller_status_id
+ * @property ?Carbon $seller_accepted_on
+ * @property int|mixed $paid_status_id
+ * @property ?Carbon $paid_on
+ * @property ?int $seller_id
+ * @property ?Carbon $seller_status_at
+ * @property array|object|null $payment_gateway_metadata
+ * @property int $items
+ * @property $total_price
  */
 class Order extends BaseModelCountry
 {

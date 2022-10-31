@@ -9,6 +9,7 @@ use App\Models\OrderStatus;
 use App\Models\PaymentStatus;
 use App\Models\ShoppingCart;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 class OrderService
@@ -41,9 +42,12 @@ class OrderService
 
     public function getDetails(int|string $orderId): Collection
     {
-        return OrderDetail::whereOrderId($orderId)->with(['product.store', 'variation'])->get();
+        return OrderDetail::where('order_id', $orderId)->with(['product.store', 'variation'])->get();
     }
 
+    /**
+     * @throws AtelierException
+     */
     public function createFromShoppingCart(int|string $userId): Order
     {
         $items = ShoppingCart::query()
@@ -53,7 +57,7 @@ class OrderService
             ->get();
 
         if (count($items) == 0) {
-            throw new AtelierException('You do not have products in your shopping cart', 422);
+            throw new AtelierException('You do not have products in your shopping cart', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $parentOrder = Order::create([
@@ -97,7 +101,7 @@ class OrderService
     }
 
     /**
-     * @throws \App\Exceptions\AtelierException
+     * @throws AtelierException
      */
     public function sellerApproval(Order|string|int $orderId): Order
     {
@@ -113,7 +117,7 @@ class OrderService
     {
         $order = $this->getBy($orderId);
         // $order->payment_gateway_code = some value; TODO: view to add the value from payment gateway
-        $order->paid_status = PaymentStatus::PAYMENT_APPROVAL;
+        $order->paid_status_id = PaymentStatus::PAYMENT_APPROVAL;
         $order->paid_on = now();
         $order->save();
 
@@ -121,14 +125,14 @@ class OrderService
     }
 
     /**
-     * @throws \App\Exceptions\AtelierException
+     * @throws AtelierException
      */
     private function validateIfTheOrderBelongsToTheAuthenticatedSeller(Order|string|int $orderId): Order
     {
         $order = $this->getBy($orderId);
 
         if ($order->seller_id == auth()->id()) {
-            throw new AtelierException('User not Authorized', 403);
+            throw new AtelierException('User not Authorized', Response::HTTP_FORBIDDEN);
         }
 
         return $order;
@@ -193,7 +197,7 @@ class OrderService
         return $order;
     }
 
-    public function updatePaymentGatewayMetadata(Order $order, string $node, array $params)
+    public function updatePaymentGatewayMetadata(Order $order, string $node, array $params): void
     {
         $values = $order->payment_gateway_metadata;
         $values[$node] = $params;
