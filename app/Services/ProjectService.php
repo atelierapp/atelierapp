@@ -125,17 +125,23 @@ class ProjectService
         return false;
     }
 
-    public function attachProduct(Project $project, array $request)
+    public function attachProduct(Project $project, array $params): ProductProject
     {
-        $variation = $this->variationService->getBy($request['variation_id']);
-        $productProject = ProductProject::updateOrCreate([
+        $variation = $this->variationService->getBy($params['variation_id']);
+
+        return ProductProject::updateOrCreate([
             'project_id' => $project->id,
             'variation_id' => $variation->id,
             'product_id' => $variation->product_id,
         ], [
-            'quantity' => $request['quantity'],
+            'quantity' => $params['quantity'],
         ]);
+    }
 
-        return $productProject;
+    public function updateProduct(Project $project, int|string $variation, array $params): ProductProject
+    {
+        $params['variation_id'] = $variation;
+
+        return $this->attachProduct($project, $params);
     }
 }

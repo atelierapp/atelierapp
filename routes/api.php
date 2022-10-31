@@ -151,6 +151,7 @@ Route::middleware('locale')->group(function () {
             Route::post('/fork', ProjectForkController::class)->name('project.fork');
             Route::post('/image', [ProjectController::class, 'image'])->name('project.image');
             Route::post('/product', [ProductProjectController::class, 'store'])->name('project.product.store');
+            Route::patch('/product/{variation}', [ProductProjectController::class, 'update'])->name('project.product.update');
         });
         Route::get('projects-temp', [ProjectController::class, 'index']);
         Route::post('projects-temp', [ProjectController::class, 'store']);
