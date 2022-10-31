@@ -40,7 +40,7 @@ class OrderController extends Controller
      */
     public function store()
     {
-        $order = $this->orderService->createFromShoppingCart(auth()->id());
+        $order = $this->orderService->createFromShoppingCart((int)auth()->id());
 
         return $this->paypalService->createOrder($order);
     }

@@ -48,7 +48,7 @@ class OrderService
     /**
      * @throws AtelierException
      */
-    public function createFromShoppingCart(int|string $userId): Order
+    public function createFromShoppingCart(int $userId): Order
     {
         $items = ShoppingCart::query()
             ->where('customer_type', User::class)
@@ -61,7 +61,7 @@ class OrderService
         }
 
         $parentOrder = Order::create([
-            'user_id' => $items[0]->user_id,
+            'user_id' => $items[0]->customer_id,
         ]);
         foreach ($items as $item) {
             $store = $item->variation->product->store;

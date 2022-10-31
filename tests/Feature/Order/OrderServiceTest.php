@@ -4,6 +4,7 @@ namespace Tests\Feature\Order;
 
 use App\Models\OrderDetail;
 use App\Models\ShoppingCart;
+use App\Models\User;
 use App\Models\Variation;
 use App\Services\OrderService;
 
@@ -11,10 +12,12 @@ class OrderServiceTest extends BaseTest
 {
     public function test_an_app_user_can_generate_a_general_order_with_a_order_for_every_seller()
     {
+        /** @var User $user */
         $user = $this->createAuthenticatedUser();
         $variations = Variation::factory()->count(3)->create();
         $variations->each(fn ($variation) => ShoppingCart::create([
-            'user_id' => $user->id,
+            'customer_id' => $user->id,
+            'customer_type' => User::class,
             'variation_id' => $variation->id,
             'quantity' => $this->faker->numberBetween(1, 4)
         ]));
