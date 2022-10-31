@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Builders\ProjectBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasTagsRelation;
+use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @mixin IdeHelperProject
+ * @mixin Eloquent
+ * @property ?array $orders
  */
 class Project extends BaseModelCountry
 {
@@ -40,6 +43,7 @@ class Project extends BaseModelCountry
         'published' => 'boolean',
         'public' => 'boolean',
         'settings' => 'array',
+        'orders' => 'array',
     ];
 
     public function newEloquentBuilder($query): ProjectBuilder
