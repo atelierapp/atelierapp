@@ -7,6 +7,7 @@ use Spatie\Translatable\HasTranslations;
 
 /**
  * @mixin IdeHelperOrderStatus
+ * @property string $name
  */
 class OrderStatus extends Model
 {

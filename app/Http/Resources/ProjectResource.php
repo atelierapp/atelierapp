@@ -2,8 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Project;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Project
+ */
 class ProjectResource extends JsonResource
 {
     public function toArray($request): array
@@ -25,6 +29,7 @@ class ProjectResource extends JsonResource
             'tags' => $this->whenLoaded('tags', TagResource::collection($this->tags)),
             'settings' => $this->settings,
             'products' => $this->whenLoaded('products', ProductProjectResource::collection($this->products)),
+            'orders' => $this->orders,
         ];
     }
 }

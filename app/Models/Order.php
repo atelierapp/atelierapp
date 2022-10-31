@@ -27,6 +27,8 @@ use Illuminate\Support\Carbon;
  * @property $total_price
  * @property ?string $payment_gateway_code
  * @property ?self $parent
+ * @property int $user_id
+ * @property OrderStatus $seller_status
  */
 class Order extends BaseModelCountry
 {
