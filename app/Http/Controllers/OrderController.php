@@ -8,9 +8,12 @@ use App\Http\Requests\Order\OrderUpdateRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Models\Project;
 use App\Models\Role;
 use App\Services\OrderService;
 use App\Services\PaypalService;
+use Illuminate\Support\Arr;
+use Throwable;
 
 class OrderController extends Controller
 {
@@ -33,6 +36,24 @@ class OrderController extends Controller
         return OrderResource::collection($orders);
     }
 
+    /**
+     * @throws Throwable
+     * @throws AtelierException
+     */
+    public function store()
+    {
+        $order = $this->orderService->createFromShoppingCart((int)auth()->id());
+
+        if (request()->has('project_id')) {
+            /** @var Project $project */
+            $project = Project::find(request('project_id'));
+            $project->orders[] = $order->id;
+            $project->save();
+        }
+
+        return $this->paypalService->createOrder($order);
+    }
+
     public function show($order)
     {
         $order = $this->orderService->getByAuthRole($order);
@@ -48,9 +69,13 @@ class OrderController extends Controller
         return OrderResource::make($order);
     }
 
+    /**
+     * @throws Throwable
+     * @throws AtelierException
+     */
     public function accept($order)
     {
-        $order = Order::where('id', '=', $order)->filterByAuthenticatedRole()->first();
+        $order = Order::where('id', '=', $order)->filterByRole()->first();
 
         if ($order->seller_status_id == OrderStatus::_SELLER_APPROVAL) {
             throw new AtelierException('This document was accepted', 409);

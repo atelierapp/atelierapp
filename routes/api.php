@@ -161,7 +161,7 @@ Route::middleware('locale')->group(function () {
         Route::post('shopping-cart/transfer-to-user', [ShoppingCartController::class, 'transferFromDeviceToUser'])->name('shopping-cart.transfer');
 
         // Orders
-        Route::post('shopping-cart/create-order', [ShoppingCartController::class, 'order'])->name('shopping-cart.order');
+        Route::post('shopping-cart/create-order', [OrderController::class, 'store'])->name('shopping-cart.order');
         Route::apiResource('orders', OrderController::class)->names('order')->only(['index', 'update', 'show']);
         Route::get('orders/{order}/details', [OrderDetailController::class, 'index'])->name('order.details');
         Route::post('orders/{order}/accept', [OrderController::class, 'accept'])->name('order.accept');

@@ -4,14 +4,17 @@ namespace App\Services;
 
 use App\Exceptions\AtelierException;
 use App\Models\Order;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Throwable;
 
 class PaypalService
 {
     private int $paymentGatewayId = 1;
     private mixed $orderService;
 
+    /** @throws Throwable */
     public function __construct(private PayPalClient $provider)
     {
         $this->orderService = app(OrderService::class);
@@ -19,8 +22,8 @@ class PaypalService
     }
 
     /**
-     * @throws \App\Exceptions\AtelierException
-     * @throws \Throwable
+     * @throws AtelierException
+     * @throws Throwable
      */
     public function createOrder(Order $order): array
     {
@@ -47,7 +50,7 @@ class PaypalService
         if (!isset($response['id'])) {
             throw new AtelierException(
                 Arr::get($response, 'error.details.0.description', 'An error occurred in the integration with Paypal'),
-                422,
+                Response::HTTP_UNPROCESSABLE_ENTITY,
                 $response
             );
         }
@@ -65,16 +68,14 @@ class PaypalService
         ];
     }
 
-    /**
-     * @throws \Throwable
-     */
+    /** @throws Throwable */
     public function capturePaymentOrder(Order $order): Order
     {
         // TODO : implement by orderService
         $diff = $order->paid_on->diffInDays(now());
 
         if ($diff > 29) {
-            throw new AtelierException(__('paypal.payment.create-authorized-payment'), 409);
+            throw new AtelierException(__('paypal.payment.create-authorized-payment'), Response::HTTP_CONFLICT);
         }
 
         if ($diff > 3) {
@@ -118,7 +119,8 @@ class PaypalService
         return $order;
     }
 
-    public function updateToPendingApproval(mixed $token)
+    /** @throws Throwable */
+    public function updateToPendingApproval(mixed $token): Order
     {
         // TODO : implement by orderService
         $order = Order::withoutGlobalScopes()->paymentGateway($this->paymentGatewayId, $token)->firstOrFail();

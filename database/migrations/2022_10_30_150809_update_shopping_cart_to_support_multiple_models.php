@@ -10,6 +10,9 @@ class UpdateShoppingCartToSupportMultipleModels extends Migration
     {
         Schema::table('shopping_cart', function (Blueprint $table) {
             $table->string('customer_type', 30)->default('App\\\Models\\\User')->after('country');
+        });
+
+        Schema::table('shopping_cart', function (Blueprint $table) {
             $table->renameColumn('user_id', 'customer_id');
         });
     }

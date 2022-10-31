@@ -8,19 +8,11 @@ use App\Models\Device;
 use App\Models\ShoppingCart;
 use App\Models\User;
 use App\Models\Variation;
-use App\Services\OrderService;
-use App\Services\PaypalService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ShoppingCartController extends Controller
 {
-    public function __construct(
-        private OrderService $orderService,
-        private PaypalService $paypalService,
-    ) {
-    }
-
     public function index()
     {
         $variants = ShoppingCart::query()
@@ -63,6 +55,9 @@ class ShoppingCartController extends Controller
         return $this->response([], 'Shopping cart updated.');
     }
 
+    /**
+     * @throws AtelierException
+     */
     public function decrease(Request $request, int $variationId)
     {
         if (auth()->check()) {
@@ -93,6 +88,9 @@ class ShoppingCartController extends Controller
         return $this->response([], 'Item quantity reduced.');
     }
 
+    /**
+     * @throws AtelierException
+     */
     public function remove(Request $request, int $variationId)
     {
         if (auth()->check()) {
@@ -136,13 +134,6 @@ class ShoppingCartController extends Controller
             ]);
 
         return $this->response([], __('shopping-cart.shopping-cart-transferred-to-user'));
-    }
-
-    public function order()
-    {
-        $order = $this->orderService->createFromShoppingCart(auth()->id());
-
-        return $this->paypalService->createOrder($order);
     }
 
     /**
