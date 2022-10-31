@@ -8,9 +8,11 @@ use App\Http\Requests\Order\OrderUpdateRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Models\Project;
 use App\Models\Role;
 use App\Services\OrderService;
 use App\Services\PaypalService;
+use Illuminate\Support\Arr;
 use Throwable;
 
 class OrderController extends Controller
@@ -41,6 +43,13 @@ class OrderController extends Controller
     public function store()
     {
         $order = $this->orderService->createFromShoppingCart((int)auth()->id());
+
+        if (request()->has('project_id')) {
+            /** @var Project $project */
+            $project = Project::find(request('project_id'));
+            $project->orders[] = $order->id;
+            $project->save();
+        }
 
         return $this->paypalService->createOrder($order);
     }

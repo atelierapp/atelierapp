@@ -25,6 +25,8 @@ use Illuminate\Support\Carbon;
  * @property array|object|null $payment_gateway_metadata
  * @property int $items
  * @property $total_price
+ * @property ?string $payment_gateway_code
+ * @property ?self $parent
  */
 class Order extends BaseModelCountry
 {
