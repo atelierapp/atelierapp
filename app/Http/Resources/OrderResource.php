@@ -6,7 +6,8 @@ use App\Models\Order;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
-/** @mixin Order
+/**
+ * @mixin Order
  */
 class OrderResource extends JsonResource
 {
@@ -27,7 +28,6 @@ class OrderResource extends JsonResource
             'paid_on' => $this->paid_on,
             'shipping' => null,
             'created_at' => $this->created_at,
-            'orders' => $this->orders,
         ];
 
         $metadata = is_null($this->parent_id)
