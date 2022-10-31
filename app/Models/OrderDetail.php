@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Builders\OrderDetailBuilder;
 use App\Traits\Models\HasOrderRelation;
+use Eloquent;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @mixin IdeHelperOrderDetail
+ * @mixin Eloquent
  */
 class OrderDetail extends BaseModelCountry
 {

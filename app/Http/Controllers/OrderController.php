@@ -11,6 +11,7 @@ use App\Models\OrderStatus;
 use App\Models\Role;
 use App\Services\OrderService;
 use App\Services\PaypalService;
+use Throwable;
 
 class OrderController extends Controller
 {
@@ -33,6 +34,17 @@ class OrderController extends Controller
         return OrderResource::collection($orders);
     }
 
+    /**
+     * @throws Throwable
+     * @throws AtelierException
+     */
+    public function store()
+    {
+        $order = $this->orderService->createFromShoppingCart((int)auth()->id());
+
+        return $this->paypalService->createOrder($order);
+    }
+
     public function show($order)
     {
         $order = $this->orderService->getByAuthRole($order);
@@ -48,9 +60,13 @@ class OrderController extends Controller
         return OrderResource::make($order);
     }
 
+    /**
+     * @throws Throwable
+     * @throws AtelierException
+     */
     public function accept($order)
     {
-        $order = Order::where('id', '=', $order)->filterByAuthenticatedRole()->first();
+        $order = Order::where('id', '=', $order)->filterByRole()->first();
 
         if ($order->seller_status_id == OrderStatus::_SELLER_APPROVAL) {
             throw new AtelierException('This document was accepted', 409);
