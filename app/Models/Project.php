@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @mixin IdeHelperProject
  * @mixin Eloquent
  * @property ?array $orders
+ * @mixin IdeHelperProject
  */
 class Project extends BaseModelCountry
 {

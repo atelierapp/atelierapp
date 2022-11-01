@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * @mixin IdeHelperOrder
  * @mixin Eloquent
  * @mixin OrderBuilder
  * @property int $id
@@ -29,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @property ?self $parent
  * @property int $user_id
  * @property OrderStatus $seller_status
+ * @mixin IdeHelperOrder
  */
 class Order extends BaseModelCountry
 {
