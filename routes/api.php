@@ -152,6 +152,7 @@ Route::middleware('locale')->group(function () {
             Route::post('/image', [ProjectController::class, 'image'])->name('project.image');
             Route::post('/product', [ProductProjectController::class, 'store'])->name('project.product.store');
             Route::patch('/product/{variation}', [ProductProjectController::class, 'update'])->name('project.product.update');
+            Route::delete('/product/{variation}', [ProductProjectController::class, 'destroy'])->name('project.product.delete');
         });
         Route::get('projects-temp', [ProjectController::class, 'index']);
         Route::post('projects-temp', [ProjectController::class, 'store']);
