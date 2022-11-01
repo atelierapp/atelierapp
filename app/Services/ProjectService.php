@@ -144,4 +144,11 @@ class ProjectService
 
         return $this->attachProduct($project, $params);
     }
+
+    public function deleteProduct(Project $project, $variation): void
+    {
+        ProductProject::where('project_id', '=', $project->id)
+            ->where('variation_id', '=', $variation)
+            ->delete();
+    }
 }

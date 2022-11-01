@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 /**
- * @mixin IdeHelperOrderStatus
  * @property string $name
+ * @mixin IdeHelperOrderStatus
  */
 class OrderStatus extends Model
 {

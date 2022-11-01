@@ -31,7 +31,15 @@ class ProductProjectController extends Controller
         $this->projectService->loadRelations($project);
 
         return ProjectResource::make($project);
+    }
 
+    public function destroy($project, $variation)
+    {
+        $project = $this->projectService->getByAuth($project);
+        $this->projectService->deleteProduct($project, $variation);
+        $this->projectService->loadRelations($project);
+
+        return ProjectResource::make($project);
     }
 
 }
