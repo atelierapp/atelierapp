@@ -19,7 +19,7 @@ class OrderIndexRequest extends FormRequest
                 OrderStatus::_SELLER_IN_TRANSIT,
                 OrderStatus::_SELLER_DELIVERED,
             ])],
-            'store_id' => ['nullable', 'exists:orders,id'],
+            'store_id' => ['nullable', 'exists:stores,id'],
             'start_date' => ['nullable', 'date', 'required_with:end_date', 'before_or_equal:end_date'],
             'end_date' => ['nullable', 'date', 'required_with:start_date', 'after_or_equal:start_date'],
         ];
