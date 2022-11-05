@@ -5,7 +5,7 @@ namespace Tests\Feature\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 
-class OrderDetailControllerUpdateTest extends BaseTest
+class OrderProductControllerUpdateTest extends BaseTest
 {
     public function test_an_guess_user_can_not_update_a_detail_of_any_order()
     {

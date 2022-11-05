@@ -4,7 +4,7 @@ namespace Tests\Feature\Order;
 
 use App\Models\Order;
 
-class OrderDetailControllerIndexTest extends BaseTest
+class OrderProductControllerIndexTest extends BaseTest
 {
     public function test_an_guess_user_can_not_list_details_of_any_order()
     {
