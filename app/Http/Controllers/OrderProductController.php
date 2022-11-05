@@ -8,7 +8,7 @@ use App\Models\Role;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
-class OrderDetailController extends Controller
+class OrderProductController extends Controller
 {
     public function __construct(private OrderService $orderService)
     {

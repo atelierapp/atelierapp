@@ -158,7 +158,9 @@ class OrderService
             'paid_on' => null,
         ]);
 
-        Order::where('parent_id', '=', $order->id)
+         Order::query()
+            ->withoutGlobalScopes()
+            ->where('parent_id', '=', $order->id)
             ->update([
                 'payment_gateway_id' => $paymentGatewayId,
                 'payment_gateway_code' => $code,
@@ -188,10 +190,12 @@ class OrderService
             'paid_on' => now(),
         ]);
 
-        Order::where('parent_id', '=', $order->id)
+        Order::query()
+            ->withoutGlobalScopes()
+            ->where('parent_id', '=', $order->id)
             ->update([
-                'paid_status_id' => PaymentStatus::PAYMENT_PENDING_APPROVAL,
-                'paid_on' => now(),
+                'paid_status_id' => $order->paid_status_id,
+                'paid_on' => $order->paid_on,
             ]);
 
         return $order;
