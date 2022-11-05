@@ -17,6 +17,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\Process\OrderAcceptController;
 use App\Http\Controllers\Process\ProductProjectController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductFavoriteController;
@@ -160,7 +161,7 @@ Route::middleware('locale')->group(function () {
         Route::post('shopping-cart/create-order', [OrderController::class, 'store'])->name('shopping-cart.order');
         Route::apiResource('orders', OrderController::class)->names('order')->only(['index', 'update', 'show']);
         Route::get('orders/{order}/details', [OrderProductController::class, 'index'])->name('order.details');
-        Route::post('orders/{order}/accept', [OrderController::class, 'accept'])->name('order.accept');
+        Route::post('orders/{order}/accept', OrderAcceptController::class)->name('order.accept');
         Route::patch('orders/{order}/details/{detail}', [OrderProductController::class, 'update'])->name('order.details.update');
 
         // Dashboard

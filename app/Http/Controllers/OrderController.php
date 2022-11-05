@@ -7,12 +7,10 @@ use App\Http\Requests\Order\OrderIndexRequest;
 use App\Http\Requests\Order\OrderUpdateRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
-use App\Models\OrderStatus;
 use App\Models\Project;
 use App\Models\Role;
 use App\Services\OrderService;
 use App\Services\PaypalService;
-use Illuminate\Support\Arr;
 use Throwable;
 
 class OrderController extends Controller
@@ -65,27 +63,6 @@ class OrderController extends Controller
     public function update(OrderUpdateRequest $request, $order)
     {
         $order = $this->orderService->updateSellerStatus($order, $request->get('seller_status_id'));
-
-        return OrderResource::make($order);
-    }
-
-    /**
-     * @throws Throwable
-     * @throws AtelierException
-     */
-    public function accept($order)
-    {
-        $order = Order::where('id', '=', $order)->filterByRole()->first();
-
-        if ($order->seller_status_id == OrderStatus::_SELLER_APPROVAL) {
-            throw new AtelierException('This document was accepted', 409);
-        }
-
-        $this->paypalService->capturePaymentOrder($order);
-
-        $order->seller_status_id = OrderStatus::_SELLER_APPROVAL;
-        $order->seller_status_at = now();
-        $order->save();
 
         return OrderResource::make($order);
     }
