@@ -20,7 +20,7 @@ class StoreController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $stores = Store::search(request('search'))->get();
+        $stores = Store::search(request('search'))->paginate(1000);
 
         return StoreResource::collection($stores);
     }
