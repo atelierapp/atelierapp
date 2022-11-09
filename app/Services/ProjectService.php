@@ -25,7 +25,7 @@ class ProjectService
             ->search($search)
             ->authUser($userId)
             ->latest()
-            ->paginate();
+            ->paginate(1000);
     }
 
     public function store(array $params = []): Project

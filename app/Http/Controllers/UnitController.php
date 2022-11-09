@@ -13,7 +13,7 @@ class UnitController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $units = Unit::paginate();
+        $units = Unit::paginate(1000);
 
         return UnitResource::collection($units);
     }

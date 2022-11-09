@@ -13,7 +13,7 @@ class UnitSystemController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $unitSystems = UnitSystem::paginate();
+        $unitSystems = UnitSystem::paginate(1000);
 
         return UnitSystemResource::collection($unitSystems);
     }

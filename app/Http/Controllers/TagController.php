@@ -13,7 +13,7 @@ class TagController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $tags = Tag::paginate();
+        $tags = Tag::paginate(1000);
 
         return TagResource::collection($tags);
     }
