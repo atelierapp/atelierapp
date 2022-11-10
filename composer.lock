@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91e8b92c68e15b11b6cca86f69be2bdf",
+    "content-hash": "482853600d17377495532dc6438f2701",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1352,6 +1352,58 @@
                 }
             ],
             "time": "2020-04-28T08:47:37+00:00"
+        },
+        {
+            "name": "genealabs/nova-telescope",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeneaLabs/nova-telescope.git",
+                "reference": "3040493d9c71fde5d09577a47acc0538ff38ef19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeneaLabs/nova-telescope/zipball/3040493d9c71fde5d09577a47acc0538ff38ef19",
+                "reference": "3040493d9c71fde5d09577a47acc0538ff38ef19",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0",
+                "laravel/telescope": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "GeneaLabs\\NovaTelescope\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GeneaLabs\\NovaTelescope\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova tool.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/GeneaLabs/nova-telescope/issues",
+                "source": "https://github.com/GeneaLabs/nova-telescope/tree/0.4.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mikebronner",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-09T13:45:15+00:00"
         },
         {
             "name": "graham-campbell/result-type",

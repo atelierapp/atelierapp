@@ -21,6 +21,7 @@
         "ext-json": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
+        "genealabs/nova-telescope": "0.4.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/cashier": "^13.11",
         "laravel/framework": "^8.0",
@@ -29,7 +30,6 @@
         "laravel/socialite": "^5.0",
         "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.0",
-        "spatie/laravel-translatable": "^5.0",
         "laravel/vapor-cli": "^1.39",
         "laravel/vapor-core": "^2.22",
         "laravel/vapor-ui": "^1.5",
@@ -39,6 +39,7 @@
         "socialiteproviders/apple": "^5.0",
         "spatie/enum": "^3.0",
         "spatie/laravel-enum": "^2.0",
+        "spatie/laravel-translatable": "^5.0",
         "srmklive/paypal": "~3.0"
     },
     "require-dev": {
