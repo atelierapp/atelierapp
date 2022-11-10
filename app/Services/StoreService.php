@@ -41,7 +41,7 @@ class StoreService
     {
         $query = Store::whereId($id);
 
-        if (Bouncer::is(auth()->user())->a(Role::SELLER)) {
+        if (auth()->check() && Bouncer::is(auth()->user())->a(Role::SELLER)) {
             $query->authUser();
         }
 
@@ -49,7 +49,7 @@ class StoreService
     }
 
     /**
-     * @throws \App\Exceptions\AtelierException
+     * @throws AtelierException
      */
     public function getMySellerStore(): Store
     {
@@ -80,7 +80,7 @@ class StoreService
         return $store;
     }
 
-    private function processQualities(Store &$store, FormRequest $request)
+    private function processQualities(Store &$store, FormRequest $request): void
     {
         if ($request->has('qualities') and count($request->get('qualities'))) {
             $qualities = Quality::query()->whereIn('id', $request->get('qualities'))->get();
@@ -89,7 +89,7 @@ class StoreService
         }
     }
 
-    private function processImages(Store &$store, FormRequest $request)
+    private function processImages(Store &$store, FormRequest $request): void
     {
         $this->mediaService->path($this->path)->model($store);
         $images = ['logo', 'team', 'cover'];
@@ -113,9 +113,9 @@ class StoreService
         }
      }
 
-    public function processImpactQualities(string|int|Store $store, array $params)
+    public function processImpactQualities(string|int|Store $store, array $params): Store|int|string
     {
-        // i belive that this will be need a refactor to individual functions, but at the moment this works .....
+        // @TODO Jaime: I believe that this will need some refactoring to individual functions, but at the moment it works..
         if (!$store instanceof Store) {
             $store = $this->getById($store);
         }

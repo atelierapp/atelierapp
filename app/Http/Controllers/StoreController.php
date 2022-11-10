@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AtelierException;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\StoreUpdateRequest;
@@ -39,6 +40,7 @@ class StoreController extends Controller
         return StoreResource::make($store);
     }
 
+    /** @throws AtelierException */
     public function myStore(): StoreResource
     {
         $store = $this->storeService->getMySellerStore();
@@ -53,7 +55,7 @@ class StoreController extends Controller
         return StoreResource::make($store);
     }
 
-    public function image(StoreImageRequest $request, $store)
+    public function storeImage(StoreImageRequest $request, $store)
     {
         $store = $this->storeService->image($request, $store);
 
