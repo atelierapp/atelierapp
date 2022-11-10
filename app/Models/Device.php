@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @mixin \Eloquent
+ * @mixin IdeHelperDevice
  */
 class Device extends Model
 {

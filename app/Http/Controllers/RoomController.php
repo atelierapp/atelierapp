@@ -13,7 +13,7 @@ class RoomController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $rooms = Room::paginate();
+        $rooms = Room::paginate(1000);
 
         return RoomResource::collection($rooms);
     }

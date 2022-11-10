@@ -13,7 +13,7 @@ class MaterialController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $materials = Material::paginate();
+        $materials = Material::paginate(1000);
 
         return MaterialResource::collection($materials);
     }

@@ -17,7 +17,7 @@ class BannerController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $banners = Banner::paginate();
+        $banners = Banner::paginate(1000);
 
         return BannerResource::collection($banners);
     }

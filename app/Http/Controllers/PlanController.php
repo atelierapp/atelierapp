@@ -9,7 +9,7 @@ class PlanController extends Controller
 {
     public function __invoke()
     {
-        $plans = Plan::paginate();
+        $plans = Plan::paginate(1000);
 
         return PlanResource::collection($plans);
     }

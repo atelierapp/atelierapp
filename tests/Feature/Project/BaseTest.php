@@ -57,4 +57,15 @@ abstract class BaseTest extends TestCase
             ],
         ];
     }
+
+    public static function structureProduct(): array
+    {
+        return [
+            'variation_id',
+            'variation',
+            'product_id',
+            'product',
+            'quantity',
+        ];
+    }
 }

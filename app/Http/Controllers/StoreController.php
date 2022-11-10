@@ -15,12 +15,12 @@ class StoreController extends Controller
 {
     public function __construct(protected StoreService $storeService)
     {
-        $this->middleware('auth:sanctum')->only(['store', 'show', 'update', 'image', 'myStore']);
+        //
     }
 
     public function index(): AnonymousResourceCollection
     {
-        $stores = Store::search(request('search'))->paginate();
+        $stores = Store::search(request('search'))->paginate(1000);
 
         return StoreResource::collection($stores);
     }

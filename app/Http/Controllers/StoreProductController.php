@@ -14,7 +14,7 @@ class StoreProductController extends Controller
             ->where('store_id', $store)
             ->with(['style', 'medias', 'tags', 'categories'])
             ->applyFiltersFrom(request()->all())
-            ->paginate(request('pageSize') ?? 10);
+            ->paginate(request('pageSize') ?? 1000);
 
         return ProductResource::collection($products);
     }

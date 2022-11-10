@@ -13,7 +13,7 @@ class MediaTypeController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $mediaTypes = MediaType::paginate();
+        $mediaTypes = MediaType::paginate(1000);
 
         return MediaTypeResource::collection($mediaTypes);
     }

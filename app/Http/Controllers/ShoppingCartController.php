@@ -23,7 +23,7 @@ class ShoppingCartController extends Controller
                 /** @throws AtelierException */
                 fn($query) => $query->where('customer_type', Device::class)->where('customer_id', $this->getDeviceId()),
             )
-            ->paginate(request('pageSize', 20));
+            ->paginate(request('pageSize', 1000));
 
         return ShoppingCartResource::collection($variants);
     }

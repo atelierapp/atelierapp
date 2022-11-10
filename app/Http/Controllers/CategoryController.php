@@ -14,7 +14,7 @@ class CategoryController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $categories = Category::paginate(100);
+        $categories = Category::paginate(1000);
 
         return CategoryResource::collection($categories);
     }
