@@ -132,7 +132,7 @@ class ProjectControllerTest extends TestCase
         $data = [
             'image' => UploadedFile::fake()->image('imagen.jpg'),
         ];
-        $response = $this->postJson(route('projects.image', $project), $data, $this->customHeaders());
+        $response = $this->postJson(route('project.image', $project), $data, $this->customHeaders());
 
         $response->assertOk();
         $this->assertEquals(1, count(Storage::disk('s3')->allFiles('projects')));

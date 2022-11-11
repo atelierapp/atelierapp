@@ -9,6 +9,7 @@ class ProjectShoppingCartControllerTest extends TestCase
 {
     public function test_a_guess_user_cannot_create_a_shopping_cart_from_project()
     {
+        self::markTestSkipped();
         $response = $this->postJson(route('project.shopping-cart'));
 
         $response->assertUnauthorized();

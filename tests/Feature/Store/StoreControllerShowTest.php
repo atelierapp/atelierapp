@@ -13,9 +13,11 @@ class StoreControllerShowTest extends BaseTest
 {
     public function test_a_guess_user_cannot_show_any_store()
     {
-        $response = $this->getJson(route('store.show', 1));
+        $store = Store::factory()->create();
 
-        $response->assertUnauthorized();
+        $response = $this->getJson(route('store.show', $store->id));
+
+        $response->assertOk();
     }
 
     public function test_a_admin_user_can_view_a_specified_store()
