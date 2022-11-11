@@ -52,68 +52,6 @@ Route::prefix('/paypal')->group(function () {
 
 Route::middleware('locale')->group(function () {
 
-    // auth
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login-social', [AuthController::class, 'socialLogin']);
-    Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
-    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
-    Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
-
-    // Stores
-    Route::apiResource('stores', StoreController::class)->names('store')->only(['index', 'show']);
-    Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
-
-    // Products
-    Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
-    Route::get('/products/qualifications', [ProductReviewController::class, 'index'])->name('product.review.index');
-    Route::apiResource('products', ProductController::class)->names('product');
-    Route::prefix('products/{product}')->group(function () {
-        Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
-        Route::post('images', [ProductController::class, 'image'])->name('product.image');
-        Route::post('/qualify', [ProductReviewController::class, 'store'])->name('product.review.store');
-        Route::get('/reviews', [ProductReviewController::class, 'show'])->name('product.review.show');
-        Route::prefix('variations')->group(function () {
-            Route::get('/', [VariationController::class, 'index'])->name('variation.index');
-            Route::post('/', [VariationController::class, 'store'])->name('variation.store');
-            Route::patch('{variation}', [VariationController::class, 'update'])->name('variation.update');
-            Route::post('{variation}/images', [VariationController::class, 'image'])->name('variation.image');
-            Route::delete('{variation}', [VariationController::class, 'destroy'])->name('variation.destroy');
-        });
-    });
-
-    // Banners
-    Route::apiResource('banners', BannerController::class)->names('banner');
-    Route::post('banners/{banner}/image', [BannerController::class, 'image'])->name('banner.image');
-
-    Route::apiResource('qualities', QualityController::class)->names('quality')->except(['show']);
-
-    Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
-
-    Route::apiResource('categories', CategoryController::class)->names('category');
-
-    Route::apiResource('materials', MaterialController::class)->names('material');
-
-    Route::apiResource('tags', TagController::class)->names('tag');
-
-    Route::apiResource('unit', UnitController::class)->names('unit');
-
-    Route::apiResource('unit-system', UnitSystemController::class)->names('unit-system');
-
-    Route::apiResource('media-types', MediaTypeController::class)->names('media-type');
-
-    Route::prefix('resources')->group(function () {
-        Route::get('manufacture-type', ManufactureTypeController::class)->name('resources.manufacture-type');
-        Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
-    });
-
-    Route::group(['middleware' => 'optional.sanctum'], function () {
-        // Shopping Cart
-        Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
-        Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
-        Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
-        Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
-    });
-
     Route::middleware('auth:sanctum')->group(function () {
 
         // Auth
@@ -179,6 +117,68 @@ Route::middleware('locale')->group(function () {
             Route::get('net-income', NetIncomeController::class)->name('dashboard.net-income');
             Route::get('quick-details', [DashboardController::class, 'quickDetails'])->name('dashboard.quick-details');
         });
+    });
+
+    // auth
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login-social', [AuthController::class, 'socialLogin']);
+    Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
+
+    // Stores
+    Route::apiResource('stores', StoreController::class)->names('store')->only(['index', 'show']);
+    Route::get('stores/{store}/products', StoreProductController::class)->name('store.products.index');
+
+    // Products
+    Route::get('/products/trending', [ProductFavoriteController::class, 'trending'])->name('product.trending');
+    Route::get('/products/qualifications', [ProductReviewController::class, 'index'])->name('product.review.index');
+    Route::apiResource('products', ProductController::class)->names('product');
+    Route::prefix('products/{product}')->group(function () {
+        Route::post('favorite', [ProductFavoriteController::class, 'user'])->name('product.favorite');
+        Route::post('images', [ProductController::class, 'image'])->name('product.image');
+        Route::post('/qualify', [ProductReviewController::class, 'store'])->name('product.review.store');
+        Route::get('/reviews', [ProductReviewController::class, 'show'])->name('product.review.show');
+        Route::prefix('variations')->group(function () {
+            Route::get('/', [VariationController::class, 'index'])->name('variation.index');
+            Route::post('/', [VariationController::class, 'store'])->name('variation.store');
+            Route::patch('{variation}', [VariationController::class, 'update'])->name('variation.update');
+            Route::post('{variation}/images', [VariationController::class, 'image'])->name('variation.image');
+            Route::delete('{variation}', [VariationController::class, 'destroy'])->name('variation.destroy');
+        });
+    });
+
+    // Banners
+    Route::apiResource('banners', BannerController::class)->names('banner');
+    Route::post('banners/{banner}/image', [BannerController::class, 'image'])->name('banner.image');
+
+    Route::apiResource('qualities', QualityController::class)->names('quality')->except(['show']);
+
+    Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
+
+    Route::apiResource('categories', CategoryController::class)->names('category');
+
+    Route::apiResource('materials', MaterialController::class)->names('material');
+
+    Route::apiResource('tags', TagController::class)->names('tag');
+
+    Route::apiResource('unit', UnitController::class)->names('unit');
+
+    Route::apiResource('unit-system', UnitSystemController::class)->names('unit-system');
+
+    Route::apiResource('media-types', MediaTypeController::class)->names('media-type');
+
+    Route::prefix('resources')->group(function () {
+        Route::get('manufacture-type', ManufactureTypeController::class)->name('resources.manufacture-type');
+        Route::get('manufacture-process', ManufactureProcessController::class)->name('resources.manufacture-process');
+    });
+
+    Route::group(['middleware' => 'optional.sanctum'], function () {
+        // Shopping Cart
+        Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
+        Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
+        Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
+        Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
     });
 });
 
