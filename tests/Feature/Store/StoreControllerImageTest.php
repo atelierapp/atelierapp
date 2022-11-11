@@ -38,7 +38,7 @@ class StoreControllerImageTest extends BaseTest
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\StoreController::class,
-            'image',
+            'storeImage',
             \App\Http\Requests\StoreImageRequest::class
         );
     }
