@@ -2,18 +2,18 @@
 
 
 @component('mail::message')
-# Recover your password
+# {{ __('email.recover-your-password') }}
 
-Hi {{ $name }}! We have received a request to recover the password of your Atelier account.
+{{ __('email.we-received-a-message-to-recover-your-password', ['name' => $name]) }}
 
-To do so, please follow this link:
+{{ __('email.follow-this-link') }}
 
-@component('mail::button', ['url' => route('resetPassword', ['token' => $token]), 'color' => 'success'])
-    Update my password
+@component('mail::button', ['url' => "https://app.atelierapp.com/recover-password?token=$token", 'color' => 'success'])
+    {{ __('email.update-my-password') }}
 @endcomponent
 
-If this wasn't you, don't worry. Just ignore this email.
+{{ __('email.if-this-was-not-you') }}
 
-Best,<br>
+{{ __('email.best') }},<br>
 The Atelier Team
 @endcomponent
