@@ -66,6 +66,22 @@ class QualitySeeder extends Seeder
                 ],
                 'score' => 1,
             ],
+            [
+                'id' => 7,
+                'name' => [
+                    'en' => 'Sustainably Transported',
+                    'es' => 'Transportado de manera sostenible',
+                ],
+                'score' => 1,
+            ],
+            [
+                'id' => 8,
+                'name' => [
+                    'en' => 'Others',
+                    'es' => 'Otros',
+                ],
+                'score' => 1,
+            ],
         ])->each(fn ($style) => $this->processModel($style));
     }
 
