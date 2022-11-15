@@ -124,6 +124,7 @@ Route::middleware('locale')->group(function () {
     Route::post('/login-social', [AuthController::class, 'socialLogin']);
     Route::post('/sign-up', [AuthController::class, 'signUp'])->name('signUp');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/validate-username', UsernameValidationController::class)->name('username.validate');
 
     // Stores

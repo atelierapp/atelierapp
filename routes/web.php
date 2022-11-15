@@ -33,4 +33,4 @@ Route::get('/dashboard', fn() => 'dashboard!')->name('dashboard');
 | Recover Password
 |--------------------------------------------------------------------------
 */
-Route::get('recover-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
+Route::get('recover-password', [AuthController::class, 'resetPassword'])->name('resetPassword')->domain('app.' . config('app.url'));
