@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'recover-your-password' => 'Recover your password',
+    'recover-your-password' => 'Recupera tu contraseña',
     'we-received-a-message-to-recover-your-password' => 'Hi :name! We have received a request to recover the password of your Atelier account.',
     'follow-this-link' => 'To do so, please follow this link:',
     'update-my-password' => 'Update my password',

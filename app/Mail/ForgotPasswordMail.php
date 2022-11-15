@@ -24,6 +24,6 @@ class ForgotPasswordMail extends Mailable
                 'name' => $this->name,
                 'token' => $this->token,
             ])
-            ->subject('Recover your password');
+            ->subject(__('email.recover-your-password'));
     }
 }
