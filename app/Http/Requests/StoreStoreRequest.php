@@ -12,7 +12,7 @@ class StoreStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:60'],
-            'story' => ['required', 'string', 'max:120'],
+            'story' => ['required', 'string', 'max:600'],
             'logo' => ['required', 'image'],
             'team' => ['nullable', 'image'],
             'cover' => ['nullable', 'image'],
