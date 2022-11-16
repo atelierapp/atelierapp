@@ -116,7 +116,6 @@ class ShoppingCartController extends Controller
     public function transferFromDeviceToUser(Request $request)
     {
         $userId = auth()->id();
-        $deviceId = $request->get('uuid');
 
         // First, let's clear any previous user shopping cart
         ShoppingCart::query()
@@ -124,7 +123,10 @@ class ShoppingCartController extends Controller
             ->where('customer_id', $userId)
             ->delete();
 
-        // Then, let's transfer the device's shopping-cart to the user
+        // Then, let's identify the device
+        $deviceId = Device::where('uuid', $request->get('uuid'))->value('id');
+
+        // Finally, let's transfer the device's shopping-cart to the user
         ShoppingCart::query()
             ->where('customer_type', Device::class)
             ->where('customer_id', $deviceId)
