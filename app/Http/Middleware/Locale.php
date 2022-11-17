@@ -36,7 +36,7 @@ class Locale
      */
     private function getLocaleAndCountry(array|string|null $header): array
     {
-        if (!in_array(strtolower($header), ['en-us', 'es-pe'])) {
+        if (!in_array(strtolower($header), ['en-us', 'es-us', 'en-pe', 'es-pe'])) { // TODO : temporary added at this form
             throw new AtelierException('Invalid "X-Locale" header', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
