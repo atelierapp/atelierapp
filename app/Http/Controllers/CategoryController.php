@@ -14,11 +14,12 @@ class CategoryController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $query = Category::query()->whe;
-        if (request()->has('type')) {
-            $query->where('type', request('type'));
-        }
-        $categories = $query->paginate(1000);
+        $categories = Category::query()
+            ->when(
+                request()->has('type'),
+                fn ($query) => $query->where('type', request('type'))
+            )
+            ->paginate(1000);
 
         return CategoryResource::collection($categories);
     }
