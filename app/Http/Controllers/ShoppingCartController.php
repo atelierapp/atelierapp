@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AtelierException;
+use App\Http\Requests\ReplaceShoppingCartRequest;
 use App\Http\Resources\ShoppingCartResource;
 use App\Models\Device;
 use App\Models\ShoppingCart;
@@ -33,16 +34,7 @@ class ShoppingCartController extends Controller
      */
     public function increase($variationId)
     {
-        if (auth()->check()) {
-            $customerType = User::class;
-            $customerId = auth()->id();
-        } else {
-            $customerId = $this->getDeviceId();
-            $customerType = Device::class;
-            if (is_null($customerId)) {
-                $customerId = Device::create(['uuid' => request()->header('x-device-uuid')])->value('id');
-            }
-        }
+        [$customerType, $customerId] = $this->getCustomerTypeAndId();
 
         $item = ShoppingCart::firstOrNew([
             'variation_id' => Variation::where('id', $variationId)->firstOrFail()->id,
@@ -93,16 +85,7 @@ class ShoppingCartController extends Controller
      */
     public function remove(Request $request, int $variationId)
     {
-        if (auth()->check()) {
-            $customerType = User::class;
-            $customerId = auth()->id();
-        } else {
-            $customerId = $this->getDeviceId();
-            $customerType = Device::class;
-            if (is_null($customerId)) {
-                $customerId = Device::create(['uuid' => request()->header('x-device-uuid')])->value('id');
-            }
-        }
+        [$customerType, $customerId] = $this->getCustomerTypeAndId();
 
         ShoppingCart::query()
             ->where('customer_type', $customerType)
@@ -111,6 +94,32 @@ class ShoppingCartController extends Controller
             ->delete();
 
         return $this->response([], 'Item removed from your cart.');
+    }
+
+    /**
+     * @throws AtelierException
+     */
+    public function replace(ReplaceShoppingCartRequest $request)
+    {
+        [$customerType, $customerId] = $this->getCustomerTypeAndId();
+
+        ShoppingCart::query()
+            ->where('customer_type', $customerType)
+            ->where('customer_id', $customerId)
+            ->delete();
+
+        $variantsWithQuantities = $request->validated();
+
+        foreach ($variantsWithQuantities as $variant) {
+            ShoppingCart::create([
+                'customer_type' => $customerType,
+                'customer_id' => $customerId,
+                'variation_id' => $variant['variation_id'],
+                'quantity' => (int)$variant['quantity'],
+            ]);
+        }
+
+        return $this->response([], __('shopping-cart.the-shopping-cart-has-been-updated'));
     }
 
     public function transferFromDeviceToUser(Request $request)
@@ -152,5 +161,25 @@ class ShoppingCartController extends Controller
         }
 
         return Device::select('id')->where('uuid', request()->header('x-device-uuid'))->value('id');
+    }
+
+    /**
+     * @return array
+     * @throws AtelierException
+     */
+    private function getCustomerTypeAndId(): array
+    {
+        if (auth()->check()) {
+            $customerType = User::class;
+            $customerId = auth()->id();
+        } else {
+            $customerId = $this->getDeviceId();
+            $customerType = Device::class;
+            if (is_null($customerId)) {
+                $customerId = Device::create(['uuid' => request()->header('x-device-uuid')])->value('id');
+            }
+        }
+
+        return array($customerType, $customerId);
     }
 }

@@ -177,6 +177,7 @@ Route::middleware('locale')->group(function () {
     Route::group(['middleware' => 'optional.sanctum'], function () {
         // Shopping Cart
         Route::get('shopping-cart', [ShoppingCartController::class, 'index'])->name('shopping-cart.index');
+        Route::post('shopping-cart/replace', [ShoppingCartController::class, 'replace'])->name('shopping-cart.replace');
         Route::post('shopping-cart/{variationId}/increase', [ShoppingCartController::class, 'increase'])->name('shopping-cart.increase');
         Route::post('shopping-cart/{variationId}/decrease', [ShoppingCartController::class, 'decrease'])->name('shopping-cart.decrease');
         Route::post('shopping-cart/{variationId}/delete', [ShoppingCartController::class, 'remove'])->name('shopping-cart.delete');
