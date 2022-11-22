@@ -11,11 +11,12 @@ use App\Models\Product;
  */
 class ProductControllerShowTest extends BaseTest
 {
-    public function test_a_guess_cannot_list_products()
+    public function test_a_guess_can_list_products()
     {
-        $response = $this->getJson(route('product.show', 1), $this->customHeaders());
+        $product = Product::factory()->create();
+        $response = $this->getJson(route('product.show', $product->id), $this->customHeaders());
 
-        $response->assertUnauthorized();
+        $response->assertOk();
     }
 
     public function  test_a_normal_user_cannot_view_detail_of_unexists_product()
