@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'image' => $this->faker->word,
+            'image' => $this->faker->url,
             'parent_id' => $this->faker->randomElement([null, Category::factory()]),
             'active' => $this->faker->boolean,
         ];
