@@ -36,7 +36,6 @@ class PaypalService
             ],
             'purchase_units' => [
                 [
-                    // 'reference_id' => $order->id,
                     'amount' => [
                         'currency_code' => 'USD',
                         'value' => $order->total_price,
