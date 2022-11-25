@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Exceptions\AtelierException;
 use App\Models\Order;
+use App\Models\OrderStatus;
+use App\Models\PaymentStatus;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -70,7 +72,6 @@ class PaypalService
     /** @throws Throwable */
     public function capturePaymentOrder(Order $order): Order
     {
-        // TODO : implement by orderService
         $diff = $order->paid_on->diffInDays(now());
 
         if ($diff > 29) {
@@ -81,13 +82,17 @@ class PaypalService
             $this->provider->reAuthorizeAuthorizedPayment($order->payment_gateway_code, $order->parent->total_price);
         }
 
-        $metadata = $order->parent->payment_gateway_metadata;
-        $authorizationCode = Arr::get($metadata,  'order_authorization.purchase_units.0.payments.authorizations.0.id');
+        $authorizationCode = Arr::get(
+            $order->payment_gateway_metadata,
+            'order_authorization.purchase_units.0.payments.authorizations.0.id'
+        );
 
-        $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $order->total_price, 'note');
+        // TODO: implement by service
+        $orders = Order::whereParentId($order->id)->sellerStatus(OrderStatus::_SELLER_APPROVAL)->get();
+        $amount = $orders->sum('total_price');
 
-        $checkoutId = now()->format('YmdHisv');
-        $result = $this->provider->createBatchPayout([
+        $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $amount, '');
+        $this->orderService->updatePaymentGatewayMetadata($order, 'payment_capture', $capture);
             'sender_batch_header' => [
                 'sender_batch_id' => $checkoutId,
                 "recipient_type" => "EMAIL",
@@ -107,15 +112,42 @@ class PaypalService
             ],
         ]);
 
-        $this->orderService->updatePaymentGatewayMetadata($order, 'payout_status', $result);
-
         if (isset($capture['error'])) {
             throw new AtelierException(__('paypal.payment.payout-error'));
         }
 
-        $this->orderService->updateToPayedStatus($order, $capture);
-
-        return $order;
+        $this->orderService->updatePaidStatusTo(
+            $orders->pluck('id')->merge($order->id)->toArray(),
+            PaymentStatus::PAYMENT_CAPTURED
+        );
+        // aqui en adelante pasa al otro job
+        // $checkoutId = now()->format('YmdHisv');
+        // $result = $this->provider->createBatchPayout([
+        //     'sender_batch_header' => [
+        //         'sender_batch_id' => $checkoutId,
+        //         "recipient_type" => "EMAIL",
+        //         "email_subject" => "You have money!",
+        //         "email_message" => "You received a payment. Thanks for using our service!",
+        //     ],
+        //     'items' => [
+        //         [
+        //             'amount' => [
+        //                 'value' => '"' . $order->total_price * 0.75 . '"', // ajustar al redondeo de esta parte
+        //                 'currency' => 'USD'
+        //             ],
+        //             'sender_item_id' => $checkoutId . '001',
+        //             'recipient_wallet' => 'PAYPAL',
+        //             'receiver' => 'sb-a7bpl20773735@personal.example.com',
+        //         ]
+        //     ],
+        // ]);
+        //
+        // $this->orderService->updatePaymentGatewayMetadata($order, 'payout_status', $result);
+        //
+        //
+        // $this->orderService->updateToPayedStatus($order, $capture);
+        //
+        // return $order;
     }
 
     /** @throws Throwable */
