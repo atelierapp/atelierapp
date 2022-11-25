@@ -90,7 +90,6 @@ class PaypalService
         // TODO: implement by service
         $orders = Order::whereParentId($order->id)->sellerStatus(OrderStatus::_SELLER_APPROVAL)->get();
         $amount = $orders->sum('total_price');
-
         $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $amount, '');
         $this->orderService->updatePaymentGatewayMetadata($order, 'payment_capture', $capture);
             'sender_batch_header' => [
@@ -120,6 +119,7 @@ class PaypalService
             $orders->pluck('id')->merge($order->id)->toArray(),
             PaymentStatus::PAYMENT_CAPTURED
         );
+
         // aqui en adelante pasa al otro job
         // $checkoutId = now()->format('YmdHisv');
         // $result = $this->provider->createBatchPayout([

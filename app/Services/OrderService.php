@@ -221,4 +221,17 @@ class OrderService
 
         CheckOrdersForSellerApproval::dispatch($order->id);
     }
+
+    public function updatePaidStatusTo(array|int $orderIds, int $statusId): void
+    {
+        if (is_int($orderIds)) {
+            $orderIds = [$orderIds];
+        }
+
+        Order::whereIn('id', $orderIds)
+            ->update([
+                'paid_status_id' => $statusId,
+                'paid_on' => now()
+            ]);
+    }
 }
