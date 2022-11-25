@@ -70,7 +70,7 @@ class PaypalService
     }
 
     /** @throws Throwable */
-    public function capturePaymentOrder(Order $order): Order
+    public function capturePaymentOrder(Order $order): void
     {
         $diff = $order->paid_on->diffInDays(now());
 
@@ -92,24 +92,6 @@ class PaypalService
         $amount = $orders->sum('total_price');
         $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $amount, '');
         $this->orderService->updatePaymentGatewayMetadata($order, 'payment_capture', $capture);
-            'sender_batch_header' => [
-                'sender_batch_id' => $checkoutId,
-                "recipient_type" => "EMAIL",
-                "email_subject" => "You have money!",
-                "email_message" => "You received a payment. Thanks for using our service!",
-            ],
-            'items' => [
-                [
-                    'amount' => [
-                        'value' => '"' . $order->total_price * 0.75 . '"',
-                        'currency' => 'USD'
-                    ],
-                    'sender_item_id' => $checkoutId . '001',
-                    'recipient_wallet' => 'PAYPAL',
-                    'receiver' => 'sb-a7bpl20773735@personal.example.com',
-                ]
-            ],
-        ]);
 
         if (isset($capture['error'])) {
             throw new AtelierException(__('paypal.payment.payout-error'));
