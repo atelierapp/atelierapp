@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\AtelierException;
+use App\Jobs\CheckOrdersForSellerApproval;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
@@ -207,5 +208,17 @@ class OrderService
         $values[$node] = $params;
         $order->payment_gateway_metadata = $values;
         $order->save();
+    }
+
+    /**
+     * @throws \App\Exceptions\AtelierException
+     */
+    public function checkIfAllOrdersWereApproved(Order $order): void
+    {
+        if (!is_null($order->parent_id)) {
+            throw new AtelierException(__('order.errors.invalid_order_to_check'), Response::HTTP_CONFLICT);
+        }
+
+        CheckOrdersForSellerApproval::dispatch($order->id);
     }
 }

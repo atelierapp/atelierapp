@@ -8,11 +8,12 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Role;
+use App\Services\OrderService;
 use Illuminate\Http\Response;
 
 class OrderAcceptController extends Controller
 {
-    public function __construct() {
+    public function __construct(private OrderService $orderService) {
         $this->middleware('auth:sanctum');
         $this->middleware('role:' . Role::SELLER);
     }
@@ -35,6 +36,8 @@ class OrderAcceptController extends Controller
         $order->seller_status_id = OrderStatus::_SELLER_APPROVAL;
         $order->seller_status_at = now();
         $order->save();
+
+        $this->orderService->checkIfAllOrdersWereApproved($order->parent);
 
         return OrderResource::make($order);
     }
