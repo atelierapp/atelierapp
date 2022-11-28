@@ -12,35 +12,35 @@ class PaymentStatusSeeder extends Seeder
     {
         collect([
             [
-                'id' => 1,
+                'id' => PaymentStatus::PAYMENT_PENDING,
                 'name' => [
                     'es' => 'Pendiente',
                     'en' => 'Pending',
                 ],
             ],
             [
-                'id' => 2,
+                'id' => PaymentStatus::PAYMENT_PENDING_APPROVAL,
                 'name' => [
                     'es' => 'Pending sellers approval',
                     'en' => 'Pendiente aprobación de vendedor',
                 ],
             ],
             [
-                'id' => 3,
+                'id' => PaymentStatus::PAYMENT_REJECT,
                 'name' => [
                     'es' => 'Rechazado',
                     'en' => 'Reject',
                 ],
             ],
             [
-                'id' => 4,
+                'id' => PaymentStatus::PAYMENT_APPROVAL,
                 'name' => [
                     'es' => 'Aceptado',
                     'en' => 'Accepted',
                 ],
             ],
             [
-                'id' => 5,
+                'id' => PaymentStatus::PAYMENT_CAPTURED,
                 'name' => [
                     'es' => 'Capturado',
                     'en' => 'Captured',
