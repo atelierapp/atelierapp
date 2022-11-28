@@ -4,8 +4,15 @@ namespace App\Services;
 
 use App\Exceptions\AtelierException;
 use App\Models\Order;
+use App\Models\PaypalPlan;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\StreamInterface;
+use Psr\SimpleCache\InvalidArgumentException;
+use Ramsey\Uuid\Uuid;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 
@@ -47,7 +54,7 @@ class PaypalService
 
         $response = $this->provider->createOrder($structure);
 
-        if (!isset($response['id'])) {
+        if (! isset($response['id'])) {
             throw new AtelierException(
                 Arr::get($response, 'error.details.0.description', 'An error occurred in the integration with Paypal'),
                 Response::HTTP_UNPROCESSABLE_ENTITY,
@@ -68,6 +75,107 @@ class PaypalService
         ];
     }
 
+    /**
+     * @throws AtelierException
+     * @throws Throwable
+     * @throws InvalidArgumentException
+     */
+    public function createSubscription(string $planId, int|float $price, string $frequency = 'MONTH'): array
+    {
+        $securityToken = Uuid::uuid4();
+
+        $structure = [
+            'plan_id' => $planId,
+            'start_time' => ($start = now()->addDay()->startOfDay())->toIso8601String(),
+            'quantity' => 1,
+            'plan' => [
+                'billing_cycles' => [
+                    [
+                        'frequency' => [
+                            'interval_unit' => config('atelier.vendor.free-trial.frequency-unit'),
+                            'interval_count' => 1,
+                        ],
+                        'tenure_type' => 'TRIAL',
+                        'sequence' => 1,
+                        'total_cycles' => config('atelier.vendor.free-trial.total-cycles'),
+                        'pricing_scheme' => [
+                            'fixed_price' => [
+                                'value' => '0',
+                                'currency_code' => 'USD',
+                            ],
+                        ],
+                    ],
+                    [
+                        'frequency' => [
+                            'interval_unit' => $frequency,
+                            'interval_count' => 1
+                        ],
+                        'tenure_type' => 'REGULAR',
+                        'sequence' => 2,
+                        'total_cycles' => 0,
+                        'pricing_scheme' => [
+                            'fixed_price' => [
+                                'value' => $price,
+                                'currency_code' => 'USD',
+                            ],
+                        ],
+                    ],
+                ],],
+            'application_context' => [
+                'brand_name' => config('app.name'),
+                'locale' => 'es-PE',
+                'shipping_preference' => 'NO_SHIPPING',
+                'user_action' => 'SUBSCRIBE_NOW',
+                'payment_method' => [
+                    'payer_selected' => 'PAYPAL',
+                    'payee_preferred' => 'IMMEDIATE_PAYMENT_REQUIRED',
+                ],
+                'return_url' => route('paypal.confirm-subscription', [
+                    'success' => true,
+                    'token' => $securityToken,
+                ]),
+                'cancel_url' => route('paypal.confirm-subscription', [
+                    'success' => false,
+                    'token' => $securityToken,
+                ]),
+            ],
+        ];
+
+        $response = $this->provider->createSubscription($structure);
+
+        if (! isset($response['id'])) {
+            Log::error(__CLASS__ . ': Error creating PayPal subscription', [
+                'response' => $response,
+            ]);
+
+            throw new AtelierException(
+                Arr::get($response, 'error.details.0.description', 'An error occurred in the integration with Paypal'),
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+                $response
+            );
+        }
+
+        Cache::set("paypal-subscriptions:$securityToken", [
+            'store_id' => auth()->user()->store->id,
+            'plan_id' => $planId,
+            'external_subscription_id' => $response['id'],
+        ], 3600 * 24); // 1 day
+
+        return [
+            'subscription_id' => $response['id'],
+            'status' => $response['status'],
+            'plan_id' => PaypalPlan::where('external_plan_id', $planId)->value('id'),
+            'start_time' => Carbon::parse($start),
+            'create_time' => Carbon::parse($response['create_time']),
+            'links' => [
+                Arr::first(
+                    $response['links'],
+                    fn($link) => $link['rel'] === 'approve',
+                ),
+            ],
+        ];
+    }
+
     /** @throws Throwable */
     public function capturePaymentOrder(Order $order): Order
     {
@@ -83,7 +191,7 @@ class PaypalService
         }
 
         $metadata = $order->parent->payment_gateway_metadata;
-        $authorizationCode = Arr::get($metadata,  'order_authorization.purchase_units.0.payments.authorizations.0.id');
+        $authorizationCode = Arr::get($metadata, 'order_authorization.purchase_units.0.payments.authorizations.0.id');
 
         $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $order->total_price, 'note');
 
@@ -130,5 +238,11 @@ class PaypalService
         $this->orderService->updatePaymentGatewayMetadata($order, 'order_authorization', $response);
 
         return $order;
+    }
+
+    /** @throws Throwable */
+    public function getSubscription(string $subscriptionId): StreamInterface|array|string
+    {
+        return $this->provider->showSubscriptionDetails($subscriptionId);
     }
 }
