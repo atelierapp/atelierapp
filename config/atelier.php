@@ -3,7 +3,14 @@
 return [
 
     'vendor' => [
-        'enabled' => env('ATELIER_VENDOR_ENABLED', false)
+
+        'enabled' => env('ATELIER_VENDOR_ENABLED', false),
+
+        'free-trial' => [
+            'frequency-unit' => env('FREE_TRIAL_FREQUENCY', 'MONTH'),
+            'total-cycles' => env('FREE_TRIAL_TOTAL_CYCLES', 6),
+        ],
+
     ],
 
     'web-app' => [

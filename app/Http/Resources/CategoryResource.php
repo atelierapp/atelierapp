@@ -18,6 +18,7 @@ class CategoryResource extends JsonResource
             'active' => $this->active,
             'created_at' => optional($this->created_at)->toDateTimeString(),
             'updated_at' => optional($this->updated_at)->toDateTimeString(),
+            'sub_categories' => CategoryResource::collection($this->whenLoaded('sub_categories')),
         ];
     }
 }

@@ -41,6 +41,65 @@ class CategoryControllerTest extends TestCase
         $response = $this->get(route('category.index'), $this->customHeaders());
 
         $response->assertOk();
+
+        $categories = json_decode($response->content(), true)['data'];
+
+        $subCategories = array_filter($categories, fn ($category) => $category['parent_id'] !== null);
+        $this->assertEmpty($subCategories);
+
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure()
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next'
+            ]
+        ]);
+    }
+
+    /**
+     * @test
+     * @title List categories
+     */
+    public function index_can_include_sub_categories(): void
+    {
+        Category::factory()->count(20)->create();
+
+        $response = $this->get(
+            route(
+                'category.index',
+                ['sub_categories' => true],
+                $this->customHeaders(),
+            )
+        );
+
+        $response->assertOk();
+
+        $categories = json_decode($response->content(), true)['data'];
+
+        $subCategories = array_filter($categories, fn ($category) => $category['parent_id'] !== null);
+        $this->assertEmpty($subCategories);
+
+        $categoriesWithSubCategories = array_filter(
+            $categories, fn ($category) => !empty($category['sub_categories'])
+        );
+
+        $this->assertNotEmpty($categoriesWithSubCategories);
+
+
         $response->assertJsonStructure([
             'data' => [
                 0 => $this->structure()

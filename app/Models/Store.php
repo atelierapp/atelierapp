@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use JetBrains\PhpStorm\Pure;
 
@@ -120,5 +121,10 @@ class Store extends BaseModelCountry
     public function getHasActiveStoreAttribute(): bool
     {
         return ! is_null($this->stripe_connect_id);
+    }
+
+    public function subscription(): MorphOne
+    {
+        return $this->morphOne(PaypalSubscription::class, 'subscribable');
     }
 }
