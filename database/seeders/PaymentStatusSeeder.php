@@ -46,6 +46,13 @@ class PaymentStatusSeeder extends Seeder
                     'en' => 'Captured',
                 ],
             ],
+            [
+                'id' => PaymentStatus::PAYMENT_PAID_OUT,
+                'name' => [
+                    'es' => 'Pagado',
+                    'en' => 'Paid Out',
+                ],
+            ],
         ])->each(function ($status) {
             PaymentStatus::updateOrCreate([
                 'id' => $status['id']
