@@ -72,7 +72,7 @@ class Store extends BaseModelCountry
 
     public function admin(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function userRatings(): HasMany
