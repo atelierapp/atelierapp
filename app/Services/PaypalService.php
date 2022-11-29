@@ -87,9 +87,9 @@ class PaypalService
             'order_authorization.purchase_units.0.payments.authorizations.0.id'
         );
 
-        // TODO: implement by service
         $orders = Order::whereParentId($order->id)->sellerStatus(OrderStatus::_SELLER_APPROVAL)->get();
         $amount = $orders->sum('total_price');
+
         $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $amount, '');
         $this->orderService->updatePaymentGatewayMetadata($order, 'payment_capture', $capture);
 
@@ -101,35 +101,6 @@ class PaypalService
             $orders->pluck('id')->merge($order->id)->toArray(),
             PaymentStatus::PAYMENT_CAPTURED
         );
-
-        // aqui en adelante pasa al otro job
-        // $checkoutId = now()->format('YmdHisv');
-        // $result = $this->provider->createBatchPayout([
-        //     'sender_batch_header' => [
-        //         'sender_batch_id' => $checkoutId,
-        //         "recipient_type" => "EMAIL",
-        //         "email_subject" => "You have money!",
-        //         "email_message" => "You received a payment. Thanks for using our service!",
-        //     ],
-        //     'items' => [
-        //         [
-        //             'amount' => [
-        //                 'value' => '"' . $order->total_price * 0.75 . '"', // ajustar al redondeo de esta parte
-        //                 'currency' => 'USD'
-        //             ],
-        //             'sender_item_id' => $checkoutId . '001',
-        //             'recipient_wallet' => 'PAYPAL',
-        //             'receiver' => 'sb-a7bpl20773735@personal.example.com',
-        //         ]
-        //     ],
-        // ]);
-        //
-        // $this->orderService->updatePaymentGatewayMetadata($order, 'payout_status', $result);
-        //
-        //
-        // $this->orderService->updateToPayedStatus($order, $capture);
-        //
-        // return $order;
     }
 
     /** @throws Throwable */
@@ -143,5 +114,51 @@ class PaypalService
         $this->orderService->updatePaymentGatewayMetadata($order, 'order_authorization', $response);
 
         return $order;
+    }
+
+    public function transferPaymentsToSellers(): void
+    {
+        $orders = Order::with('store:id,commission_percent,user_id')
+            ->where('paid_status_id', '=', PaymentStatus::PAYMENT_CAPTURED)
+            ->whereNotNull('store_id')
+            ->get();
+        $orders->loadMissing('store.admin:id,email');
+
+        $checkoutId = now()->format('YmdHis');
+        $requestQuery = [
+            'sender_batch_header' => [
+                'sender_batch_id' => "Payouts_{$checkoutId}",
+                "email_subject" => "You have money!",
+                "email_message" => "You received a payment. Thanks for using our service!",
+            ],
+            'items' => [],
+        ];
+
+        foreach ($orders as $position => $order) {
+            $requestQuery['items'][] = $this->prepareTrnsferItem($checkoutId, $position, $order);
+        }
+
+        $result = $this->provider->createBatchPayout($requestQuery);
+
+        $orders->each(fn ($order) => $this->orderService->updatePaymentGatewayMetadata($order, 'transfer_status', $result));
+        // TODO : guardar en algun lado el resultado de los pagos para mayor trazabilidad cuando se junten los montos por tienda
+    }
+
+    private function prepareTrnsferItem($checkoutId, $position, Order $order)
+    {
+        $payload = [
+            'recipient_type' => 'EMAIL',
+            'amount' => [
+                'value' => $order->amount_to_transfer,
+                'currency' => 'USD'
+            ],
+            'sender_item_id' => $checkoutId . str_pad($position + 1, 3, '0', STR_PAD_LEFT),
+            'recipient_wallet' => 'PAYPAL',
+            'receiver' => $order->store->admin->email,
+        ];
+
+        $this->orderService->updatePaymentGatewayMetadata($order, 'sender_item_id', [$payload['sender_item_id']]);
+
+        return $payload;
     }
 }

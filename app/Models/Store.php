@@ -52,6 +52,7 @@ class Store extends BaseModelCountry
         'internal_rating',
         'website',
         'country',
+        'commission_percent',
     ];
 
     protected $casts = [
