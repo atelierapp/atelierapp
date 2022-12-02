@@ -80,47 +80,13 @@ class PaypalService
      * @throws Throwable
      * @throws InvalidArgumentException
      */
-    public function createSubscription(string $planId, int|float $price, string $frequency = 'MONTH'): array
+    public function createSubscription(string $planId): array
     {
         $securityToken = Uuid::uuid4();
 
         $structure = [
             'plan_id' => $planId,
             'start_time' => ($start = now()->addDay()->startOfDay())->toIso8601String(),
-            'quantity' => 1,
-            'plan' => [
-                'billing_cycles' => [
-                    [
-                        'frequency' => [
-                            'interval_unit' => config('atelier.vendor.free-trial.frequency-unit'),
-                            'interval_count' => 1,
-                        ],
-                        'tenure_type' => 'TRIAL',
-                        'sequence' => 1,
-                        'total_cycles' => config('atelier.vendor.free-trial.total-cycles'),
-                        'pricing_scheme' => [
-                            'fixed_price' => [
-                                'value' => '0',
-                                'currency_code' => 'USD',
-                            ],
-                        ],
-                    ],
-                    [
-                        'frequency' => [
-                            'interval_unit' => $frequency,
-                            'interval_count' => 1
-                        ],
-                        'tenure_type' => 'REGULAR',
-                        'sequence' => 2,
-                        'total_cycles' => 0,
-                        'pricing_scheme' => [
-                            'fixed_price' => [
-                                'value' => $price,
-                                'currency_code' => 'USD',
-                            ],
-                        ],
-                    ],
-                ],],
             'application_context' => [
                 'brand_name' => config('app.name'),
                 'locale' => 'es-PE',

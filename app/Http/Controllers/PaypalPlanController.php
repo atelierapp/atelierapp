@@ -33,11 +33,7 @@ class PaypalPlanController extends Controller
      */
     public function subscribe(PlanSubscriptionRequest $request, PaypalPlan $plan)
     {
-        $response = $this->paypalService->createSubscription(
-            $plan->external_plan_id,
-            $plan->price,
-            $plan->frequency,
-        );
+        $response = $this->paypalService->createSubscription($plan->external_plan_id);
 
         return response()->json(['data' => $response]);
     }
