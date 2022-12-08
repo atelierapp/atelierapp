@@ -6,6 +6,7 @@ use App\Builders\OrderBuilder;
 use App\Traits\Models\HasSellerRelation;
 use App\Traits\Models\HasUserRelation;
 use Eloquent;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -92,5 +93,19 @@ class Order extends BaseModelCountry
     public function subOrders(): HasMany
     {
         return $this->hasMany(static::class, 'parent_id');
+    }
+
+    protected function amountToTransfer(): Attribute
+    {
+        return Attribute::get(
+            fn () => number_format($this->total_price * (1 - $this->commission_percent), 2, '.', '')
+        );
+    }
+
+    protected function commissionPercent(): Attribute
+    {
+        return Attribute::get(
+            fn () => $this->store->commission_percent / 100
+        );
     }
 }
