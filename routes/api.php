@@ -16,7 +16,7 @@ use App\Http\Controllers\MediaTypeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\PaypalController;
-use App\Http\Controllers\PlanController;
+use App\Http\Controllers\PaypalPlanController;
 use App\Http\Controllers\Process\OrderAcceptController;
 use App\Http\Controllers\Process\ProductProjectController;
 use App\Http\Controllers\ProductController;
@@ -83,6 +83,8 @@ Route::middleware('locale')->group(function () {
         Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
         Route::get('stores/{store}/impact', [StoreImpactController::class, 'index'])->name('store.impact.index');
         Route::post('stores/{store}/impact', [StoreImpactController::class, 'store'])->name('store.impact.store');
+        // Store subscription
+        Route::post('plans/{plan}/subscribe', [PaypalPlanController::class, 'subscribe'])->name('plans.subscribe');
 
         // Projects
         Route::apiResource('projects', ProjectController::class);
@@ -184,7 +186,8 @@ Route::middleware('locale')->group(function () {
     });
 });
 
-Route::post('subscriptions/session', SubscriptionController::class)->name('subscriptions.intent');
+Route::post('subscriptions/session', [SubscriptionController::class, 'session'])->name('subscriptions.intent');
+Route::get('subscriptions/paypal-confirmation', [SubscriptionController::class, 'paypalConfirmation'])->name('paypal.confirm-subscription');
 
 Route::apiResource('media', MediaController::class)
     ->names('media')
@@ -193,4 +196,4 @@ Route::apiResource('media', MediaController::class)
 
 Route::apiResource('rooms', RoomController::class)->names('room');
 
-Route::get('plans', PlanController::class)->name('plans.index');
+Route::get('plans', [PaypalPlanController::class, 'index'])->name('plans.index');

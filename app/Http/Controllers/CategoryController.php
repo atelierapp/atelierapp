@@ -19,6 +19,11 @@ class CategoryController extends Controller
                 request()->has('type'),
                 fn ($query) => $query->where('type', request('type'))
             )
+            ->when(
+                request()->has('sub_categories') && request()->query('sub_categories'),
+                fn ($query) => $query->with('sub_categories'),
+            )
+            ->whereNull('parent_id')
             ->paginate(1000);
 
         return CategoryResource::collection($categories);

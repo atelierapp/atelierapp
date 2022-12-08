@@ -6,8 +6,15 @@ use App\Exceptions\AtelierException;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\PaymentStatus;
+use App\Models\PaypalPlan;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\StreamInterface;
+use Psr\SimpleCache\InvalidArgumentException;
+use Ramsey\Uuid\Uuid;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Throwable;
 
@@ -48,7 +55,7 @@ class PaypalService
 
         $response = $this->provider->createOrder($structure);
 
-        if (!isset($response['id'])) {
+        if (! isset($response['id'])) {
             throw new AtelierException(
                 Arr::get($response, 'error.details.0.description', 'An error occurred in the integration with Paypal'),
                 Response::HTTP_UNPROCESSABLE_ENTITY,
@@ -65,6 +72,73 @@ class PaypalService
             'links' => [
                 'to_pay' => $response['links'][1]['href'],
                 'method' => $response['links'][1]['method'],
+            ],
+        ];
+    }
+
+    /**
+     * @throws AtelierException
+     * @throws Throwable
+     * @throws InvalidArgumentException
+     */
+    public function createSubscription(string $planId): array
+    {
+        $securityToken = Uuid::uuid4();
+
+        $structure = [
+            'plan_id' => $planId,
+            'start_time' => ($start = now()->addDay()->startOfDay())->toIso8601String(),
+            'application_context' => [
+                'brand_name' => config('app.name'),
+                'locale' => 'es-PE',
+                'shipping_preference' => 'NO_SHIPPING',
+                'user_action' => 'SUBSCRIBE_NOW',
+                'payment_method' => [
+                    'payer_selected' => 'PAYPAL',
+                    'payee_preferred' => 'IMMEDIATE_PAYMENT_REQUIRED',
+                ],
+                'return_url' => route('paypal.confirm-subscription', [
+                    'success' => true,
+                    'token' => $securityToken,
+                ]),
+                'cancel_url' => route('paypal.confirm-subscription', [
+                    'success' => false,
+                    'token' => $securityToken,
+                ]),
+            ],
+        ];
+
+        $response = $this->provider->createSubscription($structure);
+
+        if (! isset($response['id'])) {
+            Log::error(__CLASS__ . ': Error creating PayPal subscription', [
+                'response' => $response,
+            ]);
+
+            throw new AtelierException(
+                Arr::get($response, 'error.details.0.description', 'An error occurred in the integration with Paypal'),
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+                $response
+            );
+        }
+
+        Cache::set("paypal-subscriptions:$securityToken", [
+            'store_id' => auth()->user()->store->id,
+            'plan_id' => $planId,
+            'external_subscription_id' => $response['id'],
+        ], 3600 * 24); // 1 day
+
+        return [
+            'subscription_id' => $response['id'],
+            'status' => $response['status'],
+            'plan_id' => PaypalPlan::where('external_plan_id', $planId)->value('id'),
+            'start_time' => Carbon::parse($start),
+            'create_time' => Carbon::parse($response['create_time']),
+            'links' => [
+                Arr::first(
+                    $response['links'],
+                    fn($link) => $link['rel'] === 'approve',
+                ),
             ],
         ];
     }
@@ -116,6 +190,7 @@ class PaypalService
         return $order;
     }
 
+
     public function transferPaymentsToSellers(): void
     {
         $orders = Order::with('store:id,commission_percent,user_id')
@@ -160,5 +235,11 @@ class PaypalService
         $this->orderService->updatePaymentGatewayMetadata($order, 'sender_item_id', [$payload['sender_item_id']]);
 
         return $payload;
+    }
+        
+    /** @throws Throwable */
+    public function getSubscription(string $subscriptionId): StreamInterface|array|string
+    {
+        return $this->provider->showSubscriptionDetails($subscriptionId);
     }
 }
