@@ -45,6 +45,7 @@ class Order extends BaseModelCountry
         'unit_price',
         'items',
         'total_price',
+        'total_revenue',
         'seller_status_id',
         'seller_status_at',
         'payment_gateway_id',
@@ -106,6 +107,14 @@ class Order extends BaseModelCountry
     {
         return Attribute::get(
             fn () => $this->store->commission_percent / 100
+        );
+    }
+
+    public function totalRevenue(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
         );
     }
 }
