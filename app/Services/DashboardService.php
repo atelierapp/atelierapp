@@ -134,4 +134,48 @@ class DashboardService
 
         return $query->sum('total_price');
     }
+
+    public function percentTotalEarningsHistory(): float|int
+    {
+        $currentMonthBegin = now()->firstOfMonth()->toDateString();
+        $currentMonthEnd = now()->toDateString();
+        $lastMonthBegin = now()->subMonth()->firstOfMonth()->toDateString();
+        $lastMonthEnd = now()->subMonth()->toDateString();
+
+        $result = OrderDetail::whereIn('product_id', $this->products)
+            ->selectRaw('month(created_at) as month')
+            ->selectRaw('sum(total_price) as sales')
+            ->whereRawDateBetween('created_at', [$lastMonthBegin, $lastMonthEnd])
+            ->orWhereRawDateBetween('created_at', [$currentMonthBegin, $currentMonthEnd])
+            ->whereHas('order', fn ($order) => $order->sellerStatus([
+                OrderStatus::_SELLER_APPROVAL,
+                OrderStatus::_SELLER_SEND,
+                OrderStatus::_SELLER_IN_TRANSIT,
+                OrderStatus::_SELLER_DELIVERED,
+            ])->paidStatus([
+                PaymentStatus::PAYMENT_APPROVAL,
+                PaymentStatus::PAYMENT_PENDING_APPROVAL,
+            ]))
+            ->groupByRaw('month(created_at)')
+            ->get()
+            ->sortBy('month')
+            ->toArray();
+
+        return empty($result)
+            ? 0
+            : round(((Arr::get($result, '1.sales', Arr::get($result, '0.sales', 0)) / Arr::get($result, '0.sales', 0)) - 1) * 100, 2);
+    }
+
+    public function productTotalEarningsHistory(int $lastDays = 15): array
+    {
+        return OrderDetail::whereIn('product_id', $this->products)
+            ->selectRaw('date(created_at) as date')
+            ->selectRaw('sum(total_price) as sales')
+            ->whereDate('created_at', '>=', now()->subDays($lastDays)->toDateString())
+            ->groupByRaw('date(created_at)')
+            ->get()
+            ->sortBy('date')
+            ->pluck('sales', 'date')
+            ->toArray();
+    }
 }
