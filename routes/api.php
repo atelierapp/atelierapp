@@ -83,6 +83,7 @@ Route::middleware('locale')->group(function () {
         Route::post('stores/{store}/qualify', StoreUserQualifyController::class)->name('store.qualify');
         Route::get('stores/{store}/impact', [StoreImpactController::class, 'index'])->name('store.impact.index');
         Route::post('stores/{store}/impact', [StoreImpactController::class, 'store'])->name('store.impact.store');
+
         // Store subscription
         Route::post('plans/{plan}/subscribe', [PaypalPlanController::class, 'subscribe'])->name('plans.subscribe');
 
@@ -100,8 +101,10 @@ Route::middleware('locale')->group(function () {
         Route::put('projects-temp/{project}', [ProjectController::class, 'update']);
 
         // Shopping-cart
-        Route::post('shopping-cart/transfer-to-user', [ShoppingCartController::class, 'transferFromDeviceToUser'])->name('shopping-cart.transfer');
-        Route::post('shopping-cart/create-order', [OrderController::class, 'store'])->name('shopping-cart.order');
+        Route::prefix('shopping-cart')->group(function () {
+            Route::post('/transfer-to-user', [ShoppingCartController::class, 'transferFromDeviceToUser'])->name('shopping-cart.transfer');
+            Route::post('/create-order', [OrderController::class, 'store'])->name('shopping-cart.order');
+        });
 
         // Orders
         Route::apiResource('orders', OrderController::class)->names('order')->only(['index', 'update', 'show']);
