@@ -42,7 +42,7 @@ class DashboardController extends Controller
     {
         return [
             'data' => [
-                'total_revenue' => 0,
+                'total_revenue' => $this->dashboardService->totalRevenueForSellerUser(),
                 'revenue' => 0,
                 'growth' => 0,
             ],
