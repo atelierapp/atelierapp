@@ -178,4 +178,9 @@ class DashboardService
             ->pluck('sales', 'date')
             ->toArray();
     }
+
+    public function totalRevenueForSellerUser()
+    {
+        return Order::filterByRole()->sum('total_revenue');
+    }
 }
