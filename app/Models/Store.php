@@ -6,6 +6,7 @@ use App\Builders\StoreBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
 use Eloquent;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -127,5 +128,13 @@ class Store extends BaseModelCountry
     public function subscription(): MorphOne
     {
         return $this->morphOne(PaypalSubscription::class, 'subscribable');
+    }
+
+    public function commissionPercent(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
     }
 }

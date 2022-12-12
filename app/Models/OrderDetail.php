@@ -25,6 +25,7 @@ class OrderDetail extends BaseModelCountry
         'unit_price',
         'quantity',
         'total_price', // TODO : evaluate if this value store in database or calculate by accessor
+        'total_revenue',
         'seller_status_id',
         'seller_status_at',
         'seller_notes',
@@ -53,5 +54,13 @@ class OrderDetail extends BaseModelCountry
     public function variation(): BelongsTo
     {
         return $this->belongsTo(Variation::class);
+    }
+
+    public function totalRevenue(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
     }
 }
