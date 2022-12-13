@@ -179,8 +179,38 @@ class DashboardService
             ->toArray();
     }
 
-    public function totalRevenueForSellerUser()
+    public function totalRevenueForSellerUser(int $lastDays = 15)
     {
-        return Order::filterByRole()->sum('total_revenue');
+        $query = Order::filterByRole();
+
+        return $lastDays == 0
+            ? $query->sum('total_revenue')
+            : $query->whereDate('created_at', '>=', now()->subDays($lastDays)->toDateString());
+    }
+
+    public function growth()
+    {
+        $currentMonthBegin = now()->firstOfMonth()->toDateString();
+        $currentMonthEnd = now()->toDateString();
+        $lastMonthBegin = now()->subMonth()->firstOfMonth()->toDateString();
+        $lastMonthEnd = now()->subMonth()->toDateString();
+
+
+        $result = Order::filterByRole()
+            ->selectRaw('month(created_at) as month')
+            ->selectRaw('sum(total_revenue) as sales')
+            ->whereRawDateBetween('created_at', [$lastMonthBegin, $lastMonthEnd])
+            ->orWhereRawDateBetween('created_at', [$currentMonthBegin, $currentMonthEnd])
+            ->groupByRaw('date(created_at)')
+            ->get()
+            ->toArray()
+        ;
+
+        $current = Arr::get($result, '0.sales', 0);
+        $last = Arr::get($result, '1.sales', Arr::get($result, '0.sales', 0));
+
+        return empty($result)
+            ? 0
+            : round(($current * 100) / $last, 2);
     }
 }

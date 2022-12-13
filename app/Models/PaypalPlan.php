@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string $currency
  * @property int|float $price
  * @property bool $active
+ * @mixin IdeHelperPaypalPlan
  */
 class PaypalPlan extends Model
 {
