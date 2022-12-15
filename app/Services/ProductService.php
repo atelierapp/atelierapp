@@ -31,6 +31,7 @@ class ProductService
 
         return Product::authUser()
             ->with($relations)
+            ->when($filters['inRandomOrder'] ?? false, fn($query) => $query->inRandomOrder())
             ->applyFiltersFrom($filters)
             ->paginate();
     }
