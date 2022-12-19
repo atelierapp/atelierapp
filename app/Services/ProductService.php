@@ -31,6 +31,7 @@ class ProductService
 
         return Product::authUser()
             ->with($relations)
+            ->whereHas('store', fn ($store) => $store->active())
             ->when($filters['inRandomOrder'] ?? false, fn($query) => $query->inRandomOrder())
             ->applyFiltersFrom($filters)
             ->paginate();
