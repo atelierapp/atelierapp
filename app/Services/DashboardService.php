@@ -39,9 +39,13 @@ class DashboardService
             ->sortBy('month')
             ->toArray();
 
-        return empty($result)
-            ? 0
-            : round((($result[1]['views'] / $result[0]['views']) - 1) * 100, 2);
+        if (empty($result)) {
+            return 0;
+        }
+
+        return isset($result[1])
+            ? round((($result[1]['views'] / $result[0]['views']) - 1) * 100, 2)
+            : 100;
     }
 
     public function productViewsHistory(int $lastDays = 15): array
@@ -123,14 +127,14 @@ class DashboardService
         $query = Order::where('seller_id', auth()->id())
             ->select('total_price')
             ->sellerStatus([
-            OrderStatus::_SELLER_APPROVAL,
-            OrderStatus::_SELLER_SEND,
-            OrderStatus::_SELLER_IN_TRANSIT,
-            OrderStatus::_SELLER_DELIVERED,
-        ])->paidStatus([
-            PaymentStatus::PAYMENT_APPROVAL,
-            PaymentStatus::PAYMENT_PENDING_APPROVAL,
-        ]);
+                OrderStatus::_SELLER_APPROVAL,
+                OrderStatus::_SELLER_SEND,
+                OrderStatus::_SELLER_IN_TRANSIT,
+                OrderStatus::_SELLER_DELIVERED,
+            ])->paidStatus([
+                PaymentStatus::PAYMENT_APPROVAL,
+                PaymentStatus::PAYMENT_PENDING_APPROVAL,
+            ]);
 
         return $query->sum('total_price');
     }
@@ -195,7 +199,6 @@ class DashboardService
         $lastMonthBegin = now()->subMonth()->firstOfMonth()->toDateString();
         $lastMonthEnd = now()->subMonth()->toDateString();
 
-
         $result = Order::filterByRole()
             ->selectRaw('month(created_at) as month')
             ->selectRaw('sum(total_revenue) as sales')
@@ -203,8 +206,7 @@ class DashboardService
             ->orWhereRawDateBetween('created_at', [$currentMonthBegin, $currentMonthEnd])
             ->groupByRaw('date(created_at)')
             ->get()
-            ->toArray()
-        ;
+            ->toArray();
 
         $current = Arr::get($result, '0.sales', 0);
         $last = Arr::get($result, '1.sales', Arr::get($result, '0.sales', 0));
