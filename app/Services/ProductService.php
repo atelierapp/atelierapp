@@ -246,6 +246,7 @@ class ProductService
 
     public function processViewCount(Product $product)
     {
+        config(['queue.default' => 'sync']); // TODO: temporary added sync queue to add product views to fix database queues, or another
         ProductViewCount::dispatch($product, auth()->id());
     }
 
