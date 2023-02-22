@@ -6,10 +6,12 @@ use App\Models\Builders\CouponBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Coupon extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     const TOTAL = 'total';
     const PRODUCT = 'product';
