@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Builders\OrderBuilder;
+use App\Models\Traits\HasUserRelation;
 use App\Traits\Models\HasSellerRelation;
-use App\Traits\Models\HasUserRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
