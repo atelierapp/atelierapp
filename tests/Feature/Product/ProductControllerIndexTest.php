@@ -23,15 +23,15 @@ class ProductControllerIndexTest extends BaseTest
         $response->assertJsonStructure(['data' => [0 => $this->structure()]]);
     }
 
-    public function test_authenticated_app_user_can_list_all_products()
+    public function test_authenticated_app_user_can_list_all_active_products_from_active_stores()
     {
         $this->createAuthenticatedUser();
-        Product::factory()->count(8)->create();
+        Product::factory()->count(5)->active()->activeStore()->create();
 
         $response = $this->getJson(route('product.index'), $this->customHeaders());
 
         $response->assertOk();
-        $response->assertJsonCount(8, 'data');
+        $response->assertJsonCount(5, 'data');
         $response->assertJsonStructure([
             'data' => [
                 0 => $this->structure(),
@@ -58,13 +58,13 @@ class ProductControllerIndexTest extends BaseTest
     public function test_authenticated_app_user_can_list_all_products_with_favorite()
     {
         $user = $this->createAuthenticatedUser();
-        Product::factory()->count(8)->create();
-        FavoriteProduct::query()->create(['user_id' => $user->id, 'product_id' => 2]);
+        $product = Product::factory()->count(5)->active()->activeStore()->create();
+        FavoriteProduct::query()->create(['user_id' => $user->id, 'product_id' => $product[0]->id]);
 
         $response = $this->getJson(route('product.index'), $this->customHeaders());
 
         $response->assertOk();
-        $response->assertJsonCount(8, 'data');
+        $response->assertJsonCount(5, 'data');
         $response->assertJsonStructure([
             'data' => [
                 0 => [
@@ -98,9 +98,9 @@ class ProductControllerIndexTest extends BaseTest
     public function test_authenticated_app_user_can_list_products_filtered_by_search_param()
     {
         $this->createAuthenticatedUser();
-        Product::factory()->count(6)->create();
-        Product::factory(['title' => 'jaime'])->create();
-        Product::factory(['title' => 'jaime'])->create();
+        Product::factory()->count(6)->active()->activeStore()->create();
+        Product::factory(['title' => 'jaime'])->active()->activeStore()->create();
+        Product::factory(['title' => 'jaime'])->active()->activeStore()->create();
 
         $response = $this->getJson(route('product.index', [
             'search' => 'jaime',
@@ -137,12 +137,12 @@ class ProductControllerIndexTest extends BaseTest
 
         /** @var Category $category1 */
         $category1 = Category::factory()->create();
-        $products = Product::factory()->times(4)->create(); // 2
+        $products = Product::factory()->times(4)->active()->activeStore()->create(); // 2
         $category1->products()->attach($products);
 
         /** @var Category $category2 */
         $category2 = Category::factory()->create();
-        $products = Product::factory()->times(3)->create(); // 3
+        $products = Product::factory()->times(3)->active()->activeStore()->create(); // 3
         $category2->products()->attach($products);
 
         $response = $this->getJson(route('product.index', [
@@ -216,11 +216,11 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        $store = Store::factory()->create();
-        Product::factory()->count(3)->create(['store_id' => $store->id]);
-        Product::factory()->count(3)->us()->create(['store_id' => $store->id]);
-        Product::factory()->count(3)->create();
-        Product::factory()->count(3)->us()->create();
+        $store = Store::factory()->active()->create();
+        Product::factory()->count(3)->active()->create(['store_id' => $store->id]);
+        Product::factory()->count(3)->active()->us()->create(['store_id' => $store->id]);
+        Product::factory()->count(3)->active()->create();
+        Product::factory()->count(3)->active()->us()->create();
 
         $response = $this->getJson(route('product.index', [
             'store_id' => $store->id,
@@ -255,10 +255,10 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        Product::factory()->create(['price' => 20]);
-        Product::factory()->create(['price' => 90]);
-        Product::factory()->count(10)->create();
-        Product::factory()->us()->count(10)->create();
+        Product::factory()->active()->activeStore()->create(['price' => 20]);
+        Product::factory()->active()->activeStore()->create(['price' => 90]);
+        Product::factory()->count(10)->active()->activeStore()->create();
+        Product::factory()->us()->count(10)->active()->activeStore()->create();
 
         $response = $this->getJson(route('product.index', [
             'price-min' => 10,
@@ -521,7 +521,7 @@ class ProductControllerIndexTest extends BaseTest
     public function test_authenticated_admin_user_can_list_all_products()
     {
         $this->createAuthenticatedAdmin();
-        Product::factory()->count(8)->create();
+        Product::factory()->count(8)->active()->activeStore()->create();
 
         $response = $this->getJson(route('product.index'), $this->customHeaders());
 
@@ -553,9 +553,9 @@ class ProductControllerIndexTest extends BaseTest
     public function test_authenticated_admin_user_can_list_products_filtered_by_search_param()
     {
         $this->createAuthenticatedUser();
-        Product::factory()->count(6)->create();
-        Product::factory(['title' => 'jaime'])->create();
-        Product::factory(['title' => 'jaime'])->create();
+        Product::factory()->count(6)->active()->activeStore()->create();
+        Product::factory(['title' => 'jaime'])->active()->activeStore()->create();
+        Product::factory(['title' => 'jaime'])->active()->activeStore()->create();
 
         $response = $this->getJson(route('product.index', [
             'search' => 'jaime',
@@ -592,12 +592,12 @@ class ProductControllerIndexTest extends BaseTest
 
         /** @var Category $category1 */
         $category1 = Category::factory()->create();
-        $products = Product::factory()->times(4)->create(); // 2
+        $products = Product::factory()->times(4)->active()->activeStore()->create(); // 2
         $category1->products()->attach($products);
 
         /** @var Category $category2 */
         $category2 = Category::factory()->create();
-        $products = Product::factory()->times(3)->create(); // 3
+        $products = Product::factory()->times(3)->active()->activeStore()->create(); // 3
         $category2->products()->attach($products);
 
         $response = $this->getJson(route('product.index', [
@@ -636,7 +636,7 @@ class ProductControllerIndexTest extends BaseTest
         Product::factory()->count(4)->create();
         $user = $this->createAuthenticatedSeller();
         $store = $this->createStore($user);
-        Product::factory(['store_id' => $store->id])->count(4)->create();
+        Product::factory(['store_id' => $store->id])->count(4)->active()->create();
 
         $response = $this->getJson(route('product.index'), $this->customHeaders());
 

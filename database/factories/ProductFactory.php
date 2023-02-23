@@ -6,11 +6,13 @@ use App\Enums\ManufacturerProcessEnum;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\Style;
-use App\Traits\Factories\CountryStateTrait;
+use Database\Factories\Traits\ActiveState;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
+    use ActiveState;
     use CountryStateTrait;
 
     protected $model = Product::class;
@@ -34,6 +36,12 @@ class ProductFactory extends Factory
             'url' => $this->faker->url,
             'is_on_demand' => $this->faker->boolean,
             'is_unique' => $this->faker->boolean,
-        ];
+    public function activeStore()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'store_id' => Store::factory()->active(),
+            ];
+        });
     }
 }
