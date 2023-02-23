@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CollectionFeatureController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\NetIncomeController;
 use App\Http\Controllers\ManufactureProcessController;
@@ -111,6 +112,9 @@ Route::middleware('locale')->group(function () {
         Route::get('orders/{order}/details', [OrderProductController::class, 'index'])->name('order.details');
         Route::post('orders/{order}/accept', OrderAcceptController::class)->name('order.accept');
         Route::patch('orders/{order}/details/{detail}', [OrderProductController::class, 'update'])->name('order.details.update');
+
+        // Coupons
+        Route::apiResource('coupons', CouponController::class)->names('coupon')->only(['index']);
 
         // Dashboard
         Route::prefix('dashboard')->group(function () {
