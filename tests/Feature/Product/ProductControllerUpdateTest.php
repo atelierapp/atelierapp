@@ -348,4 +348,106 @@ class ProductControllerUpdateTest extends BaseTest
         $this->assertDatabaseCount('category_product', 1);
         $this->assertDatabaseCount('qualityables', 2);
     }
+
+    public function test_an_authenticated_seller_can_update_a_product_with_percent_discount()
+    {
+        $this->createAuthenticatedSeller();
+        $store = $this->createStore($this->createAuthenticatedSeller());
+        $product = $this->createProduct($store);
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+            ],
+
+            'has_discount' => true,
+            'is_discount_fixed' => false,
+            'discount_amount' => 20,
+        ];
+        $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
+
+        $response->assertOk();
+        $response->assertJsonStructure(['data' => $this->structure()]);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+            'has_discount' => $data['has_discount'],
+            'is_discount_fixed' => $data['is_discount_fixed'],
+            'discount_percent' => $data['discount_amount'],
+        ]);
+        $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
+        $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
+        $this->assertEquals($data['discount_amount'], $response->json('data.discount_amount'));
+    }
+
+    public function test_an_authenticated_seller_can_update_a_product_with_fixed_discount()
+    {
+        $this->createAuthenticatedSeller();
+        $store = $this->createStore($this->createAuthenticatedSeller());
+        $product = $this->createProduct($store);
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+                ['name' => $this->faker->unique()->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+                ['name' => $this->faker->unique()->name],
+            ],
+
+            'has_discount' => true,
+            'is_discount_fixed' => true,
+            'discount_amount' => 25,
+        ];
+        $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
+
+        $response->assertOk();
+        $response->assertJsonStructure(['data' => $this->structure()]);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+            'has_discount' => $data['has_discount'],
+            'is_discount_fixed' => $data['is_discount_fixed'],
+            'discount_amount' => $data['discount_amount'],
+        ]);
+        $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
+        $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
+        $this->assertEquals($data['discount_amount'], $response->json('data.discount_amount'));
+    }
 }

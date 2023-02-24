@@ -51,12 +51,12 @@ class ProductStoreRequest extends FormRequest
             'is_discount_fixed' => [
                 'boolean',
                 Rule::requiredIf(function (){
-                    return $this->has_discount == true or $this->has_discount == 1;
+                    return $this->has_discount == true || $this->has_discount == 1;
                 })
             ],
             'discount_amount' => [
                 Rule::requiredIf(function (){
-                    return $this->has_discount == true or $this->has_discount == 1;
+                    return $this->has_discount == true || $this->has_discount == 1;
                 }),
             ]
         ];
