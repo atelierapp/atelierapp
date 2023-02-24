@@ -6,7 +6,7 @@ use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\Variation;
-use App\Traits\Factories\CountryStateTrait;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderDetailFactory extends Factory

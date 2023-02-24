@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\PaymentStatus;
 use App\Models\Store;
 use App\Models\User;
-use App\Traits\Factories\CountryStateTrait;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory

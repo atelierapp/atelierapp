@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Project;
 use App\Models\Style;
 use App\Models\User;
-use App\Traits\Factories\CountryStateTrait;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Factories;
+namespace Database\Factories\Traits;
 
 trait CountryStateTrait
 {

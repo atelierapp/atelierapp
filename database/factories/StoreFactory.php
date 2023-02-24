@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Store;
 use App\Models\User;
-use App\Traits\Factories\CountryStateTrait;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StoreFactory extends Factory
