@@ -14,7 +14,7 @@ class ProductStoreRequest extends FormRequest
 {
     public function rules(): array
     {
-        return [
+        $rules = [
             'store_id' => ['required', new ExistsForSpecifiedAuthenticatedUser('stores', 'id')],
 
             'title' => ['required', 'string', 'max:100'],
@@ -46,7 +46,27 @@ class ProductStoreRequest extends FormRequest
             'variations.*.images' => ['required_with:variations', new RequiredAllOrientationImages()],
             'variations.*.images.*.file' => ['required', 'file'],
             'variations.*.images.*.orientation' => ['required', 'string', Rule::in(['front', 'side', 'perspective', 'plan'])],
+
+            'has_discount' => ['nullable', 'boolean'],
+            'is_discount_fixed' => [
+                'boolean',
+                Rule::requiredIf(function (){
+                    return $this->has_discount == true or $this->has_discount == 1;
+                })
+            ],
+            'discount_amount' => [
+                Rule::requiredIf(function (){
+                    return $this->has_discount == true or $this->has_discount == 1;
+                }),
+            ]
         ];
+
+        if (!$this->is_discount_fixed && $this->has_discount) {
+            $rules['discount_amount'][] = 'numeric';
+            $rules['discount_amount'][] = 'max:100';
+        }
+
+        return $rules;
     }
 
     public function authorize(): bool

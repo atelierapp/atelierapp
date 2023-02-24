@@ -45,6 +45,11 @@ abstract class BaseTest extends TestCase
             'url',
             'is_on_demand',
             'is_unique',
+            'has_discount',
+            'is_discount_fixed',
+            'discount_amount',
+            'discounted_amount',
+            'final_price',
         ];
     }
 }

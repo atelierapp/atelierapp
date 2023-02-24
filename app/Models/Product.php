@@ -9,6 +9,7 @@ use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
 use App\Traits\Models\HasTagsRelation;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -138,5 +139,21 @@ class Product extends BaseModelCountry
     public function getPropertiesAttribute($properties)
     {
         return json_decode($properties, true);
+    }
+
+    protected function discountedAmount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    protected function finalPrice(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
     }
 }
