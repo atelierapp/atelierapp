@@ -776,7 +776,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(10000, 100000) / 100,
+            'price' => 150,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->word],
@@ -811,6 +811,7 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
         $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
         $this->assertEquals($data['discount_value'], $response->json('data.discount_value'));
+        $this->assertEquals(112.5, $response->json('data.final_price'));
     }
 
     public function test_authenticated_seller_can_create_a_product_with_fixed_discount()
@@ -834,7 +835,7 @@ class ProductControllerStoreTest extends BaseTest
                 ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
                 ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
             ],
-            'price' => $this->faker->numberBetween(10000, 100000) / 100,
+            'price' => 150,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->word],
@@ -866,5 +867,9 @@ class ProductControllerStoreTest extends BaseTest
             'is_discount_fixed' => $data['is_discount_fixed'],
             'discount_value' => $data['discount_value'],
         ]);
+        $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
+        $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
+        $this->assertEquals($data['discount_value'], $response->json('data.discount_value'));
+        $this->assertEquals(125, $response->json('data.final_price'));
     }
 }

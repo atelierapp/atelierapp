@@ -50,7 +50,6 @@ class Product extends BaseModelCountry
         'is_discount_fixed',
         'discount_value',
         'discounted_amount',
-        'final_price',
     ];
 
     protected $casts = [
@@ -150,9 +149,7 @@ class Product extends BaseModelCountry
 
     protected function finalPrice(): Attribute
     {
-        return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
+        return new Attribute(get: fn ($value) => $this->price - $this->discounted_amount);
     }
+
 }

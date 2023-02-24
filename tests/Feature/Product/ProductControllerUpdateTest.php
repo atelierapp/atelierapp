@@ -365,7 +365,7 @@ class ProductControllerUpdateTest extends BaseTest
             'depth' => $this->faker->numberBetween(100, 200),
             'height' => $this->faker->numberBetween(100, 200),
             'width' => $this->faker->numberBetween(100, 200),
-            'price' => $this->faker->numberBetween(10000, 100000) / 100,
+            'price' => 250,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->unique()->word],
@@ -398,6 +398,7 @@ class ProductControllerUpdateTest extends BaseTest
         $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
         $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
         $this->assertEquals($data['discount_value'], $response->json('data.discount_value'));
+        $this->assertEquals(200, $response->json('data.final_price'));
     }
 
     public function test_an_authenticated_seller_can_update_a_product_with_fixed_discount()
@@ -416,7 +417,7 @@ class ProductControllerUpdateTest extends BaseTest
             'depth' => $this->faker->numberBetween(100, 200),
             'height' => $this->faker->numberBetween(100, 200),
             'width' => $this->faker->numberBetween(100, 200),
-            'price' => $this->faker->numberBetween(10000, 100000) / 100,
+            'price' => 300,
             'quantity' => $this->faker->numberBetween(1, 10),
             'tags' => [
                 ['name' => $this->faker->unique()->word],
@@ -433,7 +434,7 @@ class ProductControllerUpdateTest extends BaseTest
 
             'has_discount' => true,
             'is_discount_fixed' => true,
-            'discount_value' => 25,
+            'discount_value' => 100,
         ];
         $response = $this->patchJson(route('product.update', $product->id), $data, $this->customHeaders());
 
@@ -449,5 +450,6 @@ class ProductControllerUpdateTest extends BaseTest
         $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
         $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
         $this->assertEquals($data['discount_value'], $response->json('data.discount_value'));
+        $this->assertEquals(200, $response->json('data.final_price'));
     }
 }

@@ -53,7 +53,7 @@ class ProductService
             ],
         ];
 
-        $data = $this->processPriceData($data);
+        $data = $this->processDiscountedAmount($data);
         $product = Product::create($data);
         $this->processQualities($product, Arr::get($params, 'qualities', []));
         $this->processImages($product, $data['images']);
@@ -77,21 +77,20 @@ class ProductService
         return $product;
     }
 
-    private function processPriceData($params)
+    private function processDiscountedAmount($params)
     {
         $params['is_active'] = data_get($params, 'is_active', true);
 
         if (data_get($params, 'has_discount', false)) {
             if (data_get($params, 'is_discount_fixed', false)) {
-                $params['final_price'] = round($params['price'] - $params['discount_value'], 2);
+                $params['discounted_amount'] = $params['discount_value'];
             } else {
                 $percent = round($params['discount_value'] / 100, 2);
                 $params['discounted_amount'] = round($params['price'] * $percent, 2);
-                $params['final_price'] = round($params['price'] - $params['discounted_amount'], 2);
             }
         } else {
-            $params['final_price'] = $params['price'];
             $params['discount_value'] = 0;
+            $params['discounted_amount'] = 0;
         }
 
         return $params;
@@ -227,7 +226,7 @@ class ProductService
             $params['properties']['dimensions']['width'] = (double) $params['width'];
         }
 
-        $params = $this->processPriceData($params);
+        $params = $this->processDiscountedAmount($params);
         $product->fill($params);
         $product->save();
 

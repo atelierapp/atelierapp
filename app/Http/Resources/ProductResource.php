@@ -35,8 +35,8 @@ class ProductResource extends JsonResource
             'has_discount' => $this->has_discount,
             'is_discount_fixed' => $this->is_discount_fixed,
             'discount_value' => $this->discount_value,
-            'discounted_amount' => number_format($this->discounted_amount, 2, '.', ' '),
-            'final_price' => number_format($this->final_price, 2, '.', ' '),
+            'discounted_amount' => $this->discounted_amount,
+            'final_price' => $this->final_price,
 
             'qualities' => QualityResource::collection($this->whenLoaded('qualities')),
             'store' => new StoreResource($this->whenLoaded('store')),
