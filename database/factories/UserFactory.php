@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Traits\Factories\CountryStateTrait;
 use Bouncer;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
