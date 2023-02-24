@@ -752,7 +752,7 @@ class ProductControllerStoreTest extends BaseTest
         $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
         $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['is_discount_fixed', 'discount_amount']);
+        $response->assertJsonValidationErrors(['is_discount_fixed', 'discount_value']);
     }
 
     public function test_authenticated_seller_can_create_a_product_with_percent_discount()
@@ -792,7 +792,7 @@ class ProductControllerStoreTest extends BaseTest
             ],
             'has_discount' => true,
             'is_discount_fixed' => false,
-            'discount_amount' => 25,
+            'discount_value' => 25,
         ];
         $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
@@ -806,11 +806,11 @@ class ProductControllerStoreTest extends BaseTest
             'country' => config('app.country'),
             'has_discount' => $data['has_discount'],
             'is_discount_fixed' => $data['is_discount_fixed'],
-            'discount_percent' => $data['discount_amount'],
+            'discount_value' => $data['discount_value'],
         ]);
         $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
         $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
-        $this->assertEquals($data['discount_amount'], $response->json('data.discount_amount'));
+        $this->assertEquals($data['discount_value'], $response->json('data.discount_value'));
     }
 
     public function test_authenticated_seller_can_create_a_product_with_fixed_discount()
@@ -850,7 +850,7 @@ class ProductControllerStoreTest extends BaseTest
             ],
             'has_discount' => true,
             'is_discount_fixed' => true,
-            'discount_amount' => 25,
+            'discount_value' => 25,
         ];
         $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
 
@@ -864,7 +864,7 @@ class ProductControllerStoreTest extends BaseTest
             'country' => config('app.country'),
             'has_discount' => $data['has_discount'],
             'is_discount_fixed' => $data['is_discount_fixed'],
-            'discount_amount' => $data['discount_amount'],
+            'discount_value' => $data['discount_value'],
         ]);
     }
 }

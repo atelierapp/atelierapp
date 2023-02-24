@@ -34,7 +34,7 @@ class ProductResource extends JsonResource
             // Discount columns
             'has_discount' => $this->has_discount,
             'is_discount_fixed' => $this->is_discount_fixed,
-            'discount_amount' => $this->is_discount_fixed ? $this->discount_amount : $this->discount_percent,
+            'discount_value' => $this->discount_value,
             'discounted_amount' => number_format($this->discounted_amount, 2, '.', ' '),
             'final_price' => number_format($this->final_price, 2, '.', ' '),
 

@@ -43,7 +43,7 @@ class ProductUpdateRequest extends FormRequest
                     return $this->has_discount == true || $this->has_discount == 1;
                 })
             ],
-            'discount_amount' => [
+            'discount_value' => [
                 Rule::requiredIf(function (){
                     return $this->has_discount == true || $this->has_discount == 1;
                 }),
@@ -51,8 +51,8 @@ class ProductUpdateRequest extends FormRequest
         ];
 
         if (!$this->is_discount_fixed && $this->has_discount) {
-            $rules['discount_amount'][] = 'numeric';
-            $rules['discount_amount'][] = 'max:100';
+            $rules['discount_value'][] = 'numeric';
+            $rules['discount_value'][] = 'max:100';
         }
 
         return $rules;

@@ -83,19 +83,15 @@ class ProductService
 
         if (data_get($params, 'has_discount', false)) {
             if (data_get($params, 'is_discount_fixed', false)) {
-                $params['final_price'] = round($params['price'] - $params['discount_amount'], 2);
-                $params['discount_percent'] = 0;
+                $params['final_price'] = round($params['price'] - $params['discount_value'], 2);
             } else {
-                $params['discount_percent'] = $params['discount_amount'];
-                $params['discount_amount'] = 0;
-                $percent = round($params['discount_percent'] / 100, 2);
+                $percent = round($params['discount_value'] / 100, 2);
                 $params['discounted_amount'] = round($params['price'] * $percent, 2);
                 $params['final_price'] = round($params['price'] - $params['discounted_amount'], 2);
             }
         } else {
             $params['final_price'] = $params['price'];
-            $params['discount_percent'] = 0;
-            $params['discount_amount'] = 0;
+            $params['discount_value'] = 0;
         }
 
         return $params;

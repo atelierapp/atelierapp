@@ -47,7 +47,7 @@ abstract class BaseTest extends TestCase
             'is_unique',
             'has_discount',
             'is_discount_fixed',
-            'discount_amount',
+            'discount_value',
             'discounted_amount',
             'final_price',
         ];
