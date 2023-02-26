@@ -6,13 +6,22 @@ use App\Http\Resources\CouponResource;
 use App\Models\Coupon;
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\UpdateCouponRequest;
+use App\Models\Role;
+use App\Services\CouponService;
 use Illuminate\Http\Response;
 
 class CouponController extends Controller
 {
+    public function __construct(
+        // private CouponService $couponService
+    ) {
+        $this->middleware('auth:sanctum');
+        $this->middleware('role:' . Role::ADMIN . '|'. Role::SELLER)->only(['index']);
+    }
+
     public function index()
     {
-        $coupons = Coupon::all();
+        $coupons = Coupon::filterByRole()->get();
 
         return CouponResource::collection($coupons);
     }
