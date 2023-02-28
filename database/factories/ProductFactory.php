@@ -71,8 +71,9 @@ class ProductFactory extends Factory
 
         return $this->state(fn (array $attributes) => [
             'has_discount' => true,
-            'is_discount_fixed' => true,
+            'is_discount_fixed' => false,
             'discount_value' => $amount,
+            'discounted_amount' => $attributes['price'] * ($amount / 100),
         ]);
     }
 }
