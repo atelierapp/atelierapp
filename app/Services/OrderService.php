@@ -73,7 +73,7 @@ class OrderService
                 'seller_id' => $store->user_id,
             ]);
             $order->items += $item->quantity;
-            $order->total_price += $item->variation->product->price * $item->quantity;
+            $order->total_price += $item->variation->product->final_price * $item->quantity;
             $order->total_revenue += $order->total_price - ($store->commission_percent * $order->total_price);
             $order->save();
 

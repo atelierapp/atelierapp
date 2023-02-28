@@ -129,14 +129,12 @@ class Product extends BaseModelCountry
         $this->attributes['manufactured_at'] = Carbon::parse($value)->format('Y-m-d');
     }
 
-    public function setPropertiesAttribute($properties)
+    protected function properties(): Attribute
     {
-        $this->attributes['properties'] = json_encode($properties);
-    }
-
-    public function getPropertiesAttribute($properties)
-    {
-        return json_decode($properties, true);
+        return new Attribute(
+            get: fn ($value) => json_decode($value, true),
+            set: fn ($value) => json_encode($value),
+        );
     }
 
     protected function discountedAmount(): Attribute

@@ -44,12 +44,35 @@ class ProductFactory extends Factory
         ];
     }
 
-    public function activeStore()
+    public function activeStore(): static
     {
         return $this->state(function (array $attributes) {
             return [
                 'store_id' => Store::factory()->active(),
             ];
         });
+    }
+
+    public function withFixedDiscount($amount): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'has_discount' => true,
+            'is_discount_fixed' => true,
+            'discount_value' => $amount,
+            'discounted_amount' => $amount,
+        ]);
+    }
+
+    public function withPercentDiscount($amount = 0): static
+    {
+        $amount = $amount == 0
+            ? $this->faker->numberBetween(2, 10)
+            : $amount;
+
+        return $this->state(fn (array $attributes) => [
+            'has_discount' => true,
+            'is_discount_fixed' => true,
+            'discount_value' => $amount,
+        ]);
     }
 }
