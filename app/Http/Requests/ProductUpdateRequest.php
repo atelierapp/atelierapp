@@ -11,7 +11,7 @@ class ProductUpdateRequest extends FormRequest
 {
     public function rules(): array
     {
-        return [
+        $rules = [
             'store_id' => ['required', new ExistsForSpecifiedAuthenticatedUser('stores', 'id')],
 
             'title' => ['required', 'string', 'max:100'],
@@ -35,7 +35,27 @@ class ProductUpdateRequest extends FormRequest
             'tags.*.name' => ['required_with:tags', 'string'],
             'materials' => ['required'],
             'materials.*.name' => ['required_with:materials', 'string'],
+
+            'has_discount' => ['nullable', 'boolean'],
+            'is_discount_fixed' => [
+                'boolean',
+                Rule::requiredIf(function (){
+                    return $this->has_discount == true || $this->has_discount == 1;
+                })
+            ],
+            'discount_value' => [
+                Rule::requiredIf(function (){
+                    return $this->has_discount == true || $this->has_discount == 1;
+                }),
+            ]
         ];
+
+        if (!$this->is_discount_fixed && $this->has_discount) {
+            $rules['discount_value'][] = 'numeric';
+            $rules['discount_value'][] = 'max:100';
+        }
+
+        return $rules;
     }
 
     public function authorize(): bool

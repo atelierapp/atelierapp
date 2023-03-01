@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Builders;
+namespace App\Models\Builders;
 
 use App\Models\Role;
 use App\Traits\Builders\WhereRawDateBetweenTrait;

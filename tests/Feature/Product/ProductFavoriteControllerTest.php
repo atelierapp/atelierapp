@@ -6,6 +6,8 @@ use App\Models\FavoriteProduct;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Store;
+use Database\Seeders\OrderStatusSeeder;
+use Database\Seeders\PaymentStatusSeeder;
 use Illuminate\Support\Facades\DB;
 
 class ProductFavoriteControllerTest extends BaseTest
@@ -48,13 +50,16 @@ class ProductFavoriteControllerTest extends BaseTest
 
     public function test_a_authenticated_seller_can_list_trending_products()
     {
+        $this->seed(OrderStatusSeeder::class);
+        $this->seed(PaymentStatusSeeder::class);
         $user = $this->createAuthenticatedSeller();
-        $store = Store::factory()->create(['user_id' => $user->id]);
-        Product::factory()->count(5)->create();
-        Product::factory()->count(15)->create(['store_id' => $store->id])->each(function ($product) {
-            FavoriteProduct::factory()->count($this->faker->numberBetween(1, 5))->create(['product_id' => $product->id]);
-            OrderDetail::factory()->count($this->faker->numberBetween(1, 5))->create(['product_id' => $product->id]);
-        });
+        $store = Store::factory()->active()->create(['user_id' => $user->id]);
+        Product::factory()->count(5)->active()->activeStore()->create();
+        Product::factory()->count(15)->active()->create(['store_id' => $store->id])
+            ->each(function ($product) {
+                FavoriteProduct::factory()->count($this->faker->numberBetween(1, 5))->create(['product_id' => $product->id]);
+                OrderDetail::factory()->count($this->faker->numberBetween(1, 5))->create(['product_id' => $product->id]);
+            });
 
         $response = $this->getJson(route('product.trending'), $this->customHeaders());
 
@@ -66,8 +71,8 @@ class ProductFavoriteControllerTest extends BaseTest
                     'image',
                     'favorites',
                     'projects',
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

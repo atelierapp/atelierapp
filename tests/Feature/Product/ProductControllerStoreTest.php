@@ -711,4 +711,165 @@ class ProductControllerStoreTest extends BaseTest
         $this->assertDatabaseCount('material_product', 1);
         $this->assertDatabaseCount('qualityables', 2);
     }
+
+    public function test_authenticated_seller_can_not_store_a_product_with_discount_without_required_fields()
+    {
+        Storage::fake('s3');
+        $store = $this->createStore($this->createAuthenticatedSeller());
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+            ],
+            'price' => $this->faker->numberBetween(10000, 100000) / 100,
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+            'has_discount' => true,
+        ];
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['is_discount_fixed', 'discount_value']);
+    }
+
+    public function test_authenticated_seller_can_create_a_product_with_percent_discount()
+    {
+        Storage::fake('s3');
+        $store = $this->createStore($this->createAuthenticatedSeller());
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+            ],
+            'price' => 150,
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+            'has_discount' => true,
+            'is_discount_fixed' => false,
+            'discount_value' => 25,
+        ];
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
+
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'data' => $this->structure(),
+        ]);
+        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+            'has_discount' => $data['has_discount'],
+            'is_discount_fixed' => $data['is_discount_fixed'],
+            'discount_value' => $data['discount_value'],
+        ]);
+        $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
+        $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
+        $this->assertEquals($data['discount_value'], $response->json('data.discount_value'));
+        $this->assertEquals(112.5, $response->json('data.final_price'));
+    }
+
+    public function test_authenticated_seller_can_create_a_product_with_fixed_discount()
+    {
+        Storage::fake('s3');
+        $store = $this->createStore($this->createAuthenticatedSeller());
+
+        $data = [
+            'store_id' => $store->id,
+            'title' => $this->faker->name,
+            'qualities' => Quality::factory()->count(2)->create()->pluck('id')->toArray(),
+            'manufacturer_process' => $this->faker->randomElement(array_keys(ManufacturerProcessEnum::MAP_VALUE)),
+            'category_id' => Category::factory()->create()->id,
+            'description' => $this->faker->paragraph(),
+            'depth' => $this->faker->numberBetween(100, 200),
+            'height' => $this->faker->numberBetween(100, 200),
+            'width' => $this->faker->numberBetween(100, 200),
+            'images' => [
+                ['orientation' => 'front', 'file' => UploadedFile::fake()->image('front.png')],
+                ['orientation' => 'side', 'file' => UploadedFile::fake()->image('side.png')],
+                ['orientation' => 'perspective', 'file' => UploadedFile::fake()->image('perspective.png')],
+                ['orientation' => 'plan', 'file' => UploadedFile::fake()->image('plan.png')],
+            ],
+            'price' => 150,
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'tags' => [
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+                ['name' => $this->faker->word],
+            ],
+            'materials' => [
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+                ['name' => $this->faker->name],
+            ],
+            'has_discount' => true,
+            'is_discount_fixed' => true,
+            'discount_value' => 25,
+        ];
+        $response = $this->postJson(route('product.store'), $data, $this->customHeaders());
+
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'data' => $this->structure(),
+        ]);
+        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseHas('products', [
+            'id' => $response->json('data.id'),
+            'country' => config('app.country'),
+            'has_discount' => $data['has_discount'],
+            'is_discount_fixed' => $data['is_discount_fixed'],
+            'discount_value' => $data['discount_value'],
+        ]);
+        $this->assertEquals($data['has_discount'], $response->json('data.has_discount'));
+        $this->assertEquals($data['is_discount_fixed'], $response->json('data.is_discount_fixed'));
+        $this->assertEquals($data['discount_value'], $response->json('data.discount_value'));
+        $this->assertEquals(125, $response->json('data.final_price'));
+    }
 }
