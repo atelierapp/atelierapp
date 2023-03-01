@@ -200,4 +200,84 @@ class CreateOrderTest extends BaseTest
             'total_price' => 155
         ]);
     }
+
+    public function test_can_create_an_order_from_shopping_cart_and_dont_apply_discount_because_the_date_is_before_discount_period(): void
+    {
+        $this->seed([OrderStatusSeeder::class, PaymentStatusSeeder::class]);
+        $product = Product::factory(['price' => 100])->withPercentDiscount(20, now()->addDays(5))->create();
+        ShoppingCart::factory()->create([
+            'customer_id' => $this->createAuthenticatedUser()->id,
+            'variation_id' => Variation::factory()->create(['product_id' => $product->id]),
+            'quantity' => 1,
+        ]);
+
+        $response = $this->postJson(route('shopping-cart.order'));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'order_id',
+            'links' => [
+                'to_pay',
+                'method',
+            ],
+        ]);
+        $this->assertGreaterThan(1, Order::where('total_revenue', '>', '1')->sum('total_revenue'));
+        $this->assertDatabaseHas('orders', [
+            'total_price' => 100
+        ]);
+    }
+
+    public function test_can_create_an_order_from_shopping_cart_and_dont_apply_discount_because_the_date_is_after_discount_period(): void
+    {
+        $this->seed([OrderStatusSeeder::class, PaymentStatusSeeder::class]);
+        $product = Product::factory(['price' => 100])->withPercentDiscount(20, end: now()->subDays(5))->create();
+        ShoppingCart::factory()->create([
+            'customer_id' => $this->createAuthenticatedUser()->id,
+            'variation_id' => Variation::factory()->create(['product_id' => $product->id]),
+            'quantity' => 1,
+        ]);
+
+        $response = $this->postJson(route('shopping-cart.order'));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'order_id',
+            'links' => [
+                'to_pay',
+                'method',
+            ],
+        ]);
+        $this->assertGreaterThan(1, Order::where('total_revenue', '>', '1')->sum('total_revenue'));
+        $this->assertDatabaseHas('orders', [
+            'total_price' => 100
+        ]);
+    }
+
+    public function test_can_create_an_order_from_shopping_cart_and_can_apply_discount_when_period_is_valid(): void
+    {
+        $this->seed([OrderStatusSeeder::class, PaymentStatusSeeder::class]);
+        $product = Product::factory(['price' => 100])
+            ->withPercentDiscount(20, now()->subDays(5), now()->addDays(5))
+            ->create();
+        ShoppingCart::factory()->create([
+            'customer_id' => $this->createAuthenticatedUser()->id,
+            'variation_id' => Variation::factory()->create(['product_id' => $product->id]),
+            'quantity' => 1,
+        ]);
+
+        $response = $this->postJson(route('shopping-cart.order'));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'order_id',
+            'links' => [
+                'to_pay',
+                'method',
+            ],
+        ]);
+        $this->assertGreaterThan(1, Order::where('total_revenue', '>', '1')->sum('total_revenue'));
+        $this->assertDatabaseHas('orders', [
+            'total_price' => 80
+        ]);
+    }
 }

@@ -61,6 +61,8 @@ class Product extends BaseModelCountry
         'is_unique' => 'boolean',
         'has_discount' => 'boolean',
         'is_discount_fixed' => 'boolean',
+        'discount_start' => 'date',
+        'discount_end' => 'date',
     ];
 
     protected $enums = [
@@ -147,7 +149,17 @@ class Product extends BaseModelCountry
 
     protected function finalPrice(): Attribute
     {
-        return new Attribute(get: fn ($value) => $this->price - $this->discounted_amount);
+        return new Attribute(get: function ($value) {
+            if (is_null($this->discount_start) && is_null($this->discount_end)) {
+                return $this->price - $this->discounted_amount;
+            }
+
+            if (now()->lte($this->discount_start) || now()->gte($this->discount_end)) {
+                return $this->price;
+            }
+
+            return $this->price - $this->discounted_amount;
+        });
     }
 
 }

@@ -53,17 +53,19 @@ class ProductFactory extends Factory
         });
     }
 
-    public function withFixedDiscount($amount): static
+    public function withFixedDiscount($amount, $start = null, $end = null): static
     {
         return $this->state(fn (array $attributes) => [
             'has_discount' => true,
             'is_discount_fixed' => true,
             'discount_value' => $amount,
             'discounted_amount' => $amount,
+            'discount_start' => $start,
+            'discount_end' => $end,
         ]);
     }
 
-    public function withPercentDiscount($amount = 0): static
+    public function withPercentDiscount($amount = 0, $start = null, $end = null): static
     {
         $amount = $amount == 0
             ? $this->faker->numberBetween(2, 10)
@@ -74,6 +76,8 @@ class ProductFactory extends Factory
             'is_discount_fixed' => false,
             'discount_value' => $amount,
             'discounted_amount' => $attributes['price'] * ($amount / 100),
+            'discount_start' => $start,
+            'discount_end' => $end,
         ]);
     }
 }
