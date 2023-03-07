@@ -40,8 +40,7 @@ class CouponControllerIndexTest extends BaseTest
 
     public function test_an_seller_user_can_list_all_his_coupons()
     {
-        $user = $this->createAuthenticatedSeller();
-        $store = Store::factory()->create(['user_id' => $user->id]);
+        $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
         Coupon::factory()->count(5)->create(['store_id' => $store->id]);
         Coupon::factory()->count(5)->create();
 

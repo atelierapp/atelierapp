@@ -114,7 +114,7 @@ Route::middleware('locale')->group(function () {
         Route::patch('orders/{order}/details/{detail}', [OrderProductController::class, 'update'])->name('order.details.update');
 
         // Coupons
-        Route::apiResource('coupons', CouponController::class)->names('coupon')->only(['index', 'store']);
+        Route::apiResource('coupons', CouponController::class)->names('coupon');
 
         // Dashboard
         Route::prefix('dashboard')->group(function () {

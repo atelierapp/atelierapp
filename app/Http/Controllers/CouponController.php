@@ -13,7 +13,7 @@ use Illuminate\Http\Response;
 class CouponController extends Controller
 {
     public function __construct(
-        // private CouponService $couponService
+        private CouponService $couponService
     ) {
         $this->middleware('auth:sanctum');
         $this->middleware('role:' . Role::ADMIN . '|'. Role::SELLER)->only(['index']);
@@ -26,30 +26,31 @@ class CouponController extends Controller
         return CouponResource::collection($coupons);
     }
 
-    public function store(StoreCouponRequest $request)
+    public function store(StoreCouponRequest $request): CouponResource
     {
-        $coupon = Coupon::create($request->validated());
+        $coupon = $this->couponService->create($request->user()->store->id, $request->validated());
 
         return CouponResource::make($coupon);
     }
 
-    public function show(Coupon $coupon)
+    public function show($coupon)
     {
-        return CouponResource::make($coupon);
-    }
-
-    public function update(UpdateCouponRequest $request, Coupon $coupon)
-    {
-        $coupon->fill($request->validated());
-        $coupon->save();
+        $coupon = $this->couponService->getBy($coupon);
 
         return CouponResource::make($coupon);
     }
 
-    public function destroy(Coupon $coupon)
+    public function update(UpdateCouponRequest $request, $coupon)
     {
-        $coupon->delete();
+        $coupon = $this->couponService->update($coupon, $request->validated());
 
-        return response()->setStatusCode(Response::HTTP_NO_CONTENT);
+        return CouponResource::make($coupon);
+    }
+
+    public function destroy($coupon)
+    {
+        $this->couponService->delete($coupon);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

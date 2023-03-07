@@ -16,28 +16,31 @@ class Coupon extends Model
     use HasFactory;
     use SoftDeletes;
 
-    const TOTAL = 'total';
-    const PRODUCT = 'product';
+    const MODE_TOTAL = 'total';
+    const MODE_PRODUCT = 'product';
+    const MODE_SELLER = 'seller';
+    const MODE_INFLUENCER = 'influencer';
 
     protected $table = 'coupons';
 
     protected $fillable = [
         'is_active',
+        'store_id',
         'code',
         'name',
         'description',
+        'mode',
         'start_date',
         'end_date',
         'is_fixed',
         'amount',
         'max_uses',
         'current_uses',
-        'stock',
-        'mode',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_fixed' => 'boolean',
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];

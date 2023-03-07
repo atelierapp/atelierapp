@@ -5,37 +5,38 @@ namespace Tests\Feature\Coupon;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 
-class CouponControllerStoreTest extends BaseTest
+class CouponControllerUpdateTest extends BaseTest
 {
-    public function test_an_guess_user_cannot_create_any_coupon()
+    public function test_an_guess_user_update_create_any_coupon()
     {
-        $response = $this->postJson(route('coupon.store'));
+        $response = $this->patchJson(route('coupon.update', 1));
 
         $response->assertUnauthorized();
     }
 
-    public function test_an_seller_user_cannot_create_a_total_coupon_without_params()
+    public function test_an_seller_user_cannot_update_a_coupon_if_it_belongs_to_his()
     {
         $this->createAuthenticatedSeller();
 
-        $data = [];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $data = [
+            'code' => $this->faker->lexify('??????'),
+            'name' => $this->faker->name(),
+            'mode' => Coupon::MODE_SELLER,
+            'is_fixed' => true,
+            'amount' => 10,
+        ];
+        $response = $this->patchJson(route('coupon.update', 99), $data, $this->customHeaders());
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrors([
-            'code',
-            'name',
-            'mode',
-            'is_fixed',
-            'amount',
-        ]);
+        $response->assertNotFound();
     }
 
-    public function test_an_seller_user_cannot_create_a_total_coupon()
+    public function test_an_seller_user_cannot_update_his_coupon_to_total_coupon()
     {
-        $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -44,18 +45,18 @@ class CouponControllerStoreTest extends BaseTest
             'is_fixed' => true,
             'amount' => 10,
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
             'mode'
         ]);
-        $this->assertDatabaseCount('coupons', 0);
     }
 
-    public function test_an_seller_user_cannot_create_a_influencer_coupon()
+    public function test_an_seller_user_cannot_update_his_coupon_to_influencer_coupon()
     {
-        $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -64,18 +65,18 @@ class CouponControllerStoreTest extends BaseTest
             'is_fixed' => true,
             'amount' => 10,
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
             'mode'
         ]);
-        $this->assertDatabaseCount('coupons', 0);
     }
 
-    public function test_an_seller_user_can_create_a_seller_fixed_coupon_with_minimal_params()
+    public function test_an_seller_user_can_update_his_fixed_coupon_with_minimal_params()
     {
         $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -84,19 +85,21 @@ class CouponControllerStoreTest extends BaseTest
             'is_fixed' => true,
             'amount' => 10,
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
-        $response->assertCreated();
+        $response->assertOk();
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
+        $data['id'] = $store->user_id;
         $data['store_id'] = $store->id;
         $this->assertDatabaseHas('coupons', $data);
     }
 
-    public function test_an_seller_user_can_create_a_seller_percent_coupon_with_minimal_params()
+    public function test_an_seller_user_can_update_his_coupon_with_minimal_params()
     {
         $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -105,19 +108,21 @@ class CouponControllerStoreTest extends BaseTest
             'is_fixed' => true,
             'amount' => 10,
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
-        $response->assertCreated();
+        $response->assertOk();
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
+        $data['id'] = $store->user_id;
         $data['store_id'] = $store->id;
         $this->assertDatabaseHas('coupons', $data);
     }
 
-    public function test_an_seller_user_can_create_a_seller_percent_coupon_with_interval_params()
+    public function test_an_seller_user_can_update_his_coupon_with_interval_params()
     {
         $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -128,21 +133,23 @@ class CouponControllerStoreTest extends BaseTest
             'start_date' => '2023-03-01',
             'end_date' => '2023-03-31',
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
-        $response->assertCreated();
+        $response->assertOk();
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
+        $data['id'] = $store->user_id;
+        $data['store_id'] = $store->id;
         $data['start_date'] = Carbon::parse($data['start_date'])->toDateTimeString();
         $data['end_date'] = Carbon::parse($data['end_date'])->toDateTimeString();
-        $data['store_id'] = $store->id;
         $this->assertDatabaseHas('coupons', $data);
     }
 
-    public function test_an_seller_user_can_not_create_a_seller_percent_coupon_if_end_date_field_is_less_than_start_date()
+    public function test_an_seller_user_can_not_update_his_coupon_if_end_date_field_is_less_than_start_date()
     {
-        $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -153,7 +160,7 @@ class CouponControllerStoreTest extends BaseTest
             'start_date' => '2023-03-31',
             'end_date' => '2023-03-01',
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -161,9 +168,10 @@ class CouponControllerStoreTest extends BaseTest
         ]);
     }
 
-    public function test_an_seller_user_can_create_a_seller_percent_coupon_with_maximum_number_of_uses()
+    public function test_an_seller_user_can_update_his_coupon_with_maximum_number_of_uses()
     {
         $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -173,19 +181,21 @@ class CouponControllerStoreTest extends BaseTest
             'amount' => 10,
             'max_uses' => 1000,
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
-        $response->assertCreated();
+        $response->assertOk();
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
+        $data['id'] = $store->user_id;
         $data['store_id'] = $store->id;
         $this->assertDatabaseHas('coupons', $data);
     }
 
-    public function test_an_seller_user_can_not_create_a_product_percent_coupon_without_products()
+    public function test_an_seller_user_can_not_update_his_coupon_to_product_percent_coupon_without_products()
     {
-        $this->createAuthenticatedSeller();
+        $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -194,7 +204,7 @@ class CouponControllerStoreTest extends BaseTest
             'is_fixed' => true,
             'amount' => 15,
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -202,11 +212,12 @@ class CouponControllerStoreTest extends BaseTest
         ]);
     }
 
-    public function test_an_seller_user_can_create_a_product_percent_coupon_with_products_but_only_for_his_products()
+    public function test_an_seller_user_can_update_his_coupon_to_product_percent_coupon_with_products()
     {
-        Product::factory()->count(3)->create();
         $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $coupon = Coupon::factory()->create(['store_id' => $store->id]);
         Product::factory(['store_id' => $store->id])->count(3)->create();
+        Product::factory()->count(3)->create();
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -216,13 +227,12 @@ class CouponControllerStoreTest extends BaseTest
             'amount' => 15,
             'products' => Product::select('id')->get()->pluck('id')->toArray(),
         ];
-        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+        $response = $this->patchJson(route('coupon.update', $coupon->id), $data, $this->customHeaders());
 
-        $response->assertCreated();
+        $response->assertOk();
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
-        $this->assertDatabaseCount('coupons', 1);
         $this->assertDatabaseCount('coupon_details', 3);
     }
 }

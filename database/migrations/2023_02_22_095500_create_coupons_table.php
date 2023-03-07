@@ -15,7 +15,7 @@ class CreateCouponsTable extends Migration
             $table->string('code', 32)->index();
             $table->string('name', 64);
             $table->text('description')->nullable();
-            $table->char('mode', 16)->default(Coupon::TOTAL)->index();
+            $table->char('mode', 16)->default(Coupon::MODE_TOTAL)->index();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->boolean('is_fixed');
