@@ -30,6 +30,8 @@ class OrderDetail extends BaseModelCountry
         'seller_status_at',
         'seller_notes',
         'country',
+        'discount_amount',
+        'final_price',
     ];
 
     protected $casts = [
@@ -57,6 +59,22 @@ class OrderDetail extends BaseModelCountry
     }
 
     public function totalRevenue(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    public function discountAmount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    public function finalPrice(): Attribute
     {
         return new Attribute(
             get: fn ($value) => $value / 100,

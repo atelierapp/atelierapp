@@ -43,6 +43,8 @@ class Coupon extends Model
         'is_fixed' => 'boolean',
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'max_uses' => 'integer',
+        'current_uses' => 'integer',
     ];
 
     public function newEloquentBuilder($query): CouponBuilder
@@ -55,33 +57,4 @@ class Coupon extends Model
         return $this->hasMany(CouponDetail::class);
     }
 
-    /**
-     * Determine if this coupon can be applied
-     *
-     * @return bool
-     */
-    public function canApply(): bool
-    {
-        return $this->is_active && $this->canUse() && $this->isValid();
-    }
-
-    /**
-     * Determine if this coupon has available uses
-     *
-     * @return bool
-     */
-    public function canUse(): bool
-    {
-        return (int) $this->max_uses > (int) $this->current_uses;
-    }
-
-    /**
-     * Determine if this coupon your dates are valid
-     *
-     * @return bool
-     */
-    public function isValid(): bool
-    {
-        return now()->betweenIncluded($this->start_date, $this->end_date->isEndOfDay());
-    }
 }

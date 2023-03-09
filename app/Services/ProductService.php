@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Quality;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class ProductService
 {
@@ -22,19 +23,22 @@ class ProductService
         //
     }
 
-    public function list(array $filters = []): LengthAwarePaginator
+    public function list(array $filters = [], $asPaginated = true): LengthAwarePaginator|Collection
     {
         $relations = ['style', 'medias', 'tags', 'store', 'categories'];
         if (request()->user('sanctum')) {
             $relations[] = 'authFavorite';
         }
 
-        return Product::authUser()
+        $query = Product::authUser()
             ->with($relations)
             ->whereHas('store', fn ($store) => $store->active())
             ->when($filters['inRandomOrder'] ?? false, fn($query) => $query->inRandomOrder())
-            ->applyFiltersFrom($filters)
-            ->paginate();
+            ->applyFiltersFrom($filters);
+
+        return $asPaginated
+            ? $query->paginate()
+            : $query->get();
     }
 
     public function getBy(int $product, string $field = 'id'): Product

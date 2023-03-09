@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\Role;
 use App\Services\OrderService;
 use App\Services\PaypalService;
+use Illuminate\Http\Request;
 use Throwable;
 
 class OrderController extends Controller
@@ -38,9 +39,9 @@ class OrderController extends Controller
      * @throws Throwable
      * @throws AtelierException
      */
-    public function store()
+    public function store(Request $request)
     {
-        $order = $this->orderService->createFromShoppingCart((int)auth()->id());
+        $order = $this->orderService->createFromShoppingCart((int) auth()->id(), $request->get('coupon'));
 
         if (request()->has('project_id')) {
             /** @var Project $project */

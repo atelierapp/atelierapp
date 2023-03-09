@@ -53,7 +53,9 @@ class Order extends BaseModelCountry
         'payment_gateway_metadata',
         'paid_status_id',
         'paid_on',
-        'country'
+        'country',
+        'discount_amount',
+        'final_price',
     ];
 
     protected $casts = [
@@ -63,7 +65,7 @@ class Order extends BaseModelCountry
 
     public function newEloquentBuilder($query): OrderBuilder
     {
-        return New OrderBuilder($query);
+        return new OrderBuilder($query);
     }
 
     public function details(): HasMany
@@ -111,6 +113,22 @@ class Order extends BaseModelCountry
     }
 
     public function totalRevenue(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    public function discountAmount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    public function finalPrice(): Attribute
     {
         return new Attribute(
             get: fn ($value) => $value / 100,

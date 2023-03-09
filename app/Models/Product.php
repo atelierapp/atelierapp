@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Builders\ProductBuilder;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
+use App\Models\Builders\ProductBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
 use App\Traits\Models\HasTagsRelation;

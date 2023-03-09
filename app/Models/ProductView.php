@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Builders\ProductBuilder;
 use App\Builders\ProductViewBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -20,6 +20,6 @@ class CouponUse extends Model
 
     protected $fillable = [
         'coupon_id',
-        'customer_id',
+        'user_id',
     ];
 }
