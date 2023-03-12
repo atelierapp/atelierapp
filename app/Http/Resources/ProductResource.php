@@ -30,6 +30,14 @@ class ProductResource extends JsonResource
             'is_on_demand' => $this->is_on_demand,
             'is_unique' => $this->is_unique,
             'is_favorite' =>  request()->user('sanctum') ? $this->authFavorite?->exists : false,
+
+            // Discount columns
+            'has_discount' => $this->has_discount,
+            'is_discount_fixed' => $this->is_discount_fixed,
+            'discount_value' => $this->discount_value,
+            'discounted_amount' => $this->discounted_amount,
+            'final_price' => $this->final_price,
+
             'qualities' => QualityResource::collection($this->whenLoaded('qualities')),
             'store' => new StoreResource($this->whenLoaded('store')),
             'medias' => MediaResource::collection($this->whenLoaded('medias')),

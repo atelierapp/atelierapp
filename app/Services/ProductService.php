@@ -57,6 +57,7 @@ class ProductService
             ],
         ];
 
+        $data = $this->processDiscountedAmount($data);
         $product = Product::create($data);
         $this->processQualities($product, Arr::get($params, 'qualities', []));
         $this->processImages($product, $data['images']);
@@ -78,6 +79,25 @@ class ProductService
         $product->load('variations.medias');
 
         return $product;
+    }
+
+    private function processDiscountedAmount($params)
+    {
+        $params['is_active'] = data_get($params, 'is_active', true);
+
+        if (data_get($params, 'has_discount', false)) {
+            if (data_get($params, 'is_discount_fixed', false)) {
+                $params['discounted_amount'] = $params['discount_value'];
+            } else {
+                $percent = round($params['discount_value'] / 100, 2);
+                $params['discounted_amount'] = round($params['price'] * $percent, 2);
+            }
+        } else {
+            $params['discount_value'] = 0;
+            $params['discounted_amount'] = 0;
+        }
+
+        return $params;
     }
 
     private function processQualities(Product &$product, array $qualities)
@@ -210,6 +230,7 @@ class ProductService
             $params['properties']['dimensions']['width'] = (double) $params['width'];
         }
 
+        $params = $this->processDiscountedAmount($params);
         $product->fill($params);
         $product->save();
 

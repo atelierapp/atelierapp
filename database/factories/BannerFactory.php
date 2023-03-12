@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Banner;
-use App\Traits\Factories\CountryStateTrait;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BannerFactory extends Factory
