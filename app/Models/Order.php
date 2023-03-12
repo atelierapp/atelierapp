@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Builders\OrderBuilder;
+use App\Models\Traits\HasUserRelation;
 use App\Traits\Models\HasSellerRelation;
-use App\Traits\Models\HasUserRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +46,8 @@ class Order extends BaseModelCountry
         'items',
         'total_price',
         'total_revenue',
+        'discount_amount',
+        'final_price',
         'seller_status_id',
         'seller_status_at',
         'payment_gateway_id',
@@ -53,7 +55,7 @@ class Order extends BaseModelCountry
         'payment_gateway_metadata',
         'paid_status_id',
         'paid_on',
-        'country'
+        'country',
     ];
 
     protected $casts = [
@@ -63,7 +65,7 @@ class Order extends BaseModelCountry
 
     public function newEloquentBuilder($query): OrderBuilder
     {
-        return New OrderBuilder($query);
+        return new OrderBuilder($query);
     }
 
     public function details(): HasMany
@@ -110,11 +112,4 @@ class Order extends BaseModelCountry
         );
     }
 
-    public function totalRevenue(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
-    }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use App\Models\User;
 use App\Models\Variation;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -17,5 +18,12 @@ class ShoppingCartFactory extends Factory
             'variation_id' => Variation::factory(),
             'quantity' => $this->faker->numberBetween(1, 5),
         ];
+    }
+
+    public function product(Product $product): ShoppingCartFactory
+    {
+        return $this->state(fn () => [
+            'variation_id' => Variation::factory(['product_id' => $product->id]),
+        ]);
     }
 }

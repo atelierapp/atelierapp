@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasUserRelation;
 use App\Traits\Models\HasOrderRelation;
 use App\Traits\Models\HasSellerRelation;
-use App\Traits\Models\HasUserRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**

@@ -2,27 +2,24 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasCouponRelation;
 use App\Models\Traits\HasUserRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperPaymentGatewayUser
+ * @mixin IdeHelperCouponUse
  */
-class PaymentGatewayUser extends Model
+class CouponUse extends Model
 {
     use HasFactory;
+    use HasCouponRelation;
     use HasUserRelation;
 
-    protected $table = 'payment_gateway_user';
+    protected $table = 'coupon_uses';
 
     protected $fillable = [
+        'coupon_id',
         'user_id',
-        'payment_gateway_id',
-        'properties',
-    ];
-
-    protected $casts = [
-        'properties' => 'json',
     ];
 }

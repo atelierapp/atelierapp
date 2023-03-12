@@ -15,6 +15,11 @@ use Illuminate\Support\Collection;
 
 class OrderService
 {
+    public function __construct(private CouponService $couponService)
+    {
+        //
+    }
+
     public function getBy(Order|string|int $order, string $field = 'id', $throwable = true): Order
     {
         if ($order instanceof Order) {
@@ -47,34 +52,34 @@ class OrderService
     }
 
     /**
-     * @throws AtelierException
+     * @param int $userId
+     * @param string|null $couponCode
+     * @return \App\Models\Order
+     * @throws \App\Exceptions\AtelierException
      */
-    public function createFromShoppingCart(int $userId): Order
+    public function createFromShoppingCart(int $userId, ?string $couponCode): Order
     {
-        $items = ShoppingCart::query()
-            ->where('customer_type', User::class)
-            ->where('customer_id', $userId)
-            ->with('variation.product.store')
-            ->get();
+        $items = ShoppingCart::query()->customer($userId)->with('variation.product.store')->get();
 
         if (count($items) == 0) {
             throw new AtelierException('You do not have products in your shopping cart', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $parentOrder = Order::create([
-            'user_id' => $items[0]->customer_id,
+            'user_id' => $userId,
         ]);
         foreach ($items as $item) {
             $store = $item->variation->product->store;
             $order = Order::updateOrCreate([
                 'parent_id' => $parentOrder->id,
-                'user_id' => $userId,
+                'user_id' => $parentOrder->user_id,
                 'store_id' => $store->id,
                 'seller_id' => $store->user_id,
             ]);
             $order->items += $item->quantity;
             $order->total_price += $item->variation->product->final_price * $item->quantity;
             $order->total_revenue += $order->total_price - ($store->commission_percent * $order->total_price);
+            $order->final_price = $order->total_price;
             $order->save();
 
             $params = [
@@ -85,6 +90,7 @@ class OrderService
                 'quantity' => $item->quantity,
                 'total_price' => $item->variation->product->price * $item->quantity,
             ];
+            $params['final_price'] = $params['total_price'];
 
             OrderDetail::create($params);
             $params['order_id'] = $parentOrder->id;
@@ -94,11 +100,12 @@ class OrderService
         $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
         $parentOrder->total_revenue = $parentOrder->subOrders()->sum('total_revenue');
         $parentOrder->items = $parentOrder->subOrders()->sum('items');
+        $parentOrder->final_price = $parentOrder->subOrders()->sum('total_price');
+        $parentOrder->save();
 
-        ShoppingCart::withoutGlobalScopes()
-            ->where('customer_type', User::class)
-            ->where('customer_id', $userId)
-            ->delete();
+        ShoppingCart::withoutGlobalScopes()->customer($userId)->delete();
+
+        $this->couponService->applyCouponFromCode($couponCode, $parentOrder);
 
         return $parentOrder;
     }

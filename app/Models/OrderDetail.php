@@ -30,6 +30,8 @@ class OrderDetail extends BaseModelCountry
         'seller_status_at',
         'seller_notes',
         'country',
+        'discount_amount',
+        'final_price',
     ];
 
     protected $casts = [
@@ -56,11 +58,4 @@ class OrderDetail extends BaseModelCountry
         return $this->belongsTo(Variation::class);
     }
 
-    public function totalRevenue(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
-    }
 }
