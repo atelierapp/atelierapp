@@ -471,13 +471,112 @@ class CreateOrderWithCouponTest extends BaseTest
 
     public function test_a_customer_can_create_an_order_with_activated_percent_product_coupon_and_save_use()
     {
-    }
+        $user = $this->createAuthenticatedUser();
+        $store = Store::factory(['active' => true])->create();
+        $coupon = Coupon::factory()->allActive()->productMode($store->id)->percent(15)->create();
 
-    public function test_a_costumer_can_create_an_order_with_activated_product_coupon_but_this_coupon_only_apply_to_1_product_of_all_product_of_shopping_cart()
-    {
+        $product = Product::factory(['store_id' => $store->id, 'price' => 8500])->create();
+        $product2 = Product::factory(['store_id' => $store->id, 'price' => 10000])->create();
+        CouponDetail::create(['coupon_id' => $coupon->id, 'model_id' => $product->id, 'model_type' => Product::class]);
+        ShoppingCart::factory()->product($product)->create(['customer_id' => $user->id, 'quantity' => 1]);
+        ShoppingCart::factory()->product($product2)->create(['customer_id' => $user->id, 'quantity' => 1]);
+        $cart = ShoppingCart::factory()->create(['customer_id' => $user->id, 'quantity' => 1]);
+
+        $data = [
+            'coupon' => $coupon->code,
+        ];
+        $response = $this->postJson(route('shopping-cart.order'), $data);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'order_id',
+            'links' => [
+                'to_pay',
+                'method',
+            ],
+        ]);
+        $this->assertDatabaseCount('orders', 3);
+        $this->assertDatabaseCount('coupon_uses', 1);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 1
+        ]);
+        $this->assertDatabaseHas('orders', [
+            'user_id' => $user->id,
+            'store_id' => null,
+            'total_price' => 18500 + $cart->variation->product->price,
+            'discount_amount' => 1275,
+            'final_price' => 17225 + $cart->variation->product->price,
+        ]);
+        $this->assertDatabaseHas('orders', [
+            'user_id' => $user->id,
+            'store_id' => $product->store_id,
+            'total_price' => 18500,
+            'discount_amount' => 1275,
+            'final_price' => 17225,
+        ]);
+        $this->assertDatabaseHas('orders', [
+            'user_id' => $user->id,
+            'store_id' => $cart->variation->product->store_id,
+            'total_price' => $cart->variation->product->price,
+            'discount_amount' => 0,
+            'final_price' => $cart->variation->product->price,
+        ]);
+        $this->assertDatabaseHas('order_details', [
+            'product_id' => $product->id,
+            'unit_price' => $product->price,
+            'quantity' => 1,
+            'total_price' => $product->price,
+            'discount_amount' => 1275,
+            'final_price' => 7225,
+        ]);
+        $this->assertDatabaseHas('order_details', [
+            'product_id' => $product2->id,
+            'unit_price' => $product2->price,
+            'quantity' => 1,
+            'total_price' => $product2->price,
+            'discount_amount' => 0,
+            'final_price' => $product2->price,
+        ]);
+        $this->assertDatabaseHas('order_details', [
+            'product_id' => $cart->variation->product->id,
+            'unit_price' => $cart->variation->product->price,
+            'quantity' => 1,
+            'total_price' => $cart->variation->product->price,
+            'discount_amount' => 0,
+            'final_price' => $cart->variation->product->price,
+        ]);
     }
 
     public function test_a_customer_can_create_an_order_without_product_coupon_dont_apply_if_any_product_of_shopping_cat_dont_match_with_any_available_product_of_coupon()
     {
+        $user = $this->createAuthenticatedUser();
+        $store = Store::factory(['active' => true])->create();
+        $coupon = Coupon::factory()->allActive()->productMode($store->id)->percent(15)->create();
+        $product = Product::factory(['store_id' => $store->id, 'price' => 8500])->create();
+        CouponDetail::create(['coupon_id' => $coupon->id, 'model_id' => $product->id, 'model_type' => Product::class]);
+
+        ShoppingCart::factory()->create(['customer_id' => $user->id, 'quantity' => 1]);
+        ShoppingCart::factory()->create(['customer_id' => $user->id, 'quantity' => 1]);
+
+        $data = [
+            'coupon' => $coupon->code,
+        ];
+        $response = $this->postJson(route('shopping-cart.order'), $data);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'order_id',
+            'links' => [
+                'to_pay',
+                'method',
+            ],
+        ]);
+        $this->assertDatabaseCount('orders', 3);
+        $this->assertDatabaseCount('coupon_uses', 0);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 0
+        ]);
     }
 }

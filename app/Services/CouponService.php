@@ -2,14 +2,12 @@
 
 namespace App\Services;
 
-use App\Exceptions\AtelierException;
 use App\Models\Coupon;
 use App\Models\CouponDetail;
 use App\Models\CouponUse;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
-use Illuminate\Http\Response;
 
 class CouponService
 {
@@ -69,6 +67,7 @@ class CouponService
         $coupon = Coupon::authUser()->where('code', '=', $coupon)->firstOrNew();
 
         if ($this->validateIfCanApply($coupon)) {
+            $couponUsed = false;
 
             // i believe that is better implement by pipeline pattern
             if ($coupon->mode == Coupon::MODE_TOTAL) {
@@ -77,6 +76,7 @@ class CouponService
                 $parentOrder->details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
                 $parentOrder->subOrders->each(fn ($subOrder) => $this->applyToOrder($subOrder, $coupon));
                 $parentOrder->subOrders->pluck('details')->collapse()->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
+                $couponUsed = true;
             }
 
             if ($coupon->mode == Coupon::MODE_SELLER) {
@@ -90,9 +90,10 @@ class CouponService
                 $parentOrder->total_price = $parentOrder->subOrders->sum->total_price;
                 $parentOrder->total_revenue = $parentOrder->subOrders->sum->total_revenue;
                 $parentOrder->discount_amount = $parentOrder->subOrders->sum->discount_amount;
-                $parentOrder->final_price =  $parentOrder->subOrders->sum->final_price;
+                $parentOrder->final_price = $parentOrder->subOrders->sum->final_price;
                 $parentOrder->items = $parentOrder->subOrders->sum->items;
                 $parentOrder->save();
+                $couponUsed = true;
             }
 
             if ($coupon->mode == Coupon::MODE_PRODUCT) {
@@ -100,24 +101,29 @@ class CouponService
                 $parentOrder->loadMissing('subOrders');
                 $orders = $parentOrder->subOrders->pluck('id');
                 $orders[] = $parentOrder->id;
-                OrderDetail::query()
+                $details = OrderDetail::query()
                     ->whereIn('product_id', $coupon->appliedProducts->pluck('model_id'))
                     ->whereIn('order_id', $orders)
-                    ->get()
-                    ->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
-                Order::whereIn('id', $orders)
-                    ->with('details')
-                    ->get()
-                    ->each(function ($order) {
-                        $order->total_revenue = $order->details->sum->total_revenue;
-                        $order->discount_amount = $order->details->sum->discount_amount;
-                        $order->final_price = $order->details->sum->final_price;
-                        $order->save();
-                    });
+                    ->get();
+                if ($details->count()) {
+                    $details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
+                    Order::whereIn('id', $orders)
+                        ->with('details')
+                        ->get()
+                        ->each(function ($order) {
+                            $order->total_revenue = $order->details->sum->total_revenue;
+                            $order->discount_amount = $order->details->sum->discount_amount;
+                            $order->final_price = $order->details->sum->final_price;
+                            $order->save();
+                        });
+                    $couponUsed = true;
+                }
             }
 
-            $this->storeUse($coupon->id, $parentOrder->user_id);
-            $this->incrementUse($coupon);
+            if ($couponUsed) {
+                $this->storeUse($coupon->id, $parentOrder->user_id);
+                $this->incrementUse($coupon);
+            }
         }
     }
 
