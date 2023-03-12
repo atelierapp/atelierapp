@@ -77,30 +77,47 @@ class CouponService
                 $parentOrder->details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
                 $parentOrder->subOrders->each(fn ($subOrder) => $this->applyToOrder($subOrder, $coupon));
                 $parentOrder->subOrders->pluck('details')->collapse()->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
-                $this->storeUse($coupon->id, $parentOrder->user_id);
             }
 
             if ($coupon->mode == Coupon::MODE_SELLER) {
                 $parentOrder->loadMissing('details', 'subOrders.details');
-                $parentOrder->subOrders->each(function ($subOrder) use ($coupon) {
-                    if ($subOrder->store_id == $coupon->store_id) {
-                        $this->applyToOrder($subOrder, $coupon);
-                        $subOrder->details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
-                    }
+                $parentOrder->subOrders->where('store_id', $coupon->store_id)->each(function ($subOrder) use ($coupon) {
+                    $this->applyToOrder($subOrder, $coupon);
+                    $subOrder->details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
                 });
+                $parentOrder->load('subOrders');
 
-                $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
-                $parentOrder->total_revenue = $parentOrder->subOrders()->sum('total_revenue');
-                $parentOrder->discount_amount = $parentOrder->subOrders()->sum('discount_amount');
-                $parentOrder->final_price =  $parentOrder->subOrders()->sum('final_price');
-                $parentOrder->items = $parentOrder->subOrders()->sum('items');
+                $parentOrder->total_price = $parentOrder->subOrders->sum->total_price;
+                $parentOrder->total_revenue = $parentOrder->subOrders->sum->total_revenue;
+                $parentOrder->discount_amount = $parentOrder->subOrders->sum->discount_amount;
+                $parentOrder->final_price =  $parentOrder->subOrders->sum->final_price;
+                $parentOrder->items = $parentOrder->subOrders->sum->items;
                 $parentOrder->save();
-                $this->storeUse($coupon->id, $parentOrder->user_id);
             }
 
             if ($coupon->mode == Coupon::MODE_PRODUCT) {
-                $parentOrder->loadMissing('details', 'subOrders.details');
+                $coupon->loadMissing('appliedProducts');
+                $parentOrder->loadMissing('subOrders');
+                $orders = $parentOrder->subOrders->pluck('id');
+                $orders[] = $parentOrder->id;
+                OrderDetail::query()
+                    ->whereIn('product_id', $coupon->appliedProducts->pluck('model_id'))
+                    ->whereIn('order_id', $orders)
+                    ->get()
+                    ->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
+                Order::whereIn('id', $orders)
+                    ->with('details')
+                    ->get()
+                    ->each(function ($order) {
+                        $order->total_revenue = $order->details->sum->total_revenue;
+                        $order->discount_amount = $order->details->sum->discount_amount;
+                        $order->final_price = $order->details->sum->final_price;
+                        $order->save();
+                    });
             }
+
+            $this->storeUse($coupon->id, $parentOrder->user_id);
+            $this->incrementUse($coupon);
         }
     }
 
@@ -147,6 +164,13 @@ class CouponService
         ]);
     }
 
+    public function incrementUse(int|Coupon $coupon): void
+    {
+        $coupon = $coupon instanceof Coupon ? $coupon : $this->getBy($coupon);
+        $coupon->increment('current_uses');
+        $coupon->save();
+    }
+
     private function applyToOrder(Order $order, Coupon $coupon): Order
     {
         $order->discount_amount = $this->getAmountOfDiscount($coupon, $order->total_price);
@@ -174,86 +198,79 @@ class CouponService
         return round($amountToApply * ($coupon->amount / 100), 2);
     }
 
-    public function getFinalPrice($unitPrice, $quantity, $couponId): float
-    {
-        return round(($unitPrice * $quantity) - $this->getAmountOfDiscount($couponId, $unitPrice, $quantity), 2);
-    }
+    // public function getFinalPrice($unitPrice, $quantity, $couponId): float
+    // {
+    //     return round(($unitPrice * $quantity) - $this->getAmountOfDiscount($couponId, $unitPrice, $quantity), 2);
+    // }
 
     /**
      * @throws \App\Exceptions\AtelierException
      */
-    public function validateIfCanApplyByTotalPrice(Coupon $coupon, $amountToValidate)
-    {
-        return ! ($coupon->is_fixed && $coupon->amount > $amountToValidate);
-    }
+    // public function validateIfCanApplyByTotalPrice(Coupon $coupon, $amountToValidate)
+    // {
+    //     return ! ($coupon->is_fixed && $coupon->amount > $amountToValidate);
+    // }
 
-    public function validateIfCanApplyWhenIsDiscountPerProduct(Coupon $coupon, $productsToValidate)
-    {
-        if (count($productsToValidate) > 0 && $coupon->mode == Coupon::MODE_PRODUCT) {
-            $couponProducts = $this->getProductsFromCouponId($coupon->id)->pluck('model.id');
-            $result = $productsToValidate->whereIn('id', $couponProducts);
-
-            if ($cant = count($result)) {
-                $text = $cant == 1 ? 'El producto ' : 'Los productos ';
-                $text .= implode(', ', $result->pluck('name')->toArray());
-                $text .= ', ya dispone';
-                $text .= $cant == 1 ? '' : 'n';
-                $text .= ' de un descuento promocional, no es posible aplicar su cupón';
-                throw new AtelierException($text, Response::HTTP_CONFLICT);
-            }
-        }
-    }
-
-    /**
-     * @throws \App\Exceptions\AtelierException
-     */
-    public function validateIfCanApplyWhenIsDiscountPerTotal(Coupon $coupon, $productsToValidate)
-    {
-        if (count($productsToValidate) > 0 && $coupon->mode == Coupon::MODE_TOTAL) {
-            $text = 'No es posible agregar el cupón, tu carrito ya tiene productos con descuentos promocionales';
-
-            throw new AtelierException($text, Response::HTTP_CONFLICT);
-        }
-    }
+    // public function validateIfCanApplyWhenIsDiscountPerProduct(Coupon $coupon, $productsToValidate)
+    // {
+    //     if (count($productsToValidate) > 0 && $coupon->mode == Coupon::MODE_PRODUCT) {
+    //         $couponProducts = $this->getProductsFromCouponId($coupon->id)->pluck('model.id');
+    //         $result = $productsToValidate->whereIn('id', $couponProducts);
+    //
+    //         if ($cant = count($result)) {
+    //             $text = $cant == 1 ? 'El producto ' : 'Los productos ';
+    //             $text .= implode(', ', $result->pluck('name')->toArray());
+    //             $text .= ', ya dispone';
+    //             $text .= $cant == 1 ? '' : 'n';
+    //             $text .= ' de un descuento promocional, no es posible aplicar su cupón';
+    //             throw new AtelierException($text, Response::HTTP_CONFLICT);
+    //         }
+    //     }
+    // }
 
     /**
      * @throws \App\Exceptions\AtelierException
      */
-    public function validateIfCanApplyByUses(Coupon $coupon, $customerId)
-    {
-        if (! empty($customerId)) {
-            $params = [
-                'customer_id' => $customerId,
-                'coupon_id' => $coupon,
-            ];
+    // public function validateIfCanApplyWhenIsDiscountPerTotal(Coupon $coupon, $productsToValidate)
+    // {
+    //     if (count($productsToValidate) > 0 && $coupon->mode == Coupon::MODE_TOTAL) {
+    //         $text = 'No es posible agregar el cupón, tu carrito ya tiene productos con descuentos promocionales';
+    //
+    //         throw new AtelierException($text, Response::HTTP_CONFLICT);
+    //     }
+    // }
 
-            // $useOrders = app(OrderContractService::class)->getByParams($params); // TODO : validar esta parte
+    /**
+     * @throws \App\Exceptions\AtelierException
+     */
+    // public function validateIfCanApplyByUses(Coupon $coupon, $customerId)
+    // {
+    //     if (! empty($customerId)) {
+    //         $params = [
+    //             'customer_id' => $customerId,
+    //             'coupon_id' => $coupon,
+    //         ];
+    //
+    //         // $useOrders = app(OrderContractService::class)->getByParams($params); // TODO : validar esta parte
+    //
+    //         if (count($useOrders)) {
+    //             throw new AtelierException('Sólo puede usar el cupón 1 vez', Response::HTTP_CONFLICT);
+    //         }
+    //     }
+    // }
 
-            if (count($useOrders)) {
-                throw new AtelierException('Sólo puede usar el cupón 1 vez', Response::HTTP_CONFLICT);
-            }
-        }
-    }
+    // public function decrementUse(int|Coupon $coupon): void
+    // {
+    //     $coupon = $coupon instanceof Coupon ? $coupon : $this->getBy($coupon);
+    //     $coupon->decrement('current_uses');
+    // }
 
-    public function incrementUse(int|Coupon $coupon): void
-    {
-        $coupon = $coupon instanceof Coupon ? $coupon : $this->getBy($coupon);
-        $coupon->increase('current_uses');
-        $coupon->save();
-    }
-
-    public function decrementUse(int|Coupon $coupon): void
-    {
-        $coupon = $coupon instanceof Coupon ? $coupon : $this->getBy($coupon);
-        $coupon->decrement('current_uses');
-    }
-
-    public function delete($coupon): void
-    {
-        $coupon = $this->getBy($coupon);
-        if ($coupon->mode == Coupon::MODE_PRODUCT) {
-            CouponDetail::where('coupon_id', $coupon->id)->delete();
-        }
-        $coupon->delete();
-    }
+    // public function delete($coupon): void
+    // {
+    //     $coupon = $this->getBy($coupon);
+    //     if ($coupon->mode == Coupon::MODE_PRODUCT) {
+    //         CouponDetail::where('coupon_id', $coupon->id)->delete();
+    //     }
+    //     $coupon->delete();
+    // }
 }

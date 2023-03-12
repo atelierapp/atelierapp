@@ -67,7 +67,7 @@ class CreateOrderWithCouponTest extends BaseTest
         $user = $this->createAuthenticatedUser();
 
         ShoppingCart::factory()->create(['customer_id' => $user->id]);
-        $coupon = Coupon::factory(['start_date' => '2020-01-01', 'end_date' => '2023-03-07'])->create();
+        $coupon = Coupon::factory(['start_date' => '2020-01-01', 'end_date' => '2023-03-07', 'current_uses' => 0])->create();
 
         $data = [
             'coupon' => $coupon->code,
@@ -84,6 +84,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 2);
         $this->assertDatabaseCount('coupon_uses', 0);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 0
+        ]);
     }
 
     public function test_a_customer_can_create_an_order_and_coupon_dont_apply_if_today_is_less_than_start_date()
@@ -91,7 +95,7 @@ class CreateOrderWithCouponTest extends BaseTest
         $user = $this->createAuthenticatedUser();
 
         ShoppingCart::factory()->create(['customer_id' => $user->id]);
-        $coupon = Coupon::factory(['start_date' => now()->addMonth()])->create();
+        $coupon = Coupon::factory(['start_date' => now()->addMonth(), 'current_uses' => 0])->create();
 
         $data = [
             'coupon' => $coupon->code,
@@ -108,6 +112,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 2);
         $this->assertDatabaseCount('coupon_uses', 0);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 0
+        ]);
     }
 
     public function test_a_customer_can_create_an_order_and_coupon_dont_apply_if_today_is_greater_than_end_date()
@@ -115,7 +123,7 @@ class CreateOrderWithCouponTest extends BaseTest
         $user = $this->createAuthenticatedUser();
 
         ShoppingCart::factory()->create(['customer_id' => $user->id]);
-        $coupon = Coupon::factory(['end_date' => now()->subMonth()])->create();
+        $coupon = Coupon::factory(['end_date' => now()->subMonth(), 'current_uses' => 0])->create();
 
         $data = [
             'coupon' => $coupon->code,
@@ -132,6 +140,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 2);
         $this->assertDatabaseCount('coupon_uses', 0);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 0
+        ]);
     }
 
     public function test_a_customer_can_create_an_order_with_activated_fixed_total_coupon_and_save_use()
@@ -157,6 +169,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 2);
         $this->assertDatabaseCount('coupon_uses', 1);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 1
+        ]);
         $this->assertDatabaseHas('orders', [
             'store_id' => null,
             'user_id' => $user->id,
@@ -205,6 +221,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 2);
         $this->assertDatabaseCount('coupon_uses', 1);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 1
+        ]);
         $this->assertDatabaseHas('orders', [
             'store_id' => null,
             'user_id' => $user->id,
@@ -255,6 +275,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 3);
         $this->assertDatabaseCount('coupon_uses', 1);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 1
+        ]);
         $this->assertDatabaseHas('orders', [
             'user_id' => $user->id,
             'store_id' => null,
@@ -321,6 +345,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 3);
         $this->assertDatabaseCount('coupon_uses', 1);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 1
+        ]);
         $this->assertDatabaseHas('orders', [
             'user_id' => $user->id,
             'store_id' => null,
@@ -366,7 +394,7 @@ class CreateOrderWithCouponTest extends BaseTest
     {
         $user = $this->createAuthenticatedUser();
         $store = Store::factory(['active' => true])->create();
-        $coupon = Coupon::factory()->allActive()->productMode($store->id)->fixed(15)->create();
+        $coupon = Coupon::factory(['current_uses' => 0])->allActive()->productMode($store->id)->fixed(15)->create();
 
         $product = Product::factory(['store_id' => $store->id, 'price' => 8500])->create();
         $product2 = Product::factory(['store_id' => $store->id, 'price' => 10000])->create();
@@ -390,6 +418,10 @@ class CreateOrderWithCouponTest extends BaseTest
         ]);
         $this->assertDatabaseCount('orders', 3);
         $this->assertDatabaseCount('coupon_uses', 1);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 1
+        ]);
         $this->assertDatabaseHas('orders', [
             'user_id' => $user->id,
             'store_id' => null,

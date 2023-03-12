@@ -57,4 +57,9 @@ class Coupon extends Model
         return $this->hasMany(CouponDetail::class);
     }
 
+    public function appliedProducts(): hasMany
+    {
+        return $this->hasMany(CouponDetail::class)->where('model_type', '=', Product::class);
+    }
+
 }

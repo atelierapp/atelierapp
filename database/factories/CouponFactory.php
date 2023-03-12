@@ -30,7 +30,7 @@ class CouponFactory extends Factory
             'start_date' => now()->subMonth(),
             'end_date' => now()->addMonth(),
             'max_uses' => 999,
-            'current_uses' => 1,
+            'current_uses' => 0,
         ]);
     }
 
