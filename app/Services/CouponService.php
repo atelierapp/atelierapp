@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Ajipedidos\AjiCoreTenant\Exceptions\AjiCoreException;
 use App\Exceptions\AtelierException;
 use App\Models\Coupon;
 use App\Models\CouponDetail;
@@ -68,26 +67,41 @@ class CouponService
         }
 
         $coupon = Coupon::authUser()->where('code', '=', $coupon)->firstOrNew();
+
         if ($this->validateIfCanApply($coupon)) {
+
             // i believe that is better implement by pipeline pattern
-            if ($coupon->mode == Coupon::MODE_SELLER) {
+            if ($coupon->mode == Coupon::MODE_TOTAL) {
                 $parentOrder->loadMissing('details', 'subOrders.details');
-                $parentOrder = $this->applyFixedToOrder($parentOrder, $coupon);
-                $parentOrder->details->each(fn ($detail) => $this->applyFixedToOrderDetail($detail, $coupon));
-                $parentOrder->subOrders->each(fn ($subOrder) => $this->applyFixedToOrder($subOrder, $coupon));
-                $parentOrder->subOrders->pluck('details')->collapse()->each(fn ($detail) => $this->applyFixedToOrderDetail($detail, $coupon));
+                $parentOrder = $this->applyToOrder($parentOrder, $coupon);
+                $parentOrder->details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
+                $parentOrder->subOrders->each(fn ($subOrder) => $this->applyToOrder($subOrder, $coupon));
+                $parentOrder->subOrders->pluck('details')->collapse()->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
                 $this->storeUse($coupon->id, $parentOrder->user_id);
             }
-        }
 
-        // if ($coupon->canApply()) {
-        //     $this->validateIfCanApplyByUses($coupon, auth()->id());
-        //
-        //     $this->validateIfCanApplyByTotalPrice(
-        //         $coupon,
-        //         $this->cartProductRepository->listDetailProducts($cart->id, $cart->local_id)->sum('total_final_price')
-        //     );
-        // }
+            if ($coupon->mode == Coupon::MODE_SELLER) {
+                $parentOrder->loadMissing('details', 'subOrders.details');
+                $parentOrder->subOrders->each(function ($subOrder) use ($coupon) {
+                    if ($subOrder->store_id == $coupon->store_id) {
+                        $this->applyToOrder($subOrder, $coupon);
+                        $subOrder->details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
+                    }
+                });
+
+                $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
+                $parentOrder->total_revenue = $parentOrder->subOrders()->sum('total_revenue');
+                $parentOrder->discount_amount = $parentOrder->subOrders()->sum('discount_amount');
+                $parentOrder->final_price =  $parentOrder->subOrders()->sum('final_price');
+                $parentOrder->items = $parentOrder->subOrders()->sum('items');
+                $parentOrder->save();
+                $this->storeUse($coupon->id, $parentOrder->user_id);
+            }
+
+            if ($coupon->mode == Coupon::MODE_PRODUCT) {
+                $parentOrder->loadMissing('details', 'subOrders.details');
+            }
+        }
     }
 
     // Validations
@@ -113,11 +127,11 @@ class CouponService
             return now()->betweenIncluded($coupon->start_date, $coupon->end_date->endOfDay());
         }
 
-        if ($coupon->start_date && empty($coupon->end_date)) {
+        if (! is_null($coupon->start_date)) {
             return now()->greaterThanOrEqualTo($coupon->start_date);
         }
 
-        if (empty($coupon->start_date) && $coupon->end_date) {
+        if (! is_null($coupon->end_date)) {
             return now()->lessThanOrEqualTo($coupon->end_date);
         }
 
@@ -133,59 +147,36 @@ class CouponService
         ]);
     }
 
-    private function applyFixedToOrder(Order $order, Coupon $coupon): Order
+    private function applyToOrder(Order $order, Coupon $coupon): Order
     {
-        $order->discount_amount = $coupon->amount;
+        $order->discount_amount = $this->getAmountOfDiscount($coupon, $order->total_price);
         $order->final_price = $order->total_price - $order->discount_amount;
         $order->save();
 
         return $order;
     }
 
-    private function applyFixedToOrderDetail(OrderDetail $detail, Coupon $coupon): OrderDetail
+    private function applyToOrderDetail(OrderDetail $detail, Coupon $coupon): OrderDetail
     {
-        $detail->discount_amount = $coupon->amount;
+        $detail->discount_amount = $this->getAmountOfDiscount($coupon, $detail->total_price);
         $detail->final_price = $detail->total_price - $detail->discount_amount;
         $detail->save();
 
         return $detail;
     }
 
+    public function getAmountOfDiscount(Coupon $coupon, $amountToApply): float|int
+    {
+        if ($coupon->is_fixed) {
+            return $coupon->amount * 100;
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
+        return round($amountToApply * ($coupon->amount / 100), 2);
+    }
 
     public function getFinalPrice($unitPrice, $quantity, $couponId): float
     {
         return round(($unitPrice * $quantity) - $this->getAmountOfDiscount($couponId, $unitPrice, $quantity), 2);
-    }
-
-    /**
-     * @param $couponId
-     * @param $unitPrice
-     * @param int $quantity  [when is zero 0, to evaluate is the $unitPrice param]
-     * @return float|int
-     */
-    public function getAmountOfDiscount($couponId, $unitPrice, $quantity = 1): float|int
-    {
-        $coupon = $this->getBy($couponId);
-        $totalPrice = $unitPrice * $quantity;
-
-        if ($coupon->is_fixed) {
-            return $coupon->amount * $quantity;
-        }
-
-        return round($totalPrice * ($coupon->amount / 100), 2);
     }
 
     /**

@@ -24,7 +24,7 @@ class ProductFactory extends Factory
             'manufactured_at' => $this->faker->date(),
             'description' => $this->faker->paragraph(),
             'score' => $this->faker->numberBetween(1, 5),
-            'price' => $this->faker->numberBetween(10000, 90000) / 100,
+            'price' => $this->faker->numberBetween(10000, 90000),
             'store_id' => Store::factory(),
             'style_id' => Style::factory(),
             'quantity' => $this->faker->numberBetween(0, 100),

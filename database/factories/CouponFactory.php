@@ -50,7 +50,7 @@ class CouponFactory extends Factory
         ]);
     }
 
-    public function totalMode(int $storeId): CouponFactory
+    public function totalMode(): CouponFactory
     {
         return $this->state(fn () => [
             'mode' => Coupon::MODE_TOTAL,

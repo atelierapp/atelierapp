@@ -79,6 +79,7 @@ class OrderService
             $order->items += $item->quantity;
             $order->total_price += $item->variation->product->price * $item->quantity;
             $order->total_revenue += $order->total_price - ($store->commission_percent * $order->total_price);
+            $order->final_price = $order->total_price;
             $order->save();
 
             $params = [
@@ -89,6 +90,7 @@ class OrderService
                 'quantity' => $item->quantity,
                 'total_price' => $item->variation->product->price * $item->quantity,
             ];
+            $params['final_price'] = $params['total_price'];
 
             OrderDetail::create($params);
             $params['order_id'] = $parentOrder->id;
@@ -98,6 +100,8 @@ class OrderService
         $parentOrder->total_price = $parentOrder->subOrders()->sum('total_price');
         $parentOrder->total_revenue = $parentOrder->subOrders()->sum('total_revenue');
         $parentOrder->items = $parentOrder->subOrders()->sum('items');
+        $parentOrder->final_price = $parentOrder->subOrders()->sum('total_price');
+        $parentOrder->save();
 
         ShoppingCart::withoutGlobalScopes()->customer($userId)->delete();
 
