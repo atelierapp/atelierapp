@@ -29,7 +29,8 @@ class CouponBuilder extends Builder
     public function authUser(): static
     {
         if (auth()->check() && Bouncer::is(auth()->user())->an(Role::SELLER)) {
-            $this->where('store_id', auth()->id());
+            $id = Store::where('user_id', auth()->id())->firstOrFail()->id;
+            $this->where('store_id', $id);
         }
 
         return $this;

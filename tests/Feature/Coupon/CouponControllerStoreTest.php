@@ -75,7 +75,7 @@ class CouponControllerStoreTest extends BaseTest
 
     public function test_an_seller_user_can_create_a_seller_fixed_coupon_with_minimal_params()
     {
-        $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
+        $store = Store::factory()->create(['user_id' => $this->createAuthenticatedSeller()->id]);
 
         $data = [
             'code' => $this->faker->lexify('??????'),
@@ -204,9 +204,9 @@ class CouponControllerStoreTest extends BaseTest
 
     public function test_an_seller_user_can_create_a_product_percent_coupon_with_products_but_only_for_his_products()
     {
+        $user = $this->createAuthenticatedSeller();
         Product::factory()->count(3)->create();
-        $store = Store::factory(['user_id' => $this->createAuthenticatedSeller()->id])->create();
-        Product::factory(['store_id' => $store->id])->count(3)->create();
+        Product::factory(['store_id' => Store::factory(['user_id' => $user->id])])->count(3)->create();
 
         $data = [
             'code' => $this->faker->lexify('??????'),

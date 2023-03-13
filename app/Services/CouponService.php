@@ -26,7 +26,7 @@ class CouponService
         return Coupon::authUser()->where($field, '=', $coupon)->firstOrFail();
     }
 
-    public function update(int|string $coupon, array $values)
+    public function update(int|string $coupon, array $values): Coupon
     {
         $coupon = $this->getBy($coupon);
         $coupon->fill($values);
@@ -204,6 +204,15 @@ class CouponService
         return round($amountToApply * ($coupon->amount / 100), 2);
     }
 
+    public function delete($coupon): void
+    {
+        $coupon = $this->getBy($coupon);
+        if ($coupon->mode == Coupon::MODE_PRODUCT) {
+            CouponDetail::where('coupon_id', $coupon->id)->delete();
+        }
+        $coupon->delete();
+    }
+
     // public function getFinalPrice($unitPrice, $quantity, $couponId): float
     // {
     //     return round(($unitPrice * $quantity) - $this->getAmountOfDiscount($couponId, $unitPrice, $quantity), 2);
@@ -269,14 +278,5 @@ class CouponService
     // {
     //     $coupon = $coupon instanceof Coupon ? $coupon : $this->getBy($coupon);
     //     $coupon->decrement('current_uses');
-    // }
-
-    // public function delete($coupon): void
-    // {
-    //     $coupon = $this->getBy($coupon);
-    //     if ($coupon->mode == Coupon::MODE_PRODUCT) {
-    //         CouponDetail::where('coupon_id', $coupon->id)->delete();
-    //     }
-    //     $coupon->delete();
     // }
 }

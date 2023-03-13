@@ -9,7 +9,7 @@ class AddStoreIdColumnToCouponsTable extends Migration
     public function up(): void
     {
         Schema::table('coupons', function (Blueprint $table) {
-            $table->foreignId('store_id')->nullable()->after('is_active')->constrained('coupons');
+            $table->foreignId('store_id')->nullable()->after('is_active')->constrained('stores');
         });
     }
 

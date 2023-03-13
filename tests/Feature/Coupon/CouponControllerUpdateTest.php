@@ -91,7 +91,7 @@ class CouponControllerUpdateTest extends BaseTest
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
-        $data['id'] = $store->user_id;
+        $data['id'] = $coupon->id;
         $data['store_id'] = $store->id;
         $this->assertDatabaseHas('coupons', $data);
     }
@@ -114,7 +114,7 @@ class CouponControllerUpdateTest extends BaseTest
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
-        $data['id'] = $store->user_id;
+        $data['id'] = $coupon->id;
         $data['store_id'] = $store->id;
         $this->assertDatabaseHas('coupons', $data);
     }
@@ -139,7 +139,7 @@ class CouponControllerUpdateTest extends BaseTest
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
-        $data['id'] = $store->user_id;
+        $data['id'] = $coupon->id;
         $data['store_id'] = $store->id;
         $data['start_date'] = Carbon::parse($data['start_date'])->toDateTimeString();
         $data['end_date'] = Carbon::parse($data['end_date'])->toDateTimeString();
@@ -187,7 +187,7 @@ class CouponControllerUpdateTest extends BaseTest
         $response->assertJsonStructure([
             'data' => $this->structure(),
         ]);
-        $data['id'] = $store->user_id;
+        $data['id'] = $coupon->id;
         $data['store_id'] = $store->id;
         $this->assertDatabaseHas('coupons', $data);
     }
