@@ -21,7 +21,7 @@ class ProcessUserRating extends Command
             ->groupBy('store_id')
             ->havingRaw('count(store_id) > 15')
             ->chunk(100, function ($ratings) {
-                $ratings->each(fn ($rating) => Store::whereId($rating['store_id'])->update(['customer_rating' => $rating['score']]));
+                $ratings->each(fn ($rating) => Store::whereId($rating['store_id'])->update(['customer_rating' => $rating->score * 100]));
             });
     }
 }

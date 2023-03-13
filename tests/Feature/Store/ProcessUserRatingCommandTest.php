@@ -17,7 +17,7 @@ class ProcessUserRatingCommandTest extends TestCase
 
         $this->assertDatabaseHas('stores', [
             'id' => $store->id,
-            'customer_rating' => $rating
+            'customer_rating' => ($rating * 100)
         ]);
     }
     public function test_that_a_store_has_a_customer_rating_equal_to_zero_greater_when_it_not_has_more_than_fifteen_rating()

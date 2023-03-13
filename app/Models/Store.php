@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use App\Builders\StoreBuilder;
+use App\Models\Builders\StoreBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @mixin Eloquent
@@ -62,7 +60,6 @@ class Store extends BaseModelCountry
         'active' => 'boolean',
     ];
 
-    #[Pure]
     public function newEloquentBuilder($query): StoreBuilder
     {
         return new StoreBuilder($query);
@@ -81,16 +78,6 @@ class Store extends BaseModelCountry
     public function userRatings(): HasMany
     {
         return $this->hasMany(StoreUserRating::class, 'store_id');
-    }
-
-    public function scopeSearch($query, $value)
-    {
-        return empty($value)
-            ? $query
-            : $query
-                ->where('name', 'like', "%{$value}%")
-                ->orWhere('legal_name', 'like', "%{$value}%")
-                ->orWhere('team', 'like', "%{$value}%");
     }
 
     public function getLogoAttribute(): ?string
@@ -131,6 +118,14 @@ class Store extends BaseModelCountry
     }
 
     public function commissionPercent(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    public function customerRating(): Attribute
     {
         return new Attribute(
             get: fn ($value) => $value / 100,

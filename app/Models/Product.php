@@ -139,12 +139,14 @@ class Product extends BaseModelCountry
         );
     }
 
-    protected function properties(): Attribute
+    public function setPropertiesAttribute($properties)
     {
-        return new Attribute(
-            get: fn ($value) => json_decode($value, true),
-            set: fn ($value) => json_encode($value),
-        );
+        $this->attributes['properties'] = json_encode($properties);
+    }
+
+    public function getPropertiesAttribute($properties)
+    {
+        return json_decode($properties, true);
     }
 
     protected function discountedAmount(): Attribute
