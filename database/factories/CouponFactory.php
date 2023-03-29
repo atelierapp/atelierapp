@@ -73,4 +73,11 @@ class CouponFactory extends Factory
             'store_id' => $storeId,
         ]);
     }
+
+    public function influencerMode(): CouponFactory
+    {
+        return $this->state(fn () => [
+            'mode' => Coupon::MODE_INFLUENCER,
+        ]);
+    }
 }

@@ -590,4 +590,76 @@ class CreateOrderWithCouponTest extends BaseTest
             'current_uses' => 0
         ]);
     }
+
+    public function test_a_customer_can_create_an_order_and_coupon_dont_apply_if_not_him()
+    {
+        $user = $this->createAuthenticatedUser();
+        ShoppingCart::factory()->create(['customer_id' => $user->id]);
+        $coupon = Coupon::factory()->allActive()->influencerMode()->create();
+
+        $data = [
+            'coupon' => $coupon->code,
+        ];
+        $response = $this->postJson(route('shopping-cart.order'), $data);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'order_id',
+            'links' => [
+                'to_pay',
+                'method',
+            ],
+        ]);
+        $this->assertDatabaseCount('orders', 2);
+        $this->assertDatabaseCount('coupon_uses', 0);
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 0
+        ]);
+    }
+
+    public function test_a_customer_can_create_an_order_with_influencer_coupon_and_save_use()
+    {
+        $user = $this->createAuthenticatedUser();
+        $store = Store::factory(['active' => true])->create();
+        $product = Product::factory(['store_id' => $store->id, 'price' => 8500])->create();
+        $coupon = Coupon::factory()->allActive()->fixed(5)->influencerMode()->create();
+        CouponDetail::factory(['coupon_id' => $coupon->id])->user($user->id)->create();
+        ShoppingCart::factory()->product($product)->create(['customer_id' => $user->id, 'quantity' => 1]);
+
+        $data = [
+            'coupon' => $coupon->code,
+        ];
+        $response = $this->postJson(route('shopping-cart.order'), $data);
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'order_id',
+            'links' => [
+                'to_pay',
+                'method',
+            ],
+        ]);
+
+        $this->assertDatabaseHas('coupons', [
+            'id' => $coupon->id,
+            'current_uses' => 1
+        ]);
+        $this->assertDatabaseCount('coupon_uses', 1);
+        $this->assertDatabaseCount('orders', 2);
+        $this->assertDatabaseHas('orders', [
+            'user_id' => $user->id,
+            'store_id' => $product->store_id,
+            'total_price' => $product->price,
+            'discount_amount' => 500,
+            'final_price' => 8000,
+        ]);
+        $this->assertDatabaseHas('order_details', [
+            'unit_price' => $product->price,
+            'quantity' => 1,
+            'total_price' => $product->price,
+            'discount_amount' => 500,
+            'final_price' => 8000,
+        ]);
+    }
 }

@@ -8,14 +8,25 @@ use App\Models\CouponUse;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Role;
+use App\Models\User;
+use Bouncer;
 
 class CouponService
 {
-    public function create(int|string $storeId, array $values): Coupon
+    public function create(array $values, int|string $storeId = null): Coupon
     {
-        $coupon = Coupon::create(array_merge($values, ['store_id' => $storeId]));
+        if (!is_null($storeId)) {
+            $values['store_id'] = $storeId;
+        }
+        $coupon = Coupon::create($values);
+
         if ($values['mode'] == Coupon::MODE_PRODUCT) {
             $this->setProductsAsDetails($coupon, $values['products']);
+        }
+
+        if ($values['mode'] == Coupon::MODE_INFLUENCER && Bouncer::is(auth()->user())->an(Role::ADMIN)) {
+            $this->setUserAsDetail($coupon, $values['user_id']);
         }
 
         return $coupon;
@@ -49,6 +60,16 @@ class CouponService
                 'model_type' => Product::class,
                 'model_id' => $product->id,
             ]));
+    }
+
+    public function setUserAsDetail(Coupon $coupon, int $userId): void
+    {
+        CouponDetail::where('coupon_id', $coupon->id)->delete();
+        CouponDetail::create([
+            'coupon_id' => $coupon->id,
+            'model_type' => User::class,
+            'model_id' => $userId,
+        ]);
     }
 
     public function getProductsFromCouponId($couponId)
@@ -116,6 +137,25 @@ class CouponService
                             $order->final_price = $order->details->sum->final_price;
                             $order->save();
                         });
+                    $couponUsed = true;
+                }
+            }
+
+            if ($coupon->mode == Coupon::MODE_INFLUENCER) {
+                $hasCoupon =$coupon->appliedUsers()->where('model_id', '=', $parentOrder->user_id)->count();
+                if ($hasCoupon) {
+                    $parentOrder->loadMissing('subOrders')->subOrders->each(function ($subOrder) use ($coupon) {
+                        $this->applyToOrder($subOrder, $coupon);
+                        $subOrder->details->each(fn ($detail) => $this->applyToOrderDetail($detail, $coupon));
+                    });
+                    $parentOrder->load('subOrders');
+
+                    $parentOrder->total_price = $parentOrder->subOrders->sum->total_price;
+                    $parentOrder->total_revenue = $parentOrder->subOrders->sum->total_revenue;
+                    $parentOrder->discount_amount = $parentOrder->subOrders->sum->discount_amount;
+                    $parentOrder->final_price = $parentOrder->subOrders->sum->final_price;
+                    $parentOrder->items = $parentOrder->subOrders->sum->items;
+                    $parentOrder->save();
                     $couponUsed = true;
                 }
             }
@@ -212,11 +252,6 @@ class CouponService
         }
         $coupon->delete();
     }
-
-    // public function getFinalPrice($unitPrice, $quantity, $couponId): float
-    // {
-    //     return round(($unitPrice * $quantity) - $this->getAmountOfDiscount($couponId, $unitPrice, $quantity), 2);
-    // }
 
     /**
      * @throws \App\Exceptions\AtelierException
