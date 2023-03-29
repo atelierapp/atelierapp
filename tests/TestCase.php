@@ -47,7 +47,7 @@ abstract class TestCase extends BaseTestCase
         return Sanctum::actingAs($user);
     }
 
-    public function createUser($data = [], array $roles = [])
+    public function createUser($data = [], array $roles = []): User
     {
         $this->registerRolesAndPermissions();
 

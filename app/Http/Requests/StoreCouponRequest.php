@@ -31,6 +31,7 @@ class StoreCouponRequest extends FormRequest
                 'required_if:mode,' . Coupon::MODE_PRODUCT,
                 Rule::exists('products', 'id')
             ],
+            'user_id' => ['required_if:mode,' . Coupon::MODE_INFLUENCER],
         ];
 
         $rules['mode'][] = Bouncer::is(auth()->user())->an(Role::SELLER)

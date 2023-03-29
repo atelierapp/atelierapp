@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\UpdateCouponRequest;
 use App\Models\Role;
 use App\Services\CouponService;
+use Bouncer;
 use Illuminate\Http\Response;
 
 class CouponController extends Controller
@@ -28,7 +29,7 @@ class CouponController extends Controller
 
     public function store(StoreCouponRequest $request): CouponResource
     {
-        $coupon = $this->couponService->create($request->user()->store->id, $request->validated());
+        $coupon = $this->couponService->create($request->validated(), $request->user()?->store?->id);
 
         return CouponResource::make($coupon);
     }

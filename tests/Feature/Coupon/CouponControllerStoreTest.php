@@ -4,7 +4,10 @@ namespace Tests\Feature\Coupon;
 
 use App\Models\Coupon;
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\Store;
+use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 class CouponControllerStoreTest extends BaseTest
@@ -224,5 +227,53 @@ class CouponControllerStoreTest extends BaseTest
         ]);
         $this->assertDatabaseCount('coupons', 1);
         $this->assertDatabaseCount('coupon_details', 3);
+    }
+
+    public function test_an_administrator_cannot_create_a_influencer_coupon_without_user_id()
+    {
+        $this->createAuthenticatedAdmin();
+
+        $data = [
+            'code' => $this->faker->lexify('??????'),
+            'name' => $this->faker->name(),
+            'mode' => Coupon::MODE_INFLUENCER,
+            'is_fixed' => true,
+            'amount' => 10,
+        ];
+        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors([
+            'user_id',
+        ]);
+        $this->assertDatabaseMissing('coupons', [
+            'code' => $data['code']
+        ]);
+    }
+
+    public function test_an_administrator_can_create_a_influencer_coupon()
+    {
+        $this->createAuthenticatedAdmin();
+
+        $data = [
+            'code' => $this->faker->lexify('??????'),
+            'name' => $this->faker->name(),
+            'mode' => Coupon::MODE_INFLUENCER,
+            'is_fixed' => true,
+            'amount' => 10,
+            'user_id' => ($influencer = $this->createUser(roles: [Role::USER]))->id,
+        ];
+        $response = $this->postJson(route('coupon.store'), $data, $this->customHeaders());
+
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'data' => $this->structure(),
+        ]);
+        $this->assertDatabaseHas('coupons', Arr::except($data, ['user_id']));
+        $this->assertDatabaseCount('coupon_details', 1);
+        $this->assertDatabaseHas('coupon_details', [
+            'model_id' => $influencer->id,
+            'model_type' => User::class
+        ]);
     }
 }
