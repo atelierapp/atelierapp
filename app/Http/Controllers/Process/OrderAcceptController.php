@@ -8,20 +8,17 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Role;
-use App\Services\PaypalService;
+use App\Services\OrderService;
 use Illuminate\Http\Response;
 
 class OrderAcceptController extends Controller
 {
-    public function __construct(
-        private PaypalService $paypalService,
-    ) {
+    public function __construct(private OrderService $orderService) {
         $this->middleware('auth:sanctum');
         $this->middleware('role:' . Role::SELLER);
     }
 
     /**
-     * @throws Throwable
      * @throws AtelierException
      */
     public function __invoke($order)
@@ -29,14 +26,18 @@ class OrderAcceptController extends Controller
         $order = Order::where('id', '=', $order)->filterByRole()->first();
 
         if ($order->seller_status_id == OrderStatus::_SELLER_APPROVAL) {
-            throw new AtelierException('This document was accepted', Response::HTTP_CONFLICT);
+            throw new AtelierException(__('order.errors.accepted'), Response::HTTP_CONFLICT);
         }
 
-        $this->paypalService->capturePaymentOrder($order);
+        if ($order->created_at->diffInHours(now()) > 24) {
+            throw new AtelierException(__('order.errors.time_over'), Response::HTTP_CONFLICT);
+        }
 
         $order->seller_status_id = OrderStatus::_SELLER_APPROVAL;
         $order->seller_status_at = now();
         $order->save();
+
+        $this->orderService->checkIfAllOrdersWereApproved($order->parent);
 
         return OrderResource::make($order);
     }

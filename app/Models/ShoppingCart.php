@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Builders\ShoppingCartBuilder;
 use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,6 +37,11 @@ class ShoppingCart extends MorphPivot
     protected $casts = [
         'quantity' => 'integer',
     ];
+
+    public function newEloquentBuilder($query): ShoppingCartBuilder
+    {
+        return new ShoppingCartBuilder($query);
+    }
 
     public function customer(): MorphTo
     {

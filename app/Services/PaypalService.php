@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Exceptions\AtelierException;
 use App\Models\Order;
+use App\Models\OrderStatus;
+use App\Models\PaymentStatus;
 use App\Models\PaypalPlan;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
@@ -43,7 +45,6 @@ class PaypalService
             ],
             'purchase_units' => [
                 [
-                    // 'reference_id' => $order->id,
                     'amount' => [
                         'currency_code' => 'USD',
                         'value' => $order->total_price,
@@ -143,9 +144,8 @@ class PaypalService
     }
 
     /** @throws Throwable */
-    public function capturePaymentOrder(Order $order): Order
+    public function capturePaymentOrder(Order $order): void
     {
-        // TODO : implement by orderService
         $diff = $order->paid_on->diffInDays(now());
 
         if ($diff > 29) {
@@ -156,41 +156,25 @@ class PaypalService
             $this->provider->reAuthorizeAuthorizedPayment($order->payment_gateway_code, $order->parent->total_price);
         }
 
-        $metadata = $order->parent->payment_gateway_metadata;
-        $authorizationCode = Arr::get($metadata, 'order_authorization.purchase_units.0.payments.authorizations.0.id');
+        $authorizationCode = Arr::get(
+            $order->payment_gateway_metadata,
+            'order_authorization.purchase_units.0.payments.authorizations.0.id'
+        );
 
-        $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $order->total_price, 'note');
+        $orders = Order::whereParentId($order->id)->sellerStatus(OrderStatus::_SELLER_APPROVAL)->get();
+        $amount = $orders->sum('total_price');
 
-        $checkoutId = now()->format('YmdHisv');
-        $result = $this->provider->createBatchPayout([
-            'sender_batch_header' => [
-                'sender_batch_id' => $checkoutId,
-                "recipient_type" => "EMAIL",
-                "email_subject" => "You have money!",
-                "email_message" => "You received a payment. Thanks for using our service!",
-            ],
-            'items' => [
-                [
-                    'amount' => [
-                        'value' => '"' . $order->total_price * 0.75 . '"',
-                        'currency' => 'USD'
-                    ],
-                    'sender_item_id' => $checkoutId . '001',
-                    'recipient_wallet' => 'PAYPAL',
-                    'receiver' => 'sb-a7bpl20773735@personal.example.com',
-                ]
-            ],
-        ]);
-
-        $this->orderService->updatePaymentGatewayMetadata($order, 'payout_status', $result);
+        $capture = $this->provider->captureAuthorizedPayment($authorizationCode, '', $amount, '');
+        $this->orderService->updatePaymentGatewayMetadata($order, 'payment_capture', $capture);
 
         if (isset($capture['error'])) {
             throw new AtelierException(__('paypal.payment.payout-error'));
         }
 
-        $this->orderService->updateToPayedStatus($order, $capture);
-
-        return $order;
+        $this->orderService->updatePaidStatusTo(
+            $orders->pluck('id')->merge($order->id)->toArray(),
+            PaymentStatus::PAYMENT_CAPTURED
+        );
     }
 
     /** @throws Throwable */
@@ -206,6 +190,53 @@ class PaypalService
         return $order;
     }
 
+
+    public function transferPaymentsToSellers(): void
+    {
+        $orders = Order::with('store:id,commission_percent,user_id')
+            ->where('paid_status_id', '=', PaymentStatus::PAYMENT_CAPTURED)
+            ->whereNotNull('store_id')
+            ->get();
+        $orders->loadMissing('store.admin:id,email');
+
+        $checkoutId = now()->format('YmdHis');
+        $requestQuery = [
+            'sender_batch_header' => [
+                'sender_batch_id' => "Payouts_{$checkoutId}",
+                "email_subject" => "You have money!",
+                "email_message" => "You received a payment. Thanks for using our service!",
+            ],
+            'items' => [],
+        ];
+
+        foreach ($orders as $position => $order) {
+            $requestQuery['items'][] = $this->prepareTrnsferItem($checkoutId, $position, $order);
+        }
+
+        $result = $this->provider->createBatchPayout($requestQuery);
+
+        $orders->each(fn ($order) => $this->orderService->updatePaymentGatewayMetadata($order, 'transfer_status', $result));
+        // TODO : guardar en algun lado el resultado de los pagos para mayor trazabilidad cuando se junten los montos por tienda
+    }
+
+    private function prepareTrnsferItem($checkoutId, $position, Order $order)
+    {
+        $payload = [
+            'recipient_type' => 'EMAIL',
+            'amount' => [
+                'value' => $order->amount_to_transfer,
+                'currency' => 'USD'
+            ],
+            'sender_item_id' => $checkoutId . str_pad($position + 1, 3, '0', STR_PAD_LEFT),
+            'recipient_wallet' => 'PAYPAL',
+            'receiver' => $order->store->admin->email,
+        ];
+
+        $this->orderService->updatePaymentGatewayMetadata($order, 'sender_item_id', [$payload['sender_item_id']]);
+
+        return $payload;
+    }
+        
     /** @throws Throwable */
     public function getSubscription(string $subscriptionId): StreamInterface|array|string
     {

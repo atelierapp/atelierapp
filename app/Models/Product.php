@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Builders\ProductBuilder;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
+use App\Models\Builders\ProductBuilder;
 use App\Traits\Models\HasMediasRelation;
 use App\Traits\Models\HasQualitiesRelation;
 use App\Traits\Models\HasTagsRelation;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -45,6 +46,10 @@ class Product extends BaseModelCountry
         'is_on_demand',
         'is_unique',
         'country',
+        'has_discount',
+        'is_discount_fixed',
+        'discount_value',
+        'discounted_amount',
     ];
 
     protected $casts = [
@@ -54,6 +59,10 @@ class Product extends BaseModelCountry
         'extra' => 'array',
         'is_on_demand' => 'boolean',
         'is_unique' => 'boolean',
+        'has_discount' => 'boolean',
+        'is_discount_fixed' => 'boolean',
+        'discount_start' => 'date',
+        'discount_end' => 'date',
     ];
 
     protected $enums = [
@@ -122,6 +131,14 @@ class Product extends BaseModelCountry
         $this->attributes['manufactured_at'] = Carbon::parse($value)->format('Y-m-d');
     }
 
+    public function price(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
     public function setPropertiesAttribute($properties)
     {
         $this->attributes['properties'] = json_encode($properties);
@@ -131,4 +148,28 @@ class Product extends BaseModelCountry
     {
         return json_decode($properties, true);
     }
+
+    protected function discountedAmount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    protected function finalPrice(): Attribute
+    {
+        return new Attribute(get: function ($value) {
+            if (is_null($this->discount_start) && is_null($this->discount_end)) {
+                return $this->price - $this->discounted_amount;
+            }
+
+            if (now()->lte($this->discount_start) || now()->gte($this->discount_end)) {
+                return $this->price;
+            }
+
+            return $this->price - $this->discounted_amount;
+        });
+    }
+
 }

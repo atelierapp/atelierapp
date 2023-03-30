@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Builders\OrderBuilder;
+use App\Models\Traits\HasUserRelation;
 use App\Traits\Models\HasSellerRelation;
-use App\Traits\Models\HasUserRelation;
 use Eloquent;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,6 +45,9 @@ class Order extends BaseModelCountry
         'unit_price',
         'items',
         'total_price',
+        'total_revenue',
+        'discount_amount',
+        'final_price',
         'seller_status_id',
         'seller_status_at',
         'payment_gateway_id',
@@ -51,7 +55,7 @@ class Order extends BaseModelCountry
         'payment_gateway_metadata',
         'paid_status_id',
         'paid_on',
-        'country'
+        'country',
     ];
 
     protected $casts = [
@@ -61,7 +65,7 @@ class Order extends BaseModelCountry
 
     public function newEloquentBuilder($query): OrderBuilder
     {
-        return New OrderBuilder($query);
+        return new OrderBuilder($query);
     }
 
     public function details(): HasMany
@@ -93,4 +97,19 @@ class Order extends BaseModelCountry
     {
         return $this->hasMany(static::class, 'parent_id');
     }
+
+    protected function amountToTransfer(): Attribute
+    {
+        return Attribute::get(
+            fn () => number_format($this->total_price * (1 - $this->commission_percent), 2, '.', '')
+        );
+    }
+
+    protected function commissionPercent(): Attribute
+    {
+        return Attribute::get(
+            fn () => $this->store->commission_percent / 100
+        );
+    }
+
 }

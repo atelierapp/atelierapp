@@ -3,12 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Tag;
-use App\Traits\Factories\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TagFactory extends Factory
 {
-    use CountryStateTrait;
+    use Traits\CountryStateTrait;
 
     protected $model = Tag::class;
 

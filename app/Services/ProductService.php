@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Quality;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class ProductService
 {
@@ -22,18 +23,22 @@ class ProductService
         //
     }
 
-    public function list(array $filters = []): LengthAwarePaginator
+    public function list(array $filters = [], $asPaginated = true): LengthAwarePaginator|Collection
     {
         $relations = ['style', 'medias', 'tags', 'store', 'categories'];
         if (request()->user('sanctum')) {
             $relations[] = 'authFavorite';
         }
 
-        return Product::authUser()
+        $query = Product::authUser()
             ->with($relations)
+            ->whereHas('store', fn ($store) => $store->active())
             ->when($filters['inRandomOrder'] ?? false, fn($query) => $query->inRandomOrder())
-            ->applyFiltersFrom($filters)
-            ->paginate();
+            ->applyFiltersFrom($filters);
+
+        return $asPaginated
+            ? $query->paginate()
+            : $query->get();
     }
 
     public function getBy(int $product, string $field = 'id'): Product
@@ -52,6 +57,7 @@ class ProductService
             ],
         ];
 
+        $data = $this->processDiscountedAmount($data);
         $product = Product::create($data);
         $this->processQualities($product, Arr::get($params, 'qualities', []));
         $this->processImages($product, $data['images']);
@@ -73,6 +79,25 @@ class ProductService
         $product->load('variations.medias');
 
         return $product;
+    }
+
+    private function processDiscountedAmount($params)
+    {
+        $params['is_active'] = data_get($params, 'is_active', true);
+
+        if (data_get($params, 'has_discount', false)) {
+            if (data_get($params, 'is_discount_fixed', false)) {
+                $params['discounted_amount'] = $params['discount_value'];
+            } else {
+                $percent = round($params['discount_value'] / 100, 2);
+                $params['discounted_amount'] = round($params['price'] * $percent, 2);
+            }
+        } else {
+            $params['discount_value'] = 0;
+            $params['discounted_amount'] = 0;
+        }
+
+        return $params;
     }
 
     private function processQualities(Product &$product, array $qualities)
@@ -205,6 +230,7 @@ class ProductService
             $params['properties']['dimensions']['width'] = (double) $params['width'];
         }
 
+        $params = $this->processDiscountedAmount($params);
         $product->fill($params);
         $product->save();
 
@@ -245,6 +271,7 @@ class ProductService
 
     public function processViewCount(Product $product)
     {
+        config(['queue.default' => 'sync']); // TODO: temporary added sync queue to add product views to fix database queues, or another
         ProductViewCount::dispatch($product, auth()->id());
     }
 

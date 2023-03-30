@@ -19,7 +19,7 @@ class StoreImpactControllerTest extends TestCase
         $this->createAuthenticatedSeller();
 
         $data = [];
-        $response = $this->postJson(route('store.impact.store', $store->id), $data);
+        $response = $this->postJson(route('store.impact.store', $store->id), $data, $this->customHeaders());
 
         $response->assertUnprocessable();
     }

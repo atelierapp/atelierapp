@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Traits\Factories;
+namespace Database\Factories\Traits;
 
-trait CountryStateTrait
+trait ActiveState
 {
-    public function us()
+    public function active()
     {
         return $this->state(function (array $attributes) {
             return [
-                'country' => 'us',
+                'active' => true,
             ];
         });
     }
 
-    public function pe()
+    public function unactive()
     {
         return $this->state(function (array $attributes) {
             return [
-                'country' => 'pe',
+                'active' => false,
             ];
         });
     }

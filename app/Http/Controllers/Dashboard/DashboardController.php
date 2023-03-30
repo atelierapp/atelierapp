@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
@@ -30,8 +31,8 @@ class DashboardController extends Controller
                 ],
                 'earnings' => [
                     'value' => $this->dashboardService->totalEarnings(),
-                    'percent' => 0,
-                    'history' => [],
+                    'percent' => $this->dashboardService->percentTotalEarningsHistory(),
+                    'history' => $this->dashboardService->productTotalEarningsHistory(),
                 ],
             ],
         ];
@@ -41,9 +42,9 @@ class DashboardController extends Controller
     {
         return [
             'data' => [
-                'total_revenue' => 0,
-                'revenue' => 0,
-                'growth' => 0,
+                'total_revenue' => $this->dashboardService->totalRevenueForSellerUser(0),
+                'revenue' => $this->dashboardService->totalRevenueForSellerUser(30),
+                'growth' => $this->dashboardService->growth(),
             ],
         ];
     }

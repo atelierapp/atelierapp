@@ -5,6 +5,7 @@ namespace App\Builders;
 use App\Models\PaymentStatus;
 use App\Models\Role;
 use App\Traits\Builders\CountryBuilderTrait;
+use App\Traits\Builders\WhereRawDateBetweenTrait;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 class OrderBuilder extends Builder
 {
     use CountryBuilderTrait;
+    use WhereRawDateBetweenTrait;
 
     public function applyFilters(array $filters): static
     {

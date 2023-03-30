@@ -14,7 +14,11 @@ class BouncerRoleMiddleware
      */
     public function handle(Request $request, Closure $next, $role)
     {
-        if (Bouncer::is($request->user())->notA($role)) {
+        if (str_contains($role, '|')) {
+            $role = explode('|', $role);
+        }
+        
+        if (Bouncer::is($request->user())->notA(...$role)) {
             throw new AtelierException(__('authorization.without_access'), 401);
         }
 

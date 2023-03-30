@@ -6,11 +6,13 @@ use App\Enums\ManufacturerProcessEnum;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\Style;
-use App\Traits\Factories\CountryStateTrait;
+use Database\Factories\Traits\ActiveState;
+use Database\Factories\Traits\CountryStateTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
+    use ActiveState;
     use CountryStateTrait;
 
     protected $model = Product::class;
@@ -24,7 +26,7 @@ class ProductFactory extends Factory
             'manufactured_at' => $this->faker->date(),
             'description' => $this->faker->paragraph(),
             'score' => $this->faker->numberBetween(1, 5),
-            'price' => $this->faker->numberBetween(10000, 90000) / 100,
+            'price' => $this->faker->numberBetween(10000, 90000),
             'store_id' => Store::factory(),
             'style_id' => Style::factory(),
             'quantity' => $this->faker->numberBetween(0, 100),
@@ -34,6 +36,48 @@ class ProductFactory extends Factory
             'url' => $this->faker->url,
             'is_on_demand' => $this->faker->boolean,
             'is_unique' => $this->faker->boolean,
+
+            // discount columns
+            'has_discount' => $hasDiscount = $this->faker->boolean(70),
+            'is_discount_fixed' => $isFixed = ($hasDiscount ? $this->faker->boolean : false),
+            'discount_value' => $hasDiscount ? $this->faker->numberBetween(2, ($isFixed ? 12 : 50)) : 0,
         ];
+    }
+
+    public function activeStore(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'store_id' => Store::factory()->active(),
+            ];
+        });
+    }
+
+    public function withFixedDiscount($amount, $start = null, $end = null): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'has_discount' => true,
+            'is_discount_fixed' => true,
+            'discount_value' => $amount,
+            'discounted_amount' => $amount,
+            'discount_start' => $start,
+            'discount_end' => $end,
+        ]);
+    }
+
+    public function withPercentDiscount($amount = 0, $start = null, $end = null): static
+    {
+        $amount = $amount == 0
+            ? $this->faker->numberBetween(2, 10)
+            : $amount;
+
+        return $this->state(fn (array $attributes) => [
+            'has_discount' => true,
+            'is_discount_fixed' => false,
+            'discount_value' => $amount,
+            'discounted_amount' => $attributes['price'] * ($amount / 100),
+            'discount_start' => $start,
+            'discount_end' => $end,
+        ]);
     }
 }
