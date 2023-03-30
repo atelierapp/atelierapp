@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Services\DashboardService;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -53,15 +54,15 @@ class DashboardController extends Controller
     {
         $values = [];
 
-        // for ($i = 0; $i < 6; $i++) {
-        //     $tmp = [
-        //         'month' => Str::title(now()->subMonths($i)->monthName),
-        //         'sales' => rand(10000, 30000),
-        //         'views' => rand(10000, 30000),
-        //     ];
-        //
-        //     $values[] = $tmp;
-        // }
+        for ($i = 0; $i < 6; $i++) {
+            $tmp = [
+                'month' => Str::title(now()->subMonths($i)->monthName),
+                'sales' => 0,
+                'views' => 0,
+            ];
+
+            $values[] = $tmp;
+        }
 
         return response()->json(['data' => $values]);
     }
