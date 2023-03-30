@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('process:user-rating')->dailyAt('00:05');
         $schedule->job(CheckOrderToCapturePaypalPayment::class)->hourly();
+        $schedule->command('telescope:prune --hours=72')->daily();
     }
 
     /**
