@@ -117,8 +117,8 @@ class DashboardController extends Controller
                 'customers' => Order::filterByRole()->groupBy('user_id')->distinct()->count('user_id'),
                 'awaiting_orders' => Order::filterByRole()->whereSellerStatusId(OrderStatus::_SELLER_PENDING)->select('id')->count('id'),
                 'on_hold_orders' => 0,
-                // 'low_stock_orders' => rand(25, 75),
-                // 'out_stock_orders' => rand(0, 25),
+                'low_stock_orders' => 0, // todo:  remove
+                'out_stock_orders' => 0, // todo: remoce
                 'low_stock_orders' => 0,
                 'out_stock_orders' => 0,
             ],
