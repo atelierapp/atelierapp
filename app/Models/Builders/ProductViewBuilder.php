@@ -3,7 +3,7 @@
 namespace App\Models\Builders;
 
 use App\Models\Role;
-use App\Traits\Builders\WhereRawDateBetweenTrait;
+use App\Models\Traits\WhereRawDateBetweenTrait;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
 

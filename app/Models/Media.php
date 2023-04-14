@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Builders\MediaBuilder;
+use App\Models\Builders\MediaBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

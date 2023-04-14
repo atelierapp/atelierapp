@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Controllers;
+namespace App\Http\Controllers\Traits;
 
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Model;

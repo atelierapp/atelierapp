@@ -77,11 +77,11 @@ class StoreControllerTest extends TestCase
     {
         $this->createAuthenticatedUser();
 
-        Store::factory()->count(3)->create();
-        Store::factory()->create(['name' => 'testabc']);
+        Store::factory()->count(3)->create(['active' => true]);
+        Store::factory()->create(['active' => true, 'name' => 'abcd']);
 
         $params = [
-            'search' => 'testabc'
+            'search' => 'abcd'
         ];
         $response = $this->getJson(route('store.index', $params), $this->customHeaders());
 

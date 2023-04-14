@@ -4,6 +4,8 @@ namespace Tests\Feature\Dashboard;
 
 use App\Models\Order;
 use App\Models\Store;
+use Database\Seeders\OrderStatusSeeder;
+use Database\Seeders\PaymentStatusSeeder;
 use Tests\TestCase;
 
 class DashboardNetIncomeTest extends TestCase
@@ -30,11 +32,16 @@ class DashboardNetIncomeTest extends TestCase
 
     public function test_an_authenticated_seller_can_get_net_income_with_valid_dates()
     {
+        $this->seed([
+            OrderStatusSeeder::class,
+            PaymentStatusSeeder::class
+        ]);
         $user = $this->createAuthenticatedSeller();
         $store = Store::factory()->create(['user_id' => $user->id]);
         Order::factory()->count(50)->create([
             'store_id' => $store->id,
             'seller_id' => $user->id,
+            'paid_on' => $this->faker->dateTimeBetween('2022-01-11', '2022-11-11')
         ]);
 
         $data = [

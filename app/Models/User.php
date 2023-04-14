@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Builders\UserBuilder;
+use App\Models\Builders\UserBuilder;
 use App\Models\Scopes\CountryScope;
-use App\Traits\Models\HasMediasRelation;
+use App\Models\Traits\HasMediasRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

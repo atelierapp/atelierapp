@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Builders;
+namespace App\Models\Builders;
 
-use App\Traits\Builders\CountryBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProjectBuilder extends Builder
 {
-    use CountryBuilderTrait;
+    use \App\Models\Traits\CountryBuilderTrait;
 
     public function authUser(int $userId = null): static
     {

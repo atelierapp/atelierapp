@@ -255,10 +255,10 @@ class ProductControllerIndexTest extends BaseTest
     {
         $this->createAuthenticatedUser();
 
-        Product::factory()->active()->activeStore()->create(['price' => 20]);
-        Product::factory()->active()->activeStore()->create(['price' => 90]);
-        Product::factory()->count(10)->active()->activeStore()->create();
-        Product::factory()->us()->count(10)->active()->activeStore()->create();
+        Product::factory()->active()->activeStore()->create(['price' => 2000]);
+        Product::factory()->active()->activeStore()->create(['price' => 8000]);
+        Product::factory()->count(2)->active()->activeStore()->create();
+        Product::factory()->us()->count(2)->active()->activeStore()->create();
 
         $response = $this->getJson(route('product.index', [
             'price-min' => 10,

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Builders\OrderBuilder;
+use App\Models\Builders\OrderBuilder;
+use App\Models\Traits\HasSellerRelation;
 use App\Models\Traits\HasUserRelation;
-use App\Traits\Models\HasSellerRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @mixin Eloquent
- * @mixin OrderBuilder
+ * @mixin \App\Models\Builders\OrderBuilder
  * @property int $id
  * @property int $seller_status_id
  * @property ?Carbon $seller_accepted_on

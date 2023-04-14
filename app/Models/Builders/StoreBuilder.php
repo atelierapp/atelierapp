@@ -3,16 +3,15 @@
 namespace App\Models\Builders;
 
 use App\Contracts\Builders\AuthUserContractBuilder;
-use App\Traits\Builders\ActiveBuilderTrait;
-use App\Traits\Builders\AuthBuilderTrait;
-use App\Traits\Builders\CountryBuilderTrait;
+use App\Models\Traits\ActiveBuilderTrait;
+use App\Models\Traits\AuthBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class StoreBuilder extends Builder implements AuthUserContractBuilder
 {
     use AuthBuilderTrait;
-    use CountryBuilderTrait;
+    use \App\Models\Traits\CountryBuilderTrait;
     use ActiveBuilderTrait;
 
     public function __construct(QueryBuilder $query)

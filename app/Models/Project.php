@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Builders\ProjectBuilder;
-use App\Traits\Models\HasMediasRelation;
-use App\Traits\Models\HasTagsRelation;
+use App\Models\Builders\ProjectBuilder;
 use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,8 +18,8 @@ class Project extends BaseModelCountry
 {
     use HasFactory;
     use SoftDeletes;
-    use HasMediasRelation;
-    use HasTagsRelation;
+    use Traits\HasMediasRelation;
+    use Traits\HasTagsRelation;
 
     protected $fillable = [
         'name',

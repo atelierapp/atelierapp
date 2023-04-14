@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Builders;
+namespace App\Models\Builders;
 
 use App\Models\PaymentStatus;
 use App\Models\Role;
-use App\Traits\Builders\CountryBuilderTrait;
-use App\Traits\Builders\WhereRawDateBetweenTrait;
+use App\Models\Traits\CountryBuilderTrait;
+use App\Models\Traits\WhereRawDateBetweenTrait;
 use Bouncer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;

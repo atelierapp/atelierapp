@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Models;
+namespace App\Models\Traits;
 
 use App\Models\Quality;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;

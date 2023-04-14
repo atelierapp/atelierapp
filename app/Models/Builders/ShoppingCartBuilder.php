@@ -2,8 +2,8 @@
 
 namespace App\Models\Builders;
 
+use App\Models\Traits\CountryBuilderTrait;
 use App\Models\User;
-use App\Traits\Builders\CountryBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class ShoppingCartBuilder extends Builder

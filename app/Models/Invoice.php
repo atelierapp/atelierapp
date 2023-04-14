@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasOrderRelation;
+use App\Models\Traits\HasSellerRelation;
 use App\Models\Traits\HasUserRelation;
-use App\Traits\Models\HasOrderRelation;
-use App\Traits\Models\HasSellerRelation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 

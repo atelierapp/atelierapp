@@ -5,9 +5,8 @@ namespace App\Models;
 use App\Enums\ManufacturerProcessEnum;
 use App\Enums\ManufacturerTypeEnum;
 use App\Models\Builders\ProductBuilder;
-use App\Traits\Models\HasMediasRelation;
-use App\Traits\Models\HasQualitiesRelation;
-use App\Traits\Models\HasTagsRelation;
+use App\Models\Traits\HasMediasRelation;
+use App\Models\Traits\HasQualitiesRelation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +26,7 @@ class Product extends BaseModelCountry
     use SoftDeletes;
     use HasMediasRelation;
     use HasQualitiesRelation;
-    use HasTagsRelation;
+    use Traits\HasTagsRelation;
 
     protected $fillable = [
         'title',

@@ -51,13 +51,7 @@ class OrderService
         return OrderDetail::where('order_id', $orderId)->with(['product.store', 'variation'])->get();
     }
 
-    /**
-     * @param int $userId
-     * @param string|null $couponCode
-     * @return \App\Models\Order
-     * @throws \App\Exceptions\AtelierException
-     */
-    public function createFromShoppingCart(int $userId, ?string $couponCode): Order
+    public function createFromShoppingCart(int $userId, ?string $couponCode = null): Order
     {
         $items = ShoppingCart::query()->customer($userId)->with('variation.product.store')->get();
 

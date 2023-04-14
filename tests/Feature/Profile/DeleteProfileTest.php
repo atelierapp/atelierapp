@@ -25,7 +25,7 @@ class DeleteProfileTest extends TestCase
         $response = $this->deleteJson(route('profile.destroy'), [], $this->customHeaders());
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('personal_access_tokens', ['user_id' => $user->id]);
+        $this->assertDatabaseMissing('personal_access_tokens', ['tokenable_Type' => User::class, 'tokenable_id' => $user->id]);
         $this->assertDatabaseMissing('social_accounts', ['user_id' => $user->id]);
         $this->assertDatabaseMissing('users', ['email' => $email]);
     }
