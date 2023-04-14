@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Builders\OrderDetailBuilder;
-use App\Traits\Models\HasOrderRelation;
+use App\Models\Builders\OrderDetailBuilder;
 use Eloquent;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -16,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class OrderDetail extends BaseModelCountry
 {
     use HasFactory;
-    use HasOrderRelation;
+    use Traits\HasOrderRelation;
 
     protected $fillable = [
         'order_id',

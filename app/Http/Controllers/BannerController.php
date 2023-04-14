@@ -7,13 +7,12 @@ use App\Http\Requests\BannerUpdateRequest;
 use App\Http\Requests\ImageRequest;
 use App\Http\Resources\BannerResource;
 use App\Models\Banner;
-use App\Traits\Controllers\StorageS3ImageTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BannerController extends Controller
 {
-    use StorageS3ImageTrait;
+    use Traits\StorageS3ImageTrait;
 
     public function index(): AnonymousResourceCollection
     {

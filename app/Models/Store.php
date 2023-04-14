@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use App\Models\Builders\StoreBuilder;
-use App\Traits\Models\HasMediasRelation;
-use App\Traits\Models\HasQualitiesRelation;
+use App\Models\Traits\HasQualitiesRelation;
 use Eloquent;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Store extends BaseModelCountry
 {
     use HasFactory;
-    use HasMediasRelation;
+    use Traits\HasMediasRelation;
     use HasQualitiesRelation;
     use SoftDeletes;
 

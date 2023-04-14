@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Builders;
+namespace App\Models\Traits;
 
 trait CountryBuilderTrait
 {

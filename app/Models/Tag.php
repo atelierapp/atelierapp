@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Builders\TagBuilder;
+use App\Models\Builders\TagBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**

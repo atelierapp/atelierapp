@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Builders\VariationBuilder;
-use App\Traits\Models\HasMediasRelation;
+use App\Models\Builders\VariationBuilder;
 use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Variation extends BaseModelCountry
 {
     use HasFactory;
-    use HasMediasRelation;
+    use Traits\HasMediasRelation;
     use SoftDeletes;
 
     protected $fillable = [

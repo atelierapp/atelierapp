@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Builders;
+namespace App\Models\Builders;
 
 use App\Contracts\Builders\AuthUserContractBuilder;
-use App\Traits\Builders\AuthBuilderTrait;
-use App\Traits\Builders\CountryBuilderTrait;
+use App\Models\Traits\AuthBuilderTrait;
+use App\Models\Traits\CountryBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class CollectionBuilder extends Builder implements AuthUserContractBuilder

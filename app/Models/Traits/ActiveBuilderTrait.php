@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Traits\Builders;
-
-use function auth;
+namespace App\Models\Traits;
 
 trait ActiveBuilderTrait
 {

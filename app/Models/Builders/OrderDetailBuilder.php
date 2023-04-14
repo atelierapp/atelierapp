@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Builders;
+namespace App\Models\Builders;
 
-use App\Traits\Builders\CountryBuilderTrait;
-use App\Traits\Builders\WhereRawDateBetweenTrait;
+use App\Models\Traits\CountryBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class OrderDetailBuilder extends Builder
 {
     use CountryBuilderTrait;
-    use WhereRawDateBetweenTrait;
+    use \App\Models\Traits\WhereRawDateBetweenTrait;
 
     public function filterByRole(): static
     {

@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Builders\BannerBuilder;
-use App\Traits\Models\HasMediasRelation;
+use App\Models\Builders\BannerBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Banner extends BaseModelCountry
 {
     use HasFactory;
-    use HasMediasRelation;
+    use Traits\HasMediasRelation;
 
     public const TYPE_POPUP = 'popup';
     public const TYPE_CAROUSEL = 'carousel';

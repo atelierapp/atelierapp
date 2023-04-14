@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Builders;
+namespace App\Models\Builders;
 
-use App\Traits\Builders\CountryBuilderTrait;
+use App\Models\Traits\CountryBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class BannerBuilder extends Builder

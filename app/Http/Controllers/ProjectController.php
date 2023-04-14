@@ -8,13 +8,12 @@ use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Services\ProjectService;
-use App\Traits\Controllers\StorageS3ImageTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectController extends Controller
 {
-    use StorageS3ImageTrait;
+    use Traits\StorageS3ImageTrait;
 
     public function __construct(private ProjectService $projectService)
     {
