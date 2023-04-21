@@ -36,7 +36,7 @@ class ProductStoreRequest extends FormRequest
             'height' => ['required', 'integer'],
             'width' => ['required', 'integer'],
 
-            'tags' => ['required'],
+            'tags' => ['nullable'],
             'tags.*.name' => ['required_with:tags', 'string'],
             'materials' => ['required'],
             'materials.*.name' => ['required_with:materials', 'string'],

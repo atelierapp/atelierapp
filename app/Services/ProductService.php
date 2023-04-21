@@ -37,7 +37,7 @@ class ProductService
             ->applyFiltersFrom($filters);
 
         return $asPaginated
-            ? $query->paginate()
+            ? $query->paginate(1000)
             : $query->get();
     }
 
