@@ -1,3 +1,3 @@
 <x-layouts.dashboard>
-  Hola
+  Contenido
 </x-layouts.dashboard>
