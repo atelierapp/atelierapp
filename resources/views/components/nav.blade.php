@@ -47,13 +47,13 @@
       </nav>
       <!-- RIGHT BUTTON -->
       <div class="hidden md:flex items-center justify-end md:flex-1" >
-        @if(config('atelier.vendor.enabled'))
+{{--        @if(config('atelier.vendor.enabled'))--}}
           <span
               @click="$store.showVendorLogin = ! $store.showVendorLogin"
               class="whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-pink-800 hover:bg-pink-900 transition ease-in-out delay-50 duration-300 cursor-pointer">
             {{ __('nav.sell-on-atelier') }}
           </span>
-        @endif
+{{--        @endif--}}
         <div
             class="relative inline-block text-left"
             x-data="{ isOpen: false, locale: '{{ app()->getLocale() }}' }"

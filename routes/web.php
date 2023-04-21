@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\LanguageSwitcherController;
 use App\Http\Controllers\LinkStripeStoreController;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,9 @@ Route::get('/to-app', fn() => redirect(config('atelier.web-app.url')))->name('we
 | Vendor Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard', fn() => 'dashboard!')->name('dashboard');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
 /*
 |--------------------------------------------------------------------------

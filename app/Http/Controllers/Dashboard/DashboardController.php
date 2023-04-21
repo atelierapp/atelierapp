@@ -16,27 +16,25 @@ class DashboardController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function kpi()
+    public function index()
     {
-        return [
-            'data' => [
-                'views' => [
-                    'value' => $this->dashboardService->productViews(),
-                    'percent' => $this->dashboardService->percentViewsHistory(),
-                    'history' => $this->dashboardService->productViewsHistory(),
-                ],
-                'products' => [
-                    'value' => $this->dashboardService->productsSold(),
-                    'percent' => $this->dashboardService->percentProductsSoldHistory(),
-                    'history' => $this->dashboardService->productProductsSoldHistory(),
-                ],
-                'earnings' => [
-                    'value' => $this->dashboardService->totalEarnings(),
-                    'percent' => $this->dashboardService->percentTotalEarningsHistory(),
-                    'history' => $this->dashboardService->productTotalEarningsHistory(),
-                ],
+        return view('components.vendor-app.dashboard', [
+            'views' => [
+                'value' => $this->dashboardService->productViews(),
+                'percent' => $this->dashboardService->percentViewsHistory(),
+                'history' => $this->dashboardService->productViewsHistory(),
             ],
-        ];
+            'products' => [
+                'value' => $this->dashboardService->productsSold(),
+                'percent' => $this->dashboardService->percentProductsSoldHistory(),
+                'history' => $this->dashboardService->productProductsSoldHistory(),
+            ],
+            'earnings' => [
+                'value' => $this->dashboardService->totalEarnings(),
+                'percent' => $this->dashboardService->percentTotalEarningsHistory(),
+                'history' => $this->dashboardService->productTotalEarningsHistory(),
+            ],
+        ]);
     }
 
     public function kpiProducts()
