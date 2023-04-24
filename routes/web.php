@@ -7,6 +7,8 @@ use App\Http\Controllers\LanguageSwitcherController;
 use App\Http\Controllers\LinkStripeStoreController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('*', fn () => redirect()->to('https://atelier-app.com'));
+
 Route::get('stripe/connect-store', LinkStripeStoreController::class)->name('stripe.connect-store');
 /*
 |--------------------------------------------------------------------------
