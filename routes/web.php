@@ -15,7 +15,7 @@ Route::get('stripe/connect-store', LinkStripeStoreController::class)->name('stri
 | Landing Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', fn() => view('welcome'))->name('home');
+Route::get('/', fn () => redirect()->to('https://atelier-app.com'))->name('home');
 Route::get('/language/{locale}', LanguageSwitcherController::class)
     ->where('locale', '(en|es){1}')->name('language.switcher');
 Route::get('/about', AboutUsController::class)->name('about');
