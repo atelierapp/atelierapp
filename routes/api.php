@@ -44,6 +44,7 @@ use App\Http\Controllers\UnitSystemController;
 use App\Http\Controllers\User\ProfilePaymentController;
 use App\Http\Controllers\UsernameValidationController;
 use App\Http\Controllers\VariationController;
+use App\Http\Controllers\Wix\WixImportController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/paypal')->group(function () {
@@ -131,6 +132,20 @@ Route::middleware('locale')->group(function () {
         // Imports
         Route::prefix('imports')->group( function () {
             Route::post('simple-product', ProductSimpleController::class)->name('import.product-simple');
+        });
+
+        // Externals
+        // Route::prefix('externals')->group(function () {
+        //     Route::prefix('wix')->group(function () {
+        //         Route::post('import', WixImportController::class)->name('externals.wix.import');
+        //     });
+        // });
+    });
+
+    // Externals
+    Route::prefix('externals')->group(function () {
+        Route::prefix('wix')->group(function () {
+            Route::post('import', WixImportController::class)->name('externals.wix.import');
         });
     });
 
