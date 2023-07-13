@@ -35,6 +35,7 @@
         "laravel/vapor-ui": "^1.5",
         "league/flysystem-aws-s3-v3": "^1.0",
         "livewire/livewire": "^2.6",
+        "maatwebsite/excel": "^3.1",
         "silber/bouncer": "v1.0.0-rc.10",
         "socialiteproviders/apple": "^5.0",
         "spatie/enum": "^3.0",
