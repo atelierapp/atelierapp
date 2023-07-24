@@ -44,6 +44,7 @@ use App\Http\Controllers\UnitSystemController;
 use App\Http\Controllers\User\ProfilePaymentController;
 use App\Http\Controllers\UsernameValidationController;
 use App\Http\Controllers\VariationController;
+use App\Http\Controllers\Wix\WixExportController;
 use App\Http\Controllers\Wix\WixImportController;
 use Illuminate\Support\Facades\Route;
 
@@ -132,6 +133,11 @@ Route::middleware('locale')->group(function () {
         // Imports
         Route::prefix('imports')->group( function () {
             Route::post('simple-product', ProductSimpleController::class)->name('import.product-simple');
+        });
+
+        // Exports
+        Route::prefix('exports')->group( function () {
+            Route::get('wix', WixExportController::class)->name('import.product-simple');
         });
 
         // Externals
