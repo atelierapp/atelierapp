@@ -20,8 +20,12 @@ class WixProductsImport implements ToCollection, WithHeadingRow
                     'fieldtype' => $register['fieldtype'],
                     'productImageUrl' => $register['productimageurl'] ?? '',
                     'collection' => $register['collection'],
+                    'description' => $register['description'],
+                    'visible' => (string) $register['visible'] ? "true" : "false",
+                    'inventory' => $register['inventory'],
                 ];
                 $product->properties = $properties;
+                $product->title = $register['name'];
                 $product->save();
             }
         });
