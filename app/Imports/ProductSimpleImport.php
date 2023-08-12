@@ -57,6 +57,6 @@ class ProductSimpleImport implements ToCollection, WithHeadingRow
 
     public function headingRow(): int
     {
-        return 2;
+        return 1;
     }
 }

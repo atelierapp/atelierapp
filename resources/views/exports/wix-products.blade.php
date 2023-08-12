@@ -84,7 +84,7 @@
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.fieldType', 'Product') }}</td>
             <td>{{ $product->title }}</td>
             <td>"{{ str_replace('"', '""', $description) }}"</td>
-            <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.productImageUrl') }}</td>
+            <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.productImageUrl', $product->medias()->pluck('url')->implode(';')) }}</td>
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.collection', implode(";", $categories)) }}</td>
             <td>{{ $product->id }}</td>
             <td></td>

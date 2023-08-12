@@ -33,7 +33,7 @@ class WixExport implements FromView, Responsable
     public function view(): \Illuminate\Contracts\View\View
     {
         $products = Product::where('store_id', $this->store->id)
-            ->with(['store:id,name', 'categories:id,name'])
+            ->with(['store:id,name', 'categories:id,name', 'medias'])
             ->get();
 
         return view('exports.wix-products', [
