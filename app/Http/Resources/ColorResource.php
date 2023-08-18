@@ -16,12 +16,26 @@ class ColorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'hex' => $this->hex,
-            'url' => $this->url,
+            'name' => $this->title,
+            'hex' => strtoupper($this->properties['hex']),
+            'url' => $this->featured_media->url,
             'active' => $this->active,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
+
+    // Todo :: temporally commented
+    // public function toArray($request)
+    // {
+    //     return [
+    //         'id' => $this->id,
+    //         'name' => $this->name,
+    //         'hex' => $this->hex,
+    //         'url' => $this->url,
+    //         'active' => $this->active,
+    //         'created_at' => $this->created_at->toDateTimeString(),
+    //         'updated_at' => $this->updated_at->toDateTimeString(),
+    //     ];
+    // }
 }
