@@ -26,7 +26,8 @@ class ShoppingCartController extends Controller
             )
             ->paginate(request('pageSize', 1000));
 
-        return ShoppingCartResource::collection($variants);
+        return ShoppingCartResource::collection($variants)
+            ->additional(['total_price' => $variants->pluck('variation.product')->sum('price')]);
     }
 
     /**
