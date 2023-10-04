@@ -43,9 +43,9 @@ class ProductBuilder extends Builder implements AuthUserContractBuilder
         if (isset($filters['price-min']) && isset($filters['price-max'])) {
             $this->filterByPriceRange($filters['price-min'] * 100, $filters['price-max'] * 100);
         }
-
-        if (isset($filters['sort'])) {
-            $this->customSort($filters['sort']);
+        
+        if (isset($filters['type'])) {
+            $this->whereHas('categories', fn ($category) => $category->where('type', '=', $filters['type']));
         }
 
         return $this;

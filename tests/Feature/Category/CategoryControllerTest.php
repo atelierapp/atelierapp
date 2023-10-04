@@ -3,8 +3,6 @@
 namespace Tests\Feature\Category;
 
 use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Tests\TestCase;
@@ -49,7 +47,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->structure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -65,8 +63,8 @@ class CategoryControllerTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -94,15 +92,14 @@ class CategoryControllerTest extends TestCase
         $this->assertEmpty($subCategories);
 
         $categoriesWithSubCategories = array_filter(
-            $categories, fn ($category) => !empty($category['sub_categories'])
+            $categories, fn ($category) => ! empty($category['sub_categories'])
         );
 
         $this->assertNotEmpty($categoriesWithSubCategories);
 
-
         $response->assertJsonStructure([
             'data' => [
-                0 => $this->structure()
+                0 => $this->structure(),
             ],
             'meta' => [
                 'current_page',
@@ -118,8 +115,8 @@ class CategoryControllerTest extends TestCase
                 'first',
                 'last',
                 'prev',
-                'next'
-            ]
+                'next',
+            ],
         ]);
     }
 
@@ -151,7 +148,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertCreated();
         $response->assertJsonStructure([
-            'data' => $this->structure()
+            'data' => $this->structure(),
         ]);
         $this->assertEquals(1, Category::where('name->es', $data['name'])->count());
         $this->assertDatabaseHas('categories', [
@@ -172,7 +169,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([
-            'data' => $this->structure()
+            'data' => $this->structure(),
         ]);
     }
 
@@ -205,7 +202,7 @@ class CategoryControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([
-            'data' => $this->structure()
+            'data' => $this->structure(),
         ]);
         $this->assertDatabaseHas('categories', [
             'id' => $response->json('data.id'),
