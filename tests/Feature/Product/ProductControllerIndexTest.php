@@ -631,6 +631,47 @@ class ProductControllerIndexTest extends BaseTest
         ]);
     }
 
+    public function test_guess_user_can_list_only_canvas_product_use_to_render_in_app()
+    {
+        /** @var Category $category1 */
+        $category1 = Category::factory()->create(['type' => 'canvas']);
+        $products = Product::factory()->times(2)->active()->activeStore()->create(); // 2
+        $category1->products()->attach($products);
+
+        /** @var Category $category2 */
+        $category2 = Category::factory()->create(['type' => null]);
+        $products = Product::factory()->times(2)->active()->activeStore()->create(); // 2
+        $category2->products()->attach($products);
+
+        $response = $this->getJson(route('product.index', [
+            'type' => 'canvas',
+        ]), $this->customHeaders());
+
+        $response->assertOk();
+        $response->assertJsonCount(2, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                0 => $this->structure(),
+            ],
+            'meta' => [
+                'current_page',
+                'from',
+                'last_page',
+                'links',
+                'path',
+                'per_page',
+                'to',
+                'total',
+            ],
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+        ]);
+    }
+
     public function test_authenticated_seller_user_can_only_list_your_products()
     {
         Product::factory()->count(4)->create();
