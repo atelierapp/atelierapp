@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Import;
 
 use App\Http\Controllers\Controller;
-use App\Imports\ProductSimpleImport;
+use App\Imports\ProductSimpleImport\ProductSimpleImport;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
