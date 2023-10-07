@@ -9,6 +9,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\NetIncomeController;
+use App\Http\Controllers\Import\ProductAdvanceController;
 use App\Http\Controllers\Import\ProductSimpleController;
 use App\Http\Controllers\ManufactureProcessController;
 use App\Http\Controllers\ManufactureTypeController;
@@ -133,6 +134,7 @@ Route::middleware('locale')->group(function () {
         // Imports
         Route::prefix('imports')->group( function () {
             Route::post('simple-product', ProductSimpleController::class)->name('import.product-simple');
+            Route::post('advance-product', ProductAdvanceController::class)->name('import.product-advance');
         });
 
         // Exports
