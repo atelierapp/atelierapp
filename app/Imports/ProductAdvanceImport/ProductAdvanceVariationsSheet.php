@@ -21,10 +21,15 @@ class ProductAdvanceVariationsSheet implements ToCollection, WithHeadingRow
         return 2;
     }
 
-    public function collection(Collection $collection): array
+    public function collection(Collection $collection): void
     {
-        return [
+        foreach ($collection as $position => $register) {
+            if ($position == 0) {
+                next($collection);
+                continue;
+            }
 
-        ];
+            //
+        }
     }
 }

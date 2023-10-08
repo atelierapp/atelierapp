@@ -52,6 +52,27 @@ class MediaService
         return $this->save($file, $properties);
     }
 
+    public function saveImageFromUrl(?string $imageUrl, array $properties = []): ?Media
+    {
+        $properties['type_id'] = MediaType::IMAGE;
+
+        if (str_contains($imageUrl, 'https://atelier-production-bucket.s3.amazonaws.com') ||
+            str_contains($imageUrl, 'https://atelier-staging-bucket.s3.amazonaws.com')
+        ) {
+            $path = str_replace([
+                'https://atelier-production-bucket.s3.amazonaws.com/',
+                'https://atelier-staging-bucket.s3.amazonaws.com/'
+            ], '', $imageUrl);
+
+            $attributes = array_merge($this->getParams($properties), [
+                'url' => $imageUrl,
+                'path' => $path,
+            ]);
+        }
+        
+        return $this->model->medias()->create($attributes);
+    }
+
     private function uploadImage(mixed $file): bool|string
     {
         return Storage::disk('s3')->putFile($this->path, $file, ['visibility' => 'public']);
