@@ -26,7 +26,7 @@ class UploadVariationInShoppingCartTest extends BaseTest
             'customer_id' => $user->id,
             'variation_id' => $variation->id,
             'quantity' => $quantity,
-            'price' => $price,
+            'price' => $price * 100,
         ]);
     }
 
@@ -47,7 +47,7 @@ class UploadVariationInShoppingCartTest extends BaseTest
             'customer_id' => $user->id,
             'variation_id' => $variation->id,
             'quantity' => $quantity,
-            'price' => $variation->product->price,
+            'price' => ($variation->product->price * $quantity) * 100,
         ]);
     }
 

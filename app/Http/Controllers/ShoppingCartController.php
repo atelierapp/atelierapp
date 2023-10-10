@@ -108,7 +108,7 @@ class ShoppingCartController extends Controller
 
         $price = $request->filled('price')
             ? $request->get('price')
-            : Product::whereHas('variations', fn ($var) => $var->where('id', $request->get('variation_id')))->first()->price;
+            : Product::whereHas('variations', fn ($var) => $var->whereId($request->get('variation_id')))->first()->price * $request->get('quantity');
 
         ShoppingCart::updateOrCreate([
             'customer_type' => $customerType,
