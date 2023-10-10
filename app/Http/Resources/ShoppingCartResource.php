@@ -19,6 +19,7 @@ class ShoppingCartResource extends JsonResource
             'store_name' => $this->variation->product->store->name,
             'variation_id' => $this->variation_id,
             'quantity' => $this->quantity,
+            'price' => $this->price,
             'variation' => VariationResource::make($this->whenLoaded('variation')),
             'user' => $this->when($this->relationLoaded('customer'), function () {
                     return $this->resource->customer instanceof User ? new UserResource($this->resource->customer) : null;
