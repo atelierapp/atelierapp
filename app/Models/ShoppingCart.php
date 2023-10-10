@@ -32,6 +32,7 @@ class ShoppingCart extends MorphPivot
         'variation_id',
         'quantity',
         'country',
+        'price',
     ];
 
     protected $casts = [
