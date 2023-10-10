@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\AtelierException;
 use App\Http\Requests\ReplaceShoppingCartRequest;
+use App\Http\Requests\ShoppingCart\ShoppingCartUpdateRequest;
 use App\Http\Resources\ShoppingCartResource;
 use App\Models\Device;
+use App\Models\Product;
 use App\Models\ShoppingCart;
 use App\Models\User;
 use App\Models\Variation;
@@ -95,6 +97,29 @@ class ShoppingCartController extends Controller
             ->delete();
 
         return $this->response([], 'Item removed from your cart.');
+    }
+
+    /**
+     * @throws \App\Exceptions\AtelierException
+     */
+    public function update(ShoppingCartUpdateRequest $request)
+    {
+        [$customerType, $customerId] = $this->getCustomerTypeAndId();
+
+        $price = $request->filled('price')
+            ? $request->get('price')
+            : Product::whereHas('variations', fn ($var) => $var->whereId($request->get('variation_id')))->first()->price * $request->get('quantity');
+
+        ShoppingCart::updateOrCreate([
+            'customer_type' => $customerType,
+            'customer_id' => $customerId,
+            'variation_id' => $request->get('variation_id')
+        ], [
+            'quantity' => $request->get('quantity'),
+            'price' => $price
+        ]);
+
+        return $this->response([], 'Shopping cart updated.');
     }
 
     /**

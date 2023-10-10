@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\Builders\ShoppingCartBuilder;
 use Eloquent;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -32,6 +34,7 @@ class ShoppingCart extends MorphPivot
         'variation_id',
         'quantity',
         'country',
+        'price',
     ];
 
     protected $casts = [
@@ -51,5 +54,13 @@ class ShoppingCart extends MorphPivot
     public function variation(): BelongsTo
     {
         return $this->belongsTo(Variation::class);
+    }
+
+    public function price(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
     }
 }
