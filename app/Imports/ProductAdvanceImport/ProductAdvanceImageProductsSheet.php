@@ -58,6 +58,7 @@ class ProductAdvanceImageProductsSheet implements ToCollection, WithHeadingRow
             'Lateral' => 'side',
             'Perspectiva' => 'perspective',
             'Plano' => 'plan',
+            'eCommerce' => 'ecommerce',
         ];
 
         return Arr::get($orientations, $value, '');
