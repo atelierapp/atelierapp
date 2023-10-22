@@ -103,6 +103,18 @@ class VariationService
         $this->processImages($variation, $images);
     }
 
+    public function duplicateFromBaseProduct(Product $product, array $images): void
+    {
+        $variation = Variation::updateOrCreate([
+            'product_id' => $product->id,
+            'is_duplicated' => true,
+        ], [
+            'name' => $product->title,
+        ]);
+        $this->mediaService->path($this->path);
+        $this->processImages($variation, $images);
+    }
+
     /**
      * @param \App\Models\Variation $variation
      * @param array $images  [ [orientation => front|side|perspective|plan, file => UploadedFile] ]
