@@ -135,25 +135,12 @@ Route::middleware('locale')->group(function () {
         Route::prefix('imports')->group( function () {
             Route::post('simple-product', ProductSimpleController::class)->name('import.product-simple');
             Route::post('advance-product', ProductAdvanceController::class)->name('import.product-advance');
+            Route::post('wix', WixImportController::class)->name('wix.import');
         });
 
         // Exports
         Route::prefix('exports')->group( function () {
-            Route::get('wix', WixExportController::class)->name('import.product-simple');
-        });
-
-        // Externals
-        // Route::prefix('externals')->group(function () {
-        //     Route::prefix('wix')->group(function () {
-        //         Route::post('import', WixImportController::class)->name('externals.wix.import');
-        //     });
-        // });
-    });
-
-    // Externals
-    Route::prefix('externals')->group(function () {
-        Route::prefix('wix')->group(function () {
-            Route::post('import', WixImportController::class)->name('externals.wix.import');
+            Route::get('wix', WixExportController::class)->name('export.wix');
         });
     });
 
