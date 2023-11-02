@@ -1,4 +1,4 @@
-<table>
+<table border="1">
     <thead>
     <tr>
         <td>handleId</td>
@@ -59,30 +59,39 @@
     <tbody>
     @foreach($products as $product)
         @php
-        try {
-            $categories = $product->categories->pluck('name')->toArray();
-            $name = str_replace("PIEZA BY BAUM SAC", "Pieza Baum", $product->store->name);
-            $categories[] = $name;
+            try {
+                $categories = $product->categories->pluck('wix')->toArray();
+                $name = str_replace("PIEZA BY BAUM SAC", "Pieza Baum", $product->store->name);
+                $categories[] = $name;
 
-            $description = \Illuminate\Support\Arr::get($product->properties, 'wix.description', $product->description);
-            if (empty($description)) {
-                if (\Illuminate\Support\Arr::get($product->properties, 'dimensions.width', 0) > 1) {
-                    $description .= '<p>Ancho: '.(\Illuminate\Support\Arr::get($product->properties, 'dimensions.width', 0) / 10).'&nbsp;cm</p>';
-                }
-                if (\Illuminate\Support\Arr::get($product->properties, 'dimensions.height', 0) > 1) {
-                    $description .= '<p>Alto: '.(\Illuminate\Support\Arr::get($product->properties, 'dimensions.height', 0) / 10).'&nbsp;cm</p>';
-                }
-                if (\Illuminate\Support\Arr::get($product->properties, 'dimensions.depth', 0) > 1) {
-                    $description .= '<p>Profundidad: '.(\Illuminate\Support\Arr::get($product->properties, 'dimensions.depth', 0) / 10).'&nbsp;cm</p>';
+                $description = \Illuminate\Support\Arr::get($product->properties, 'wix.description', $product->description);
+                $description = str_replace("\n", "<br>", $description);
+
+                if (!empty($description)) {
+                    $description .= "<br><br>";
                 }
 
-                $description = '<p>&nbsp;</p><p><strong>Marca: <a href="https://www.atelier-app.com/category/' . \Illuminate\Support\Str::slug($name) . '" target="_blank">' . $product->store->name . '</a></strong></p><p>&nbsp;</p><p><span style="color:#4fa277;">Diseña tu habitación con este y más productos directamente en nuestra App.</span><strong> <a href="https://apps.apple.com/us/app/atelier/id1565516356" target="_blank"><span style="color:#29705a;">Descarga&nbsp;Atelier App&nbsp;Aquí</span></a></strong></p>';
-            }
+    //            if (empty($description)) {
+                    if (\Illuminate\Support\Arr::get($product->properties, 'dimensions.width', 0) > 1) {
+                        $description .= '<p>Ancho: ' . \Illuminate\Support\Arr::get($product->properties, 'dimensions.width', 0) . '&nbsp;cm</p>';
+                    }
+                    if (\Illuminate\Support\Arr::get($product->properties, 'dimensions.height', 0) > 1) {
+                        $description .= '<p>Alto: ' . \Illuminate\Support\Arr::get($product->properties, 'dimensions.height', 0) . '&nbsp;cm</p>';
+                    }
+                    if (\Illuminate\Support\Arr::get($product->properties, 'dimensions.depth', 0) > 1) {
+                        $description .= '<p>Profundidad: ' . \Illuminate\Support\Arr::get($product->properties, 'dimensions.depth', 0) . '&nbsp;cm</p>';
+                    }
+
+                    $description .= '<p>&nbsp;</p><p><strong>Marca: <a href="https://www.atelier-app.com/category/' . \Illuminate\Support\Str::slug($name) . '" target="_blank">' . $product->store->name . '</a></strong></p><p>&nbsp;</p><p><span style="color:#4fa277;">Diseña tu habitación con este y más productos directamente en nuestra App.</span><strong> <a href="https://apps.apple.com/us/app/atelier/id1565516356" target="_blank"><span style="color:#29705a;">Descarga&nbsp;Atelier App&nbsp;Aquí</span></a></strong></p>';
+    //            }
+
+                $description = str_replace("<br><br><br><br>", "<br><br>", $description);
+                $description = str_replace("<br><br><br>", "<br><br>", $description);
         @endphp
         <tr>
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.handleId', 'Product_' . $product->id) }}</td>
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.fieldType', 'Product') }}</td>
-            <td>{{ $product->title }}</td>
+            <td>"{{ $product->title }}"</td>
             <td>"{{ str_replace('"', '""', $description) }}"</td>
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.productImageUrl', $product->medias()->pluck('url')->implode(';')) }}</td>
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.collection', implode(";", $categories)) }}</td>
@@ -91,8 +100,8 @@
             <td>{{ $product->price }}</td>
             <td></td>
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.visible', "false") }}</td>
-            <td>PERCENT</td>
-            <td>0</td>
+            <td></td>
+            <td></td>
             <td>{{ \Illuminate\Support\Arr::get($product->properties, 'wix.inventory', "InStock") }}</td>
             <td></td>
             <td></td>
@@ -135,9 +144,9 @@
             <td>{{ $product->store->name }}</td>
         </tr>
         @php
-        } catch (Exception $e) {
-            dd(__METHOD__ . ': ' . __LINE__, $product->toArray());
-        }
+            } catch (Exception $e) {
+                dd(__METHOD__ . ': ' . __LINE__, $product->toArray());
+            }
         @endphp
     @endforeach
     </tbody>
