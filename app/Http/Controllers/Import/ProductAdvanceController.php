@@ -14,10 +14,12 @@ class ProductAdvanceController extends Controller
     {
         $request->validate([
             'template' => ['required', 'file'],
+            'images' => ['nullable'],
+            'images.*' => ['file', 'image'],
         ]);
 
         $storeId = Store::where('user_id', auth()->id())->firstOrFail()->id;
-        Excel::import(new ProductAdvanceImport($storeId), $request->file('template'));
+        Excel::import(new ProductAdvanceImport($storeId, $request->file('images')), $request->file('template'));
 
         return [
             'message' => 'Productos cargados masivamente',

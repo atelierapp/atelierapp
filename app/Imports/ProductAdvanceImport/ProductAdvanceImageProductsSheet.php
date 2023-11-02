@@ -5,10 +5,12 @@ namespace App\Imports\ProductAdvanceImport;
 use App\Models\Media;
 use App\Models\Product;
 use App\Services\MediaService;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Mockery\Exception;
@@ -18,7 +20,7 @@ class ProductAdvanceImageProductsSheet implements ToCollection, WithHeadingRow
 {
     private MediaService $service;
 
-    public function __construct(private string $storeId)
+    public function __construct(private string $storeId, private array $files)
     {
         $this->service = app(MediaService::class);
         $this->service->path('products');
@@ -43,11 +45,19 @@ class ProductAdvanceImageProductsSheet implements ToCollection, WithHeadingRow
                 fn() => Product::whereSku($register['sku'])->whereStoreId($this->storeId)->firstOrFail()
             );
 
-            $this->service
-                ->model($product)
-                ->saveImageFromUrl($register['url'], [
-                    'orientation' => $this->getOrientation($register['orientation'])
-                ]);
+            $this->service->model($product);
+            $properties = [
+                'orientation' => $this->getOrientation($register['orientation']),
+                'featured' => strtolower($register['is_featured']) == 'si',
+            ];
+
+            if (Str::startsWith('http', $register['url'])) {
+                $this->service->saveImageFromUrl($register['url'], $properties);
+            } else {
+                $image = $this->getImage($register['url']);
+                $this->service->saveImage($image, $properties);
+            }
+
         }
     }
 
@@ -62,5 +72,16 @@ class ProductAdvanceImageProductsSheet implements ToCollection, WithHeadingRow
         ];
 
         return Arr::get($orientations, $value, '');
+    }
+
+    private function getImage(string $name)
+    {
+        foreach ($this->files as $file) {
+            if ($file->getClientOriginalName() == $name) {
+                return $file;
+            }
+        }
+
+        return null;
     }
 }
