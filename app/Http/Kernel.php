@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'role' => BouncerRoleMiddleware::class,
         'locale' => \App\Http\Middleware\Locale::class,
         'optional.sanctum' => \App\Http\Middleware\OptionalAuthSanctum::class,
+        'file.import' => \App\Http\Middleware\FileImport::class,
     ];
 }
