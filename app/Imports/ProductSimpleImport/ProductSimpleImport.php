@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Imports;
+namespace App\Imports\ProductSimpleImport;
 
 use App\Models\Product;
 use App\Services\VariationService;

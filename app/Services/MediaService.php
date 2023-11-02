@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Media;
+use App\Models\MediaType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -50,6 +51,27 @@ class MediaService
         $properties['type_id'] = 1; // \App\Models\MediaType::IMAGE
 
         return $this->save($file, $properties);
+    }
+
+    public function saveImageFromUrl(?string $imageUrl, array $properties = []): ?Media
+    {
+        $properties['type_id'] = MediaType::IMAGE;
+
+        if (str_contains($imageUrl, 'https://atelier-production-bucket.s3.amazonaws.com') ||
+            str_contains($imageUrl, 'https://atelier-staging-bucket.s3.amazonaws.com')
+        ) {
+            $path = str_replace([
+                'https://atelier-production-bucket.s3.amazonaws.com/',
+                'https://atelier-staging-bucket.s3.amazonaws.com/'
+            ], '', $imageUrl);
+
+            $attributes = array_merge($this->getParams($properties), [
+                'url' => $imageUrl,
+                'path' => $path,
+            ]);
+        }
+        
+        return $this->model->medias()->create($attributes);
     }
 
     private function uploadImage(mixed $file): bool|string
