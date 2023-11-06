@@ -132,7 +132,7 @@ Route::middleware('locale')->group(function () {
         });
 
         // Imports
-        Route::prefix('imports')->group( function () {
+        Route::prefix('imports')->middleware('file.import')->group( function () {
             Route::post('simple-product', ProductSimpleController::class)->name('import.product-simple');
             Route::post('advance-product', ProductAdvanceController::class)->name('import.product-advance');
             Route::post('wix', WixImportController::class)->name('wix.import');

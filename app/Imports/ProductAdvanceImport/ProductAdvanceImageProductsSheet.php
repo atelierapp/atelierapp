@@ -2,19 +2,14 @@
 
 namespace App\Imports\ProductAdvanceImport;
 
-use App\Models\Media;
 use App\Models\Product;
 use App\Services\MediaService;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Mockery\Exception;
-use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 
 class ProductAdvanceImageProductsSheet implements ToCollection, WithHeadingRow
 {
@@ -51,7 +46,7 @@ class ProductAdvanceImageProductsSheet implements ToCollection, WithHeadingRow
                 'featured' => strtolower($register['is_featured']) == 'si',
             ];
 
-            if (Str::startsWith('http', $register['url'])) {
+            if (Str::startsWith($register['url'], 'http')) {
                 $this->service->saveImageFromUrl($register['url'], $properties);
             } else {
                 $image = $this->getImage($register['url']);
